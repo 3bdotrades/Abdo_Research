@@ -5,7 +5,7 @@ const POSTS = [
   {
     slug: 'introducing-abdo-research-api',
     title: 'Introducing the Abdo Research ML API',
-    excerpt: 'Today we're launching our public beta — a REST API that gives developers and researchers access to powerful ML models with a single endpoint.',
+    excerpt: 'Today we&apos;re launching our public beta — a REST API that gives developers and researchers access to powerful ML models with a single endpoint.',
     date: 'May 12, 2026',
     readTime: '4 min',
     tag: 'Announcement',
@@ -22,7 +22,7 @@ const POSTS = [
   },
   {
     slug: 'whats-new-advanced-model',
-    title: "What's new in the Advanced Model (Pro+)",
+    title: "What&apos;s new in the Advanced Model (Pro+)",
     excerpt: 'Our Pro and Enterprise subscribers now have access to the Advanced model — higher accuracy, richer output format, and multi-class support.',
     date: 'May 1, 2026',
     readTime: '3 min',
@@ -32,7 +32,7 @@ const POSTS = [
   {
     slug: 'responsible-ml-risk-disclosure',
     title: 'Why We Have a Risk Disclosure',
-    excerpt: 'ML outputs are powerful tools — but they're not infallible. We explain the reasoning behind our Risk Disclosure and how to use our API responsibly.',
+    excerpt: 'ML outputs are powerful tools — but they&apos;re not infallible. We explain the reasoning behind our Risk Disclosure and how to use our API responsibly.',
     date: 'Apr 25, 2026',
     readTime: '5 min',
     tag: 'Trust & Safety',
