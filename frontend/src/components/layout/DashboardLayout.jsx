@@ -3,7 +3,7 @@ import { Brain, LayoutDashboard, Key, BarChart3, CreditCard, Terminal, Settings,
 import useAuthStore from '../../store/authStore'
 
 const NAV = [
-  { to: '/dashboard', icon: LayoutDashboard, label: 'Overview', end: true },
+  { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', end: true },
   { to: '/dashboard/api-keys', icon: Key, label: 'API Keys' },
   { to: '/dashboard/usage', icon: BarChart3, label: 'Usage' },
   { to: '/dashboard/playground', icon: Terminal, label: 'Playground' },

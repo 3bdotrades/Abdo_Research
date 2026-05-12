@@ -1,20 +1,44 @@
 import { useQuery } from '@tanstack/react-query'
-import { Zap, Key, TrendingUp, ArrowUpRight, AlertTriangle } from 'lucide-react'
+import { Lock, Loader2, AlertTriangle, ExternalLink } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import api from '../../utils/api'
 import useAuthStore from '../../store/authStore'
+import api from '../../utils/api'
 
-function StatCard({ icon: Icon, label, value, sub, color = 'brand' }) {
-  const colors = { brand: 'text-brand-400 bg-brand-900/40', green: 'text-green-400 bg-green-900/40', yellow: 'text-yellow-400 bg-yellow-900/40' }
+const DASHBOARD_URL = import.meta.env.VITE_DASHBOARD_URL || ''
+
+function UpgradeGate() {
   return (
-    <div className="card flex items-start gap-4">
-      <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${colors[color]}`}>
-        <Icon size={20} />
+    <div className="flex-1 flex items-center justify-center bg-gray-950">
+      <div className="text-center max-w-sm px-6">
+        <div className="w-16 h-16 rounded-2xl bg-gray-800 flex items-center justify-center mx-auto mb-5">
+          <Lock size={28} className="text-gray-500" />
+        </div>
+        <h2 className="text-xl font-bold text-white mb-2">Dashboard access requires a subscription</h2>
+        <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+          Upgrade to <strong className="text-white">Pro</strong> or{' '}
+          <strong className="text-white">Enterprise</strong> to access the live trading dashboard,
+          signals, and ML-powered analytics.
+        </p>
+        <Link to="/dashboard/billing" className="btn-primary">Upgrade now</Link>
+        <p className="mt-4 text-xs text-gray-600">
+          Already subscribed? It may take a minute to activate.{' '}
+          <button onClick={() => window.location.reload()} className="text-brand-400 hover:underline">Refresh</button>
+        </p>
       </div>
-      <div>
-        <div className="text-2xl font-bold text-white">{value}</div>
-        <div className="text-sm text-gray-400">{label}</div>
-        {sub && <div className="text-xs text-gray-600 mt-0.5">{sub}</div>}
+    </div>
+  )
+}
+
+function NoDashboardConfigured() {
+  return (
+    <div className="flex-1 flex items-center justify-center bg-gray-950">
+      <div className="text-center max-w-sm px-6 card border-yellow-800/40 bg-yellow-900/10">
+        <AlertTriangle size={28} className="text-yellow-400 mx-auto mb-3" />
+        <h2 className="text-lg font-bold text-white mb-2">Dashboard URL not configured</h2>
+        <p className="text-gray-400 text-sm leading-relaxed">
+          Set <code className="text-yellow-300 bg-gray-800 px-1.5 py-0.5 rounded">VITE_DASHBOARD_URL</code> in your{' '}
+          <code className="text-yellow-300 bg-gray-800 px-1.5 py-0.5 rounded">.env</code> file to point to your hosted dashboard.
+        </p>
       </div>
     </div>
   )
@@ -22,83 +46,70 @@ function StatCard({ icon: Icon, label, value, sub, color = 'brand' }) {
 
 export default function Overview() {
   const user = useAuthStore((s) => s.user)
-  const { data: stats } = useQuery({ queryKey: ['usage-stats'], queryFn: () => api.get('/usage/stats').then(r => r.data) })
-  const { data: keys } = useQuery({ queryKey: ['api-keys'], queryFn: () => api.get('/api-keys').then(r => r.data) })
+  const isPaidUser = user?.plan === 'pro' || user?.plan === 'enterprise'
 
-  const usagePct = stats ? Math.round((stats.calls_this_month / stats.monthly_limit) * 100) : 0
+  const { data: stats, isLoading } = useQuery({
+    queryKey: ['usage-stats'],
+    queryFn: () => api.get('/usage/stats').then(r => r.data),
+    enabled: isPaidUser,
+  })
+
+  if (!isPaidUser) return <UpgradeGate />
+  if (!DASHBOARD_URL) return <NoDashboardConfigured />
+
+  // Build iframe src — pass plan + email as query params so the dashboard
+  // can optionally use them (e.g. to show user-specific data)
+  const iframeSrc = new URL(DASHBOARD_URL)
+  if (user?.email) iframeSrc.searchParams.set('email', user.email)
+  if (user?.plan) iframeSrc.searchParams.set('plan', user.plan)
 
   return (
-    <div className="p-8 max-w-5xl">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white mb-1">
-          Welcome back{user?.full_name ? `, ${user.full_name.split(' ')[0]}` : ''} 👋
-        </h1>
-        <p className="text-gray-500 text-sm">Here's your API usage overview for this month.</p>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        <StatCard icon={Zap} label="API calls this month" value={stats?.calls_this_month ?? '—'} sub={`of ${stats?.monthly_limit?.toLocaleString()} limit`} />
-        <StatCard icon={Key} label="Active API keys" value={keys?.length ?? '—'} color="green" />
-        <StatCard icon={TrendingUp} label="Total API calls" value={stats?.total_calls ?? '—'} color="yellow" />
-      </div>
-
-      {/* Quota bar */}
-      {stats && (
-        <div className="card mb-6">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-medium text-white">Monthly quota usage</span>
-            <span className="text-sm text-gray-400">{usagePct}%</span>
-          </div>
-          <div className="w-full bg-gray-800 rounded-full h-2.5 mb-3">
-            <div
-              className={`h-2.5 rounded-full transition-all ${usagePct > 90 ? 'bg-red-500' : usagePct > 70 ? 'bg-yellow-500' : 'bg-brand-500'}`}
-              style={{ width: `${Math.min(usagePct, 100)}%` }}
-            />
-          </div>
-          <div className="flex items-center justify-between text-xs text-gray-500">
-            <span>{stats.calls_this_month} used</span>
-            <span>{stats.remaining_calls} remaining</span>
-          </div>
-          {usagePct > 80 && (
-            <div className="mt-4 flex items-center gap-2 text-yellow-400 text-sm">
-              <AlertTriangle size={14} />
-              <span>Running low on quota. <Link to="/dashboard/billing" className="underline hover:text-yellow-300">Upgrade your plan</Link></span>
-            </div>
-          )}
+    <div className="flex flex-col h-full min-h-screen">
+      {/* Thin top bar */}
+      <div className="flex items-center justify-between px-5 py-2.5 bg-gray-900 border-b border-gray-800 shrink-0">
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-gray-400">
+            Logged in as <strong className="text-white">{user?.email}</strong>
+          </span>
+          <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
+            user?.plan === 'enterprise' ? 'badge-enterprise' : 'badge-pro'
+          }`}>
+            {user?.plan}
+          </span>
         </div>
-      )}
 
-      {/* Quick actions */}
-      <div className="grid sm:grid-cols-2 gap-4">
-        <Link to="/dashboard/api-keys" className="card hover:border-gray-700 transition-colors group flex items-center justify-between">
-          <div>
-            <div className="font-semibold text-white mb-1">Manage API Keys</div>
-            <div className="text-sm text-gray-400">Create or revoke your keys</div>
-          </div>
-          <ArrowUpRight size={18} className="text-gray-600 group-hover:text-brand-400 transition-colors" />
-        </Link>
-        <Link to="/dashboard/playground" className="card hover:border-gray-700 transition-colors group flex items-center justify-between">
-          <div>
-            <div className="font-semibold text-white mb-1">API Playground</div>
-            <div className="text-sm text-gray-400">Test your model in the browser</div>
-          </div>
-          <ArrowUpRight size={18} className="text-gray-600 group-hover:text-brand-400 transition-colors" />
-        </Link>
-        <Link to="/dashboard/usage" className="card hover:border-gray-700 transition-colors group flex items-center justify-between">
-          <div>
-            <div className="font-semibold text-white mb-1">Usage History</div>
-            <div className="text-sm text-gray-400">View recent API calls</div>
-          </div>
-          <ArrowUpRight size={18} className="text-gray-600 group-hover:text-brand-400 transition-colors" />
-        </Link>
-        <Link to="/dashboard/billing" className="card hover:border-gray-700 transition-colors group flex items-center justify-between">
-          <div>
-            <div className="font-semibold text-white mb-1">Billing & Plan</div>
-            <div className="text-sm text-gray-400">Upgrade or manage subscription</div>
-          </div>
-          <ArrowUpRight size={18} className="text-gray-600 group-hover:text-brand-400 transition-colors" />
-        </Link>
+        <div className="flex items-center gap-4">
+          {stats && (
+            <span className="text-xs text-gray-500">
+              {stats.calls_this_month} / {stats.monthly_limit.toLocaleString()} API calls this month
+            </span>
+          )}
+          <a
+            href={DASHBOARD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition-colors"
+          >
+            Open in new tab <ExternalLink size={12} />
+          </a>
+        </div>
       </div>
+
+      {/* Iframe */}
+      {isLoading ? (
+        <div className="flex-1 flex items-center justify-center">
+          <Loader2 size={28} className="animate-spin text-brand-500" />
+        </div>
+      ) : (
+        <iframe
+          src={iframeSrc.toString()}
+          title="Abdo Research Dashboard"
+          className="flex-1 w-full border-0"
+          style={{ minHeight: 'calc(100vh - 104px)' }}
+          allow="clipboard-read; clipboard-write"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"
+        />
+      )}
     </div>
   )
 }
