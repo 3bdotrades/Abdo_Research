@@ -15,6 +15,7 @@ import Register from './pages/public/Register'
 
 import Overview from './pages/dashboard/Overview'
 import Portfolios from './pages/dashboard/Portfolios'
+import PortfolioDetail from './pages/dashboard/PortfolioDetail'
 import Recommendations from './pages/dashboard/Recommendations'
 import APIKeys from './pages/dashboard/APIKeys'
 import Usage from './pages/dashboard/Usage'
@@ -56,6 +57,7 @@ export default function App() {
       >
         <Route index element={<Overview />} />
         <Route path="portfolios" element={<Portfolios />} />
+        <Route path="portfolios/:id" element={<PortfolioDetail />} />
         <Route path="recommendations" element={<Recommendations />} />
         <Route path="api-keys" element={<APIKeys />} />
         <Route path="usage" element={<Usage />} />

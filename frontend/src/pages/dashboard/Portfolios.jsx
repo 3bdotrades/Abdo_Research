@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Plus, TrendingUp, MoreVertical, Trash2, Edit2 } from 'lucide-react'
+import { Plus, TrendingUp, Trash2, Edit2 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const MOCK_PORTFOLIOS = [
   {
@@ -27,6 +28,7 @@ const MOCK_PORTFOLIOS = [
 ]
 
 export default function Portfolios() {
+  const navigate = useNavigate()
   const [portfolios, setPortfolios] = useState(MOCK_PORTFOLIOS)
   const [showCreate, setShowCreate] = useState(false)
   const [newPortfolioName, setNewPortfolioName] = useState('')
@@ -102,7 +104,7 @@ export default function Portfolios() {
       ) : (
         <div className="grid gap-6">
           {portfolios.map((portfolio) => (
-            <div key={portfolio.id} className="card bg-gray-900 border-gray-800 hover:border-gray-700 transition-colors">
+            <div key={portfolio.id} className="card bg-gray-900 border-gray-800 hover:border-gray-700 transition-colors cursor-pointer" onClick={() => navigate(`/dashboard/portfolios/${portfolio.id}`)}>
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
