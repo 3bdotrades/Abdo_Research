@@ -1,12 +1,11 @@
 import { NavLink, Outlet, useNavigate, Link } from 'react-router-dom'
-import { Brain, LayoutDashboard, Key, BarChart3, CreditCard, Terminal, Settings, LogOut, ChevronRight } from 'lucide-react'
+import { Brain, LayoutDashboard, TrendingUp, Zap, CreditCard, Settings, LogOut } from 'lucide-react'
 import useAuthStore from '../../store/authStore'
 
 const NAV = [
-  { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', end: true },
-  { to: '/dashboard/api-keys', icon: Key, label: 'API Keys' },
-  { to: '/dashboard/usage', icon: BarChart3, label: 'Usage' },
-  { to: '/dashboard/playground', icon: Terminal, label: 'Playground' },
+  { to: '/dashboard', icon: LayoutDashboard, label: 'Overview', end: true },
+  { to: '/dashboard/portfolios', icon: TrendingUp, label: 'Portfolios' },
+  { to: '/dashboard/recommendations', icon: Zap, label: 'Recommendations' },
   { to: '/dashboard/billing', icon: CreditCard, label: 'Billing' },
   { to: '/dashboard/settings', icon: Settings, label: 'Settings' },
 ]
@@ -30,7 +29,7 @@ export default function DashboardLayout() {
             <div className="w-7 h-7 bg-brand-600 rounded-lg flex items-center justify-center">
               <Brain size={15} />
             </div>
-            Abdo Research
+            PortfoliAI
           </Link>
         </div>
 
