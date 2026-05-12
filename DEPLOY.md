@@ -37,18 +37,27 @@ FRONTEND_URL=https://tradezign.com
 CORS_ORIGINS=["https://tradezign.com","https://www.tradezign.com"]
 ```
 
-## Step 3 — Build and deploy the website
+## Step 3 — Deploy the frontend to Vercel
 
-```bash
-# Build frontend
-cd frontend && npm run build   # outputs to dist/
+1. Go to https://vercel.com → **Add New Project**
+2. Import the repo (`3bdotrades/Abdo_Research`)
+3. **Set Root Directory to `frontend`** (important — avoids the Next.js false-detection)
+4. Vercel will auto-detect Vite. If it still shows Next.js, set Framework to **Other**
+5. Add environment variable:
+   - `VITE_DASHBOARD_URL` = `https://app.tradezign.com`
+6. Deploy. Point your custom domain `tradezign.com` in Vercel → Settings → Domains.
 
-# Run backend
-cd backend && uvicorn app.main:app --host 0.0.0.0 --port 8000
-```
+> The `frontend/vercel.json` handles SPA routing (no 404 on refresh) and
+> sets `framework: null` to suppress the Next.js detection error.
 
-Serve `frontend/dist/` as a static site (Nginx, Vercel, Netlify, etc.).
-Point the `/api` path to the backend.
+## Step 3b — Deploy the backend
+
+Options:
+- **Railway / Render / Fly.io** — easy PaaS, push `backend/` as a Python app
+- **VPS** — run `uvicorn app.main:app --host 0.0.0.0 --port 8000` behind Nginx
+
+Once the backend is live, add its URL as an environment variable in Vercel:
+- `VITE_API_BASE_URL` (if you change the Vite proxy to an absolute URL in production)
 
 ## Step 4 — Whop setup
 
