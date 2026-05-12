@@ -3,18 +3,19 @@ import { CheckCircle2, Zap, Building2, User } from 'lucide-react'
 
 const PLANS = [
   {
-    name: 'Free',
+    name: 'Basic',
     icon: User,
     price: '$0',
     period: '/month',
-    desc: 'Perfect for experimentation and prototyping.',
+    desc: 'Perfect for getting started with portfolio tracking.',
     badge: null,
     features: [
-      '100 API calls / month',
-      'Default model access',
-      'REST API access',
-      'API key management',
-      'Community support',
+      'Unlimited portfolio creation',
+      'Manual stock entry',
+      'Basic portfolio tracking',
+      'Weekly AI recommendations',
+      'Email support',
+      'No credit card required',
     ],
     cta: 'Get started free',
     ctaTo: '/register',
@@ -24,19 +25,20 @@ const PLANS = [
   {
     name: 'Pro',
     icon: Zap,
-    price: '$49',
+    price: '$9',
     period: '/month',
-    desc: 'For developers and growing teams who need scale.',
+    desc: 'For serious investors who want daily AI insights.',
     badge: 'Most Popular',
     features: [
-      '10,000 API calls / month',
-      'Default + Advanced models',
-      'Priority response queue',
-      'Usage analytics dashboard',
-      'API key management (5 keys)',
-      'Email support',
+      'Everything in Basic, plus:',
+      'Daily AI recommendations',
+      'Buy/Sell signal analysis',
+      'Portfolio rebalancing advice',
+      'Risk assessment reports',
+      'Performance analytics',
+      'Priority email support',
     ],
-    cta: 'Subscribe with Apple Pay',
+    cta: 'Subscribe now',
     ctaTo: null,
     ctaClass: 'btn-primary',
     highlight: true,
@@ -45,22 +47,23 @@ const PLANS = [
   {
     name: 'Enterprise',
     icon: Building2,
-    price: 'Custom',
-    period: '',
-    desc: 'Dedicated infrastructure for large-scale deployments.',
+    price: '$29',
+    period: '/month',
+    desc: 'For professional traders and advisors managing multiple portfolios.',
     badge: null,
     features: [
-      '1,000,000+ API calls / month',
-      'All models + Custom fine-tuning',
-      'Dedicated compute',
-      'SLA uptime guarantee',
-      'Unlimited API keys',
-      'Slack + dedicated support',
-      'Custom contract & invoicing',
+      'Everything in Pro, plus:',
+      'Real-time AI recommendations',
+      'Multiple portfolio management',
+      'Advanced risk modeling',
+      'Custom ML model training',
+      'Dedicated account manager',
+      'Phone & Slack support',
+      'Custom integrations',
     ],
-    cta: 'Contact us',
+    cta: 'Subscribe now',
     ctaTo: null,
-    ctaClass: 'btn-outline',
+    ctaClass: 'btn-primary',
     highlight: false,
     whopPlan: 'enterprise',
   },
@@ -79,12 +82,12 @@ export default function Pricing() {
     <div className="py-24 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-white mb-4">Simple, transparent pricing</h1>
+          <h1 className="text-5xl font-bold text-white mb-4">Invest in knowledge</h1>
           <p className="text-gray-400 text-xl max-w-xl mx-auto">
-            Start free. Scale when you need to. No hidden fees.
+            Get AI-powered insights at every investment level. Start free, upgrade when you&apos;re ready.
           </p>
           <p className="text-sm text-gray-500 mt-3">
-            Payments powered by Whop — supports Apple Pay, card &amp; more.
+            Payments processed securely. Cancel anytime.
           </p>
         </div>
 
@@ -149,11 +152,11 @@ export default function Pricing() {
           <h2 className="text-3xl font-bold text-white text-center mb-10">Frequently asked questions</h2>
           <div className="space-y-4">
             {[
-              ['Can I change plans?', 'Yes. You can upgrade or downgrade at any time from your Whop billing portal. Changes take effect immediately.'],
-              ['What happens if I exceed my quota?', 'API calls return a 429 error once your monthly limit is reached. Upgrade your plan to continue.'],
-              ['Do you offer a trial of Pro?', 'The Free plan lets you evaluate the API before committing. There is no time-limited trial of Pro.'],
-              ['How does Apple Pay work?', 'Checkout is handled by Whop, which supports Apple Pay, Google Pay, and major credit cards. We never see your payment details.'],
-              ['What are the model limitations?', 'Please review our Risk Disclosure for information about model limitations and appropriate use cases.'],
+              ['Can I change plans?', 'Yes. You can upgrade or downgrade at any time from your account settings. Changes take effect immediately.'],
+              ['What if I cancel my subscription?', 'You can cancel anytime with one click. You&apos;ll retain access to your portfolio data and can reactivate later.'],
+              ['Do you offer a trial of Pro?', 'The free Basic plan lets you evaluate all features with limited recommendation frequency. Upgrade to Pro to get daily insights.'],
+              ['How are AI recommendations generated?', 'Our ML models analyze stock performance, market trends, and your portfolio composition to generate personalized recommendations.'],
+              ['Can I export my portfolio data?', 'Yes. You can export your portfolio and recommendation history as CSV at any time from your dashboard.'],
             ].map(([q, a]) => (
               <div key={q} className="card">
                 <h3 className="font-semibold text-white mb-2">{q}</h3>
@@ -164,7 +167,7 @@ export default function Pricing() {
         </div>
 
         <p className="text-center text-xs text-gray-600 mt-12">
-          By subscribing you acknowledge our{' '}
+          Understand the limitations of AI-driven investing. Review our{' '}
           <Link to="/risk-disclosure" className="text-brand-400 hover:underline">Risk Disclosure</Link>.
         </p>
       </div>

@@ -22,7 +22,7 @@ export default function Navbar() {
             <div className="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center">
               <Brain size={18} className="text-white" />
             </div>
-            <span>Abdo Research</span>
+            <span>PortfoliAI</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-1">

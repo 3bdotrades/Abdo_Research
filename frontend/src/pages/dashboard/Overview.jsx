@@ -13,11 +13,11 @@ function UpgradeGate() {
         <div className="w-16 h-16 rounded-2xl bg-gray-800 flex items-center justify-center mx-auto mb-5">
           <Lock size={28} className="text-gray-500" />
         </div>
-        <h2 className="text-xl font-bold text-white mb-2">Dashboard access requires a subscription</h2>
+        <h2 className="text-xl font-bold text-white mb-2">Full features require a subscription</h2>
         <p className="text-gray-400 text-sm mb-6 leading-relaxed">
           Upgrade to <strong className="text-white">Pro</strong> or{' '}
-          <strong className="text-white">Enterprise</strong> to access the live trading dashboard,
-          signals, and ML-powered analytics.
+          <strong className="text-white">Enterprise</strong> to unlock daily AI recommendations,
+          advanced risk analysis, and real-time signals.
         </p>
         <Link to="/dashboard/billing" className="btn-primary">Upgrade now</Link>
         <p className="mt-4 text-xs text-gray-600">
@@ -103,7 +103,7 @@ export default function Overview() {
       ) : (
         <iframe
           src={iframeSrc.toString()}
-          title="Abdo Research Dashboard"
+          title="PortfoliAI Dashboard"
           className="flex-1 w-full border-0"
           style={{ minHeight: 'calc(100vh - 104px)' }}
           allow="clipboard-read; clipboard-write"

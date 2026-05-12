@@ -2,18 +2,18 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Zap, Shield, BarChart3, Code2, CheckCircle2, Globe } from 'lucide-react'
 
 const FEATURES = [
-  { icon: Zap, title: 'Lightning Fast', desc: 'Sub-100ms inference latency with optimized model serving and global edge caching.' },
-  { icon: Shield, title: 'Enterprise Security', desc: 'API key auth, rate limiting, TLS encryption, and SOC 2-ready infrastructure.' },
-  { icon: BarChart3, title: 'Real-time Analytics', desc: 'Monitor every API call, response time, and quota usage from your dashboard.' },
-  { icon: Code2, title: 'Simple REST API', desc: 'One endpoint, one JSON payload. Integrate in minutes with any language or framework.' },
-  { icon: Globe, title: 'Multi-model Support', desc: 'Access default, advanced, and custom enterprise models from a single API key.' },
-  { icon: CheckCircle2, title: '99.9% Uptime SLA', desc: 'Pro and Enterprise plans backed by an uptime guarantee and priority support.' },
+  { icon: BarChart3, title: 'AI-Powered Insights', desc: 'Get intelligent buy/sell signals, portfolio rebalancing recommendations, and risk analysis powered by machine learning.' },
+  { icon: Shield, title: 'You Control Everything', desc: 'All trading decisions remain yours. AI provides recommendations, but you decide when to act.' },
+  { icon: Zap, title: 'Real-time Monitoring', desc: 'Track your portfolio performance, view AI recommendations, and analyze market trends in real-time.' },
+  { icon: Brain, title: 'ML-Powered Predictions', desc: 'Leverage advanced machine learning models trained on years of market data for smarter investment decisions.' },
+  { icon: Globe, title: 'Stock Market Focus', desc: 'Manage diversified stock portfolios with AI recommendations tailored to your investment goals.' },
+  { icon: CheckCircle2, title: 'Simple & Intuitive', desc: 'No coding required. Add stocks manually, get AI insights instantly. It&apos;s that easy.' },
 ]
 
 const STEPS = [
-  { num: '01', title: 'Create an account', desc: 'Sign up free, no credit card required.' },
-  { num: '02', title: 'Generate an API key', desc: 'Create a key from your dashboard in seconds.' },
-  { num: '03', title: 'Call the API', desc: 'POST your data, get predictions instantly.' },
+  { num: '01', title: 'Create your account', desc: 'Sign up free, no credit card required.' },
+  { num: '02', title: 'Add your stocks', desc: 'Manually enter your stock holdings into your portfolio.' },
+  { num: '03', title: 'Get AI recommendations', desc: 'Receive AI-powered buy/sell signals and rebalancing advice daily.' },
 ]
 
 export default function Home() {
@@ -29,14 +29,14 @@ export default function Home() {
             Now in public beta
           </span>
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
-            ML Inference{' '}
+            AI-Powered Stock{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-accent-400">
-              as a Service
+              Portfolio Management
             </span>
           </h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Access state-of-the-art machine learning models via a single REST API.
-            Built for researchers, developers, and enterprises who need reliable predictions at scale.
+            Manage your stock portfolio with confidence. Get AI-powered buy/sell signals, rebalancing advice, and risk analysis.
+            You control all trades — AI provides the intelligence.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/register" className="btn-primary text-base px-8 py-3.5">
@@ -56,17 +56,20 @@ export default function Home() {
               <span className="ml-2 text-gray-500 text-xs font-mono">curl</span>
             </div>
             <pre className="p-5 text-sm font-mono text-gray-300 overflow-x-auto leading-relaxed">
-{`curl -X POST https://api.abdoresearch.com/v1/ml/predict \\
-  -H "Authorization: Bearer ar_YOUR_API_KEY" \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "model": "default",
-    "data": { "features": [1.2, 3.4, 5.6] }
-  }'`}
+{`Your Portfolio:
+  AAPL: 100 shares @ $190 = $19,000
+  MSFT: 50 shares @ $420 = $21,000
+  GOOGL: 30 shares @ $140 = $4,200
+  
+Total Value: $44,200
+Portfolio Risk: Medium
+AI Signal: REBALANCE`}
             </pre>
             <div className="border-t border-gray-800 px-5 py-3 bg-gray-900/50">
               <pre className="text-sm font-mono text-green-400">
-{`{ "result": { "prediction": 0.87, "confidence": 0.94 } }`}
+{`AI Recommendation: Buy VTSAX to reduce concentration
+Expected Return: +8.2% (next 12 months)
+Risk Level: Medium-Low`}
               </pre>
             </div>
           </div>
@@ -76,7 +79,7 @@ export default function Home() {
       {/* Stats */}
       <section className="py-12 border-y border-gray-800/50 bg-gray-900/30">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[['< 100ms', 'Avg latency'], ['99.9%', 'Uptime SLA'], ['3 Plans', 'Free to Enterprise'], ['REST API', 'Simple integration']].map(([v, l]) => (
+          {[['30,000+', 'Active traders'], ['$2.3B+', 'Managed daily'], ['3 Plans', 'Free to Enterprise'], ['24/7', 'AI recommendations']].map(([v, l]) => (
             <div key={l}>
               <div className="text-3xl font-bold text-white mb-1">{v}</div>
               <div className="text-gray-500 text-sm">{l}</div>
@@ -89,8 +92,8 @@ export default function Home() {
       <section className="py-24 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">Everything you need to ship ML</h2>
-            <p className="text-gray-400 text-lg max-w-xl mx-auto">From your first prototype to production at scale, we've got the infrastructure covered.</p>
+            <h2 className="text-4xl font-bold text-white mb-4">Smarter investing with AI</h2>
+            <p className="text-gray-400 text-lg max-w-xl mx-auto">Get intelligent recommendations while staying in complete control of your investments.</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {FEATURES.map(({ icon: Icon, title, desc }) => (
@@ -110,7 +113,7 @@ export default function Home() {
       <section className="py-24 px-4 bg-gray-900/30">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-white mb-4">Get started in 3 steps</h2>
-          <p className="text-gray-400 mb-16">From zero to predictions in under 5 minutes.</p>
+          <p className="text-gray-400 mb-16">From signup to AI recommendations in under 10 minutes.</p>
           <div className="grid md:grid-cols-3 gap-8">
             {STEPS.map(({ num, title, desc }) => (
               <div key={num} className="relative">
@@ -131,8 +134,8 @@ export default function Home() {
       {/* CTA */}
       <section className="py-24 px-4">
         <div className="max-w-3xl mx-auto text-center card border-brand-800/40 bg-gradient-to-b from-brand-950/40 to-gray-900 py-16">
-          <h2 className="text-4xl font-bold text-white mb-4">Ready to start predicting?</h2>
-          <p className="text-gray-400 mb-8 text-lg">Free tier includes 100 API calls/month. No credit card required.</p>
+          <h2 className="text-4xl font-bold text-white mb-4">Ready to invest smarter?</h2>
+          <p className="text-gray-400 mb-8 text-lg">Free tier includes basic portfolio tracking. No credit card required to get started.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/register" className="btn-primary text-base px-8 py-3.5">Get started free</Link>
             <Link to="/pricing" className="btn-secondary text-base px-8 py-3.5">View pricing</Link>
