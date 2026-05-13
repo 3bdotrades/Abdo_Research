@@ -1,11 +1,11 @@
 import { NavLink, Outlet, useNavigate, Link } from 'react-router-dom'
-import { Brain, LayoutDashboard, TrendingUp, Zap, CreditCard, Settings, LogOut } from 'lucide-react'
+import { LayoutDashboard, TrendingUp, Zap, CreditCard, Settings, LogOut } from 'lucide-react'
 import useAuthStore from '../../store/authStore'
 
 const NAV = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Overview', end: true },
-  { to: '/dashboard/portfolios', icon: TrendingUp, label: 'Portfolios' },
-  { to: '/dashboard/recommendations', icon: Zap, label: 'Recommendations' },
+  { to: '/dashboard/signals', icon: Zap, label: 'My Signals' },
+  { to: '/dashboard/research', icon: TrendingUp, label: 'Research' },
   { to: '/dashboard/billing', icon: CreditCard, label: 'Billing' },
   { to: '/dashboard/settings', icon: Settings, label: 'Settings' },
 ]
@@ -26,10 +26,10 @@ export default function DashboardLayout() {
       <aside className="w-60 bg-gray-900 border-r border-gray-800 flex flex-col shrink-0">
         <div className="p-4 border-b border-gray-800">
           <Link to="/" className="flex items-center gap-2 font-bold text-white">
-            <div className="w-7 h-7 bg-brand-600 rounded-lg flex items-center justify-center">
-              <Brain size={15} />
+            <div className="w-7 h-7 bg-gradient-to-br from-brand-400 to-accent-500 rounded-lg flex items-center justify-center">
+              <span className="text-white font-black text-xs">Z</span>
             </div>
-            PortfoliAI
+            Zenith Capital
           </Link>
         </div>
 

@@ -1,5 +1,5 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { Brain, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
 import useAuthStore from '../../store/authStore'
 
@@ -9,8 +9,9 @@ export default function Navbar() {
   const navigate = useNavigate()
 
   const links = [
-    { to: '/pricing', label: 'Pricing' },
-    { to: '/docs', label: 'Docs' },
+    { to: '/fund', label: 'Fund' },
+    { to: '/signals', label: 'Signals' },
+    { to: '/research', label: 'Research' },
     { to: '/blog', label: 'Blog' },
   ]
 
@@ -19,10 +20,10 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2.5 font-bold text-lg text-white">
-            <div className="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center">
-              <Brain size={18} className="text-white" />
+            <div className="w-8 h-8 bg-gradient-to-br from-brand-400 to-accent-500 rounded-lg flex items-center justify-center">
+              <span className="text-white font-black text-sm">Z</span>
             </div>
-            <span>PortfoliAI</span>
+            <span>Zenith Capital</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-1">

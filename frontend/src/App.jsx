@@ -6,6 +6,9 @@ import PublicLayout from './components/layout/PublicLayout'
 import DashboardLayout from './components/layout/DashboardLayout'
 
 import Home from './pages/public/Home'
+import Fund from './pages/public/Fund'
+import Signals from './pages/public/Signals'
+import Research from './pages/public/Research'
 import Pricing from './pages/public/Pricing'
 import Docs from './pages/public/Docs'
 import Blog from './pages/public/Blog'
@@ -39,6 +42,9 @@ export default function App() {
     <Routes>
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/fund" element={<Fund />} />
+        <Route path="/signals" element={<Signals />} />
+        <Route path="/research" element={<Research />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/docs" element={<Docs />} />
         <Route path="/blog" element={<Blog />} />
