@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Zap, Shield, BarChart3, Code2, CheckCircle2, Globe } from 'lucide-react'
+import { ArrowRight, Zap, Shield, BarChart3, Brain, CheckCircle2, Globe } from 'lucide-react'
 
 const FEATURES = [
   { icon: BarChart3, title: 'AI-Powered Insights', desc: 'Get intelligent buy/sell signals, portfolio rebalancing recommendations, and risk analysis powered by machine learning.' },
