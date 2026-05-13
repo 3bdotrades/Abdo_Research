@@ -7,14 +7,14 @@ const PLANS = [
     icon: User,
     price: '$0',
     period: '/month',
-    desc: 'Perfect for getting started with portfolio tracking.',
+    desc: 'Perfect for traders just getting started.',
     badge: null,
     features: [
-      'Unlimited portfolio creation',
-      'Manual stock entry',
-      'Basic portfolio tracking',
-      'Weekly AI recommendations',
-      'Email support',
+      'Preview trading signals (delayed 24h)',
+      '2 free research reports/month',
+      'Fund performance tracking',
+      'Weekly market newsletter',
+      'Community forum access',
       'No credit card required',
     ],
     cta: 'Get started free',
@@ -25,18 +25,19 @@ const PLANS = [
   {
     name: 'Pro',
     icon: Zap,
-    price: '$9',
+    price: '$99',
     period: '/month',
-    desc: 'For serious investors who want daily AI insights.',
+    desc: 'For active day traders who need real-time signals.',
     badge: 'Most Popular',
     features: [
       'Everything in Basic, plus:',
-      'Daily AI recommendations',
-      'Buy/Sell signal analysis',
-      'Portfolio rebalancing advice',
-      'Risk assessment reports',
-      'Performance analytics',
+      'Real-time trading signals (live)',
+      'Signal alerts via email, SMS, dashboard',
+      'Unlimited research reports access',
+      'Premium sector analysis reports',
+      'Signal performance tracking & analytics',
       'Priority email support',
+      'Signal history & backtesting',
     ],
     cta: 'Subscribe now',
     ctaTo: null,
@@ -45,35 +46,36 @@ const PLANS = [
     whopPlan: 'pro',
   },
   {
-    name: 'Enterprise',
+    name: 'VIP+',
     icon: Building2,
-    price: '$29',
+    price: '$299',
     period: '/month',
-    desc: 'For professional traders and advisors managing multiple portfolios.',
+    desc: 'For professional traders and fund managers.',
     badge: null,
     features: [
       'Everything in Pro, plus:',
-      'Real-time AI recommendations',
-      'Multiple portfolio management',
-      'Advanced risk modeling',
-      'Custom ML model training',
+      'Advanced signal analytics & filtering',
+      'Custom strategy templates',
+      'Exclusive research & trade ideas',
+      'Direct access to analyst team (Slack)',
+      'Private monthly strategy sessions',
+      'API access for signal integration',
+      'Institutional-grade reporting',
       'Dedicated account manager',
-      'Phone & Slack support',
-      'Custom integrations',
     ],
     cta: 'Subscribe now',
     ctaTo: null,
     ctaClass: 'btn-primary',
     highlight: false,
-    whopPlan: 'enterprise',
+    whopPlan: 'vip',
   },
 ]
 
 export default function Pricing() {
   const handleWhopCheckout = (plan) => {
     const urls = {
-      pro: 'https://whop.com/checkout/your-pro-plan',
-      enterprise: 'https://whop.com/checkout/your-enterprise-plan',
+      pro: 'https://whop.com/checkout/zenith-capital-pro',
+      vip: 'https://whop.com/checkout/zenith-capital-vip',
     }
     window.location.href = urls[plan]
   }
@@ -82,12 +84,12 @@ export default function Pricing() {
     <div className="py-24 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-white mb-4">Invest in knowledge</h1>
+          <h1 className="text-5xl font-bold text-white mb-4">Simple, transparent pricing</h1>
           <p className="text-gray-400 text-xl max-w-xl mx-auto">
-            Get AI-powered insights at every investment level. Start free, upgrade when you&apos;re ready.
+            Get professional trading signals and market research. Choose the plan that fits your trading style.
           </p>
           <p className="text-sm text-gray-500 mt-3">
-            Payments processed securely. Cancel anytime.
+            Secure payments via Whop. Cancel anytime. 30-day money-back guarantee on Pro & VIP+.
           </p>
         </div>
 
@@ -152,11 +154,11 @@ export default function Pricing() {
           <h2 className="text-3xl font-bold text-white text-center mb-10">Frequently asked questions</h2>
           <div className="space-y-4">
             {[
-              ['Can I change plans?', 'Yes. You can upgrade or downgrade at any time from your account settings. Changes take effect immediately.'],
-              ['What if I cancel my subscription?', 'You can cancel anytime with one click. You&apos;ll retain access to your portfolio data and can reactivate later.'],
-              ['Do you offer a trial of Pro?', 'The free Basic plan lets you evaluate all features with limited recommendation frequency. Upgrade to Pro to get daily insights.'],
-              ['How are AI recommendations generated?', 'Our ML models analyze stock performance, market trends, and your portfolio composition to generate personalized recommendations.'],
-              ['Can I export my portfolio data?', 'Yes. You can export your portfolio and recommendation history as CSV at any time from your dashboard.'],
+              ['Can I change plans?', 'Yes. Upgrade or downgrade anytime from your account settings. Changes take effect immediately.'],
+              ['What if I cancel?', 'You can cancel with one click, anytime. Pro & VIP+ include a 30-day money-back guarantee if you&apos;re not satisfied.'],
+              ['Do you offer a trial?', 'Yes! Start with the free Basic plan. You get access to delayed signals (24h delay) and 2 free research reports to test the platform.'],
+              ['How are signals generated?', 'Our proprietary algorithms analyze price action, technical indicators, volume, and market sentiment. Signals are rated by confidence level.'],
+              ['Can I track my trading performance?', 'Yes. Your Pro/VIP+ dashboard includes signal history, win rate tracking, P&L analysis, and comparison to our fund performance.'],
             ].map(([q, a]) => (
               <div key={q} className="card">
                 <h3 className="font-semibold text-white mb-2">{q}</h3>
