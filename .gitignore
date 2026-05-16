@@ -12,6 +12,7 @@ venv/
 node_modules/
 dist/
 .DS_Store
+.vercel
 
 # Docker
 *.log
