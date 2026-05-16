@@ -1,71 +1,93 @@
 import { Link } from 'react-router-dom'
-import { BarChart3, Target, ShieldCheck, Users } from 'lucide-react'
+import { BarChart3, Target, ShieldCheck, Users, AlertTriangle } from 'lucide-react'
 
-function TelegramIcon({ size = 20 }) {
+function YoutubeIcon({ size = 20 }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: size, height: size }}>
-      <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
     </svg>
   )
 }
 
 const PERFORMANCE = [
-  ['شهر واحد',       '+8.7%',  '+2.3%'],
-  ['3 أشهر',         '+22.4%', '+9.2%'],
-  ['من بداية العام', '+38.2%', '+24.1%'],
-  ['سنة كاملة',      '+42.1%', '+28.5%'],
+  ['شهر واحد',         '+8.7%',            '+2.3%'],
+  ['3 أشهر',           '+22.4%',           '+9.2%'],
+  ['من بداية العام',   '+38.2%',           '+24.1%'],
+  ['سنة كاملة',        '+42.1%',           '+28.5%'],
+]
+
+const MONTHLY = [
+  ['يناير',   '+11.4%', 'text-accent-400'],
+  ['فبراير',  '-5.1%',  'text-red-400'],
+  ['مارس',    '+18.2%', 'text-accent-400'],
+  ['أبريل',   '+6.3%',  'text-accent-400'],
+  ['مايو',    '+7.4%',  'text-accent-400'],
 ]
 
 export default function Fund() {
   return (
     <div className="min-h-screen bg-gray-950">
       {/* Header */}
-      <section className="pt-20 pb-14 px-4 border-b border-gray-800/80">
+      <section className="pt-20 pb-10 px-4 border-b border-gray-800/80">
         <div className="max-w-5xl mx-auto text-center">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-950/70 border border-brand-800/50 text-brand-300 text-sm font-semibold mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent-400 animate-pulse shrink-0" />
-            بيانات المحفظة المباشرة
-          </span>
-          <h1 className="text-5xl font-extrabold text-white mb-4">محفظة أبدو ريسيرش</h1>
+          <h1 className="text-5xl font-extrabold text-white mb-4">المحفظة التتبعية</h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            موديل الذكاء الاصطناعي يدير محفظة حقيقية — كل صفقة وعائد وقرار موثق بشفافية كاملة مقارنة بـ <span style={{ direction: 'ltr', display: 'inline-block' }}>S&P 500</span>.
+            محفظة حقيقية نتابعها لاختبار الموديل — المكاسب والخسائر كلها منشورة.
+            هذا ليس صندوق استثمار ولا وعد بأي عائد.
           </p>
         </div>
       </section>
 
+      {/* Big disclaimer */}
+      <section className="py-4 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-start gap-3 p-4 rounded-xl bg-amber-950/30 border border-amber-800/40 text-right">
+            <AlertTriangle size={20} className="text-amber-400 shrink-0 mt-0.5" />
+            <div>
+              <p className="text-amber-200 font-semibold text-sm mb-1">تنبيه مهم</p>
+              <p className="text-amber-200/70 text-sm leading-relaxed">
+                النتائج المعروضة هي نتائج محفظة تتبعية لاختبار الموديل — ليست محفظة مُدارة ولا توصية استثمارية.
+                الأداء السابق لا يضمن نتائج مستقبلية. التداول ينطوي على مخاطر خسارة رأس المال كله أو جزء منه.
+                لا تستثمر مالاً لا تتحمل خسارته.{' '}
+                <Link to="/risk-disclosure" className="underline hover:text-amber-200">إفصاح المخاطر الكامل</Link>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Key Metrics */}
-      <section className="py-16 px-4">
+      <section className="py-12 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-6 mb-14">
+          <div className="grid md:grid-cols-3 gap-6 mb-10">
             <div className="card p-8 bg-gradient-to-br from-brand-950/50 to-gray-900 border-brand-900/40">
-              <div className="text-sm text-gray-400 mb-2">عائد هذا العام</div>
+              <div className="text-sm text-gray-400 mb-2">عائد هذا العام (تتبعي)</div>
               <div className="text-5xl font-extrabold text-accent-400 mb-2" style={{ direction: 'ltr', textAlign: 'right' }}>+38.2%</div>
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-xs text-gray-500 bg-gray-800 px-2 py-0.5 rounded" style={{ direction: 'ltr' }}>S&P 500: +24.1%</span>
-                <span className="text-xs text-accent-400 font-bold">+14.1% أعلى من المؤشر</span>
               </div>
             </div>
             <div className="card p-8">
-              <div className="text-sm text-gray-400 mb-2">نسبة نجاح الإشارات</div>
-              <div className="text-5xl font-extrabold text-brand-400 mb-2" style={{ direction: 'ltr', textAlign: 'right' }}>82%</div>
-              <div className="text-xs text-gray-500">متوسط آخر 30 يوم</div>
+              <div className="text-sm text-gray-400 mb-2">أسوأ شهر</div>
+              <div className="text-5xl font-extrabold text-red-400 mb-2" style={{ direction: 'ltr', textAlign: 'right' }}>-5.1%</div>
+              <div className="text-xs text-gray-500">فبراير — نشرنا هذا علناً مثل أي شهر آخر</div>
             </div>
             <div className="card p-8">
               <div className="text-sm text-gray-400 mb-2">الحد الأقصى للخسارة</div>
               <div className="text-5xl font-extrabold text-white mb-2" style={{ direction: 'ltr', textAlign: 'right' }}>-8.3%</div>
-              <div className="text-xs text-gray-500">أقصى خسارة من القمة للقاع</div>
+              <div className="text-xs text-gray-500">أقصى خسارة من القمة للقاع — تاريخياً</div>
             </div>
           </div>
 
-          {/* Returns table */}
+          {/* Returns table + Monthly breakdown */}
           <div className="grid md:grid-cols-2 gap-6">
             <div className="card p-0 overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-800">
-                <h3 className="font-bold text-white text-lg">العوائد مقابل <span style={{ direction: 'ltr', display: 'inline-block' }}>S&P 500</span></h3>
+                <h3 className="font-bold text-white text-lg">مقابل <span style={{ direction: 'ltr', display: 'inline-block' }}>S&P 500</span></h3>
               </div>
               <div className="grid grid-cols-3 px-6 py-3 bg-gray-800/30 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                 <span>الفترة</span>
-                <span className="text-accent-400 text-center">المحفظة</span>
+                <span className="text-accent-400 text-center">الموديل</span>
                 <span className="text-center" style={{ direction: 'ltr' }}>S&P 500</span>
               </div>
               {PERFORMANCE.map(([period, fund, spy]) => (
@@ -79,39 +101,40 @@ export default function Fund() {
 
             <div className="card p-0 overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-800">
-                <h3 className="font-bold text-white text-lg">إحصائيات الإشارات</h3>
+                <h3 className="font-bold text-white text-lg">نتائج شهرية — 2026</h3>
+                <p className="text-xs text-gray-500 mt-1">نشرنا الخسارة في فبراير بنفس الطريقة</p>
               </div>
-              {[
-                ['نسبة نجاح الإشارات', '82%',       'text-accent-400'],
-                ['متوسط عائد الصفقة', '+1.8%',      'text-accent-400'],
-                ['أفضل شهر',          '+18.2% (مارس)', 'text-accent-400'],
-                ['أسوأ شهر',          '-5.1% (فبراير)', 'text-red-400'],
-                ['إجمالي الإشارات',   '127 (30 يوم)', 'text-white'],
-              ].map(([label, value, cls]) => (
-                <div key={label} className="flex items-center justify-between px-6 py-4 border-t border-gray-800/60 hover:bg-gray-800/20 transition-colors">
-                  <span className="text-gray-400">{label}</span>
+              {MONTHLY.map(([month, value, cls]) => (
+                <div key={month} className="flex items-center justify-between px-6 py-4 border-t border-gray-800/60 hover:bg-gray-800/20 transition-colors">
+                  <span className="text-gray-400">{month}</span>
                   <span className={`font-bold ${cls}`} style={{ direction: 'ltr' }}>{value}</span>
                 </div>
               ))}
+              <div className="px-6 py-3 border-t border-gray-800 bg-gray-900/40">
+                <p className="text-xs text-gray-600">نتائج تتبعية — ليست ضمانات</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Strategy */}
+      {/* How the model works */}
       <section className="py-16 px-4 border-t border-gray-800/80">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-white mb-10">كيف يعمل الموديل</h2>
+          <h2 className="text-3xl font-bold text-white mb-3">كيف يعمل الموديل</h2>
+          <p className="text-gray-400 mb-10">
+            نشرح المنهجية لأنك تستحق تفهم ما وراء الأرقام — لا "صندوق أسود" هنا.
+          </p>
           <div className="grid md:grid-cols-2 gap-8">
             {[
               {
                 icon: Target,
-                title: 'موديل اختيار الأسهم',
+                title: 'اختيار الأسهم',
                 items: [
-                  ['الاستراتيجية', 'هجين ذكاء اصطناعي (زخم + عكس الاتجاه)'],
+                  ['الاستراتيجية', 'زخم الأسعار + شذوذات الحجم'],
                   ['السوق', 'أسهم أمريكية، أوبشنز، كريبتو مختار'],
-                  ['مدة الاحتفاظ', 'من دقائق إلى أسابيع'],
-                  ['الهدف السنوي', '30-50%'],
+                  ['مدة الاحتفاظ', 'من أيام إلى أسابيع'],
+                  ['الهدف', 'التفوق على S&P 500 — ليس ضماناً'],
                 ],
               },
               {
@@ -119,29 +142,29 @@ export default function Fund() {
                 title: 'إدارة المخاطر',
                 items: [
                   ['الحد الأقصى للمركز', '10% لكل صفقة'],
-                  ['وقف الخسارة', 'إلزامي في كل إشارة'],
-                  ['الحد الأقصى للخسارة', '15% كحد أقصى'],
-                  ['التقارير', 'تاريخ كامل للصفقات منشور'],
+                  ['وقف الخسارة', 'إلزامي في كل فكرة تداول'],
+                  ['الحد الأقصى للخسارة', '15% كحد تاريخي — قد يتجاوز'],
+                  ['الشفافية', 'كل صفقة منشورة — حتى الخاسرة'],
                 ],
               },
               {
                 icon: BarChart3,
-                title: 'توليد الإشارات',
+                title: 'أفكار التداول',
                 items: [
-                  ['عدد الإشارات يومياً', '3-8 في المتوسط'],
-                  ['تحديث', 'كل 15 دقيقة'],
+                  ['المعدل اليومي', '3-8 أفكار في المتوسط'],
+                  ['كل فكرة تتضمن', 'السبب + الدخول + الهدف + الوقف'],
                   ['التسليم', 'تيليجرام + لوحة التحكم'],
-                  ['تقييم الثقة', '0-100% لكل إشارة'],
+                  ['القرار', 'لك أنت — ليس إلزامياً'],
                 ],
               },
               {
                 icon: Users,
                 title: 'المجتمع',
                 items: [
-                  ['الأعضاء النشطون', '12,000+'],
-                  ['تيليجرام', 'تنبيهات الإشارات المباشرة'],
-                  ['يوتيوب', 'فيديوهات بحثية أسبوعية'],
-                  ['السجل التاريخي', 'شفافية كاملة'],
+                  ['الأعضاء النشطون', '+12,000'],
+                  ['تيليجرام', 'نقاش + أفكار التداول'],
+                  ['يوتيوب', 'فيديوهات بحثية مجانية أسبوعياً'],
+                  ['السجل التاريخي', 'متاح للكل — شفافية كاملة'],
                 ],
               },
             ].map(({ icon: Icon, title, items }) => (
@@ -154,8 +177,8 @@ export default function Fund() {
                 </div>
                 <div className="space-y-3">
                   {items.map(([label, value]) => (
-                    <div key={label} className="flex items-center justify-between text-sm">
-                      <span className="text-gray-400">{label}:</span>
+                    <div key={label} className="flex items-start justify-between text-sm gap-4">
+                      <span className="text-gray-400 shrink-0">{label}:</span>
                       <span className="text-white font-medium text-left" style={{ direction: 'ltr' }}>{value}</span>
                     </div>
                   ))}
@@ -166,17 +189,19 @@ export default function Fund() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA — reframed */}
       <section className="py-16 px-4 border-t border-gray-800/80">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">انسخ محفظتنا</h2>
-          <p className="text-gray-400 mb-8 text-lg">اشترك لتحصل على كل إشارة نتداولها. نفّذها في بروكرك وتابع نتائجك.</p>
+          <h2 className="text-3xl font-bold text-white mb-4">تابع أفكار التداول</h2>
+          <p className="text-gray-400 mb-8 text-lg">
+            اشترك لتصلك كل فكرة تداول مع شرحها الكامل. الفيديوهات التحليلية مجانية دائماً على يوتيوب.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer"
+            <a href="https://youtube.com/@abdoresearch" target="_blank" rel="noopener noreferrer"
               className="btn-primary text-base px-8 py-4">
-              <TelegramIcon size={20} /> انضم على تيليجرام
+              <YoutubeIcon size={20} /> يوتيوب — مجاناً
             </a>
-            <Link to="/pricing" className="btn-secondary text-base px-8 py-4">اشترك في الإشارات</Link>
+            <Link to="/pricing" className="btn-secondary text-base px-8 py-4">شوف الباقات</Link>
           </div>
           <p className="mt-6 text-xs text-gray-600">
             الأداء السابق لا يضمن النتائج المستقبلية.{' '}

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { CheckCircle2, Zap, Building2, User } from 'lucide-react'
+import { CheckCircle2, Zap, Building2, User, AlertTriangle } from 'lucide-react'
 
 function TelegramIcon() {
   return (
@@ -9,22 +9,29 @@ function TelegramIcon() {
   )
 }
 
+function YoutubeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </svg>
+  )
+}
+
 const PLANS = [
   {
-    name: 'أساسي',
-    nameEn: 'Basic',
+    name: 'مجاني',
+    nameEn: 'Free',
     icon: User,
     price: '$0',
     period: '/شهر',
-    desc: 'مثالي للمتداولين الجدد اللي يريدون يجربون الإشارات.',
+    desc: 'ابدأ من هنا. لا بطاقة ائتمان. جرّب وحكم بنفسك.',
     badge: null,
     features: [
-      'معاينة الإشارات (متأخر 24 ساعة)',
-      'تقريران مجانيان شهرياً',
-      'متابعة أداء المحفظة',
+      'كل فيديوهات يوتيوب — مجاناً للأبد',
+      'معاينة أفكار التداول (متأخر 24 ساعة)',
+      'تقريران بحثيان شهرياً',
       'النشرة الأسبوعية للسوق',
-      'وصول يوتيوب مجاني',
-      'بدون بطاقة ائتمان',
+      'مجتمع تيليجرام — للنقاش والتعلم',
     ],
     cta: 'ابدأ مجاناً',
     ctaTo: '/register',
@@ -37,17 +44,15 @@ const PLANS = [
     icon: Zap,
     price: '$99',
     period: '/شهر',
-    desc: 'للمتداولين النشطين اللي يريدون إشارات مباشرة.',
+    desc: 'للمتداولين الجادين اللي يريدون التفاصيل الكاملة لكل فكرة تداول.',
     badge: 'الأكثر طلباً',
     features: [
-      'كل ما في الأساسي، بالإضافة إلى:',
-      'إشارات تداول مباشرة (فورية)',
-      'تنبيهات فورية على تيليجرام',
+      'كل ما في المجاني، بالإضافة إلى:',
+      'أفكار التداول فورية (بدون تأخير)',
+      'السبب التحليلي الكامل لكل فكرة',
       'وصول غير محدود لتقارير البحث',
-      'تقارير قطاعية متميزة',
-      'سجل الإشارات والتحليلات',
-      'دعم بريد إلكتروني مميز',
-      'بيانات الاختبار التاريخي',
+      'تحليلات قطاعية متعمقة',
+      'سجل كامل لجميع الأفكار السابقة',
     ],
     cta: 'اشترك الآن',
     ctaClass: 'btn-primary',
@@ -60,19 +65,17 @@ const PLANS = [
     icon: Building2,
     price: '$299',
     period: '/شهر',
-    desc: 'للمتداولين المحترفين ومديري المحافظ.',
+    desc: 'للمتداولين المتقدمين الذين يريدون وصولاً مباشراً لفريق التحليل.',
     badge: null,
     features: [
       'كل ما في الاحترافي، بالإضافة إلى:',
-      'فلترة متقدمة للإشارات',
-      'قوالب استراتيجيات مخصصة',
-      'بحوث وأفكار تداول حصرية',
-      'وصول مباشر لفريق التحليل (Slack)',
-      'جلسات استراتيجية شهرية خاصة',
-      'وصول API للتكامل',
-      'مدير حساب مخصص',
+      'وصول مباشر لفريق التحليل',
+      'جلسات نقاش شهرية خاصة',
+      'أفكار تداول مخصصة حسب طلبك',
+      'أرشيف كامل لجميع التقارير',
+      'وصول API للبيانات والتكامل',
     ],
-    cta: 'اشترك الآن',
+    cta: 'تواصل معنا',
     ctaClass: 'btn-primary',
     highlight: false,
     whopPlan: 'vip',
@@ -80,12 +83,12 @@ const PLANS = [
 ]
 
 const FAQ = [
-  ['هل يمكنني الإلغاء في أي وقت؟', 'نعم. إلغاء بنقرة واحدة في أي وقت. بدون أي ترابط. الباقات الاحترافية تشمل ضمان استرداد المال خلال 30 يوماً.'],
-  ['كيف تصلني الإشارات؟', 'فور صدور الإشارة تصلك على تيليجرام مباشرة. كل إشارة فيها سعر الدخول والهدف ووقف الخسارة ونسبة الثقة.'],
-  ['هل فيه تجربة مجانية؟', 'نعم — الباقة الأساسية مجانية للأبد. تحصل على معاينة الإشارات المتأخرة (24 ساعة) وتقريرين شهرياً لتقييم الجودة قبل الترقية.'],
-  ['كيف تُولَّد الإشارات؟', 'موديل ذكاء اصطناعي يحلل حركة الأسعار والحجم والزخم والعوامل الاقتصادية. كل إشارة مصنفة حسب درجة الثقة مع سياق السوق الكامل.'],
-  ['هل يمكنني تتبع أدائي؟', 'نعم. لوحة التحكم تشمل سجل الإشارات الكامل وتتبع نسبة النجاح وتحليل الأرباح والخسائر ومقارنة بأداء محفظتنا.'],
-  ['ما الأسواق التي تغطونها؟', 'أسهم أمريكية، استراتيجيات أوبشنز، وكريبتو مختار. كل الفئات في نفس القناة ولوحة التحكم.'],
+  ['هل يمكنني الإلغاء في أي وقت؟', 'نعم. إلغاء بنقرة واحدة في أي وقت بدون أي ترابط أو رسوم إضافية.'],
+  ['ما الفرق بين المجاني والاحترافي؟', 'المجاني يعطيك أفكار التداول بتأخير 24 ساعة. الاحترافي يعطيك الأفكار فورياً مع السياق التحليلي الكامل والوصول لجميع التقارير.'],
+  ['هل هذه توصيات استثمارية؟', 'لا. هذا تحليل شخصي لأغراض تعليمية ومتابعة السوق. القرار النهائي دائماً لك. لا نتحمل أي مسؤولية عن نتائج تداولك.'],
+  ['كيف تعمل أفكار التداول؟', 'كل فكرة تتضمن: الرمز، الاتجاه، سعر الدخول المقترح، الهدف، وقف الخسارة، ونسبة الثقة — مع شرح السبب التحليلي الكامل.'],
+  ['ماذا لو خسرت؟', 'الخسارة ممكنة وحقيقية. نظهر الصفقات الخاسرة بنفس وضوح الرابحة. لا تستثمر مالاً لا تتحمل خسارته.'],
+  ['هل الباقة المجانية كافية للبدء؟', 'نعم. ابدأ بيوتيوب والمجاني واحكم بنفسك على جودة التحليل قبل أي قرار اشتراك.'],
 ]
 
 export default function Pricing() {
@@ -100,14 +103,23 @@ export default function Pricing() {
   return (
     <div className="py-24 px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-white mb-4">أسعار واضحة وشفافة</h1>
+        <div className="text-center mb-8">
+          <h1 className="text-5xl font-bold text-white mb-4">الباقات</h1>
           <p className="text-gray-400 text-xl max-w-xl mx-auto">
-            إشارات تداول احترافية وبحوث السوق. اختر الباقة المناسبة لأسلوبك في التداول.
+            ابدأ بالمجاني. ترقّ فقط إذا وجدت أن التحليل يضيف لك قيمة حقيقية.
           </p>
-          <p className="text-sm text-gray-500 mt-3">
-            دفع آمن عبر Whop. إلغاء في أي وقت. ضمان استرداد المال 30 يوماً.
-          </p>
+        </div>
+
+        {/* Disclaimer */}
+        <div className="max-w-5xl mx-auto mb-10">
+          <div className="flex items-start gap-3 p-4 rounded-xl bg-amber-950/30 border border-amber-800/40 text-right">
+            <AlertTriangle size={18} className="text-amber-400 shrink-0 mt-0.5" />
+            <p className="text-amber-200/70 text-sm leading-relaxed">
+              الاشتراك يتيح لك الوصول لتحليل شخصي وأفكار تداول — ليس نصيحة استثمارية مرخصة.
+              التداول ينطوي على مخاطر خسارة رأس المال. لا نضمن أي عوائد.{' '}
+              <Link to="/risk-disclosure" className="underline hover:text-amber-200">إفصاح المخاطر الكامل</Link>
+            </p>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -160,15 +172,20 @@ export default function Pricing() {
           })}
         </div>
 
-        <div className="mt-10 max-w-5xl mx-auto text-center card border-brand-900/30 bg-brand-950/20 py-6">
-          <p className="text-gray-300 text-sm">
-            مشترك بالفعل؟{' '}
+        {/* Free path banner */}
+        <div className="mt-10 max-w-5xl mx-auto text-center card border-gray-700/40 bg-gray-900/60 py-6 px-8">
+          <p className="text-gray-300 text-sm mb-3 font-semibold">لست متأكداً؟ ابدأ بالمجاني تماماً</p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <a href="https://youtube.com/@abdoresearch" target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm text-brand-400 hover:underline">
+              <YoutubeIcon /> يوتيوب — مجاناً للأبد
+            </a>
+            <span className="text-gray-700">|</span>
             <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer"
-              className="text-brand-400 hover:underline inline-flex items-center gap-1">
-              <TelegramIcon /> انضم لقناتنا على تيليجرام
-            </a>{' '}
-            للحصول على الإشارات والوصول للمجتمع.
-          </p>
+              className="inline-flex items-center gap-1.5 text-sm text-brand-400 hover:underline">
+              <TelegramIcon /> تيليجرام — مجاناً
+            </a>
+          </div>
         </div>
 
         {/* FAQ */}
@@ -186,7 +203,7 @@ export default function Pricing() {
 
         <p className="text-center text-xs text-gray-600 mt-12">
           التداول ينطوي على مخاطر. راجع{' '}
-          <Link to="/risk-disclosure" className="text-brand-500 hover:underline">إفصاح المخاطر</Link>{' '}
+          <Link to="/risk-disclosure" className="text-brand-500 hover:underline">إفصاح المخاطر الكامل</Link>{' '}
           قبل الاشتراك.
         </p>
       </div>

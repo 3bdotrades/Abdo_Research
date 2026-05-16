@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { CheckCircle2, BarChart3, Zap, BookOpen } from 'lucide-react'
+import { BookOpen, MessageSquare, TrendingUp, Eye, AlertTriangle } from 'lucide-react'
 
 function TelegramIcon({ size = 20 }) {
   return (
@@ -9,30 +9,34 @@ function TelegramIcon({ size = 20 }) {
   )
 }
 
-const PILLARS = [
+function YoutubeIcon({ size = 20 }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: size, height: size }}>
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </svg>
+  )
+}
+
+const WHAT_YOU_GET = [
   {
-    icon: BarChart3,
-    title: 'إدارة المحفظة',
-    titleEn: 'Portfolio',
-    desc: 'الموديل يحدد الأسهم اللي تتفوق على S&P 500 باستمرار. كل الأداء شفاف وموثق.',
-    stat: '+38.2%',
-    statLabel: 'هذا العام — مقابل +24.1% للمؤشر',
+    icon: YoutubeIcon,
+    title: 'تحليلات يوتيوب — مجاناً',
+    desc: 'فيديو أسبوعي على الأقل يشرح حركة السوق وما يتوقعه الموديل. مجاني للكل، بدون اشتراك.',
   },
   {
-    icon: Zap,
-    title: 'إشارات مباشرة',
-    titleEn: 'Live Signals',
-    desc: 'كل إشارة تجيك على تيليجرام فيها: سعر الدخول، الهدف، وقف الخسارة، ونسبة الثقة.',
-    stat: '82%',
-    statLabel: 'نسبة نجاح الإشارات — متوسط 30 يوم',
+    icon: MessageSquare,
+    title: 'متابعة يومية على تيليجرام',
+    desc: 'أفكار التداول تنشر مع شرح المنطق الكامل — لا "اشترِ هذا" بدون سياق. أنت تقرر إذا تنفّذ.',
   },
   {
     icon: BookOpen,
-    title: 'تحليلات السوق',
-    titleEn: 'Research',
-    desc: 'تقارير متخصصة في القطاعات والأسهم. فيديوهات تحليل شاملة على يوتيوب كل أسبوع.',
-    stat: '+50',
-    statLabel: 'تقرير منشور — يتجدد كل أسبوع',
+    title: 'تقارير بحثية متعمقة',
+    desc: 'تحليل القطاعات والأسهم بالأرقام. التقارير الكاملة للمشتركين، وملخص يوتيوب للكل.',
+  },
+  {
+    icon: Eye,
+    title: 'شفافية كاملة — بما فيها الخسائر',
+    desc: 'كل صفقة تُنشر — الرابحة والخاسرة. أسوأ شهر لدينا كان -5.1%. نحن لا نخفي النتائج السيئة.',
   },
 ]
 
@@ -41,24 +45,7 @@ const PERFORMANCE = [
   ['3 أشهر',         '+22.4%', '+9.2%'],
   ['من بداية العام', '+38.2%', '+24.1%'],
   ['سنة كاملة',      '+42.1%', '+28.5%'],
-]
-
-const STEPS = [
-  {
-    num: '01',
-    title: 'انضم للمجتمع',
-    desc: 'تابعنا على تيليجرام للإشارات المباشرة، واشترك في يوتيوب للتحليلات والبحوث الأسبوعية.',
-  },
-  {
-    num: '02',
-    title: 'استلم إشاراتك',
-    desc: 'كل إشارة فيها كل اللي تحتاجه: سعر الدخول، الهدف، وقف الخسارة، وسبب الصفقة.',
-  },
-  {
-    num: '03',
-    title: 'نفّذ وتابع',
-    desc: 'نفّذ الإشارة في بروكرك. تابع أداءك مقارنة بمحفظتنا في لوحة التحكم.',
-  },
+  ['أسوأ شهر',       '-5.1%',  '-3.2%'],
 ]
 
 export default function Home() {
@@ -70,78 +57,64 @@ export default function Home() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-brand-500/5 rounded-full blur-3xl" />
 
         <div className="relative max-w-5xl mx-auto text-center">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-950/80 border border-brand-800/60 text-brand-300 text-sm font-semibold mb-8">
-            <span className="w-2 h-2 rounded-full bg-accent-400 animate-pulse shrink-0" />
-            الموديل يعمل — آخر إشارة منذ 15 دقيقة
-          </span>
-
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
-            إشارات تداول{' '}
+            تحليل أسهم أمريكية —{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-300 to-brand-500">
-              تتفوق على السوق
+              شفاف ومفصّل
             </span>
           </h1>
 
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            موديل ذكاء اصطناعي يختار أفضل الأسهم في السوق الأمريكي.
-            إشارات فورية على تيليجرام مع كل التفاصيل اللي تحتاجها للتداول.
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-4 leading-relaxed">
+            أبدو يتابع السوق الأمريكي يومياً ويشارك تحليلاته وأفكاره على يوتيوب وتيليجرام.
+            المكاسب والخسائر — كل شيء منشور وموثق.
+          </p>
+
+          <p className="text-sm text-gray-500 mb-10">
+            هذا بحث وتحليل شخصي — ليس نصيحة استثمارية.
+            القرار النهائي دائماً لك.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer"
+            <a href="https://youtube.com/@abdoresearch" target="_blank" rel="noopener noreferrer"
               className="btn-primary text-base px-8 py-4">
-              <TelegramIcon size={20} /> انضم على تيليجرام
+              <YoutubeIcon size={20} /> شاهد القناة مجاناً
             </a>
-            <Link to="/fund" className="btn-secondary text-base px-8 py-4">
-              شوف الأداء
-            </Link>
-          </div>
-
-          {/* Live signal preview — kept LTR since it's financial data */}
-          <div className="mt-16 max-w-xl mx-auto bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden shadow-2xl shadow-black/60" dir="ltr">
-            <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-800 bg-gray-900/80">
-              <div className="w-3 h-3 rounded-full bg-red-500/70" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
-              <div className="w-3 h-3 rounded-full bg-green-500/70" />
-              <span className="ml-2 text-gray-500 text-xs font-mono">live-signal</span>
-              <span className="ml-auto flex items-center gap-1.5 text-xs text-accent-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-accent-400 animate-pulse" />
-                LIVE
-              </span>
-            </div>
-            <pre className="p-5 text-sm font-mono text-gray-300 leading-relaxed overflow-x-auto text-left">
-{`🟢 BUY — $NVDA
-   Entry:     $142.30
-   Target:    $156.80  (+10.2%)
-   Stop Loss: $138.50  (-2.7%)
-   Confidence: 87%
-
-🔴 SELL — $SPY
-   Exit at market
-   Realized:  +$312  (+2.1%)`}
-            </pre>
-            <div className="border-t border-gray-800 px-5 py-3 bg-gray-900/50 flex gap-8">
-              <div>
-                <div className="text-xs text-gray-500 mb-0.5">Win Rate (30d)</div>
-                <div className="text-lg font-bold text-accent-400">82%</div>
-              </div>
-              <div>
-                <div className="text-xs text-gray-500 mb-0.5">Avg Trade</div>
-                <div className="text-lg font-bold text-accent-400">+1.8%</div>
-              </div>
-            </div>
+            <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer"
+              className="btn-secondary text-base px-8 py-4">
+              <TelegramIcon size={20} /> انضم للمجتمع
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Stats bar */}
-      <section className="py-12 border-y border-gray-800/60 bg-gray-900/20">
+      {/* About Abdo */}
+      <section className="py-16 px-4 border-y border-gray-800/60 bg-gray-900/30">
+        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-10">
+          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-brand-400 to-brand-700 flex items-center justify-center text-gray-950 font-black text-3xl shrink-0"
+            style={{ fontFamily: 'Inter, sans-serif', direction: 'ltr' }}>
+            A
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-white mb-3">من هو أبدو؟</h2>
+            <p className="text-gray-400 leading-relaxed">
+              متداول مستقل يبني موديل لتحليل السوق الأمريكي منذ سنوات.
+              يشارك كل شيء علناً — التحليل والمنهجية والنتائج — لأنه يؤمن أن الشفافية أهم من التسويق.
+              قناة يوتيوب مجانية فيها أكثر من{' '}
+              <span style={{ direction: 'ltr', display: 'inline-block' }}>50</span>{' '}
+              فيديو تحليلي. تيليجرام للمتابعة اليومية. الاشتراك المدفوع للي يريد التفاصيل الكاملة.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats — community, not returns */}
+      <section className="py-12 border-b border-gray-800/60 bg-gray-900/10">
         <div className="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
-            ['+38.2%', 'عائد هذا العام'],
-            ['vs +24.1%', 'S&P 500'],
-            ['82%', 'نسبة نجاح الإشارات'],
-            ['+12,000', 'متداول في المجتمع'],
+            ['+50', 'فيديو تحليلي مجاني'],
+            ['+50', 'تقرير بحثي منشور'],
+            ['+12,000', 'عضو في المجتمع'],
+            ['كل أسبوع', 'محتوى جديد'],
           ].map(([v, l]) => (
             <div key={l}>
               <div className="text-3xl font-extrabold text-white mb-1" style={{ direction: 'ltr' }}>{v}</div>
@@ -151,26 +124,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3 Pillars */}
+      {/* What you get */}
       <section className="py-24 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">كل اللي تحتاجه للتداول الذكي</h2>
+            <h2 className="text-4xl font-bold text-white mb-4">ماذا تجد هنا؟</h2>
             <p className="text-gray-400 text-lg max-w-xl mx-auto">
-              محفظة حقيقية، إشارات مباشرة، وتحليلات عميقة — كل شيء في مكان واحد.
+              تحليل موضح بالكامل — لا "ثق بي فقط". كل فكرة تداول تأتي مع السبب الكامل.
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {PILLARS.map(({ icon: Icon, title, desc, stat, statLabel }) => (
-              <div key={title} className="card hover:border-gray-700 transition-colors group flex flex-col">
-                <div className="w-11 h-11 rounded-xl bg-brand-950/60 border border-brand-900/50 flex items-center justify-center mb-5 group-hover:bg-brand-900/60 transition-colors shrink-0">
-                  <Icon size={22} className="text-brand-400" />
+          <div className="grid md:grid-cols-2 gap-6">
+            {WHAT_YOU_GET.map(({ icon: Icon, title, desc }) => (
+              <div key={title} className="card hover:border-gray-700 transition-colors group flex gap-5">
+                <div className="w-11 h-11 rounded-xl bg-brand-950/60 border border-brand-900/50 flex items-center justify-center shrink-0 group-hover:bg-brand-900/60 transition-colors">
+                  <Icon size={20} className="text-brand-400" />
                 </div>
-                <h3 className="font-bold text-white text-xl mb-2">{title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed flex-1">{desc}</p>
-                <div className="mt-5 pt-5 border-t border-gray-800">
-                  <div className="text-2xl font-extrabold text-brand-400" style={{ direction: 'ltr', textAlign: 'right' }}>{stat}</div>
-                  <div className="text-xs text-gray-500 mt-0.5">{statLabel}</div>
+                <div>
+                  <h3 className="font-bold text-white text-lg mb-2">{title}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">{desc}</p>
                 </div>
               </div>
             ))}
@@ -178,52 +149,84 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Performance table */}
+      {/* Performance table — honest version with worst month */}
       <section className="py-24 px-4 bg-gray-900/25">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-white mb-4">أداء ثابت في كل الفترات</h2>
-            <p className="text-gray-400 text-lg">محفظتنا مقابل <span style={{ direction: 'ltr', display: 'inline-block' }}>S&P 500</span> في كل الفترات الزمنية.</p>
+          <div className="text-center mb-6">
+            <h2 className="text-4xl font-bold text-white mb-4">أداء المحفظة التتبعية</h2>
+            <p className="text-gray-400 text-lg">
+              هذه نتائج محفظة نتابعها لاختبار الموديل — ليست محفظة مُدارة ولا وعداً بعوائد.
+            </p>
           </div>
+
+          {/* Disclaimer banner */}
+          <div className="flex items-start gap-3 p-4 rounded-xl bg-amber-950/30 border border-amber-800/40 mb-6 text-right">
+            <AlertTriangle size={18} className="text-amber-400 shrink-0 mt-0.5" />
+            <p className="text-amber-200/80 text-sm leading-relaxed">
+              الأداء السابق لا يعني تكراره مستقبلاً. التداول ينطوي على مخاطر خسارة رأس المال.
+              هذه نتائج تتبعية فقط — ليست دعوة للاستثمار.{' '}
+              <Link to="/risk-disclosure" className="underline hover:text-amber-200">إفصاح المخاطر الكامل</Link>
+            </p>
+          </div>
+
           <div className="card overflow-hidden p-0">
             <div className="grid grid-cols-3 px-6 py-3 bg-gray-800/40 text-xs font-semibold text-gray-400 uppercase tracking-wider">
               <span>الفترة</span>
-              <span className="text-accent-400 text-center">أبدو ريسيرش</span>
+              <span className="text-brand-400 text-center">الموديل</span>
               <span className="text-center" style={{ direction: 'ltr' }}>S&P 500</span>
             </div>
-            {PERFORMANCE.map(([period, fund, spy]) => (
-              <div key={period} className="grid grid-cols-3 px-6 py-4 border-t border-gray-800/60 hover:bg-gray-800/20 transition-colors items-center">
+            {PERFORMANCE.map(([period, fund, spy], i) => (
+              <div key={period}
+                className={`grid grid-cols-3 px-6 py-4 border-t border-gray-800/60 items-center ${i === PERFORMANCE.length - 1 ? 'bg-red-950/10' : 'hover:bg-gray-800/20 transition-colors'}`}>
                 <span className="text-gray-400 font-medium">{period}</span>
-                <span className="font-bold text-accent-400 text-xl text-center" style={{ direction: 'ltr' }}>{fund}</span>
-                <span className="text-gray-500 font-medium text-center" style={{ direction: 'ltr' }}>{spy}</span>
+                <span className={`font-bold text-xl text-center ${fund.startsWith('-') ? 'text-red-400' : 'text-accent-400'}`}
+                  style={{ direction: 'ltr' }}>{fund}</span>
+                <span className={`font-medium text-center ${spy.startsWith('-') ? 'text-red-400' : 'text-gray-500'}`}
+                  style={{ direction: 'ltr' }}>{spy}</span>
               </div>
             ))}
           </div>
-          <p className="text-center text-xs text-gray-600 mt-4">
-            الأداء السابق لا يضمن النتائج المستقبلية.{' '}
-            <Link to="/risk-disclosure" className="text-brand-500 hover:underline">إفصاح المخاطر</Link>
+          <p className="text-center text-xs text-gray-600 mt-3">
+            جميع النتائج موثقة — المكاسب والخسائر معاً.
           </p>
         </div>
       </section>
 
-      {/* How to join */}
+      {/* How it works — reframed as "how to benefit" */}
       <section className="py-24 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">ابدأ في 3 خطوات</h2>
-          <p className="text-gray-400 mb-16 text-lg">انضم لآلاف المتداولين اللي يستخدمون إشاراتنا يومياً.</p>
+          <h2 className="text-4xl font-bold text-white mb-4">كيف تستفيد؟</h2>
+          <p className="text-gray-400 mb-16 text-lg">ثلاث خطوات — الأولى مجانية تماماً.</p>
           <div className="grid md:grid-cols-3 gap-10">
-            {STEPS.map(({ num, title, desc }) => (
+            {[
+              {
+                num: '01',
+                title: 'تابع المحتوى المجاني',
+                desc: 'ابدأ بقناة يوتيوب. فيديوهات أسبوعية تشرح حركة السوق وتحليل الأسهم. لا تحتاج أي اشتراك.',
+              },
+              {
+                num: '02',
+                title: 'افهم قبل أن تنفّذ',
+                desc: 'كل فكرة تداول على تيليجرام تأتي مع شرح المنطق. لا تنفّذ شيئاً لا تفهم سببه.',
+              },
+              {
+                num: '03',
+                title: 'القرار لك أنت',
+                desc: 'هذا تحليل شخصي — ليس توصية. أنت تقرر ماذا تفعل بمالك بناءً على فهمك.',
+              },
+            ].map(({ num, title, desc }) => (
               <div key={num} className="text-right">
-                <div className="text-7xl font-extrabold text-gray-800/80 mb-4 leading-none" style={{ direction: 'ltr', textAlign: 'right' }}>{num}</div>
+                <div className="text-7xl font-extrabold text-gray-800/80 mb-4 leading-none"
+                  style={{ direction: 'ltr', textAlign: 'right' }}>{num}</div>
                 <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
           <div className="mt-14 flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer"
+            <a href="https://youtube.com/@abdoresearch" target="_blank" rel="noopener noreferrer"
               className="btn-primary text-base px-8 py-4">
-              <TelegramIcon size={20} /> انضم تيليجرام
+              <YoutubeIcon size={20} /> ابدأ بيوتيوب — مجاناً
             </a>
             <Link to="/register" className="btn-secondary text-base px-8 py-4">
               أنشئ حساب مجاني
@@ -232,28 +235,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust section */}
+      {/* Why trust us — honest version */}
       <section className="py-24 px-4 bg-gray-900/25">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-14">
-            <h2 className="text-4xl font-bold text-white mb-4">ليش تثق في أبدو ريسيرش؟</h2>
-            <p className="text-gray-400 text-lg max-w-xl mx-auto">شفافية كاملة، نتائج حقيقية، بدون مبالغة.</p>
+            <h2 className="text-4xl font-bold text-white mb-4">ليش مختلفون؟</h2>
+            <p className="text-gray-400 text-lg max-w-xl mx-auto">
+              معظم قنوات التداول تخفي الخسائر وتبالغ في النتائج. نحن لا نفعل ذلك.
+            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              ['شفافية كاملة', 'كل إشارة موثقة: الدخول، الخروج، الربح أو الخسارة. تاريخ كل الصفقات متاح للكل.'],
-              ['ذكاء اصطناعي حقيقي', 'الموديل يحلل حركة الأسعار والحجم والعوامل الاقتصادية للعثور على أفضل الفرص.'],
-              ['إدارة المخاطر', 'كل إشارة فيها وقف خسارة إلزامي. الحد الأقصى للخسارة تاريخياً أقل من 10%.'],
-              ['تحديث يومي', 'تحليل السوق قبل الافتتاح وبعد الإغلاق كل يوم على تيليجرام ويوتيوب.'],
-              ['أسواق متعددة', 'أسهم أمريكية، أوبشنز، وكريبتو. كل شيء في مكان واحد.'],
-              ['مجتمع نشيط', 'أكثر من 12,000 متداول يشاركون النتائج ويتعلمون مع بعض يومياً.'],
+              ['نشر الخسائر مثل المكاسب', 'أسوأ شهر لدينا (-5.1% في فبراير) منشور بنفس الوضوح كأفضل شهر (+18.2% في مارس).'],
+              ['لا وعود بالعوائد', 'لا نقول "اربح كذا بالشهر". التداول فيه مخاطر حقيقية وقد تخسر رأس مالك.'],
+              ['التحليل قبل التنفيذ', 'كل فكرة تداول تأتي مع السبب الكامل — لا "ثق بي" بدون منطق.'],
+              ['المحتوى المجاني أولاً', 'يوتيوب مجاني تماماً. جرّب واحكم بنفسك قبل أن تدفع أي شيء.'],
+              ['الموديل موضح للعلن', 'نشرح كيف يعمل الموديل في التقارير والفيديوهات — ليس "صندوقاً أسود".'],
+              ['مجتمع يناقش ويشكك', 'تيليجرام ليس للتعليمات فقط — الأعضاء يناقشون ويختلفون وهذا مقصود.'],
             ].map(([title, desc]) => (
               <div key={title} className="card hover:border-gray-700 transition-colors">
-                <div className="flex items-start gap-3 mb-3">
-                  <CheckCircle2 size={18} className="text-accent-400 mt-0.5 shrink-0" />
-                  <h3 className="font-bold text-white text-lg">{title}</h3>
-                </div>
-                <p className="text-gray-400 text-sm leading-relaxed pr-7">{desc}</p>
+                <h3 className="font-bold text-white text-lg mb-2">{title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -263,22 +265,23 @@ export default function Home() {
       {/* Final CTA */}
       <section className="py-24 px-4">
         <div className="max-w-3xl mx-auto text-center card border-brand-900/40 bg-gradient-to-b from-brand-950/50 to-gray-900 py-16">
-          <h2 className="text-4xl font-bold text-white mb-4">جاهز تتداول بميزة حقيقية؟</h2>
+          <h2 className="text-4xl font-bold text-white mb-4">ابدأ بالمجاني</h2>
           <p className="text-gray-400 mb-8 text-lg leading-relaxed">
-            انضم لأكثر من 12,000 متداول يستخدمون إشاراتنا. مجاني للبدء، بدون بطاقة ائتمان.
+            القناة مجانية. المجتمع مجاني. جرّب قبل أن تقرر إذا الاشتراك يناسبك.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer"
+            <a href="https://youtube.com/@abdoresearch" target="_blank" rel="noopener noreferrer"
               className="btn-primary text-base px-8 py-4">
-              <TelegramIcon size={20} /> انضم تيليجرام
+              <YoutubeIcon size={20} /> شاهد يوتيوب مجاناً
             </a>
             <Link to="/pricing" className="btn-secondary text-base px-8 py-4">
               شوف الباقات
             </Link>
           </div>
           <p className="mt-6 text-xs text-gray-600">
-            بالاشتراك توافق على{' '}
-            <Link to="/risk-disclosure" className="text-brand-500 hover:underline">إفصاح المخاطر</Link>.
+            التداول ينطوي على مخاطر.{' '}
+            <Link to="/risk-disclosure" className="text-brand-500 hover:underline">اقرأ إفصاح المخاطر</Link>{' '}
+            قبل أي قرار استثماري.
           </p>
         </div>
       </section>

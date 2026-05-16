@@ -9,10 +9,10 @@ export default function Navbar() {
   const navigate = useNavigate()
 
   const links = [
-    { to: '/fund',     label: 'الأداء' },
-    { to: '/signals',  label: 'الإشارات' },
+    { to: '/fund',     label: 'المحفظة' },
+    { to: '/signals',  label: 'أفكار التداول' },
     { to: '/research', label: 'البحوث' },
-    { to: '/pricing',  label: 'الأسعار' },
+    { to: '/pricing',  label: 'الباقات' },
   ]
 
   return (
