@@ -1,11 +1,11 @@
 import { NavLink, Outlet, useNavigate, Link } from 'react-router-dom'
-import { LayoutDashboard, TrendingUp, Zap, CreditCard, Settings, LogOut } from 'lucide-react'
+import { LayoutDashboard, BarChart3, Zap, CreditCard, Settings, LogOut } from 'lucide-react'
 import useAuthStore from '../../store/authStore'
 
 const NAV = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Overview', end: true },
-  { to: '/dashboard/signals', icon: Zap, label: 'My Signals' },
-  { to: '/dashboard/research', icon: TrendingUp, label: 'Research' },
+  { to: '/dashboard/portfolios', icon: BarChart3, label: 'Portfolio' },
+  { to: '/dashboard/recommendations', icon: Zap, label: 'Signals' },
   { to: '/dashboard/billing', icon: CreditCard, label: 'Billing' },
   { to: '/dashboard/settings', icon: Settings, label: 'Settings' },
 ]
@@ -22,14 +22,13 @@ export default function DashboardLayout() {
 
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar */}
       <aside className="w-60 bg-gray-900 border-r border-gray-800 flex flex-col shrink-0">
         <div className="p-4 border-b border-gray-800">
           <Link to="/" className="flex items-center gap-2 font-bold text-white">
-            <div className="w-7 h-7 bg-gradient-to-br from-brand-400 to-accent-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-black text-xs">Z</span>
+            <div className="w-7 h-7 bg-gradient-to-br from-brand-400 to-brand-600 rounded-lg flex items-center justify-center">
+              <span className="text-gray-950 font-black text-xs">AR</span>
             </div>
-            Zenith Capital
+            Abdo Research
           </Link>
         </div>
 
@@ -42,7 +41,7 @@ export default function DashboardLayout() {
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-brand-900/60 text-brand-300 border border-brand-800/40'
+                    ? 'bg-brand-950/60 text-brand-300 border border-brand-900/40'
                     : 'text-gray-400 hover:text-white hover:bg-gray-800/60'
                 }`
               }

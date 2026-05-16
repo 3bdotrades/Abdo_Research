@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Brain, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import useAuthStore from '../../store/authStore'
 import toast from 'react-hot-toast'
 
@@ -24,8 +24,8 @@ export default function Login() {
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-16">
       <div className="w-full max-w-sm">
         <div className="flex justify-center mb-8">
-          <div className="w-12 h-12 bg-brand-600 rounded-2xl flex items-center justify-center shadow-xl shadow-brand-900/50">
-            <Brain size={24} className="text-white" />
+          <div className="w-12 h-12 bg-gradient-to-br from-brand-400 to-brand-600 rounded-2xl flex items-center justify-center shadow-xl shadow-brand-950/60">
+            <span className="text-gray-950 font-black text-base tracking-tight">AR</span>
           </div>
         </div>
         <h1 className="text-2xl font-bold text-white text-center mb-1">Welcome back</h1>
@@ -34,13 +34,25 @@ export default function Login() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1.5">Email</label>
-            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
-              className="input" placeholder="you@example.com" />
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="input"
+              placeholder="you@example.com"
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1.5">Password</label>
-            <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)}
-              className="input" placeholder="••••••••" />
+            <input
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="input"
+              placeholder="••••••••"
+            />
           </div>
           <button type="submit" disabled={isLoading} className="btn-primary w-full mt-2">
             {isLoading ? <Loader2 size={18} className="animate-spin" /> : 'Sign in'}
@@ -48,8 +60,10 @@ export default function Login() {
         </form>
 
         <p className="text-center text-sm text-gray-500 mt-6">
-          Don't have an account?{' '}
-          <Link to="/register" className="text-brand-400 hover:text-brand-300 font-medium">Create one free</Link>
+          Don&apos;t have an account?{' '}
+          <Link to="/register" className="text-brand-400 hover:text-brand-300 font-medium">
+            Create one free
+          </Link>
         </p>
       </div>
     </div>
