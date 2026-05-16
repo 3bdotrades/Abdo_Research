@@ -3,11 +3,11 @@ import { LayoutDashboard, BarChart3, Zap, CreditCard, Settings, LogOut } from 'l
 import useAuthStore from '../../store/authStore'
 
 const NAV = [
-  { to: '/dashboard', icon: LayoutDashboard, label: 'Overview', end: true },
-  { to: '/dashboard/portfolios', icon: BarChart3, label: 'Portfolio' },
-  { to: '/dashboard/recommendations', icon: Zap, label: 'Signals' },
-  { to: '/dashboard/billing', icon: CreditCard, label: 'Billing' },
-  { to: '/dashboard/settings', icon: Settings, label: 'Settings' },
+  { to: '/dashboard',                  icon: LayoutDashboard, label: 'نظرة عامة', end: true },
+  { to: '/dashboard/portfolios',       icon: BarChart3,        label: 'المحفظة' },
+  { to: '/dashboard/recommendations',  icon: Zap,              label: 'الإشارات' },
+  { to: '/dashboard/billing',          icon: CreditCard,       label: 'الفواتير' },
+  { to: '/dashboard/settings',         icon: Settings,         label: 'الإعدادات' },
 ]
 
 const PLAN_BADGE = {
@@ -21,12 +21,13 @@ export default function DashboardLayout() {
   const navigate = useNavigate()
 
   return (
-    <div className="flex min-h-screen">
+    /* Keep dashboard LTR — financial data is universally LTR */
+    <div className="flex min-h-screen" dir="ltr">
       <aside className="w-60 bg-gray-900 border-r border-gray-800 flex flex-col shrink-0">
         <div className="p-4 border-b border-gray-800">
           <Link to="/" className="flex items-center gap-2 font-bold text-white">
-            <div className="w-7 h-7 bg-gradient-to-br from-brand-400 to-brand-600 rounded-lg flex items-center justify-center">
-              <span className="text-gray-950 font-black text-xs">AR</span>
+            <div className="w-7 h-7 bg-gradient-to-br from-brand-400 to-brand-600 rounded-lg flex items-center justify-center shrink-0">
+              <span className="text-gray-950 font-black text-xs" style={{ fontFamily: 'Inter, sans-serif' }}>AR</span>
             </div>
             Abdo Research
           </Link>
@@ -34,10 +35,7 @@ export default function DashboardLayout() {
 
         <nav className="flex-1 p-3 space-y-0.5">
           {NAV.map(({ to, icon: Icon, label, end }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={end}
+            <NavLink key={to} to={to} end={end}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                   isActive
@@ -62,11 +60,9 @@ export default function DashboardLayout() {
               <span className={PLAN_BADGE[user?.plan || 'free']}>{user?.plan || 'free'}</span>
             </div>
           </div>
-          <button
-            onClick={() => { logout(); navigate('/') }}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-500 hover:text-white hover:bg-gray-800/60 transition-colors"
-          >
-            <LogOut size={16} /> Sign out
+          <button onClick={() => { logout(); navigate('/') }}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-500 hover:text-white hover:bg-gray-800/60 transition-colors">
+            <LogOut size={16} /> خروج
           </button>
         </div>
       </aside>

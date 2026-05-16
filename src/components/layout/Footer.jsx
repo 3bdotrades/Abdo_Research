@@ -23,95 +23,59 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
           <div className="col-span-2 md:col-span-1">
             <Link to="/" className="flex items-center gap-2 font-bold text-white mb-4">
-              <div className="w-7 h-7 bg-gradient-to-br from-brand-400 to-brand-600 rounded-lg flex items-center justify-center">
-                <span className="text-gray-950 font-black text-xs">AR</span>
+              <div className="w-7 h-7 bg-gradient-to-br from-brand-400 to-brand-600 rounded-lg flex items-center justify-center shrink-0">
+                <span style={{ direction: 'ltr', fontFamily: 'Inter, sans-serif' }} className="text-gray-950 font-black text-xs">AR</span>
               </div>
-              Abdo Research
+              أبدو ريسيرش
             </Link>
             <p className="text-gray-500 text-sm leading-relaxed mb-5">
-              AI-powered stock picking, real-time trading signals, and institutional-grade market research.
+              موديل ذكاء اصطناعي لاختيار الأسهم، إشارات تداول فورية، وتحليلات احترافية للسوق.
             </p>
             <div className="flex items-center gap-3">
-              <a
-                href="https://t.me/abdoresearch"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white text-xs font-medium transition-colors"
-              >
-                <TelegramIcon /> Telegram
+              <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white text-xs font-medium transition-colors">
+                <TelegramIcon /> تيليجرام
               </a>
-              <a
-                href="https://youtube.com/@abdoresearch"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white text-xs font-medium transition-colors"
-              >
-                <YoutubeIcon /> YouTube
+              <a href="https://youtube.com/@abdoresearch" target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white text-xs font-medium transition-colors">
+                <YoutubeIcon /> يوتيوب
               </a>
             </div>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-gray-200 mb-4">Platform</h4>
+            <h4 className="text-sm font-semibold text-gray-200 mb-4">المنصة</h4>
             <ul className="space-y-2.5">
-              {[
-                ['/fund', 'Performance'],
-                ['/signals', 'Signals'],
-                ['/research', 'Research'],
-                ['/pricing', 'Pricing'],
-              ].map(([to, label]) => (
-                <li key={to}>
-                  <Link to={to} className="text-sm text-gray-500 hover:text-white transition-colors">
-                    {label}
-                  </Link>
-                </li>
+              {[['/fund','الأداء'],['/signals','الإشارات'],['/research','البحوث'],['/pricing','الأسعار']].map(([to, label]) => (
+                <li key={to}><Link to={to} className="text-sm text-gray-500 hover:text-white transition-colors">{label}</Link></li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-gray-200 mb-4">Account</h4>
+            <h4 className="text-sm font-semibold text-gray-200 mb-4">الحساب</h4>
             <ul className="space-y-2.5">
-              {[
-                ['/login', 'Sign in'],
-                ['/register', 'Register'],
-                ['/dashboard', 'Dashboard'],
-                ['/blog', 'Blog'],
-              ].map(([to, label]) => (
-                <li key={to}>
-                  <Link to={to} className="text-sm text-gray-500 hover:text-white transition-colors">
-                    {label}
-                  </Link>
-                </li>
+              {[['/login','تسجيل الدخول'],['/register','إنشاء حساب'],['/dashboard','لوحة التحكم'],['/blog','المدونة']].map(([to, label]) => (
+                <li key={to}><Link to={to} className="text-sm text-gray-500 hover:text-white transition-colors">{label}</Link></li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-gray-200 mb-4">Legal</h4>
+            <h4 className="text-sm font-semibold text-gray-200 mb-4">قانوني</h4>
             <ul className="space-y-2.5">
-              {[
-                ['/risk-disclosure', 'Risk Disclosure'],
-                ['#', 'Privacy Policy'],
-                ['#', 'Terms of Service'],
-              ].map(([to, label]) => (
-                <li key={label}>
-                  <Link to={to} className="text-sm text-gray-500 hover:text-white transition-colors">
-                    {label}
-                  </Link>
-                </li>
+              {[['/risk-disclosure','إفصاح المخاطر'],['#','سياسة الخصوصية'],['#','الشروط والأحكام']].map(([to, label]) => (
+                <li key={label}><Link to={to} className="text-sm text-gray-500 hover:text-white transition-colors">{label}</Link></li>
               ))}
             </ul>
           </div>
         </div>
 
         <div className="mt-10 pt-6 border-t border-gray-800/80 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-gray-600 text-sm">&copy; {new Date().getFullYear()} Abdo Research. All rights reserved.</p>
+          <p className="text-gray-600 text-sm">جميع الحقوق محفوظة &copy; {new Date().getFullYear()} أبدو ريسيرش</p>
           <p className="text-gray-600 text-xs text-center">
-            Trading signals are for informational purposes only.{' '}
-            <Link to="/risk-disclosure" className="text-brand-500 hover:underline">
-              See Risk Disclosure.
-            </Link>
+            إشارات التداول لأغراض معلوماتية فقط.{' '}
+            <Link to="/risk-disclosure" className="text-brand-500 hover:underline">إفصاح المخاطر</Link>
           </p>
         </div>
       </div>

@@ -11,69 +11,81 @@ function TelegramIcon() {
 
 const PLANS = [
   {
-    name: 'Basic',
+    name: 'أساسي',
+    nameEn: 'Basic',
     icon: User,
     price: '$0',
-    period: '/month',
-    desc: 'Perfect for traders exploring our signals.',
+    period: '/شهر',
+    desc: 'مثالي للمتداولين الجدد اللي يريدون يجربون الإشارات.',
     badge: null,
     features: [
-      'Signal preview (24h delayed)',
-      '2 free research reports/month',
-      'Portfolio performance tracking',
-      'Weekly market newsletter',
-      'YouTube research access',
-      'No credit card required',
+      'معاينة الإشارات (متأخر 24 ساعة)',
+      'تقريران مجانيان شهرياً',
+      'متابعة أداء المحفظة',
+      'النشرة الأسبوعية للسوق',
+      'وصول يوتيوب مجاني',
+      'بدون بطاقة ائتمان',
     ],
-    cta: 'Get started free',
+    cta: 'ابدأ مجاناً',
     ctaTo: '/register',
     ctaClass: 'btn-secondary',
     highlight: false,
   },
   {
-    name: 'Pro',
+    name: 'احترافي',
+    nameEn: 'Pro',
     icon: Zap,
     price: '$99',
-    period: '/month',
-    desc: 'For active traders who need real-time signals.',
-    badge: 'Most Popular',
+    period: '/شهر',
+    desc: 'للمتداولين النشطين اللي يريدون إشارات مباشرة.',
+    badge: 'الأكثر طلباً',
     features: [
-      'Everything in Basic, plus:',
-      'Real-time trading signals (live)',
-      'Telegram alerts — instant delivery',
-      'Unlimited research reports',
-      'Premium sector analysis',
-      'Signal history & analytics',
-      'Priority email support',
-      'Signal backtesting data',
+      'كل ما في الأساسي، بالإضافة إلى:',
+      'إشارات تداول مباشرة (فورية)',
+      'تنبيهات فورية على تيليجرام',
+      'وصول غير محدود لتقارير البحث',
+      'تقارير قطاعية متميزة',
+      'سجل الإشارات والتحليلات',
+      'دعم بريد إلكتروني مميز',
+      'بيانات الاختبار التاريخي',
     ],
-    cta: 'Subscribe now',
+    cta: 'اشترك الآن',
     ctaClass: 'btn-primary',
     highlight: true,
     whopPlan: 'pro',
   },
   {
     name: 'VIP+',
+    nameEn: 'VIP+',
     icon: Building2,
     price: '$299',
-    period: '/month',
-    desc: 'For professional traders and fund managers.',
+    period: '/شهر',
+    desc: 'للمتداولين المحترفين ومديري المحافظ.',
     badge: null,
     features: [
-      'Everything in Pro, plus:',
-      'Advanced signal filtering',
-      'Custom strategy templates',
-      'Exclusive research & trade ideas',
-      'Direct analyst access (Slack)',
-      'Private monthly strategy calls',
-      'API access for integration',
-      'Dedicated account manager',
+      'كل ما في الاحترافي، بالإضافة إلى:',
+      'فلترة متقدمة للإشارات',
+      'قوالب استراتيجيات مخصصة',
+      'بحوث وأفكار تداول حصرية',
+      'وصول مباشر لفريق التحليل (Slack)',
+      'جلسات استراتيجية شهرية خاصة',
+      'وصول API للتكامل',
+      'مدير حساب مخصص',
     ],
-    cta: 'Subscribe now',
+    cta: 'اشترك الآن',
     ctaClass: 'btn-primary',
     highlight: false,
     whopPlan: 'vip',
   },
+]
+
+const FAQ = [
+  ['هل يمكنني الإلغاء في أي وقت؟', 'نعم. إلغاء بنقرة واحدة في أي وقت. بدون أي ترابط. الباقات الاحترافية تشمل ضمان استرداد المال خلال 30 يوماً.'],
+  ['كيف تصلني الإشارات؟', 'فور صدور الإشارة تصلك على تيليجرام مباشرة. كل إشارة فيها سعر الدخول والهدف ووقف الخسارة ونسبة الثقة.'],
+  ['هل فيه تجربة مجانية؟', 'نعم — الباقة الأساسية مجانية للأبد. تحصل على معاينة الإشارات المتأخرة (24 ساعة) وتقريرين شهرياً لتقييم الجودة قبل الترقية.'],
+  ['كيف تُولَّد الإشارات؟', 'موديل ذكاء اصطناعي يحلل حركة الأسعار والحجم والزخم والعوامل الاقتصادية. كل إشارة مصنفة حسب درجة الثقة مع سياق السوق الكامل.'],
+  ['هل يمكنني تتبع أدائي؟', 'نعم. لوحة التحكم تشمل سجل الإشارات الكامل وتتبع نسبة النجاح وتحليل الأرباح والخسائر ومقارنة بأداء محفظتنا.'],
+  ['ما الأسواق التي تغطونها؟', 'أسهم أمريكية، استراتيجيات أوبشنز، وكريبتو مختار. كل الفئات في نفس القناة ولوحة التحكم.'],
 ]
 
 export default function Pricing() {
@@ -89,12 +101,12 @@ export default function Pricing() {
     <div className="py-24 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-white mb-4">Simple, transparent pricing</h1>
+          <h1 className="text-5xl font-bold text-white mb-4">أسعار واضحة وشفافة</h1>
           <p className="text-gray-400 text-xl max-w-xl mx-auto">
-            Get professional trading signals and market research. Choose the plan that fits your trading style.
+            إشارات تداول احترافية وبحوث السوق. اختر الباقة المناسبة لأسلوبك في التداول.
           </p>
           <p className="text-sm text-gray-500 mt-3">
-            Secure payments via Whop. Cancel anytime. 30-day money-back guarantee on Pro &amp; VIP+.
+            دفع آمن عبر Whop. إلغاء في أي وقت. ضمان استرداد المال 30 يوماً.
           </p>
         </div>
 
@@ -102,8 +114,7 @@ export default function Pricing() {
           {PLANS.map((plan) => {
             const Icon = plan.icon
             return (
-              <div
-                key={plan.name}
+              <div key={plan.name}
                 className={`relative rounded-2xl p-8 border flex flex-col ${
                   plan.highlight
                     ? 'bg-gradient-to-b from-brand-950/60 to-gray-900 border-brand-700/60 shadow-xl shadow-brand-950/40'
@@ -112,27 +123,23 @@ export default function Pricing() {
               >
                 {plan.badge && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                    <span className="px-4 py-1 rounded-full bg-brand-600 text-white text-xs font-bold shadow-lg">
-                      {plan.badge}
-                    </span>
+                    <span className="px-4 py-1 rounded-full bg-brand-600 text-white text-xs font-bold shadow-lg">{plan.badge}</span>
                   </div>
                 )}
-
                 <div className="flex items-center gap-3 mb-4">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                    plan.highlight ? 'bg-brand-600' : 'bg-gray-800'
-                  }`}>
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${plan.highlight ? 'bg-brand-600' : 'bg-gray-800'}`}>
                     <Icon size={19} className={plan.highlight ? 'text-white' : 'text-gray-400'} />
                   </div>
-                  <h2 className="text-xl font-bold text-white">{plan.name}</h2>
+                  <div>
+                    <h2 className="text-xl font-bold text-white">{plan.name}</h2>
+                    <span className="text-xs text-gray-500">{plan.nameEn}</span>
+                  </div>
                 </div>
-
-                <div className="mb-2">
+                <div className="mb-2" style={{ direction: 'ltr', textAlign: 'right' }}>
                   <span className="text-4xl font-extrabold text-white">{plan.price}</span>
                   <span className="text-gray-400 text-sm">{plan.period}</span>
                 </div>
                 <p className="text-gray-400 text-sm mb-6">{plan.desc}</p>
-
                 <ul className="space-y-3 mb-8 flex-1">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-2.5 text-sm text-gray-300">
@@ -141,58 +148,36 @@ export default function Pricing() {
                     </li>
                   ))}
                 </ul>
-
                 {plan.whopPlan ? (
-                  <button
-                    onClick={() => handleCheckout(plan.whopPlan)}
-                    className={`${plan.ctaClass} w-full`}
-                  >
-                    {plan.cta}
-                  </button>
+                  <button onClick={() => handleCheckout(plan.whopPlan)} className={`${plan.ctaClass} w-full`}>{plan.cta}</button>
                 ) : plan.ctaTo ? (
-                  <Link to={plan.ctaTo} className={`${plan.ctaClass} w-full`}>
-                    {plan.cta}
-                  </Link>
+                  <Link to={plan.ctaTo} className={`${plan.ctaClass} w-full`}>{plan.cta}</Link>
                 ) : (
-                  <a href="mailto:contact@abdoresearch.com" className={`${plan.ctaClass} w-full`}>
-                    {plan.cta}
-                  </a>
+                  <a href="mailto:contact@abdoresearch.com" className={`${plan.ctaClass} w-full`}>{plan.cta}</a>
                 )}
               </div>
             )
           })}
         </div>
 
-        {/* Telegram note */}
         <div className="mt-10 max-w-5xl mx-auto text-center card border-brand-900/30 bg-brand-950/20 py-6">
           <p className="text-gray-300 text-sm">
-            Already a subscriber?{' '}
-            <a
-              href="https://t.me/abdoresearch"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-brand-400 hover:underline inline-flex items-center gap-1"
-            >
-              <TelegramIcon /> Join our Telegram channel
+            مشترك بالفعل؟{' '}
+            <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer"
+              className="text-brand-400 hover:underline inline-flex items-center gap-1">
+              <TelegramIcon /> انضم لقناتنا على تيليجرام
             </a>{' '}
-            to get signals and access the community.
+            للحصول على الإشارات والوصول للمجتمع.
           </p>
         </div>
 
         {/* FAQ */}
         <div className="mt-20 max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold text-white text-center mb-10">Frequently asked questions</h2>
+          <h2 className="text-3xl font-bold text-white text-center mb-10">أسئلة شائعة</h2>
           <div className="space-y-4">
-            {[
-              ['Can I cancel anytime?', 'Yes. Cancel with one click from your account. No lock-in. Pro & VIP+ include a 30-day money-back guarantee.'],
-              ['How are signals delivered?', 'Real-time via Telegram push notification and on your Pro dashboard. Each signal includes entry, target, stop loss, and confidence score.'],
-              ['Is there a free trial?', 'Yes — the Basic plan is free forever. You get delayed signal previews and 2 research reports/month to evaluate the quality before upgrading.'],
-              ['How are signals generated?', 'Our proprietary AI model analyzes price action, volume, momentum, and macro factors. Each signal is scored for confidence and includes full trade context.'],
-              ['Can I track my performance?', 'Yes. Your Pro/VIP+ dashboard shows full signal history, win rate, P&L analysis, and comparison against our portfolio returns.'],
-              ['What markets do you cover?', 'US equities, options strategies, and select crypto setups. All asset classes covered in the same channel and dashboard.'],
-            ].map(([q, a]) => (
+            {FAQ.map(([q, a]) => (
               <div key={q} className="card">
-                <h3 className="font-semibold text-white mb-2">{q}</h3>
+                <h3 className="font-bold text-white mb-2">{q}</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">{a}</p>
               </div>
             ))}
@@ -200,8 +185,9 @@ export default function Pricing() {
         </div>
 
         <p className="text-center text-xs text-gray-600 mt-12">
-          Trading involves risk. Review our{' '}
-          <Link to="/risk-disclosure" className="text-brand-500 hover:underline">Risk Disclosure</Link> before subscribing.
+          التداول ينطوي على مخاطر. راجع{' '}
+          <Link to="/risk-disclosure" className="text-brand-500 hover:underline">إفصاح المخاطر</Link>{' '}
+          قبل الاشتراك.
         </p>
       </div>
     </div>
