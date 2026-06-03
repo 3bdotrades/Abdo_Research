@@ -2506,7 +2506,7 @@ footer {
 
 .hero-inst-grid {
   display: grid;
-  grid-template-columns: 58% 42%;
+  grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.72fr);
   gap: 56px;
   align-items: center;
   width: 100%;
@@ -2520,20 +2520,21 @@ footer {
 
 /* CrackingMarkets: very large headline, strong typographic hierarchy */
 .hero-inst-headline {
-  font-size: 4rem;
+  font-size: 3.85rem;
   font-weight: 900;
-  line-height: 1.08;
+  line-height: 1.12;
   color: #ffffff;
   margin-top: 20px;
   margin-bottom: 18px;
-  letter-spacing: -1.5px;
+  letter-spacing: 0;
+  max-width: 760px;
 }
 
 .hero-inst-sub {
   color: var(--text-muted);
   font-size: 1.05rem;
   line-height: 1.7;
-  max-width: 500px;
+  max-width: 650px;
   margin-bottom: 36px;
 }
 
@@ -2588,99 +2589,59 @@ footer {
   flex-direction: column;
 }
 
-.hero-terminal-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
+.hero-method-card {
+  background: linear-gradient(180deg, rgba(13, 16, 24, 0.94), rgba(8, 10, 15, 0.98));
+  border: 1px solid var(--border-gold);
   border-radius: var(--border-radius-md);
-  overflow: hidden;
+  padding: 30px;
   box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
-.terminal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--border-color);
-  background: rgba(255,255,255,0.025);
-}
-
-.terminal-title-group {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.terminal-label {
-  font-family: 'Cairo', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 1.5px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-}
-
-.terminal-live-badge {
-  background: rgba(212, 175, 55, 0.12);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+.hero-method-kicker {
+  display: inline-flex;
   color: var(--primary);
-  font-size: 0.6rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  padding: 2px 7px;
-  border-radius: 3px;
   font-family: 'Cairo', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  margin-bottom: 14px;
 }
 
-.terminal-mkt {
-  font-size: 0.6rem;
-  color: var(--text-subtle);
-  letter-spacing: 1px;
-  font-family: 'Cairo', sans-serif;
+.hero-method-card h2 {
+  color: #ffffff;
+  font-size: 1.45rem;
+  line-height: 1.55;
+  margin: 0 0 22px;
+  font-weight: 900;
+  letter-spacing: 0;
 }
 
-.terminal-chart-area {
-  height: 170px;
-  background: var(--bg-primary);
-  position: relative;
-  overflow: hidden;
-}
-
-.terminal-stats-row {
+.hero-method-list {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.hero-method-item {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding: 14px 0;
   border-top: 1px solid var(--border-color);
 }
 
-.terminal-stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 12px 8px;
-  border-left: 1px solid var(--border-color);
-  gap: 3px;
-}
-
-.terminal-stat:last-child {
-  border-left: none;
-}
-
-.ts-label {
-  font-size: 0.58rem;
-  letter-spacing: 1px;
-  color: var(--text-subtle);
-  text-transform: uppercase;
-  font-family: 'Cairo', sans-serif;
-}
-
-.ts-val {
-  font-family: 'Cairo', sans-serif;
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.ts-active {
+.hero-method-item span {
   color: var(--primary);
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.hero-method-item p {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.75;
 }
 
 .pillars-section {
@@ -3633,11 +3594,6 @@ html {
   z-index: 1;
 }
 
-/* 5. Terminal card premium glow */
-.hero-terminal-card {
-  box-shadow: 0 0 60px rgba(212, 175, 55, 0.08), 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
 /* 6. Schedule CTA section background enhancement */
 #schedule .schedule-cta-block {
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.06) 0%, var(--bg-card) 50%, rgba(212, 175, 55, 0.03) 100%);
@@ -3709,17 +3665,6 @@ html {
   transition: width 0.1s linear;
   pointer-events: none;
   box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
-}
-
-/* --- 7. Hero Terminal Card entrance animation --- */
-.hero-terminal-card {
-  opacity: 0;
-  transform: translateX(40px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.hero-terminal-card.terminal-visible {
-  opacity: 1;
-  transform: translateX(0);
 }
 
 /* --- 3. Stagger reveal — children start hidden --- */
@@ -5080,6 +5025,72 @@ html, body {
   }
   .hero-markets-sep {
     display: none;
+  }
+}
+
+/* Final hero polish */
+.hero-section-inst {
+  max-width: 1200px;
+}
+
+.hero-inst-grid {
+  grid-template-columns: minmax(0, 1.12fr) minmax(360px, 0.78fr);
+}
+
+.hero-eyebrow {
+  letter-spacing: 0;
+}
+
+.hero-markets-strip,
+.hero-media-strip {
+  flex-wrap: wrap;
+  border-color: rgba(212, 175, 55, 0.18);
+  background: rgba(13, 16, 24, 0.72);
+}
+
+.hero-markets-strip span:not(.hero-markets-sep),
+.hero-media-logo {
+  color: #d7dce5;
+}
+
+.hero-media-label {
+  color: var(--primary);
+  font-weight: 900;
+}
+
+.hero-method-card {
+  min-height: 100%;
+}
+
+@media (max-width: 1024px) {
+  .hero-inst-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-inst-right {
+    display: block;
+  }
+
+  .hero-method-card {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-inst-right {
+    display: block;
+  }
+
+  .hero-method-card {
+    padding: 22px;
+  }
+
+  .hero-method-card h2 {
+    font-size: 1.18rem;
+  }
+
+  .hero-method-item {
+    grid-template-columns: 36px minmax(0, 1fr);
   }
 }
 

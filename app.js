@@ -1457,59 +1457,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function renderHeroMiniChart() {
-    const svg = document.getElementById('hero-equity-svg');
-    if (!svg) return;
-    svg.innerHTML = '';
-    const W = 380, H = 160;
-    const pts = [0, 4, 2, 8, 6, 14, 11, 18, 15, 22, 19, 28, 24, 34, 30, 38, 35, 44, 40, 50, 46, 56, 52, 62, 58, 68, 64, 74, 70, 80, 77, 86, 83, 92, 89, 97, 94, 100];
-    const bm = [0, 1, 0, 3, 2, 5, 4, 7, 5, 8, 7, 10, 8, 12, 10, 14, 12, 15, 13, 17, 14, 18, 15, 20, 16, 21, 18, 23, 19, 25, 21, 27, 22, 28, 24, 29, 25, 30];
-    const n = pts.length;
-    const pad = { t: 12, r: 8, b: 12, l: 8 };
-    const uw = W - pad.l - pad.r;
-    const uh = H - pad.t - pad.b;
-    const maxV = Math.max(...pts) * 1.08;
-    const minV = 0;
-    const vr = maxV - minV;
-    const gx = (i) => pad.l + (i / (n - 1)) * uw;
-    const gy = (v) => pad.t + uh - ((v - minV) / vr) * uh;
-
-    const defGrad = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-    defGrad.innerHTML = `<linearGradient id="heroGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D4AF37" stop-opacity="0.25"/><stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/></linearGradient>`;
-    svg.appendChild(defGrad);
-
-    const areaPath = pts.map((v, i) => `${i === 0 ? 'M' : 'L'}${gx(i)},${gy(v)}`).join(' ') + ` L${gx(n-1)},${gy(minV)} L${gx(0)},${gy(minV)} Z`;
-    const area = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    area.setAttribute('d', areaPath);
-    area.setAttribute('fill', 'url(#heroGrad)');
-    svg.appendChild(area);
-
-    const bmLine = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-    bmLine.setAttribute('points', bm.map((v, i) => `${gx(i)},${gy(v)}`).join(' '));
-    bmLine.setAttribute('fill', 'none');
-    bmLine.setAttribute('stroke', 'rgba(255,255,255,0.12)');
-    bmLine.setAttribute('stroke-width', '1.5');
-    svg.appendChild(bmLine);
-
-    const modelLine = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-    modelLine.setAttribute('points', pts.map((v, i) => `${gx(i)},${gy(v)}`).join(' '));
-    modelLine.setAttribute('fill', 'none');
-    modelLine.setAttribute('stroke', '#D4AF37');
-    modelLine.setAttribute('stroke-width', '2');
-    svg.appendChild(modelLine);
-
-    const lastX = gx(n - 1);
-    const lastY = gy(pts[n - 1]);
-    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    dot.setAttribute('cx', lastX);
-    dot.setAttribute('cy', lastY);
-    dot.setAttribute('r', '4');
-    dot.setAttribute('fill', '#D4AF37');
-    svg.appendChild(dot);
-  }
-
-  renderHeroMiniChart();
-
   // =========================================
   // PREMIUM ANIMATIONS & MICRO-INTERACTIONS
   // =========================================
@@ -1574,25 +1521,6 @@ document.addEventListener('DOMContentLoaded', () => {
     bloombergObserver.observe(bloombergStripEl);
   }
 
-  // --- 2. Terminal typing effect ---
-  const terminalLabel = document.querySelector('.terminal-label');
-  if (terminalLabel) {
-    const fullText = terminalLabel.textContent;
-    terminalLabel.textContent = '';
-    terminalLabel.style.minWidth = '0';
-    let charIndex = 0;
-    setTimeout(() => {
-      const typeInterval = setInterval(() => {
-        if (charIndex < fullText.length) {
-          terminalLabel.textContent += fullText[charIndex];
-          charIndex++;
-        } else {
-          clearInterval(typeInterval);
-        }
-      }, 50);
-    }, 600);
-  }
-
   // --- 3. Staggered reveal for stagger-children containers ---
   const staggerObserver = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
@@ -1611,14 +1539,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.stagger-children').forEach(el => {
     staggerObserver.observe(el);
   });
-
-  // --- 7. Hero terminal card entrance animation ---
-  const heroTerminalCard = document.querySelector('.hero-terminal-card');
-  if (heroTerminalCard) {
-    setTimeout(() => {
-      heroTerminalCard.classList.add('terminal-visible');
-    }, 400);
-  }
 
   // --- 8. Page load progress bar ---
   const progressBar = document.getElementById('page-progress-bar');
