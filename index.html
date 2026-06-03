@@ -1015,8 +1015,7 @@
           <label for="login-password">كلمة المرور</label>
           <input id="login-password" name="password" type="password" placeholder="أدخل كلمة المرور" class="auth-input" autocomplete="current-password" required>
         </div>
-        <button id="submit-login-btn" class="auth-submit-btn">الدخول للوحة التحكم</button>
-        <p id="auth-message" class="auth-message" role="status" aria-live="polite"></p>
+        <button id="submit-login-btn" type="button" class="auth-submit-btn">الدخول للوحة التحكم</button>
         <p class="auth-switch-text">ليس لديك حساب؟ <a href="#" id="switch-to-signup">أنشئ حساباً جديداً</a></p>
       </div>
 
@@ -1035,9 +1034,10 @@
           <label for="signup-password">كلمة المرور</label>
           <input id="signup-password" name="password" type="password" placeholder="كلمة المرور قوية" class="auth-input" autocomplete="new-password" minlength="8" required>
         </div>
-        <button id="submit-signup-btn" class="auth-submit-btn">إنشاء الحساب</button>
+        <button id="submit-signup-btn" type="button" class="auth-submit-btn">إنشاء الحساب</button>
         <p class="auth-switch-text">لديك حساب بالفعل؟ <a href="#" id="switch-to-login">تسجيل الدخول</a></p>
       </div>
+      <p id="auth-message" class="auth-message" role="status" aria-live="polite"></p>
     </div>
   </div>
 
