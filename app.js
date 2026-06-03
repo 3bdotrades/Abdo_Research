@@ -1261,6 +1261,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const submitLoginBtn = document.getElementById('submit-login-btn');
   const submitSignupBtn = document.getElementById('submit-signup-btn');
+  const resendConfirmationBtn = document.getElementById('resend-confirmation-btn');
   const loginEmailInput = document.getElementById('login-email');
   const loginPasswordInput = document.getElementById('login-password');
   const signupNameInput = document.getElementById('signup-name');
@@ -1270,6 +1271,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (authModalOverlay) {
     let lastAuthTrigger = null;
+    let pendingSignupEmail = '';
 
     const setAuthMessage = (message, type = '') => {
       if (!authMessage) return;
@@ -1278,12 +1280,20 @@ document.addEventListener('DOMContentLoaded', () => {
       if (type) authMessage.classList.add(`is-${type}`);
     };
 
+    const setResendVisible = (visible) => {
+      if (resendConfirmationBtn) {
+        resendConfirmationBtn.style.display = visible ? 'block' : 'none';
+      }
+    };
+
     const authErrorMessage = (error) => {
       const rawMessage = (error && error.message) ? error.message : '';
       const message = rawMessage.toLowerCase();
       if (message.includes('invalid login')) return 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
       if (message.includes('email not confirmed')) return 'يرجى تأكيد بريدك الإلكتروني قبل تسجيل الدخول.';
       if (message.includes('already registered') || message.includes('already exists')) return 'هذا البريد مسجل بالفعل. جرّب تسجيل الدخول.';
+      if (message.includes('email address not authorized')) return 'إرسال البريد غير مفعّل لهذا العنوان. فعّل SMTP مخصص من إعدادات Supabase لإرسال رسائل التأكيد لكل المستخدمين.';
+      if (message.includes('rate limit') || message.includes('too many') || message.includes('security purposes')) return 'تم الوصول لحد إرسال رسائل التأكيد. انتظر قليلاً ثم جرّب إعادة الإرسال، أو فعّل SMTP مخصص في Supabase.';
       if (message.includes('password')) return 'كلمة المرور يجب أن تكون 8 أحرف على الأقل.';
       return rawMessage || 'حدث خطأ غير متوقع. حاول مرة أخرى.';
     };
@@ -1314,6 +1324,7 @@ document.addEventListener('DOMContentLoaded', () => {
       signupFormView.style.display = view === 'signup' ? 'block' : 'none';
       authModalOverlay.style.display = 'flex';
       setAuthMessage('');
+      setResendVisible(false);
       focusActiveAuthInput();
     };
 
@@ -1363,6 +1374,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loginFormView.style.display = 'none';
         signupFormView.style.display = 'block';
         setAuthMessage('');
+        setResendVisible(false);
         focusActiveAuthInput();
       });
     }
@@ -1373,6 +1385,7 @@ document.addEventListener('DOMContentLoaded', () => {
         signupFormView.style.display = 'none';
         loginFormView.style.display = 'block';
         setAuthMessage('');
+        setResendVisible(false);
         focusActiveAuthInput();
       });
     }
@@ -1410,6 +1423,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const name = signupNameInput.value.trim();
       const email = signupEmailInput.value.trim();
       const password = signupPasswordInput.value;
+      setResendVisible(false);
       if (!name || !email || !password) {
         setAuthMessage('أكمل الاسم والبريد الإلكتروني وكلمة المرور.', 'error');
         return;
@@ -1428,7 +1442,37 @@ document.addEventListener('DOMContentLoaded', () => {
           window.location.href = window.AbdoAuth.dashboardUrl();
           return;
         }
-        setAuthMessage('تم إنشاء الحساب. افتح بريدك الإلكتروني واضغط رابط التأكيد لتفعيل الدخول.', 'success');
+        pendingSignupEmail = email;
+        setResendVisible(true);
+        const user = result.data && result.data.user;
+        const identities = user && Array.isArray(user.identities) ? user.identities : null;
+        if (identities && identities.length === 0) {
+          setAuthMessage('هذا البريد قد يكون مسجلاً بالفعل. جرّب تسجيل الدخول، أو أعد إرسال رابط التأكيد إذا لم يكن الحساب مفعلاً.', 'success');
+          return;
+        }
+        setAuthMessage('تم إنشاء الحساب. أرسلنا رابط التأكيد إلى بريدك، افحص الوارد والرسائل غير المرغوبة. يمكنك إعادة الإرسال بعد دقيقة.', 'success');
+      } catch (error) {
+        setAuthMessage(authErrorMessage(error), 'error');
+      } finally {
+        setButtonLoading(btn, false);
+      }
+    };
+
+    const handleResendConfirmation = async (btn) => {
+      if (!ensureAuthConfigured()) return;
+      const email = signupEmailInput.value.trim() || pendingSignupEmail;
+      if (!email) {
+        setAuthMessage('اكتب البريد الإلكتروني أولاً لإعادة إرسال رابط التأكيد.', 'error');
+        return;
+      }
+
+      setButtonLoading(btn, true, 'جاري إعادة الإرسال...');
+      setAuthMessage('');
+      try {
+        const result = await window.AbdoAuth.resendSignup({ email });
+        if (result.error) throw result.error;
+        pendingSignupEmail = email;
+        setAuthMessage('أرسلنا رابط تأكيد جديد. افحص الوارد والرسائل غير المرغوبة خلال دقائق قليلة.', 'success');
       } catch (error) {
         setAuthMessage(authErrorMessage(error), 'error');
       } finally {
@@ -1441,6 +1485,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (submitSignupBtn) {
       submitSignupBtn.addEventListener('click', () => handleSignup(submitSignupBtn));
+    }
+    if (resendConfirmationBtn) {
+      resendConfirmationBtn.addEventListener('click', () => handleResendConfirmation(resendConfirmationBtn));
     }
 
     const authParams = new URLSearchParams(window.location.search);

@@ -16,12 +16,16 @@ The production entry point is `index.html`. The member area is available at `/da
 1. Create a Supabase project.
 2. Open the Supabase SQL editor and run `supabase.sql`.
 3. In Supabase Auth settings, keep email confirmations enabled.
-4. Add these redirect URLs in Supabase Auth URL settings:
+4. Set the Supabase Auth Site URL to `https://abdo-research.vercel.app`.
+5. Add these redirect URLs in Supabase Auth URL settings:
    - `https://abdo-research.vercel.app/dashboard`
    - `http://127.0.0.1:4173/dashboard`
-5. Copy the project URL and anon public key into `auth-config.js`.
+6. Configure a custom SMTP provider in Supabase Auth SMTP settings for production email delivery.
+7. Copy the project URL and anon public key into `auth-config.js`.
 
 After this, signup creates a Supabase Auth user, sends the confirmation email, and creates/updates a protected `profiles` row.
+
+Supabase's built-in email provider is only suitable for testing and can be blocked by authorization/rate-limit rules. Production signup confirmations should use custom SMTP, then Auth logs and the email provider logs should be checked if a message is not delivered.
 
 ## Local Preview
 

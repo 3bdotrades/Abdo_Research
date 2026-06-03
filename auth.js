@@ -60,6 +60,18 @@
     });
   }
 
+  async function resendSignup(payload) {
+    var supabaseClient = getClient();
+    if (!supabaseClient) throw new Error("Supabase is not configured yet.");
+    return supabaseClient.auth.resend({
+      type: "signup",
+      email: payload.email,
+      options: {
+        emailRedirectTo: dashboardUrl()
+      }
+    });
+  }
+
   async function signOut() {
     var supabaseClient = getClient();
     if (!supabaseClient) return;
@@ -94,6 +106,7 @@
     getClient: getClient,
     getSession: getSession,
     isConfigured: isConfigured,
+    resendSignup: resendSignup,
     requireSession: requireSession,
     signIn: signIn,
     signOut: signOut,
