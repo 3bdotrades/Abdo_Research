@@ -1,0 +1,2428 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.youtube.com">
+  <link rel="dns-prefetch" href="https://www.youtube-nocookie.com">
+  <meta name="theme-color" content="#D4AF37">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم | أبحاث كمية</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Reuse all existing CSS variables, fonts, and components -->
+  <link rel="stylesheet" href="index.css">
+
+  <style>
+    /* =============================================
+       Dashboard Layout — members area
+       All CSS variables and font imports come from
+       index.css — this block adds dashboard-only styles
+       ============================================= */
+
+    /* Reset body for dashboard full-height flex layout */
+    body.db-body {
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-color: var(--bg-primary);
+      /* override index.css section padding */
+      padding: 0;
+      margin: 0;
+    }
+
+    /* ===== Sidebar ===== */
+    .db-sidebar {
+      width: 260px;
+      min-width: 260px;
+      background: var(--bg-secondary);
+      border-left: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      overflow-y: auto;
+      z-index: 200;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    /* Logo row */
+    .db-sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 22px 20px 20px 20px;
+      border-bottom: 1px solid var(--border-color);
+      text-decoration: none;
+    }
+
+    .db-logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--primary);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .db-logo-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: #050608;
+      stroke-width: 2.5;
+    }
+
+    .db-logo-text {
+      font-family: 'Cairo', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.02em;
+    }
+
+    .db-logo-badge {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background: rgba(212,175,55,0.1);
+      border: 1px solid var(--border-gold);
+      color: var(--primary);
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin-right: 4px;
+    }
+
+    /* Navigation */
+    .db-nav {
+      flex: 1;
+      padding: 16px 12px;
+    }
+
+    .db-nav-section-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+      font-family: 'Cairo', sans-serif;
+      padding: 0 10px;
+      margin: 16px 0 8px 0;
+      display: block;
+    }
+
+    .db-nav ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 0;
+      margin: 0;
+    }
+
+    .db-nav-item a {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 11px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .db-nav-item a:hover {
+      background: rgba(255,255,255,0.04);
+      color: #ffffff;
+    }
+
+    .db-nav-item a.active {
+      background: rgba(212,175,55,0.07);
+      color: var(--primary);
+      border-color: rgba(212,175,55,0.14);
+      border-right: 3px solid var(--primary);
+      padding-right: 9px; /* compensate so text doesn't shift */
+    }
+
+    .db-nav-icon {
+      width: 17px;
+      height: 17px;
+      min-width: 17px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+    }
+
+    /* Lock icon pushed to start (right side in RTL = margin-left auto) */
+    .db-nav-lock {
+      margin-right: auto;
+      width: 13px;
+      height: 13px;
+      stroke: var(--text-subtle);
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0;
+    }
+
+    .db-nav-premium-pill {
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      background: rgba(212,175,55,0.12);
+      border: 1px solid rgba(212,175,55,0.25);
+      color: var(--primary);
+      padding: 2px 7px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    /* Sidebar footer: user card + logout */
+    .db-sidebar-footer {
+      border-top: 1px solid var(--border-color);
+      padding: 16px 12px;
+    }
+
+    .db-user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-color);
+      margin-bottom: 10px;
+    }
+
+    .db-user-avatar {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary) 0%, #a07e20 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: #050608;
+    }
+
+    .db-user-info {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .db-user-name {
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .db-user-tier {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--primary);
+      font-family: 'Cairo', sans-serif;
+    }
+
+    .db-logout-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid rgba(239,68,68,0.2);
+      color: rgba(239,68,68,0.7);
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 700;
+      font-size: 0.83rem;
+      padding: 9px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .db-logout-btn:hover {
+      background: rgba(239,68,68,0.06);
+      border-color: rgba(239,68,68,0.5);
+      color: #ef4444;
+    }
+
+    .db-logout-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* ===== Mobile sidebar toggle — top-right, gold accent ===== */
+    .db-mobile-toggle {
+      display: none;
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 500;
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      color: var(--primary);
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.15rem;
+      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 2px 12px rgba(212,175,55,0.12);
+    }
+
+    .db-mobile-toggle:hover {
+      background: rgba(212,175,55,0.08);
+      border-color: var(--primary);
+      box-shadow: 0 4px 16px rgba(212,175,55,0.2);
+    }
+
+    /* Sidebar backdrop overlay */
+    .db-sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(5,6,8,0.72);
+      z-index: 190;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    /* ===== Main content ===== */
+    .db-main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      background: var(--bg-primary);
+    }
+
+    /* Sticky top header bar */
+    .db-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 32px;
+      border-bottom: 2px solid rgba(212,175,55,0.22);
+      background: rgba(5,6,8,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      gap: 20px;
+    }
+
+    .db-topbar-welcome h2 {
+      font-family: 'Cairo', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 2px;
+      letter-spacing: -0.2px;
+    }
+
+    /* Date text: smaller + muted */
+    .db-topbar-welcome p {
+      font-size: 0.8rem;
+      color: var(--text-subtle);
+    }
+
+    /* Breadcrumb below greeting */
+    .db-breadcrumb {
+      font-size: 0.7rem;
+      color: var(--text-subtle);
+      font-family: 'Cairo', sans-serif;
+      margin-top: 3px;
+      letter-spacing: 0.01em;
+    }
+
+    .db-topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .db-notif-btn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+    }
+
+    .db-notif-btn:hover {
+      border-color: var(--border-gold);
+    }
+
+    .db-notif-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--text-muted);
+      fill: none;
+      stroke-width: 1.8;
+    }
+
+    .db-notif-dot {
+      position: absolute;
+      top: 7px;
+      left: 8px;
+      width: 7px;
+      height: 7px;
+      background: var(--primary);
+      border-radius: 50%;
+      border: 1.5px solid var(--bg-primary);
+    }
+
+    /* ===== Dashboard content wrapper ===== */
+    .db-content {
+      padding: 26px 32px 48px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ===== KPI Cards ===== */
+    .db-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .db-kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-top: 2px solid var(--primary);
+      border-radius: var(--border-radius-md);
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.22s ease, box-shadow 0.22s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle top-right gold gradient shimmer under the 2px border */
+    .db-kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 2px;
+      right: 0;
+      width: 55%;
+      height: 1px;
+      background: linear-gradient(to left, transparent, rgba(212,175,55,0.18));
+      pointer-events: none;
+    }
+
+    .db-kpi-card:hover {
+      border-color: var(--border-gold);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    .db-kpi-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .db-kpi-label {
+      font-family: 'Tajawal', sans-serif;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .db-kpi-icon {
+      width: 30px;
+      height: 30px;
+      background: rgba(212,175,55,0.06);
+      border: 1px solid rgba(212,175,55,0.1);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .db-kpi-icon svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--primary);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .db-kpi-value {
+      font-family: 'Cairo', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+
+    .db-kpi-value.kv-gold   { color: var(--primary); }
+    .db-kpi-value.kv-green  { color: #4ade80; }
+
+    .db-kpi-sub {
+      font-size: 0.68rem;
+      color: var(--text-subtle);
+      font-family: 'Tajawal', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      line-height: 1.4;
+    }
+
+    .db-kpi-trend {
+      color: #4ade80;
+      font-weight: 700;
+    }
+
+    /* Trend arrows before percentage values */
+    .db-kpi-arrow-up {
+      color: var(--primary);
+      font-style: normal;
+      font-size: 0.75rem;
+      margin-left: 2px;
+    }
+
+    .db-kpi-arrow-down {
+      color: #ef4444;
+      font-style: normal;
+      font-size: 0.75rem;
+      margin-left: 2px;
+    }
+
+    /* ===== Performance chart card ===== */
+    .db-chart-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius-md);
+      overflow: hidden;
+      transition: border-color 0.22s ease;
+    }
+
+    .db-chart-card:hover {
+      border-color: var(--border-gold);
+    }
+
+    .db-chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .db-chart-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .db-chart-eyebrow {
+      font-size: 0.54rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+      font-family: 'Cairo', sans-serif;
+    }
+
+    .db-chart-title {
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .db-chart-period-badge {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      background: rgba(212,175,55,0.07);
+      border: 1px solid rgba(212,175,55,0.18);
+      color: var(--primary);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    .db-chart-body {
+      padding: 20px 22px 22px;
+    }
+
+    .db-equity-chart {
+      width: 100%;
+      height: 180px;
+      display: block;
+    }
+
+    .db-chart-axis-labels {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 2px 0;
+    }
+
+    .db-chart-axis-labels span {
+      font-size: 0.62rem;
+      color: var(--text-subtle);
+      font-family: 'Cairo', sans-serif;
+    }
+
+    /* ===== Signals table (locked) ===== */
+    .db-signals-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius-md);
+      overflow: hidden;
+    }
+
+    .db-signals-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border-color);
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .db-signals-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .db-signals-eyebrow {
+      font-size: 0.54rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+      font-family: 'Cairo', sans-serif;
+    }
+
+    .db-signals-title {
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .db-signals-count-badge {
+      font-size: 0.63rem;
+      font-weight: 700;
+      background: rgba(74,222,128,0.07);
+      border: 1px solid rgba(74,222,128,0.16);
+      color: #4ade80;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-family: 'Cairo', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .db-signals-pulse {
+      width: 6px;
+      height: 6px;
+      background: #4ade80;
+      border-radius: 50%;
+      flex-shrink: 0;
+      animation: db-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes db-pulse {
+      0%, 100% { opacity: 1;   transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* Table */
+    .db-signals-table-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .db-signals-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .db-signals-table thead tr {
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .db-signals-table th {
+      padding: 10px 16px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .db-signals-table td {
+      padding: 12px 16px;
+      font-size: 0.82rem;
+      color: var(--text-main);
+      text-align: right;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      vertical-align: middle;
+    }
+
+    .db-signals-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .db-signals-table tbody tr {
+      transition: background 0.15s ease;
+    }
+
+    .db-signals-table tbody tr:hover {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .db-tbl-stock-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .db-tbl-ticker {
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      background: rgba(212,175,55,0.07);
+      border: 1px solid rgba(212,175,55,0.15);
+      color: var(--primary);
+      padding: 3px 7px;
+      border-radius: 4px;
+      min-width: 44px;
+      text-align: center;
+    }
+
+    .db-tbl-stock-name {
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 600;
+      color: #ffffff;
+      font-size: 0.84rem;
+    }
+
+    .db-tbl-market-tag {
+      font-size: 0.62rem;
+      font-weight: 700;
+      font-family: 'Cairo', sans-serif;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+    }
+
+    .db-tbl-dir {
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .db-tbl-dir.buy {
+      background: rgba(74,222,128,0.07);
+      border: 1px solid rgba(74,222,128,0.18);
+      color: #4ade80;
+    }
+
+    .db-tbl-dir.sell {
+      background: rgba(224,80,104,0.07);
+      border: 1px solid rgba(224,80,104,0.18);
+      color: var(--accent-red);
+    }
+
+    .db-tbl-price {
+      font-family: 'Cairo', sans-serif;
+      font-weight: 700;
+      font-size: 0.84rem;
+      color: #ffffff;
+    }
+
+    .db-tbl-status {
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .db-tbl-status.open {
+      background: rgba(212,175,55,0.07);
+      border: 1px solid rgba(212,175,55,0.18);
+      color: var(--primary);
+    }
+
+    .db-tbl-status.watching {
+      background: rgba(99,179,237,0.07);
+      border: 1px solid rgba(99,179,237,0.18);
+      color: #63b3ed;
+    }
+
+    /* Lock overlay — stronger blur */
+    .db-lock-overlay {
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      background: rgba(5, 6, 8, 0.52);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      z-index: 10;
+      padding: 24px;
+    }
+
+    /* Pulsing scale animation on the lock icon circle */
+    @keyframes db-lock-pulse {
+      0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0   rgba(212,175,55,0.15); }
+      50%       { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(212,175,55,0.00); }
+    }
+
+    .db-lock-icon-wrap {
+      width: 54px;
+      height: 54px;
+      background: rgba(212,175,55,0.08);
+      border: 1px solid var(--border-gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: db-lock-pulse 2s ease-in-out infinite;
+    }
+
+    .db-lock-icon-wrap svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--primary);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .db-lock-text {
+      text-align: center;
+    }
+
+    .db-lock-text h4 {
+      font-family: 'Cairo', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .db-lock-text p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      max-width: 300px;
+      line-height: 1.65;
+    }
+
+    /* Full gold btn-primary style for the lock overlay CTA */
+    .db-lock-cta {
+      background: linear-gradient(135deg, #D4AF37 0%, #c9a430 60%, #b8922a 100%);
+      color: #050608;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      padding: 12px 32px;
+      border-radius: 50px;
+      border: 1px solid rgba(212,175,55,0.6);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.01em;
+      box-shadow: 0 4px 16px rgba(212,175,55,0.18), inset 0 1px 0 rgba(255,255,255,0.15);
+      transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+    }
+
+    .db-lock-cta:hover {
+      background: linear-gradient(135deg, #e0bc3f 0%, #D4AF37 60%, #c9a430 100%);
+      box-shadow: 0 6px 24px rgba(212,175,55,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+
+    .db-lock-cta svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    /* ===== Bottom CTA banner ===== */
+    .db-cta-card {
+      background: linear-gradient(145deg, rgba(212,175,55,0.09) 0%, rgba(212,175,55,0.03) 60%, var(--bg-card) 100%);
+      border: 1px solid rgba(212,175,55,0.35);
+      border-radius: var(--border-radius-md);
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      /* Prominent gold glow border effect */
+      box-shadow: 0 0 0 1px rgba(212,175,55,0.4), 0 8px 40px rgba(212,175,55,0.08), 0 2px 0 0 rgba(212,175,55,0.5) inset;
+    }
+
+    .db-cta-text h3 {
+      font-family: 'Cairo', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 6px;
+      letter-spacing: -0.4px;
+    }
+
+    .db-cta-text p {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 540px;
+    }
+
+    .db-cta-btn {
+      background: var(--primary);
+      color: #050608;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 800;
+      font-size: 0.88rem;
+      padding: 13px 30px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+    }
+
+    .db-cta-btn:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 6px 24px rgba(212,175,55,0.3);
+      transform: translateY(-1px);
+    }
+
+    .db-cta-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    /* Ambient glow orbs */
+    .db-glow-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(180px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1100px) {
+      .db-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .db-sidebar {
+        position: fixed;
+        right: 0;
+        top: 0;
+        height: 100vh;
+        transform: translateX(100%);
+        z-index: 300;
+        box-shadow: -8px 0 40px rgba(0,0,0,0.6);
+      }
+
+      .db-sidebar.open {
+        transform: translateX(0);
+      }
+
+      .db-sidebar-overlay.open {
+        display: block;
+      }
+
+      .db-mobile-toggle {
+        display: flex;
+      }
+
+      .db-topbar {
+        padding: 14px 20px 14px 60px;
+      }
+
+      .db-content {
+        padding: 20px 20px 40px 20px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .db-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .db-kpi-card { padding: 16px 14px; }
+
+      .db-kpi-value { font-size: 1.3rem; }
+
+      /* Hide entry price column on small screens */
+      .db-signals-table th:nth-child(4),
+      .db-signals-table td:nth-child(4) { display: none; }
+
+      .db-cta-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .db-cta-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .db-kpi-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+      /* Also hide status column */
+      .db-signals-table th:nth-child(5),
+      .db-signals-table td:nth-child(5) { display: none; }
+    }
+
+    /* ===== Section-level header used across non-overview sections ===== */
+    .db-section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 4px;
+    }
+
+    .db-section-header h2 {
+      font-family: 'Cairo', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+    }
+
+    .db-section-badge {
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: rgba(212,175,55,0.1);
+      border: 1px solid var(--border-gold);
+      color: var(--primary);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    /* ===== Portfolio section — coming-soon card ===== */
+    .db-coming-soon-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius-md);
+      padding: 56px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+      transition: border-color 0.22s ease;
+    }
+
+    .db-coming-soon-card:hover {
+      border-color: var(--border-gold);
+    }
+
+    .db-coming-soon-icon {
+      width: 64px;
+      height: 64px;
+      background: rgba(212,175,55,0.08);
+      border: 1px solid var(--border-gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: db-lock-pulse 2s ease-in-out infinite;
+    }
+
+    .db-coming-soon-icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: var(--primary);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .db-coming-soon-body h3 {
+      font-family: 'Cairo', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .db-coming-soon-body p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 440px;
+    }
+
+    /* ===== Trading room — desk note cards wrapper ===== */
+    .db-desk-notes-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius-md);
+      overflow: hidden;
+    }
+
+    .db-desk-notes-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border-color);
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .db-desk-notes-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .db-desk-notes-eyebrow {
+      font-size: 0.54rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+      font-family: 'Cairo', sans-serif;
+    }
+
+    .db-desk-notes-title {
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .db-desk-notes-body {
+      padding: 24px 22px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .db-desk-notes-body { grid-template-columns: 1fr; }
+    }
+
+    /* Individual trading-room note card */
+    .db-note-card {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 18px 16px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-color);
+      border-right: 2px solid var(--border-gold);
+      border-radius: 8px;
+      transition: border-right-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .db-note-card:hover {
+      border-right-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .db-note-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .db-note-avatar {
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary) 0%, #a07e20 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #050608;
+      overflow: hidden;
+    }
+
+    .db-note-meta strong {
+      display: block;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.85rem;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .db-note-time {
+      font-size: 0.68rem;
+      color: var(--text-subtle);
+    }
+
+    .db-note-card p {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      flex-grow: 1;
+    }
+
+    .db-note-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* ===== Research section ===== */
+    .db-research-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 1100px) {
+      .db-research-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .db-research-grid { grid-template-columns: 1fr; }
+    }
+
+    .db-research-card {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius-md);
+      padding: 24px 22px;
+      transition: transform 0.22s ease, border-color 0.22s ease;
+    }
+
+    .db-research-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-gold);
+    }
+
+    .db-research-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .db-research-date {
+      font-size: 0.72rem;
+      color: var(--text-subtle);
+    }
+
+    .db-research-card h3 {
+      font-family: 'Cairo', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.45;
+    }
+
+    .db-research-card p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.72;
+      flex-grow: 1;
+    }
+
+    .db-research-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      margin-top: auto;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .db-research-read-time {
+      font-size: 0.68rem;
+      color: var(--text-subtle);
+    }
+
+    .db-research-link {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      font-family: 'Cairo', sans-serif;
+      transition: color 0.2s ease;
+    }
+
+    .db-research-link:hover {
+      color: #ffffff;
+    }
+
+    /* ===== Settings section ===== */
+    .db-settings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 840px) {
+      .db-settings-grid { grid-template-columns: 1fr; }
+    }
+
+    .db-settings-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius-md);
+      padding: 28px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: border-color 0.22s ease;
+    }
+
+    .db-settings-card:hover {
+      border-color: var(--border-gold);
+    }
+
+    .db-settings-card-title {
+      font-family: 'Cairo', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #ffffff;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .db-settings-save-btn {
+      background: linear-gradient(135deg, #D4AF37 0%, #c9a430 60%, #b8922a 100%);
+      color: #050608;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      padding: 12px 32px;
+      border-radius: 50px;
+      border: 1px solid rgba(212,175,55,0.6);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.01em;
+      align-self: flex-start;
+      box-shadow: 0 4px 16px rgba(212,175,55,0.18), inset 0 1px 0 rgba(255,255,255,0.15);
+      transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+    }
+
+    .db-settings-save-btn:hover {
+      background: linear-gradient(135deg, #e0bc3f 0%, #D4AF37 60%, #c9a430 100%);
+      box-shadow: 0 6px 24px rgba(212,175,55,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+
+    .db-settings-save-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    /* Password change helper text */
+    .db-settings-helper {
+      font-size: 0.73rem;
+      color: var(--text-subtle);
+      margin-top: -12px;
+    }
+  </style>
+</head>
+
+<body class="db-body">
+
+  <!-- Ambient glow orbs (match index.html feel) -->
+  <div class="db-glow-orb" style="width:40vw;height:40vw;background:var(--primary);top:-12%;right:2%;opacity:0.04;"></div>
+  <div class="db-glow-orb" style="width:28vw;height:28vw;background:var(--primary);bottom:-6%;left:8%;opacity:0.02;"></div>
+
+  <!-- Mobile sidebar backdrop -->
+  <div class="db-sidebar-overlay" id="dbSidebarOverlay"></div>
+
+  <!-- Mobile toggle button -->
+  <button class="db-mobile-toggle" id="dbMobileToggle" aria-label="فتح القائمة الجانبية" aria-expanded="false">☰</button>
+
+  <!-- =====================
+       SIDEBAR
+       ===================== -->
+  <aside class="db-sidebar" id="dbSidebar" role="navigation" aria-label="القائمة الجانبية">
+
+    <!-- Logo -->
+    <a href="index.html" class="db-sidebar-logo" title="العودة للصفحة الرئيسية">
+      <div class="db-logo-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 3v18h18" stroke="currentColor"/>
+          <path d="M18.7 8l-5.1 5.2-2.8-2.7-5.3 5.3" stroke="currentColor"/>
+        </svg>
+      </div>
+      <span class="db-logo-text">أبحاث <span class="db-logo-badge">كمية</span></span>
+    </a>
+
+    <!-- Navigation menu -->
+    <nav class="db-nav">
+      <span class="db-nav-section-label">القائمة الرئيسية</span>
+      <ul>
+
+        <!-- نظرة عامة — active -->
+        <li class="db-nav-item">
+          <a href="#" class="active db-nav-link" data-section="overview" aria-current="page">
+            <svg class="db-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+            </svg>
+            نظرة عامة
+          </a>
+        </li>
+
+        <!-- الإشارات الحية — locked (مميز) -->
+        <li class="db-nav-item">
+          <a href="#" onclick="return false;" style="opacity:0.65; cursor:default;">
+            <svg class="db-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+            الإشارات الحية
+            <svg class="db-nav-lock" viewBox="0 0 24 24" aria-label="محجوب">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <span class="db-nav-premium-pill">مميز</span>
+          </a>
+        </li>
+
+        <!-- محفظتي -->
+        <li class="db-nav-item">
+          <a href="#" class="db-nav-link" data-section="portfolio">
+            <svg class="db-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <line x1="18" y1="20" x2="18" y2="10"/>
+              <line x1="12" y1="20" x2="12" y2="4"/>
+              <line x1="6"  y1="20" x2="6"  y2="14"/>
+            </svg>
+            محفظتي
+          </a>
+        </li>
+
+        <!-- غرفة التداول -->
+        <li class="db-nav-item">
+          <a href="#" class="db-nav-link" data-section="trading">
+            <svg class="db-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            غرفة التداول
+          </a>
+        </li>
+
+        <!-- الأبحاث -->
+        <li class="db-nav-item">
+          <a href="#" class="db-nav-link" data-section="research">
+            <svg class="db-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+            الأبحاث
+          </a>
+        </li>
+
+        <!-- الإعدادات -->
+        <li class="db-nav-item">
+          <a href="#" class="db-nav-link" data-section="settings">
+            <svg class="db-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+            </svg>
+            الإعدادات
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+
+    <!-- User profile + logout -->
+    <div class="db-sidebar-footer">
+      <div class="db-user-profile">
+        <div class="db-user-avatar" aria-hidden="true">م</div>
+        <div class="db-user-info">
+          <span class="db-user-name">مشترك مميز</span>
+          <span class="db-user-tier">عضو مميز</span>
+        </div>
+      </div>
+      <!-- Sidebar social icons — 30px circles, between user card and logout -->
+      <div class="db-sidebar-social">
+        <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Telegram">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.93c-.12.56-.46.69-.93.43l-2.58-1.9-1.24 1.2c-.14.14-.25.25-.51.25l.18-2.62 4.7-4.25c.2-.18-.05-.28-.32-.1L7.9 14.84l-2.54-.8c-.55-.17-.56-.55.12-.82l9.92-3.82c.46-.17.86.11.69.8l.55-.2z"/></svg>
+        </a>
+        <a href="https://twitter.com/abdoresearch" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Twitter / X">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.261 5.635L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+        </a>
+        <a href="https://youtube.com/@abdoresearch" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+      </div>
+      <button class="db-logout-btn" onclick="window.location.href='index.html'">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        تسجيل الخروج
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- =====================
+       MAIN CONTENT
+       ===================== -->
+  <main class="db-main">
+
+    <!-- Sticky top header bar -->
+    <header class="db-topbar">
+      <div class="db-topbar-welcome">
+        <h2>مرحباً بك في أبحاث كمية</h2>
+        <p id="db-date-display">جار التحميل...</p>
+        <p class="db-breadcrumb" id="db-breadcrumb" aria-label="مسار التنقل">لوحة التحكم › نظرة عامة</p>
+      </div>
+      <div class="db-topbar-actions">
+        <button class="db-notif-btn" aria-label="الإشعارات">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <span class="db-notif-dot"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Page body -->
+    <div class="db-content">
+
+    <!-- =====================================================
+         SECTION: نظرة عامة (Overview) — shown by default
+         ===================================================== -->
+    <div id="db-section-overview" class="db-section">
+
+      <!-- ========================
+           KPI CARDS
+           ======================== -->
+      <section aria-label="مؤشرات الأداء الرئيسية">
+        <div class="db-kpi-grid">
+
+          <!-- 1. Active signals -->
+          <div class="db-kpi-card">
+            <div class="db-kpi-header">
+              <span class="db-kpi-label">الإشارات النشطة</span>
+              <div class="db-kpi-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+              </div>
+            </div>
+            <div class="db-kpi-value">4 صفقات</div>
+            <div class="db-kpi-sub">
+              <span class="db-kpi-trend">↑ 2 جديدتان</span> منذ أمس
+            </div>
+          </div>
+
+          <!-- 2. Monthly return -->
+          <div class="db-kpi-card">
+            <div class="db-kpi-header">
+              <span class="db-kpi-label">نسبة الأرباح هذا الشهر</span>
+              <div class="db-kpi-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <line x1="12" y1="1" x2="12" y2="23"/>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </div>
+            </div>
+            <div class="db-kpi-value kv-gold"><em class="db-kpi-arrow-up" aria-hidden="true">▲</em>+8.4%</div>
+            <div class="db-kpi-sub">
+              <span class="db-kpi-trend">↑ أعلى من الشهر الماضي</span>
+            </div>
+          </div>
+
+          <!-- 3. Markets covered -->
+          <div class="db-kpi-card">
+            <div class="db-kpi-header">
+              <span class="db-kpi-label">عدد البورصات المغطاة</span>
+              <div class="db-kpi-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="2" y1="12" x2="22" y2="12"/>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="db-kpi-value">5 أسواق</div>
+            <div class="db-kpi-sub">تداول · EGX · DFM · ADX · QSE</div>
+          </div>
+
+          <!-- 4. Model status -->
+          <div class="db-kpi-card">
+            <div class="db-kpi-header">
+              <span class="db-kpi-label">حالة النموذج</span>
+              <div class="db-kpi-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                  <path d="M2 17l10 5 10-5"/>
+                  <path d="M2 12l10 5 10-5"/>
+                </svg>
+              </div>
+            </div>
+            <div class="db-kpi-value kv-green">نشط ✓</div>
+            <div class="db-kpi-sub">PDL · MR · Pivot — جميعها تعمل</div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ========================
+           PERFORMANCE CHART
+           ======================== -->
+      <section aria-label="منحنى الأداء الشهري">
+        <div class="db-chart-card">
+
+          <div class="db-chart-header">
+            <div class="db-chart-title-group">
+              <span class="db-chart-eyebrow">منحنى رأس المال — الأداء الشهري</span>
+              <h3 class="db-chart-title">منحنى الأداء الشهري</h3>
+            </div>
+            <span class="db-chart-period-badge">آخر 30 يوم</span>
+          </div>
+
+          <div class="db-chart-body">
+            <!--
+              Pure inline SVG equity curve — no JS required.
+              ViewBox 0 0 800 180. Gold area + line chart trending upward
+              with realistic noise to simulate a real equity curve.
+            -->
+            <svg
+              class="db-equity-chart"
+              viewBox="0 0 800 180"
+              preserveAspectRatio="none"
+              role="img"
+              aria-label="منحنى الأداء خلال الثلاثين يوماً الماضية — اتجاه تصاعدي من 155 إلى 24"
+            >
+              <defs>
+                <!-- Gold area gradient — premium, deeper top -->
+                <linearGradient id="dbGoldArea" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%"   stop-color="#D4AF37" stop-opacity="0.28"/>
+                  <stop offset="60%"  stop-color="#D4AF37" stop-opacity="0.07"/>
+                  <stop offset="100%" stop-color="#D4AF37" stop-opacity="0.00"/>
+                </linearGradient>
+                <!-- Gold line gradient (left darker → right brighter) -->
+                <linearGradient id="dbGoldLine" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%"   stop-color="#7a5c10"/>
+                  <stop offset="40%"  stop-color="#c9a430"/>
+                  <stop offset="100%" stop-color="#D4AF37"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Faint horizontal grid rules at 25%, 50%, 75% height -->
+              <line x1="0" y1="45"  x2="800" y2="45"  stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+              <line x1="0" y1="90"  x2="800" y2="90"  stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+              <line x1="0" y1="135" x2="800" y2="135" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+
+              <!-- Vertical day-marker lines (every ~133px ≈ 5 day intervals) -->
+              <line x1="133" y1="0" x2="133" y2="180" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+              <line x1="266" y1="0" x2="266" y2="180" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+              <line x1="400" y1="0" x2="400" y2="180" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+              <line x1="533" y1="0" x2="533" y2="180" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+              <line x1="666" y1="0" x2="666" y2="180" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+
+              <!--
+                Area fill path — 30 data points creating a gently
+                upward-trending curve with natural pullbacks
+              -->
+              <path
+                d="
+                  M0,156
+                  C13,153 20,149 26,147
+                  C33,145 46,150 53,151
+                  C60,152 70,146 80,142
+                  C90,138 100,135 106,137
+                  C112,139 120,133 133,130
+                  C146,127 153,124 160,126
+                  C167,128 177,121 186,133
+                  C195,137 200,130 213,124
+                  C226,118 233,114 240,116
+                  C247,118 257,110 266,112
+                  C275,114 283,118 293,119
+                  C303,120 311,107 320,109
+                  C329,111 336,102 346,103
+                  C356,104 364,96 373,97
+                  C382,98 392,104 400,104
+                  C408,104 418,94 426,95
+                  C434,96 444,87 453,87
+                  C462,87 470,80 480,81
+                  C490,82 497,77 506,77
+                  C515,77 524,82 533,84
+                  C542,86 550,72 560,73
+                  C570,74 577,66 586,67
+                  C595,68 604,60 613,61
+                  C622,62 630,56 640,57
+                  C650,58 657,50 666,51
+                  C675,52 683,44 693,45
+                  C703,46 710,38 720,39
+                  C730,40 736,34 746,35
+                  C756,36 763,28 773,29
+                  C783,30 792,22 800,23
+                  L800,180 L0,180 Z
+                "
+                fill="url(#dbGoldArea)"
+              />
+
+              <!-- Line on top of area -->
+              <path
+                d="
+                  M0,156
+                  C13,153 20,149 26,147
+                  C33,145 46,150 53,151
+                  C60,152 70,146 80,142
+                  C90,138 100,135 106,137
+                  C112,139 120,133 133,130
+                  C146,127 153,124 160,126
+                  C167,128 177,121 186,133
+                  C195,137 200,130 213,124
+                  C226,118 233,114 240,116
+                  C247,118 257,110 266,112
+                  C275,114 283,118 293,119
+                  C303,120 311,107 320,109
+                  C329,111 336,102 346,103
+                  C356,104 364,96 373,97
+                  C382,98 392,104 400,104
+                  C408,104 418,94 426,95
+                  C434,96 444,87 453,87
+                  C462,87 470,80 480,81
+                  C490,82 497,77 506,77
+                  C515,77 524,82 533,84
+                  C542,86 550,72 560,73
+                  C570,74 577,66 586,67
+                  C595,68 604,60 613,61
+                  C622,62 630,56 640,57
+                  C650,58 657,50 666,51
+                  C675,52 683,44 693,45
+                  C703,46 710,38 720,39
+                  C730,40 736,34 746,35
+                  C756,36 763,28 773,29
+                  C783,30 792,22 800,23
+                "
+                fill="none"
+                stroke="url(#dbGoldLine)"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+
+              <!-- Y-axis labels (left side) -->
+              <text x="6" y="28"
+                    font-family="Cairo, sans-serif"
+                    font-size="9"
+                    fill="rgba(255,255,255,0.28)"
+                    dominant-baseline="middle">+10%</text>
+              <text x="6" y="93"
+                    font-family="Cairo, sans-serif"
+                    font-size="9"
+                    fill="rgba(255,255,255,0.28)"
+                    dominant-baseline="middle">+5%</text>
+              <text x="6" y="165"
+                    font-family="Cairo, sans-serif"
+                    font-size="9"
+                    fill="rgba(255,255,255,0.28)"
+                    dominant-baseline="middle">0%</text>
+
+              <!-- End point glow dot -->
+              <circle cx="800" cy="23" r="10" fill="rgba(212,175,55,0.12)"/>
+              <circle cx="800" cy="23" r="5"  fill="rgba(212,175,55,0.35)"/>
+              <circle cx="800" cy="23" r="3"  fill="#D4AF37"/>
+
+              <!-- Current return label near the end point -->
+              <rect x="714" y="5" width="72" height="19" rx="3"
+                    fill="rgba(212,175,55,0.10)"
+                    stroke="rgba(212,175,55,0.28)" stroke-width="1"/>
+              <text x="750" y="18"
+                    text-anchor="middle"
+                    font-family="Cairo, sans-serif"
+                    font-size="10.5"
+                    font-weight="800"
+                    fill="#D4AF37">+8.4%</text>
+
+              <!-- Start label -->
+              <rect x="4" y="141" width="52" height="16" rx="3"
+                    fill="rgba(255,255,255,0.04)"
+                    stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+              <text x="30" y="153"
+                    text-anchor="middle"
+                    font-family="Cairo, sans-serif"
+                    font-size="9"
+                    fill="rgba(255,255,255,0.35)">0.0%</text>
+            </svg>
+
+            <!-- X-axis date labels -->
+            <div class="db-chart-axis-labels">
+              <span>1 مايو</span>
+              <span>8 مايو</span>
+              <span>15 مايو</span>
+              <span>22 مايو</span>
+              <span>29 مايو</span>
+              <span>اليوم</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ========================
+           SIGNALS TABLE (LOCKED)
+           ======================== -->
+      <section aria-label="آخر الإشارات الصادرة">
+        <div class="db-signals-card">
+
+          <div class="db-signals-header">
+            <div class="db-signals-title-group">
+              <span class="db-signals-eyebrow">آخر الإشارات — مخرجات النموذج</span>
+              <h3 class="db-signals-title">آخر الإشارات الصادرة</h3>
+            </div>
+            <span class="db-signals-count-badge">
+              <span class="db-signals-pulse" aria-hidden="true"></span>
+              4 إشارات نشطة
+            </span>
+          </div>
+
+          <!-- Relative wrapper so absolute overlay can cover it -->
+          <div class="db-signals-table-wrap">
+
+            <!-- Fake table data (will be blurred by lock overlay) -->
+            <table class="db-signals-table" aria-hidden="true">
+              <thead>
+                <tr>
+                  <th>السهم</th>
+                  <th>البورصة</th>
+                  <th>الاتجاه</th>
+                  <th>سعر الدخول</th>
+                  <th>الحالة</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="db-tbl-stock-cell">
+                      <span class="db-tbl-ticker">2222</span>
+                      <span class="db-tbl-stock-name">أرامكو السعودية</span>
+                    </div>
+                  </td>
+                  <td><span class="db-tbl-market-tag">تداول</span></td>
+                  <td><span class="db-tbl-dir buy">شراء</span></td>
+                  <td><span class="db-tbl-price">27.65 ر.س</span></td>
+                  <td><span class="db-tbl-status open">مفتوحة</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="db-tbl-stock-cell">
+                      <span class="db-tbl-ticker">1120</span>
+                      <span class="db-tbl-stock-name">مصرف الراجحي</span>
+                    </div>
+                  </td>
+                  <td><span class="db-tbl-market-tag">تداول</span></td>
+                  <td><span class="db-tbl-dir buy">شراء</span></td>
+                  <td><span class="db-tbl-price">93.40 ر.س</span></td>
+                  <td><span class="db-tbl-status open">مفتوحة</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="db-tbl-stock-cell">
+                      <span class="db-tbl-ticker">EMAAR</span>
+                      <span class="db-tbl-stock-name">إعمار العقارية</span>
+                    </div>
+                  </td>
+                  <td><span class="db-tbl-market-tag">DFM</span></td>
+                  <td><span class="db-tbl-dir buy">شراء</span></td>
+                  <td><span class="db-tbl-price">9.14 د.إ</span></td>
+                  <td><span class="db-tbl-status watching">مراقبة</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="db-tbl-stock-cell">
+                      <span class="db-tbl-ticker">QNBK</span>
+                      <span class="db-tbl-stock-name">بنك قطر الوطني</span>
+                    </div>
+                  </td>
+                  <td><span class="db-tbl-market-tag">QSE</span></td>
+                  <td><span class="db-tbl-dir sell">بيع</span></td>
+                  <td><span class="db-tbl-price">14.38 ر.ق</span></td>
+                  <td><span class="db-tbl-status watching">مراقبة</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="db-tbl-stock-cell">
+                      <span class="db-tbl-ticker">COMI</span>
+                      <span class="db-tbl-stock-name">البنك التجاري الدولي</span>
+                    </div>
+                  </td>
+                  <td><span class="db-tbl-market-tag">EGX</span></td>
+                  <td><span class="db-tbl-dir buy">شراء</span></td>
+                  <td><span class="db-tbl-price">86.75 ج.م</span></td>
+                  <td><span class="db-tbl-status open">مفتوحة</span></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- ====  LOCK OVERLAY ==== -->
+            <div
+              class="db-lock-overlay"
+              role="region"
+              aria-label="المحتوى محجوب — يتطلب اشتراكاً مميزاً"
+            >
+              <div class="db-lock-icon-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </div>
+
+              <div class="db-lock-text">
+                <h4>الإشارات محجوبة</h4>
+                <p>للوصول للإشارات الحية والتفاصيل الكاملة مع مستويات الدخول والوقف والهدف، تواصل معنا للانضمام للخطة المميزة.</p>
+              </div>
+
+              <a
+                href="https://t.me/abdoresearch"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="db-lock-cta"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                مكالمة تعريفية
+              </a>
+            </div>
+            <!-- END LOCK OVERLAY -->
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================
+           BOTTOM CTA CARD
+           ======================== -->
+      <section aria-label="الوصول الكامل للإشارات">
+        <div class="db-cta-card">
+          <div class="db-cta-text">
+            <h3>للوصول للإشارات الحية — تواصل معنا</h3>
+            <p>في مكالمة مجانية مدتها 20 دقيقة نتعرف على أهدافك المالية ونناقش ما إذا كانت الخطة المميزة تناسب وضعك. لا التزام، لا ضغط — محادثة صريحة فقط.</p>
+          </div>
+          <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="db-cta-btn">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8"  y1="2" x2="8"  y2="6"/>
+              <line x1="3"  y1="10" x2="21" y2="10"/>
+            </svg>
+            مكالمة تعريفية
+          </a>
+        </div>
+      </section>
+
+    </div><!-- /#db-section-overview -->
+
+    <!-- =====================================================
+         SECTION: محفظتي (My Portfolio)
+         ===================================================== -->
+    <div id="db-section-portfolio" class="db-section" style="display:none;">
+
+      <div class="db-section-header">
+        <h2>محفظتي</h2>
+        <span class="db-section-badge">قريباً</span>
+      </div>
+
+      <div class="db-coming-soon-card">
+        <div class="db-coming-soon-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+
+        <span class="db-section-badge" style="font-size:0.65rem;">ميزة قادمة</span>
+
+        <div class="db-coming-soon-body">
+          <h3>تتبع محفظتك وأداء صفقاتك تلقائياً</h3>
+          <p>قريباً ستتمكن من ربط محفظتك الاستثمارية ومتابعة أداء كل صفقة مع النماذج الكمية — P&amp;L في الوقت الفعلي، نسب الفوز، والعائد الشهري كل ذلك في مكان واحد.</p>
+        </div>
+
+        <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="db-lock-cta">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          تواصل لمعرفة المزيد
+        </a>
+      </div>
+
+    </div><!-- /#db-section-portfolio -->
+
+    <!-- =====================================================
+         SECTION: غرفة التداول (Trading Room)
+         ===================================================== -->
+    <div id="db-section-trading" class="db-section" style="display:none;">
+
+      <div class="db-section-header">
+        <h2>غرفة التداول</h2>
+      </div>
+
+      <div class="db-desk-notes-section">
+
+        <div class="db-desk-notes-header">
+          <div class="db-desk-notes-title-group">
+            <span class="db-desk-notes-eyebrow">سجل التداول — آخر الملاحظات</span>
+            <h3 class="db-desk-notes-title">آخر ملاحظات التداول</h3>
+          </div>
+          <span class="db-signals-count-badge">
+            <span class="db-signals-pulse" aria-hidden="true"></span>
+            3 ملاحظات جديدة
+          </span>
+        </div>
+
+        <div class="db-desk-notes-body">
+
+          <!-- Note 1: Saudi market — Al Rajhi PDL -->
+          <article class="db-note-card">
+            <div class="db-note-header">
+              <div class="db-note-avatar" aria-hidden="true">ع</div>
+              <div class="db-note-meta">
+                <strong>ملاحظة بحثية</strong>
+                <span class="db-note-time">اليوم — 09:15 ص</span>
+              </div>
+            </div>
+            <p>السوق السعودي — سهم الراجحي يختبر مستوى PDL عند 84.20. المراقبة جارية. إذا صمد فوق هذا المستوى في أول 30 دقيقة من التداول يُعطي مدخلاً نظيفاً بوقف تحت 82.00.</p>
+            <div class="db-note-tags">
+              <span class="desk-tag">تداول</span>
+              <span class="desk-tag">PDL</span>
+              <span class="desk-tag">الراجحي</span>
+            </div>
+          </article>
+
+          <!-- Note 2: Egyptian market — CIB MR -->
+          <article class="db-note-card">
+            <div class="db-note-header">
+              <div class="db-note-avatar" aria-hidden="true">ع</div>
+              <div class="db-note-meta">
+                <strong>ملاحظة بحثية</strong>
+                <span class="db-note-time">أمس — 04:45 م</span>
+              </div>
+            </div>
+            <p>البورصة المصرية — نموذج MR يرصد فرصة في سهم CIB. النموذج يرى إفراطاً في البيع مع وجود دعم مؤسسي. التفاصيل الكاملة مع مستويات الدخول والهدف والوقف متاحة للمشتركين.</p>
+            <div class="db-note-tags">
+              <span class="desk-tag">EGX</span>
+              <span class="desk-tag">MR</span>
+              <span class="desk-tag">CIB</span>
+            </div>
+          </article>
+
+          <!-- Note 3: Qatar market — QNB Pivot Memory -->
+          <article class="db-note-card">
+            <div class="db-note-header">
+              <div class="db-note-avatar" aria-hidden="true">ع</div>
+              <div class="db-note-meta">
+                <strong>ملاحظة بحثية</strong>
+                <span class="db-note-time">أمس — 11:30 ص</span>
+              </div>
+            </div>
+            <p>سوق قطر — Pivot Memory في QNB عند 14.10. إشارة محتملة. المستوى كان منطقة توزيع قبل ثلاثة أشهر — الآن يختبره من الأسفل كدعم. الاحتمالات مع الشراء على الإغلاق فوقه.</p>
+            <div class="db-note-tags">
+              <span class="desk-tag">QSE</span>
+              <span class="desk-tag">Pivot</span>
+              <span class="desk-tag">QNB</span>
+            </div>
+          </article>
+
+        </div><!-- /.db-desk-notes-body -->
+      </div><!-- /.db-desk-notes-section -->
+
+    </div><!-- /#db-section-trading -->
+
+    <!-- =====================================================
+         SECTION: الأبحاث (Research)
+         ===================================================== -->
+    <div id="db-section-research" class="db-section" style="display:none;">
+
+      <div class="db-section-header">
+        <h2>الأبحاث</h2>
+      </div>
+
+      <div class="db-research-grid">
+
+        <!-- Article 1 — PDL Reclaim educational -->
+        <article class="db-research-card">
+          <div class="db-research-meta">
+            <span class="insight-tag insight-tag-education">تعليمي</span>
+            <span class="db-research-date">يونيو 2026</span>
+          </div>
+          <h3>PDL Reclaim — كيف يعمل النموذج على البيانات التاريخية</h3>
+          <p>شرح مفصل لنموذج Previous Day Low Reclaim: الفكرة خلفه، كيف استُخرج من بيانات تاريخية على أكثر من 100 سهم في السوق السعودي، ومعدلات النجاح عبر مختلف ظروف السوق.</p>
+          <div class="db-research-footer">
+            <span class="db-research-read-time">8 دقائق قراءة</span>
+            <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="db-research-link">اقرأ التقرير ←</a>
+          </div>
+        </article>
+
+        <!-- Article 2 — MR performance ADX Q1 2026 -->
+        <article class="db-research-card">
+          <div class="db-research-meta">
+            <span class="insight-tag">تقرير</span>
+            <span class="db-research-date">مايو 2026</span>
+          </div>
+          <h3>تحليل أداء Mean Reversion في سوق أبوظبي Q1 2026</h3>
+          <p>تقرير ربعي يستعرض أداء نموذج الانعكاس للمتوسط على أسهم سوق أبوظبي خلال الربع الأول من 2026 — نسب الفوز، متوسط العائد لكل صفقة، والفترات التي أخفق فيها النموذج.</p>
+          <div class="db-research-footer">
+            <span class="db-research-read-time">12 دقيقة قراءة</span>
+            <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="db-research-link">اقرأ التقرير ←</a>
+          </div>
+        </article>
+
+        <!-- Article 3 — Statistical edge, EV, WR -->
+        <article class="db-research-card">
+          <div class="db-research-meta">
+            <span class="insight-tag" style="background:rgba(212,175,55,0.08);border-color:rgba(212,175,55,0.2);color:var(--primary);">بحثي</span>
+            <span class="db-research-date">مايو 2026</span>
+          </div>
+          <h3>الميزة الإحصائية: Expected Value ولماذا WR 36% قد يكون أفضل من 70%</h3>
+          <p>يعتقد كثيرون أن نسبة الفوز هي المقياس الوحيد للحكم على نظام تداول. هذا البحث يوضح لماذا القيمة المتوقعة (Expected Value) هي المقياس الحقيقي، ولماذا نظام بنسبة فوز 36% يمكنه التفوق على نظام بنسبة 70%.</p>
+          <div class="db-research-footer">
+            <span class="db-research-read-time">10 دقائق قراءة</span>
+            <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="db-research-link">اقرأ التقرير ←</a>
+          </div>
+        </article>
+
+      </div><!-- /.db-research-grid -->
+
+    </div><!-- /#db-section-research -->
+
+    <!-- =====================================================
+         SECTION: الإعدادات (Settings)
+         ===================================================== -->
+    <div id="db-section-settings" class="db-section" style="display:none;">
+
+      <div class="db-section-header">
+        <h2>الإعدادات</h2>
+      </div>
+
+      <div class="db-settings-grid">
+
+        <!-- Card 1: Profile info -->
+        <div class="db-settings-card">
+          <h3 class="db-settings-card-title">معلومات الحساب</h3>
+
+          <div class="auth-input-group">
+            <label for="settings-name">اسم المستخدم</label>
+            <input
+              id="settings-name"
+              type="text"
+              class="auth-input"
+              placeholder="الاسم الكامل"
+              value="مشترك مميز"
+              autocomplete="name"
+            >
+          </div>
+
+          <div class="auth-input-group">
+            <label for="settings-email">البريد الإلكتروني</label>
+            <input
+              id="settings-email"
+              type="email"
+              class="auth-input"
+              placeholder="example@email.com"
+              value=""
+              autocomplete="email"
+              dir="ltr"
+            >
+          </div>
+
+          <div class="auth-input-group">
+            <label for="settings-market">السوق المفضل</label>
+            <select id="settings-market" class="auth-input">
+              <option value="tadawul">تداول (السعودية)</option>
+              <option value="egx">البورصة المصرية (EGX)</option>
+              <option value="dfm">سوق دبي المالي (DFM)</option>
+              <option value="adx">سوق أبوظبي (ADX)</option>
+              <option value="qse">بورصة قطر (QSE)</option>
+            </select>
+          </div>
+
+          <button class="db-settings-save-btn" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            حفظ التغييرات
+          </button>
+        </div>
+
+        <!-- Card 2: Change password -->
+        <div class="db-settings-card">
+          <h3 class="db-settings-card-title">تغيير كلمة المرور</h3>
+
+          <div class="auth-input-group">
+            <label for="settings-current-pw">كلمة المرور الحالية</label>
+            <input
+              id="settings-current-pw"
+              type="password"
+              class="auth-input"
+              placeholder="••••••••"
+              autocomplete="current-password"
+            >
+          </div>
+
+          <div class="auth-input-group">
+            <label for="settings-new-pw">كلمة المرور الجديدة</label>
+            <input
+              id="settings-new-pw"
+              type="password"
+              class="auth-input"
+              placeholder="••••••••"
+              autocomplete="new-password"
+            >
+          </div>
+
+          <div class="auth-input-group">
+            <label for="settings-confirm-pw">تأكيد كلمة المرور</label>
+            <input
+              id="settings-confirm-pw"
+              type="password"
+              class="auth-input"
+              placeholder="••••••••"
+              autocomplete="new-password"
+            >
+          </div>
+          <p class="db-settings-helper">يجب أن تتكون كلمة المرور من 8 أحرف على الأقل وتحتوي على رقم وحرف خاص.</p>
+
+          <button class="db-settings-save-btn" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            تحديث كلمة المرور
+          </button>
+        </div>
+
+      </div><!-- /.db-settings-grid -->
+
+    </div><!-- /#db-section-settings -->
+
+    </div><!-- /.db-content -->
+  </main>
+
+
+  <!-- =====================
+       VANILLA JS
+       Responsibilities:
+       1. Inject localised Arabic date into topbar
+       2. Sidebar mobile open/close
+       3. Section switching via data-section nav links
+       ===================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* --- Arabic date injection --- */
+      var dateEl = document.getElementById('db-date-display');
+      if (dateEl) {
+        var now  = new Date();
+        var opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        try {
+          dateEl.textContent = now.toLocaleDateString('ar-EG', opts);
+        } catch (e) {
+          dateEl.textContent = now.toLocaleDateString();
+        }
+      }
+
+      /* --- Section switching --- */
+      var sectionLabels = {
+        overview:  'نظرة عامة',
+        portfolio: 'محفظتي',
+        trading:   'غرفة التداول',
+        research:  'الأبحاث',
+        settings:  'الإعدادات'
+      };
+
+      var breadcrumb = document.getElementById('db-breadcrumb');
+
+      function switchSection(sectionId) {
+        /* Hide all sections */
+        var sections = document.querySelectorAll('.db-section');
+        for (var i = 0; i < sections.length; i++) {
+          sections[i].style.display = 'none';
+        }
+
+        /* Show the requested section */
+        var target = document.getElementById('db-section-' + sectionId);
+        if (target) {
+          target.style.display = '';
+        }
+
+        /* Update nav active state */
+        var links = document.querySelectorAll('.db-nav-link');
+        for (var j = 0; j < links.length; j++) {
+          if (links[j].dataset.section === sectionId) {
+            links[j].classList.add('active');
+            links[j].setAttribute('aria-current', 'page');
+          } else {
+            links[j].classList.remove('active');
+            links[j].removeAttribute('aria-current');
+          }
+        }
+
+        /* Update breadcrumb */
+        if (breadcrumb) {
+          breadcrumb.textContent = 'لوحة التحكم › ' + (sectionLabels[sectionId] || sectionId);
+        }
+
+        /* Close mobile sidebar if open */
+        if (sidebar && sidebar.classList.contains('open')) {
+          closeSidebar();
+        }
+      }
+
+      /* Wire up nav links */
+      var navLinks = document.querySelectorAll('.db-nav-link');
+      for (var k = 0; k < navLinks.length; k++) {
+        navLinks[k].addEventListener('click', function (e) {
+          e.preventDefault();
+          var sec = this.dataset.section;
+          if (sec) {
+            switchSection(sec);
+          }
+        });
+      }
+
+      /* --- Sidebar mobile toggle --- */
+      var toggle  = document.getElementById('dbMobileToggle');
+      var sidebar = document.getElementById('dbSidebar');
+      var overlay = document.getElementById('dbSidebarOverlay');
+
+      if (!toggle || !sidebar || !overlay) return;
+
+      function openSidebar() {
+        sidebar.classList.add('open');
+        overlay.classList.add('open');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.textContent = '✕';
+        document.body.style.overflow = 'hidden'; // prevent bg scroll
+      }
+
+      function closeSidebar() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.textContent = '☰';
+        document.body.style.overflow = '';
+      }
+
+      toggle.addEventListener('click', function () {
+        sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+      });
+
+      overlay.addEventListener('click', closeSidebar);
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+          closeSidebar();
+        }
+      });
+
+    })();
+  </script>
+
+  <!-- Telegram Floating Button -->
+  <a
+    href="https://t.me/abdoresearch"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="telegram-float-wa"
+    aria-label="تواصل عبر تيليغرام"
+    data-tooltip="تواصل عبر تيليغرام"
+  >
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+    </svg>
+  </a>
+
+</body>
+</html>
