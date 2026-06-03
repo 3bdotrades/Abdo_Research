@@ -1016,14 +1016,15 @@
         <h3 class="auth-title" id="auth-modal-title">تسجيل الدخول</h3>
         <p class="auth-subtitle">مرحباً بعودتك</p>
         <div class="auth-input-group">
-          <label>البريد الإلكتروني</label>
-          <input type="email" placeholder="أدخل بريدك الإلكتروني" class="auth-input">
+          <label for="login-email">البريد الإلكتروني</label>
+          <input id="login-email" name="email" type="email" placeholder="أدخل بريدك الإلكتروني" class="auth-input" autocomplete="email" required>
         </div>
         <div class="auth-input-group">
-          <label>كلمة المرور</label>
-          <input type="password" placeholder="أدخل كلمة المرور" class="auth-input">
+          <label for="login-password">كلمة المرور</label>
+          <input id="login-password" name="password" type="password" placeholder="أدخل كلمة المرور" class="auth-input" autocomplete="current-password" required>
         </div>
         <button id="submit-login-btn" class="auth-submit-btn">الدخول للوحة التحكم</button>
+        <p id="auth-message" class="auth-message" role="status" aria-live="polite"></p>
         <p class="auth-switch-text">ليس لديك حساب؟ <a href="#" id="switch-to-signup">أنشئ حساباً جديداً</a></p>
       </div>
 
@@ -1031,16 +1032,16 @@
         <h3 class="auth-title">إنشاء حساب جديد</h3>
         <p class="auth-subtitle">انضم إلى النخبة وابدأ رحلتك الكمية</p>
         <div class="auth-input-group">
-          <label>الاسم الكامل</label>
-          <input type="text" placeholder="الاسم الكامل" class="auth-input">
+          <label for="signup-name">الاسم الكامل</label>
+          <input id="signup-name" name="name" type="text" placeholder="الاسم الكامل" class="auth-input" autocomplete="name" required>
         </div>
         <div class="auth-input-group">
-          <label>البريد الإلكتروني</label>
-          <input type="email" placeholder="أدخل بريدك الإلكتروني" class="auth-input">
+          <label for="signup-email">البريد الإلكتروني</label>
+          <input id="signup-email" name="email" type="email" placeholder="أدخل بريدك الإلكتروني" class="auth-input" autocomplete="email" required>
         </div>
         <div class="auth-input-group">
-          <label>كلمة المرور</label>
-          <input type="password" placeholder="كلمة المرور قوية" class="auth-input">
+          <label for="signup-password">كلمة المرور</label>
+          <input id="signup-password" name="password" type="password" placeholder="كلمة المرور قوية" class="auth-input" autocomplete="new-password" minlength="8" required>
         </div>
         <button id="submit-signup-btn" class="auth-submit-btn">إنشاء الحساب</button>
         <p class="auth-switch-text">لديك حساب بالفعل؟ <a href="#" id="switch-to-login">تسجيل الدخول</a></p>
@@ -1086,6 +1087,9 @@
   </nav>
 
   <!-- Core Javascript Engine -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth-config.js"></script>
+  <script src="auth.js"></script>
   <script src="app.js"></script>
 
   <!-- UX Enhancement Scripts: drawer + back-to-top -->

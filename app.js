@@ -1261,9 +1261,44 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const submitLoginBtn = document.getElementById('submit-login-btn');
   const submitSignupBtn = document.getElementById('submit-signup-btn');
+  const loginEmailInput = document.getElementById('login-email');
+  const loginPasswordInput = document.getElementById('login-password');
+  const signupNameInput = document.getElementById('signup-name');
+  const signupEmailInput = document.getElementById('signup-email');
+  const signupPasswordInput = document.getElementById('signup-password');
+  const authMessage = document.getElementById('auth-message');
 
   if (authModalOverlay) {
     let lastAuthTrigger = null;
+
+    const setAuthMessage = (message, type = '') => {
+      if (!authMessage) return;
+      authMessage.textContent = message || '';
+      authMessage.classList.remove('is-success', 'is-error');
+      if (type) authMessage.classList.add(`is-${type}`);
+    };
+
+    const authErrorMessage = (error) => {
+      const rawMessage = (error && error.message) ? error.message : '';
+      const message = rawMessage.toLowerCase();
+      if (message.includes('invalid login')) return 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+      if (message.includes('email not confirmed')) return 'يرجى تأكيد بريدك الإلكتروني قبل تسجيل الدخول.';
+      if (message.includes('already registered') || message.includes('already exists')) return 'هذا البريد مسجل بالفعل. جرّب تسجيل الدخول.';
+      if (message.includes('password')) return 'كلمة المرور يجب أن تكون 8 أحرف على الأقل.';
+      return rawMessage || 'حدث خطأ غير متوقع. حاول مرة أخرى.';
+    };
+
+    const setButtonLoading = (btn, loading, label) => {
+      if (!btn) return;
+      if (loading) {
+        btn.dataset.originalText = btn.textContent;
+        btn.textContent = label;
+        btn.disabled = true;
+      } else {
+        btn.textContent = btn.dataset.originalText || btn.textContent;
+        btn.disabled = false;
+      }
+    };
 
     const focusActiveAuthInput = () => {
       window.setTimeout(() => {
@@ -1278,6 +1313,7 @@ document.addEventListener('DOMContentLoaded', () => {
       loginFormView.style.display = view === 'signup' ? 'none' : 'block';
       signupFormView.style.display = view === 'signup' ? 'block' : 'none';
       authModalOverlay.style.display = 'flex';
+      setAuthMessage('');
       focusActiveAuthInput();
     };
 
@@ -1326,6 +1362,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         loginFormView.style.display = 'none';
         signupFormView.style.display = 'block';
+        setAuthMessage('');
         focusActiveAuthInput();
       });
     }
@@ -1335,25 +1372,88 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         signupFormView.style.display = 'none';
         loginFormView.style.display = 'block';
+        setAuthMessage('');
         focusActiveAuthInput();
       });
     }
 
-    // Contact handoff until real private dashboard auth is wired.
-    const simulateAuth = (btn) => {
-      btn.innerText = 'جاري تحويلك للتواصل...';
-      btn.disabled = true;
-      
-      setTimeout(() => {
-        window.location.href = 'https://t.me/abdoresearch';
-      }, 1200);
+    const ensureAuthConfigured = () => {
+      if (window.AbdoAuth && window.AbdoAuth.isConfigured()) return true;
+      setAuthMessage('أضف بيانات Supabase في ملف auth-config.js لتفعيل تسجيل الحسابات وإرسال رسائل التأكيد.', 'error');
+      return false;
+    };
+
+    const handleLogin = async (btn) => {
+      if (!ensureAuthConfigured()) return;
+      const email = loginEmailInput.value.trim();
+      const password = loginPasswordInput.value;
+      if (!email || !password) {
+        setAuthMessage('أدخل البريد الإلكتروني وكلمة المرور.', 'error');
+        return;
+      }
+
+      setButtonLoading(btn, true, 'جاري التحقق...');
+      setAuthMessage('');
+      try {
+        const result = await window.AbdoAuth.signIn({ email, password });
+        if (result.error) throw result.error;
+        window.location.href = window.AbdoAuth.dashboardUrl();
+      } catch (error) {
+        setAuthMessage(authErrorMessage(error), 'error');
+      } finally {
+        setButtonLoading(btn, false);
+      }
+    };
+
+    const handleSignup = async (btn) => {
+      if (!ensureAuthConfigured()) return;
+      const name = signupNameInput.value.trim();
+      const email = signupEmailInput.value.trim();
+      const password = signupPasswordInput.value;
+      if (!name || !email || !password) {
+        setAuthMessage('أكمل الاسم والبريد الإلكتروني وكلمة المرور.', 'error');
+        return;
+      }
+      if (password.length < 8) {
+        setAuthMessage('كلمة المرور يجب أن تكون 8 أحرف على الأقل.', 'error');
+        return;
+      }
+
+      setButtonLoading(btn, true, 'جاري إنشاء الحساب...');
+      setAuthMessage('');
+      try {
+        const result = await window.AbdoAuth.signUp({ name, email, password });
+        if (result.error) throw result.error;
+        if (result.data && result.data.session) {
+          window.location.href = window.AbdoAuth.dashboardUrl();
+          return;
+        }
+        setAuthMessage('تم إنشاء الحساب. افتح بريدك الإلكتروني واضغط رابط التأكيد لتفعيل الدخول.', 'success');
+      } catch (error) {
+        setAuthMessage(authErrorMessage(error), 'error');
+      } finally {
+        setButtonLoading(btn, false);
+      }
     };
 
     if (submitLoginBtn) {
-      submitLoginBtn.addEventListener('click', () => simulateAuth(submitLoginBtn));
+      submitLoginBtn.addEventListener('click', () => handleLogin(submitLoginBtn));
     }
     if (submitSignupBtn) {
-      submitSignupBtn.addEventListener('click', () => simulateAuth(submitSignupBtn));
+      submitSignupBtn.addEventListener('click', () => handleSignup(submitSignupBtn));
+    }
+
+    const authParams = new URLSearchParams(window.location.search);
+    if (authParams.get('auth') === 'login') {
+      openAuthModal('login', navLoginBtn || document.body);
+      if (authParams.get('auth_message') === 'config') {
+        setAuthMessage('أضف بيانات Supabase في ملف auth-config.js لتفعيل لوحة التحكم.', 'error');
+      } else if (authParams.get('auth_message') === 'signin') {
+        setAuthMessage('سجّل الدخول أولاً للوصول إلى لوحة التحكم.', 'error');
+      }
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
     }
   }
 
