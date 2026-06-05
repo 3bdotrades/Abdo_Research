@@ -2669,46 +2669,132 @@ footer {
   line-height: 1.75;
 }
 
-/* New: Hero Social Links Styles */
+/* Enhanced Hero Social Links Styles */
+.hero-social-card {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.02) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  backdrop-filter: blur(10px);
+}
+
 .hero-social-links {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
+  margin-top: 28px;
 }
 
 .hero-social-link {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 14px 0;
-  border-top: 1px solid var(--border-color);
+  padding: 16px 16px;
+  background: rgba(30, 30, 40, 0.5);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  border-radius: 8px;
   text-decoration: none;
   color: var(--text-main);
-  transition: all 0.3s ease;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-social-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 100%;
+  background: rgba(212, 175, 55, 0.1);
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
 }
 
 .hero-social-link:hover {
-  color: var(--primary);
-  border-top-color: var(--border-gold);
-  gap: 18px;
+  background: rgba(30, 30, 40, 0.8);
+  border-color: rgba(212, 175, 55, 0.3);
+  transform: translateX(-4px);
+}
+
+.hero-social-link:hover::before {
+  width: 100%;
+}
+
+.hero-social-badge {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.hero-social-link:hover .hero-social-badge {
+  background: rgba(212, 175, 55, 0.25);
+  border-color: rgba(212, 175, 55, 0.4);
+  transform: scale(1.1) rotate(3deg);
 }
 
 .hero-social-icon {
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
   color: var(--primary);
-  transition: transform 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
 }
 
 .hero-social-link:hover .hero-social-icon {
-  transform: scale(1.15);
+  transform: scale(1.2);
 }
 
-.hero-social-link span {
+.hero-social-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-social-label {
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--text-main);
   font-family: 'Tajawal', sans-serif;
+  letter-spacing: 0.3px;
+}
+
+.hero-social-desc {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 400;
+}
+
+.hero-social-link:hover .hero-social-label {
+  color: var(--primary);
+}
+
+.hero-social-arrow {
+  width: 18px;
+  height: 18px;
+  color: rgba(212, 175, 55, 0.4);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-social-link:hover .hero-social-arrow {
+  color: var(--primary);
+  transform: translateX(4px);
 }
 
 .pillars-section {
