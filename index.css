@@ -2669,6 +2669,48 @@ footer {
   line-height: 1.75;
 }
 
+/* New: Hero Social Links Styles */
+.hero-social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hero-social-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid var(--border-color);
+  text-decoration: none;
+  color: var(--text-main);
+  transition: all 0.3s ease;
+}
+
+.hero-social-link:hover {
+  color: var(--primary);
+  border-top-color: var(--border-gold);
+  gap: 18px;
+}
+
+.hero-social-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  color: var(--primary);
+  transition: transform 0.3s ease;
+}
+
+.hero-social-link:hover .hero-social-icon {
+  transform: scale(1.15);
+}
+
+.hero-social-link span {
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: 'Tajawal', sans-serif;
+}
+
 .pillars-section {
   max-width: 1280px;
   margin: 0 auto;
