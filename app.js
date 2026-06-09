@@ -1598,6 +1598,85 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(step);
   }
 
+  // =========================================
+  // 🎯 Market Selection Functionality
+  // =========================================
+  const marketData = {
+    all: { 
+      return: 284.6, 
+      winrate: 71.2, 
+      sharpe: 2.28, 
+      drawdown: 7.2,
+      title: 'منحنى رأس المال التراكمي — جميع الأسواق'
+    },
+    tadawul: { 
+      return: 312.4, 
+      winrate: 73.8, 
+      sharpe: 2.51, 
+      drawdown: 6.2,
+      title: 'منحنى رأس المال التراكمي — تداول (السعودية)'
+    },
+    dfm: { 
+      return: 198.7, 
+      winrate: 68.5, 
+      sharpe: 1.94, 
+      drawdown: 9.1,
+      title: 'منحنى رأس المال التراكمي — DFM (الإمارات)'
+    },
+    adx: { 
+      return: 245.3, 
+      winrate: 70.2, 
+      sharpe: 2.15, 
+      drawdown: 7.8,
+      title: 'منحنى رأس المال التراكمي — ADX (أبوظبي)'
+    },
+    qse: { 
+      return: 267.9, 
+      winrate: 72.1, 
+      sharpe: 2.38, 
+      drawdown: 6.9,
+      title: 'منحنى رأس المال التراكمي — QSE (قطر)'
+    },
+    forex: { 
+      return: 156.4, 
+      winrate: 65.3, 
+      sharpe: 1.72, 
+      drawdown: 11.5,
+      title: 'منحنى رأس المال التراكمي — فوركس'
+    }
+  };
+
+  const marketTabs = document.querySelectorAll('.market-tab');
+  marketTabs.forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      const selectedMarket = e.target.dataset.market;
+      
+      // Update active tab styling
+      marketTabs.forEach(t => {
+        t.style.background = 'transparent';
+        t.style.color = 'var(--primary)';
+        t.style.borderColor = 'var(--border-gold)';
+      });
+      e.target.style.background = 'var(--primary)';
+      e.target.style.color = 'var(--text-dark)';
+      e.target.style.borderColor = 'var(--primary)';
+      
+      // Update metrics
+      const data = marketData[selectedMarket];
+      document.getElementById('perf-quick-return').textContent = '+' + data.return.toFixed(1) + '%';
+      document.getElementById('perf-quick-return').dataset.counter = data.return;
+      document.getElementById('perf-winrate').textContent = data.winrate.toFixed(1) + '%';
+      document.getElementById('perf-winrate').dataset.counter = data.winrate;
+      document.getElementById('perf-quick-sharpe').textContent = data.sharpe.toFixed(2);
+      document.getElementById('perf-quick-sharpe').dataset.counter = data.sharpe;
+      document.getElementById('perf-quick-drawdown').textContent = '-' + data.drawdown.toFixed(1) + '%';
+      document.getElementById('perf-quick-drawdown').dataset.counter = data.drawdown;
+      
+      // Update chart title
+      document.getElementById('chart-main-title').textContent = data.title;
+    });
+  });
+
   // Observe hero KPI values
   const heroKpiObserver = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {

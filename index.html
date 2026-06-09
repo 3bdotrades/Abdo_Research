@@ -119,7 +119,7 @@
     <section id="hero" class="hero-section-inst">
       <div class="hero-inst-grid">
         <div class="hero-inst-left">
-          <span class="hero-eyebrow">باحث كمي مستقل · خبرة 8+ سنوات</span>
+          <span class="hero-eyebrow">باحث كمي · خبرة 8+ سنوات</span>
           <h1 class="hero-inst-headline">أبني نماذج تداول تقوم على الدليل الإحصائي، لا على الانطباع.</h1>
           <p class="hero-inst-sub">أنا عبدالرحمن محمد — أُطبّق منهجية بحثية كمية صارمة لتحويل البيانات التاريخية وسلوك السيولة إلى نماذج تداول مُختبرة بمنهجية Walk-Forward ومُدارة بانضباط.</p>
 
@@ -336,7 +336,7 @@
           <p class="src-desc">رصد لحظة استعادة السعر لمستويات السيولة السابقة (Previous Day Levels) بعد امتصاص الضغط البائع. المعادلة: نسبة نجاح منخفضة مع عائد 3.3× المخاطرة تُنتج ميزة إحصائية إيجابية صافية.</p>
           <div class="src-metrics">
             <div class="src-metric-box">
-              <span class="src-metric-label">متوسط عائد الصفقة</span>
+              <span class="src-metric-label">متوسط عائد الصفق��</span>
               <span class="src-metric-val text-green">+0.57R</span>
             </div>
             <div class="src-metric-box">
@@ -375,7 +375,7 @@
             </div>
           </div>
           <div class="src-footer">
-            <span>يعمل على: أسهم • خيارات • فوركس</span>
+            <span>يعم�� على: أسهم • خيارات • فوركس</span>
           </div>
         </div>
 
@@ -408,40 +408,53 @@
       </div>
     </section>
 
-    <!-- Performance Stats Section -->
+    <!-- Performance Stats Section with Market Selection -->
     <section id="performance" class="animate-on-scroll inst-section-sep">
       <div class="section-title-wrap">
         <span class="section-badge">الأداء الموثّق</span>
         <div class="section-divider"></div>
-        <h2 class="section-title">أرقامي على البيانات الفعلية.</h2>
+        <h2 class="section-title">نتائج الأداء حسب السوق.</h2>
         <p class="section-subtitle">
-          نتائج Walk-Forward على بيانات خارج العينة — شاملة فترات الخسارة بالكامل. الأداء السابق لا يضمن نتائج مستقبلية.
+          اختر السوق لعرض النتائج المفصلة — حيث يكون لكل سوق أداء منفصل. نتائج Walk-Forward على بيانات خارج العينة.
         </p>
       </div>
 
-      <div class="bloomberg-kpi-strip">
-        <div class="bkpi-item">
-          <span class="bkpi-label">العائد الإجمالي</span>
-          <span class="bkpi-val text-gradient" id="perf-quick-return" data-counter="284.6" data-prefix="+" data-suffix="%" data-decimals="1">+284.6%</span>
-          <span class="bkpi-sub">إجمالي النمو التراكمي</span>
-        </div>
-        <div class="bkpi-divider"></div>
-        <div class="bkpi-item">
-          <span class="bkpi-label">نسبة النجاح</span>
-          <span class="bkpi-val" style="color: var(--primary);" id="perf-winrate" data-counter="71.2" data-suffix="%" data-decimals="1">71.2%</span>
-          <span class="bkpi-sub">نسبة نجاح الصفقات</span>
-        </div>
-        <div class="bkpi-divider"></div>
-        <div class="bkpi-item">
-          <span class="bkpi-label">نسبة شارب</span>
-          <span class="bkpi-val" style="color: var(--primary);" id="perf-quick-sharpe" data-counter="2.28" data-decimals="2">2.28</span>
-          <span class="bkpi-sub">كفاءة العائد المعدّل بالمخاطر</span>
-        </div>
-        <div class="bkpi-divider"></div>
-        <div class="bkpi-item">
-          <span class="bkpi-label">أقصى تراجع</span>
-          <span class="bkpi-val text-red" id="perf-quick-drawdown" data-counter="7.2" data-prefix="-" data-suffix="%" data-decimals="1">-7.2%</span>
-          <span class="bkpi-sub">أقصى تراجع للمحفظة</span>
+      <!-- Market Selection Tabs -->
+      <div class="market-tabs-container" style="display: flex; gap: 12px; margin-bottom: 32px; overflow-x: auto; padding: 0 12px; justify-content: center; flex-wrap: wrap;">
+        <button class="market-tab active" data-market="all" style="padding: 10px 20px; border: 1px solid var(--primary); background: var(--primary); color: var(--text-dark); border-radius: 24px; cursor: pointer; font-weight: 600; font-size: 0.9rem;">جميع الأسواق</button>
+        <button class="market-tab" data-market="tadawul" style="padding: 10px 20px; border: 1px solid var(--border-gold); color: var(--primary); background: transparent; border-radius: 24px; cursor: pointer; font-weight: 600; font-size: 0.9rem;">تداول (السعودية)</button>
+        <button class="market-tab" data-market="dfm" style="padding: 10px 20px; border: 1px solid var(--border-gold); color: var(--primary); background: transparent; border-radius: 24px; cursor: pointer; font-weight: 600; font-size: 0.9rem;">DFM (الإمارات)</button>
+        <button class="market-tab" data-market="adx" style="padding: 10px 20px; border: 1px solid var(--border-gold); color: var(--primary); background: transparent; border-radius: 24px; cursor: pointer; font-weight: 600; font-size: 0.9rem;">ADX (أبوظبي)</button>
+        <button class="market-tab" data-market="qse" style="padding: 10px 20px; border: 1px solid var(--border-gold); color: var(--primary); background: transparent; border-radius: 24px; cursor: pointer; font-weight: 600; font-size: 0.9rem;">QSE (قطر)</button>
+        <button class="market-tab" data-market="forex" style="padding: 10px 20px; border: 1px solid var(--border-gold); color: var(--primary); background: transparent; border-radius: 24px; cursor: pointer; font-weight: 600; font-size: 0.9rem;">فوركس</button>
+      </div>
+
+      <!-- Performance Metrics (Dynamic based on market selection) -->
+      <div class="market-metrics-container" id="market-metrics">
+        <div class="bloomberg-kpi-strip">
+          <div class="bkpi-item">
+            <span class="bkpi-label">العائد الإجمالي</span>
+            <span class="bkpi-val text-gradient" id="perf-quick-return" data-counter="284.6" data-prefix="+" data-suffix="%" data-decimals="1">+284.6%</span>
+            <span class="bkpi-sub">إجمالي النمو التراكمي</span>
+          </div>
+          <div class="bkpi-divider"></div>
+          <div class="bkpi-item">
+            <span class="bkpi-label">نسبة النجاح</span>
+            <span class="bkpi-val" style="color: var(--primary);" id="perf-winrate" data-counter="71.2" data-suffix="%" data-decimals="1">71.2%</span>
+            <span class="bkpi-sub">نسبة نجاح الصفقات</span>
+          </div>
+          <div class="bkpi-divider"></div>
+          <div class="bkpi-item">
+            <span class="bkpi-label">نسبة شارب</span>
+            <span class="bkpi-val" style="color: var(--primary);" id="perf-quick-sharpe" data-counter="2.28" data-decimals="2">2.28</span>
+            <span class="bkpi-sub">كفاءة العائد المعدّل بالمخاطر</span>
+          </div>
+          <div class="bkpi-divider"></div>
+          <div class="bkpi-item">
+            <span class="bkpi-label">أقصى تراجع</span>
+            <span class="bkpi-val text-red" id="perf-quick-drawdown" data-counter="7.2" data-prefix="-" data-suffix="%" data-decimals="1">-7.2%</span>
+            <span class="bkpi-sub">أقصى تراجع للمحفظة</span>
+          </div>
         </div>
       </div>
 
@@ -449,7 +462,7 @@
         <div class="chart-header">
           <div style="display: flex; flex-direction: column; gap: 5px;">
             <span style="font-size: 0.58rem; letter-spacing: 0.18em; color: var(--text-subtle); text-transform: uppercase; font-family: 'Cairo', sans-serif;">النموذج مقابل المؤشر</span>
-            <h3 style="font-size: 1.05rem; font-weight: 800;" id="chart-main-title">منحنى رأس المال التراكمي — الأسواق المالية</h3>
+            <h3 style="font-size: 1.05rem; font-weight: 800;" id="chart-main-title">منحنى رأس المال التراكمي — جميع الأسواق</h3>
           </div>
 
           <div class="chart-info">
