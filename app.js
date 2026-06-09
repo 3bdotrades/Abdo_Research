@@ -1252,6 +1252,58 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeModalBtn = document.getElementById('close-modal-btn');
   const navLoginBtn = document.getElementById('nav-login-btn');
   const navSignupBtn = document.getElementById('nav-signup-btn');
+
+  // Check session and update header auth UI
+  const updateHeaderAuthUI = async () => {
+    const session = await window.AbdoAuth.getSession();
+    if (session && session.user) {
+      // User is logged in - show "حسابي" button
+      if (navLoginBtn && navSignupBtn) {
+        navLoginBtn.style.display = 'none';
+        navSignupBtn.style.display = 'none';
+        
+        // Create "حسابي" button if it doesn't exist
+        let myAccountBtn = document.getElementById('nav-myaccount-btn');
+        if (!myAccountBtn) {
+          myAccountBtn = document.createElement('a');
+          myAccountBtn.id = 'nav-myaccount-btn';
+          myAccountBtn.href = '#';
+          myAccountBtn.textContent = 'حسابي';
+          myAccountBtn.style.color = 'var(--text-muted)';
+          myAccountBtn.style.textDecoration = 'none';
+          myAccountBtn.style.fontSize = '0.9rem';
+          myAccountBtn.style.fontWeight = '600';
+          myAccountBtn.style.transition = 'color 0.3s';
+          myAccountBtn.classList.add('nav-account-link');
+          
+          // Insert before the mobile menu button
+          const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+          if (mobileMenuBtn && mobileMenuBtn.parentNode) {
+            mobileMenuBtn.parentNode.insertBefore(myAccountBtn, mobileMenuBtn);
+          } else if (navSignupBtn.parentNode) {
+            navSignupBtn.parentNode.insertBefore(myAccountBtn, navSignupBtn);
+          }
+          
+          myAccountBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = window.AbdoAuth.dashboardUrl();
+          });
+        } else {
+          myAccountBtn.style.display = 'block';
+        }
+      }
+    } else {
+      // User is not logged in - show login/signup buttons
+      if (navLoginBtn) navLoginBtn.style.display = 'block';
+      if (navSignupBtn) navSignupBtn.style.display = 'block';
+      
+      const myAccountBtn = document.getElementById('nav-myaccount-btn');
+      if (myAccountBtn) myAccountBtn.style.display = 'none';
+    }
+  };
+
+  // Run on page load
+  updateHeaderAuthUI();
   
   const loginFormView = document.getElementById('login-form-view');
   const signupFormView = document.getElementById('signup-form-view');
@@ -1410,6 +1462,8 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const result = await window.AbdoAuth.signIn({ email, password });
         if (result.error) throw result.error;
+        // Update header UI before redirecting
+        await updateHeaderAuthUI();
         window.location.href = window.AbdoAuth.dashboardUrl();
       } catch (error) {
         setAuthMessage(authErrorMessage(error), 'error');
