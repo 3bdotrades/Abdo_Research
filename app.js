@@ -1269,11 +1269,15 @@ document.addEventListener('DOMContentLoaded', () => {
           myAccountBtn.id = 'nav-myaccount-btn';
           myAccountBtn.href = '#';
           myAccountBtn.textContent = 'حسابي';
-          myAccountBtn.style.color = 'var(--text-muted)';
+          myAccountBtn.className = 'btn-primary';
           myAccountBtn.style.textDecoration = 'none';
+          myAccountBtn.style.display = 'inline-flex';
+          myAccountBtn.style.alignItems = 'center';
+          myAccountBtn.style.justifyContent = 'center';
+          myAccountBtn.style.padding = '10px 20px';
           myAccountBtn.style.fontSize = '0.9rem';
           myAccountBtn.style.fontWeight = '600';
-          myAccountBtn.style.transition = 'color 0.3s';
+          myAccountBtn.style.borderRadius = '8px';
           myAccountBtn.classList.add('nav-account-link');
           
           // Insert before the mobile menu button
