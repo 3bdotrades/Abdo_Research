@@ -3627,6 +3627,8 @@ html {
 
 /* 7. Active nav pill gold underline indicator — inset bottom glow works with border-radius */
 .nav-pill-link.active {
+  color: #ffffff !important;
+  background: rgba(255,255,255,0.1) !important;
   box-shadow: inset 0 -2px 0 var(--primary);
 }
 
