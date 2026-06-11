@@ -483,6 +483,9 @@ section {
 /* Chart Card Style */
 .chart-container-outer {
   margin-top: 30px;
+  padding: 28px 32px 32px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.024));
 }
 .chart-header {
   display: flex;
@@ -1886,6 +1889,25 @@ footer {
   transform: translateY(-3px);
   border-color: var(--border-gold);
 }
+.insight-card-media {
+  width: calc(100% + 20px);
+  aspect-ratio: 16 / 9;
+  margin: -18px -10px 2px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+}
+.insight-card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+.insight-card:hover .insight-card-media img {
+  transform: scale(1.025);
+}
 .insight-meta {
   display: flex;
   justify-content: space-between;
@@ -3084,11 +3106,13 @@ footer {
 .svg-chart-wrapper {
   position: relative;
   width: 100%;
-  height: 360px;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius-sm);
-  padding: 8px;
+  height: 420px;
+  background:
+    linear-gradient(180deg, rgba(212,175,55,0.035), transparent 42%),
+    #050608;
+  border: 1px solid rgba(255,255,255,0.075);
+  border-radius: 10px;
+  padding: 14px;
   overflow: hidden;
 }
 

@@ -13,7 +13,7 @@ The production entry point is `index.html`. The member area is available at `/da
 
 ## EGX Live Snapshot
 
-The dashboard reads `egx-live.json`, which is generated from the local EGX system without writing to it:
+The dashboard reads `egx-live.json`, which is generated from the local EGX system without writing to it. By default the sync script reads `D:\Orderflow\Projects\ml\markets\egx` when present, then falls back to `D:\stable\egx`; override with `EGX_ROOT` when needed:
 
 ```bash
 node scripts/sync-egx-live.js
@@ -41,6 +41,8 @@ on conflict (email) do nothing;
 ```
 
 After this, signup creates a Supabase Auth user, sends the confirmation email, and creates/updates a protected `profiles` row with `access_status = 'pending'`. The admin account can approve/reject users, create/edit/delete research posts, and manage homepage video sections plus videos from the dashboard. Published posts are loaded into the homepage insights section and open on `post.html?id=...`; published videos load into `مكتبة الفيديو` under the section you choose, with optional market separation per section.
+
+Research posts support an optional `image_url` and dashboard uploads to the public Supabase Storage bucket `post-images`. Run the latest `supabase.sql` so the column, bucket, and storage policies exist before uploading post images.
 
 Supabase's built-in email provider is only suitable for testing and can be blocked by authorization/rate-limit rules. Production signup confirmations should use custom SMTP, then Auth logs and the email provider logs should be checked if a message is not delivered.
 

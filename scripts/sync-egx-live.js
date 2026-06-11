@@ -3,9 +3,15 @@
 
 const fs = require('fs');
 const path = require('path');
+const { spawnSync } = require('child_process');
 
 const repoRoot = path.resolve(__dirname, '..');
-const egxRoot = path.resolve(process.env.EGX_ROOT || 'D:\\stable\\egx');
+const egxRootCandidates = [
+  process.env.EGX_ROOT,
+  'D:\\Orderflow\\Projects\\ml\\markets\\egx',
+  'D:\\stable\\egx'
+].filter(Boolean);
+const egxRoot = path.resolve(egxRootCandidates.find((candidate) => fs.existsSync(candidate)) || egxRootCandidates[0]);
 const outPath = path.join(repoRoot, 'egx-live.json');
 
 function readJson(relativePath, fallback) {
@@ -30,10 +36,93 @@ function compactList(value) {
     : [];
 }
 
+function readEquityChart() {
+  const pythonCode = String.raw`
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+
+def thin(series, limit=1500):
+    series = series.dropna()
+    if series.empty:
+        return []
+    step = max(1, len(series) // limit)
+    thinned = series.iloc[::step]
+    if thinned.index[-1] != series.index[-1]:
+        thinned = thinned._append(series.iloc[[-1]])
+    return [{"d": str(idx.date()), "v": round(float(value), 6)} for idx, value in thinned.items()]
+
+def read_nav():
+    import pandas as pd
+    path = root / "logs" / "backtest_equity.parquet"
+    if not path.exists():
+        return []
+    df = pd.read_parquet(path)
+    if "date" in df.columns:
+        df = df.set_index(pd.to_datetime(df["date"]))
+    else:
+        df.index = pd.to_datetime(df.index)
+    return thin(df["nav"])
+
+def read_benchmark(equity_points):
+    import pandas as pd
+    if not equity_points:
+        return []
+    path = root / "data" / "processed" / "benchmarks" / "index30_official.parquet"
+    if not path.exists():
+        return []
+    df = pd.read_parquet(path).sort_values("date")
+    if df.empty:
+        return []
+    col = "total_return" if "total_return" in df.columns else "daily_return"
+    eq = (1.0 + pd.to_numeric(df[col], errors="coerce").fillna(0.0)).cumprod()
+    eq.index = pd.to_datetime(df["date"].values)
+    start = pd.Timestamp(equity_points[0]["d"])
+    end = pd.Timestamp(equity_points[-1]["d"])
+    eq = eq[(eq.index >= start) & (eq.index <= end)]
+    if not eq.empty and eq.index[-1] < end:
+        eq = pd.concat([eq, pd.Series([eq.iloc[-1]], index=[end])])
+    return thin(eq)
+
+equity = read_nav()
+payload = {
+    "title": "منحنى رأس المال التراكمي — مصر EGX",
+    "label": "المحفظة / النموذج الكمي",
+    "benchmark_label": "EGX30 Official",
+    "equity_points": equity,
+    "benchmark_points": read_benchmark(equity),
+}
+print(json.dumps(payload, ensure_ascii=False))
+`;
+
+  try {
+    const result = spawnSync(process.env.PYTHON || 'python', ['-c', pythonCode, egxRoot], {
+      encoding: 'utf8',
+      maxBuffer: 1024 * 1024 * 8
+    });
+    if (result.status !== 0 || !result.stdout.trim()) {
+      if (result.stderr) console.warn(result.stderr.trim());
+      return null;
+    }
+    const chart = JSON.parse(result.stdout);
+    if (!Array.isArray(chart.equity_points) || chart.equity_points.length < 2) return null;
+    return chart;
+  } catch (error) {
+    console.warn(`Could not read equity chart data: ${error.message}`);
+    return null;
+  }
+}
+
 const feed = readJson('data\\processed\\data_feed_status.json', {});
 const picks = readJson('logs\\tomorrow_picks.json', {});
 const backtest = readJson('logs\\backtest_full.json', {});
 const dailyScan = readJson('logs\\backtest_daily_scan.json', {});
+const chart = readEquityChart();
+const sourceLabel = egxRoot.toLowerCase().includes('projects\\ml')
+  ? 'egx-ml-dashboard-snapshot'
+  : 'egx-stable-snapshot';
 
 const portfolio = backtest.portfolio && typeof backtest.portfolio === 'object'
   ? backtest.portfolio
@@ -41,12 +130,14 @@ const portfolio = backtest.portfolio && typeof backtest.portfolio === 'object'
 
 const snapshot = {
   generated_at: new Date().toISOString(),
-  source: 'egx-stable-snapshot',
+  source: sourceLabel,
   source_files: [
     'data/processed/data_feed_status.json',
     'logs/tomorrow_picks.json',
     'logs/backtest_full.json',
-    'logs/backtest_daily_scan.json'
+    'logs/backtest_daily_scan.json',
+    'logs/backtest_equity.parquet',
+    'data/processed/benchmarks/index30_official.parquet'
   ],
   feed: {
     status: feed.status || 'UNKNOWN',
@@ -96,6 +187,7 @@ const snapshot = {
     failed_count: compactList(feed.failed_symbols).length,
     stale_count: compactList(feed.stale_vs_latest_symbols).length
   },
+  chart,
   note: 'EGX operational snapshot for research monitoring only. Not investment advice.'
 };
 

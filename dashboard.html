@@ -1287,6 +1287,23 @@
       line-height: 1.8;
     }
 
+    .db-post-image-preview {
+      display: none;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(5,6,8,0.42);
+    }
+
+    .db-post-image-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .db-post-form .db-settings-save-btn {
       margin-top: 4px;
     }
@@ -1315,6 +1332,16 @@
       border-radius: 12px;
       background: rgba(5,6,8,0.34);
       padding: 14px 16px;
+    }
+
+    .db-admin-post-thumb {
+      width: 100%;
+      aspect-ratio: 16 / 7;
+      border-radius: 10px;
+      object-fit: cover;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      display: block;
     }
 
     .db-admin-post-item h4 {
@@ -2129,6 +2156,21 @@
           </div>
 
           <div class="auth-input-group">
+            <label for="post-image-file">صورة المنشور</label>
+            <input id="post-image-file" type="file" class="auth-input" accept="image/png,image/jpeg,image/webp,image/gif">
+            <p class="db-settings-helper">يمكنك رفع صورة من جهازك أو استخدام رابط مباشر في الحقل التالي.</p>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="post-image-url">رابط الصورة</label>
+            <input id="post-image-url" type="url" class="auth-input" placeholder="https://..." autocomplete="off" dir="ltr">
+          </div>
+
+          <div id="post-image-preview" class="db-post-image-preview" aria-label="معاينة صورة المنشور">
+            <img id="post-image-preview-img" alt="">
+          </div>
+
+          <div class="auth-input-group">
             <label for="post-status">حالة النشر</label>
             <select id="post-status" class="auth-input">
               <option value="published">نشر الآن</option>
@@ -2612,6 +2654,10 @@
         var tagInput = document.getElementById('post-tag');
         var excerptInput = document.getElementById('post-excerpt');
         var contentInput = document.getElementById('post-content');
+        var imageFileInput = document.getElementById('post-image-file');
+        var imageUrlInput = document.getElementById('post-image-url');
+        var imagePreview = document.getElementById('post-image-preview');
+        var imagePreviewImg = document.getElementById('post-image-preview-img');
         var statusInput = document.getElementById('post-status');
         var editingPostId = null;
         var postsCache = [];
@@ -2650,11 +2696,50 @@
           }
         }
 
+        function setImagePreview(url) {
+          if (!imagePreview || !imagePreviewImg) return;
+          var cleanUrl = String(url || '').trim();
+          if (!cleanUrl) {
+            imagePreview.style.display = 'none';
+            imagePreviewImg.removeAttribute('src');
+            return;
+          }
+          imagePreview.style.display = 'block';
+          imagePreviewImg.src = cleanUrl;
+        }
+
+        function imageExtension(file) {
+          var name = file && file.name ? file.name : 'post-image';
+          var match = name.match(/\.([a-z0-9]+)$/i);
+          var ext = match ? match[1].toLowerCase() : 'jpg';
+          return ['jpg', 'jpeg', 'png', 'webp', 'gif'].indexOf(ext) >= 0 ? ext : 'jpg';
+        }
+
+        async function uploadPostImage(file) {
+          if (!file) return '';
+          var safeName = String(file.name || 'post-image')
+            .replace(/[^a-z0-9._-]+/gi, '-')
+            .replace(/-+/g, '-')
+            .slice(0, 80);
+          var filePath = user.id + '/' + Date.now() + '-' + safeName.replace(/\.[^.]+$/, '') + '.' + imageExtension(file);
+          var upload = await client.storage
+            .from('post-images')
+            .upload(filePath, file, {
+              cacheControl: '31536000',
+              contentType: file.type || 'image/jpeg',
+              upsert: true
+            });
+          if (upload.error) throw upload.error;
+          var publicUrl = client.storage.from('post-images').getPublicUrl(filePath);
+          return publicUrl && publicUrl.data ? publicUrl.data.publicUrl : '';
+        }
+
         function renderPost(post) {
           var dateValue = post.published_at || post.updated_at || post.created_at;
           var statusLabel = post.status === 'published' ? 'منشور' : 'مسودة';
           return [
             '<article class="db-admin-post-item">',
+              post.image_url ? '<img class="db-admin-post-thumb" src="' + escapeHtml(post.image_url) + '" alt="">' : '',
               '<div class="db-admin-post-meta">',
                 '<span class="insight-tag">' + escapeHtml(post.tag || 'بحثي') + '</span>',
                 '<span class="db-admin-post-status">' + statusLabel + '</span>',
@@ -2679,6 +2764,9 @@
           tagInput.value = post ? (post.tag || 'بحثي') : 'بحثي';
           excerptInput.value = post ? (post.excerpt || '') : '';
           contentInput.value = post ? (post.content || '') : '';
+          if (imageUrlInput) imageUrlInput.value = post ? (post.image_url || '') : '';
+          if (imageFileInput) imageFileInput.value = '';
+          setImagePreview(post ? post.image_url : '');
           statusInput.value = post && post.status === 'draft' ? 'draft' : 'published';
 
           if (submitLabel) submitLabel.textContent = post ? 'حفظ التعديل' : 'نشر المنشور';
@@ -2691,9 +2779,23 @@
           list.innerHTML = '<p class="db-settings-helper">جاري تحميل المنشورات...</p>';
           var result = await client
             .from('posts')
-            .select('id,title,excerpt,content,tag,status,published_at,updated_at,created_at')
+            .select('id,title,excerpt,content,image_url,tag,status,published_at,updated_at,created_at')
             .order('updated_at', { ascending: false })
             .limit(8);
+
+          if (result.error && /image_url/i.test(result.error.message || '')) {
+            result = await client
+              .from('posts')
+              .select('id,title,excerpt,content,tag,status,published_at,updated_at,created_at')
+              .order('updated_at', { ascending: false })
+              .limit(8);
+            if (result.data) {
+              result.data = result.data.map(function (post) {
+                post.image_url = '';
+                return post;
+              });
+            }
+          }
 
           if (result.error) {
             list.innerHTML = '<p class="db-settings-helper">لم يتم تحميل المنشورات. تأكد من تشغيل ملف supabase.sql.</p>';
@@ -2718,6 +2820,10 @@
           var excerpt = excerptInput.value.trim();
           var content = contentInput.value.trim();
           var status = statusInput.value === 'draft' ? 'draft' : 'published';
+          var imageUrl = imageUrlInput ? imageUrlInput.value.trim() : '';
+          var imageFile = imageFileInput && imageFileInput.files && imageFileInput.files[0]
+            ? imageFileInput.files[0]
+            : null;
 
           if (!title || !excerpt || !content) {
             setPostMessage('أكمل العنوان والملخص والنص قبل النشر.', 'error');
@@ -2725,6 +2831,18 @@
           }
 
           if (submitBtn) submitBtn.disabled = true;
+
+          try {
+            if (imageFile) {
+              setPostMessage('جاري رفع صورة المنشور...', 'success');
+              imageUrl = await uploadPostImage(imageFile);
+            }
+          } catch (error) {
+            if (submitBtn) submitBtn.disabled = false;
+            setPostMessage('لم يتم رفع الصورة. تأكد من تشغيل supabase.sql وإنشاء bucket باسم post-images.', 'error');
+            console.warn('Post image upload failed:', error.message || error);
+            return;
+          }
 
           var payload = {
             author_id: user.id,
@@ -2735,6 +2853,7 @@
             status: status,
             published_at: status === 'published' ? new Date().toISOString() : null
           };
+          if (imageUrl) payload.image_url = imageUrl;
 
           var saveQuery = editingPostId
             ? client.from('posts').update(payload).eq('id', editingPostId).select('id').single()
@@ -2750,6 +2869,9 @@
 
           form.reset();
           if (tagInput) tagInput.value = 'بحثي';
+          if (imageUrlInput) imageUrlInput.value = '';
+          if (imageFileInput) imageFileInput.value = '';
+          setImagePreview('');
           if (statusInput) statusInput.value = 'published';
           editingPostId = null;
           if (cancelEditBtn) cancelEditBtn.hidden = true;
@@ -2757,6 +2879,23 @@
           setPostMessage('تم حفظ المنشور بنجاح.', 'success');
           loadPosts();
         });
+
+        if (imageUrlInput) {
+          imageUrlInput.addEventListener('input', function () {
+            setImagePreview(imageUrlInput.value);
+          });
+        }
+
+        if (imageFileInput) {
+          imageFileInput.addEventListener('change', function () {
+            var file = imageFileInput.files && imageFileInput.files[0];
+            if (!file) {
+              setImagePreview(imageUrlInput ? imageUrlInput.value : '');
+              return;
+            }
+            setImagePreview(URL.createObjectURL(file));
+          });
+        }
 
         list.addEventListener('click', async function (event) {
           var actionEl = event.target.closest('[data-post-action]');

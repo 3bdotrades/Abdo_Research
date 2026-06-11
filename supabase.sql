@@ -131,12 +131,15 @@ create table if not exists public.posts (
   title text not null,
   excerpt text not null,
   content text not null,
+  image_url text,
   tag text not null default 'بحثي',
   status text not null default 'draft' check (status in ('draft', 'published')),
   published_at timestamptz,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.posts add column if not exists image_url text;
 
 alter table public.posts enable row level security;
 
@@ -171,6 +174,46 @@ create policy "Admins can delete posts"
   on public.posts
   for delete
   using (public.is_admin());
+
+-- Public post image bucket. Admins can upload/edit/delete; visitors can read.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'post-images',
+  'post-images',
+  true,
+  10485760,
+  array['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+)
+on conflict (id) do update
+set public = excluded.public,
+    file_size_limit = excluded.file_size_limit,
+    allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "Anyone can read post images" on storage.objects;
+drop policy if exists "Admins can upload post images" on storage.objects;
+drop policy if exists "Admins can update post images" on storage.objects;
+drop policy if exists "Admins can delete post images" on storage.objects;
+
+create policy "Anyone can read post images"
+  on storage.objects
+  for select
+  using (bucket_id = 'post-images');
+
+create policy "Admins can upload post images"
+  on storage.objects
+  for insert
+  with check (bucket_id = 'post-images' and public.is_admin());
+
+create policy "Admins can update post images"
+  on storage.objects
+  for update
+  using (bucket_id = 'post-images' and public.is_admin())
+  with check (bucket_id = 'post-images' and public.is_admin());
+
+create policy "Admins can delete post images"
+  on storage.objects
+  for delete
+  using (bucket_id = 'post-images' and public.is_admin());
 
 create table if not exists public.video_sections (
   id uuid primary key default gen_random_uuid(),

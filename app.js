@@ -9,8 +9,10 @@
 document.addEventListener('DOMContentLoaded', () => {
   // --- Portal Market Selector Configuration & State ---
   let activeMarket = 'saudi'; // Default localized market on entry
+  let performanceMarket = 'egypt'; // Default chart source mirrors the local EGX dashboard
   let currentCurrency = 'local'; // 'local' or 'usd' for Backtester
   let currentPeriod = '1Y'; // Default chart period
+  let liveEquityChart = null;
 
   const marketDetails = {
     saudi: {
@@ -225,6 +227,65 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  const performanceChartDetails = {
+    egypt: {
+      name: 'مصر',
+      indexName: 'EGX30 Official',
+      chartTitle: 'منحنى رأس المال التراكمي — مصر EGX',
+      return: 485.6,
+      indexReturn: 92.6
+    },
+    all: {
+      name: 'جميع الأسواق',
+      indexName: 'مؤشر مرجعي مركب',
+      chartTitle: 'منحنى رأس المال التراكمي — جميع الأسواق',
+      return: 284.6,
+      indexReturn: 30.2
+    },
+    tadawul: {
+      name: 'تداول',
+      indexName: 'مؤشر تاسي (TASI)',
+      chartTitle: 'منحنى رأس المال التراكمي — تداول (السعودية)',
+      return: 312.4,
+      indexReturn: 42.5
+    },
+    dfm: {
+      name: 'DFM',
+      indexName: 'مؤشر سوق دبي',
+      chartTitle: 'منحنى رأس المال التراكمي — DFM (الإمارات)',
+      return: 198.7,
+      indexReturn: 34.8
+    },
+    adx: {
+      name: 'ADX',
+      indexName: 'مؤشر سوق أبوظبي',
+      chartTitle: 'منحنى رأس المال التراكمي — ADX (أبوظبي)',
+      return: 245.3,
+      indexReturn: 37.4
+    },
+    qse: {
+      name: 'QSE',
+      indexName: 'مؤشر بورصة قطر',
+      chartTitle: 'منحنى رأس المال التراكمي — QSE (قطر)',
+      return: 267.9,
+      indexReturn: 25.4
+    },
+    kuwait: {
+      name: 'بورصة الكويت',
+      indexName: 'مؤشر السوق الأول',
+      chartTitle: 'منحنى رأس المال التراكمي — بورصة الكويت',
+      return: 184.2,
+      indexReturn: 18.9
+    },
+    forex: {
+      name: 'فوركس',
+      indexName: 'مؤشر مرجعي للعملات',
+      chartTitle: 'منحنى رأس المال التراكمي — فوركس',
+      return: 156.4,
+      indexReturn: 22.2
+    }
+  };
+
   // --- Global Navigation & Scroll Effects ---
   const header = document.querySelector('header');
   const navLinks = document.querySelectorAll('.header-nav-pill a[href^="#"], .mobile-drawer-nav a[href^="#"]');
@@ -327,212 +388,321 @@ document.addEventListener('DOMContentLoaded', () => {
   const svgElement = document.getElementById('performance-svg');
   const tooltip = document.getElementById('chart-tooltip');
 
-  function renderChart(period) {
+  function currentPerformanceDetails() {
+    return performanceChartDetails[performanceMarket] || performanceChartDetails.all;
+  }
+
+  function createSvgNode(name, attrs) {
+    const node = document.createElementNS('http://www.w3.org/2000/svg', name);
+    Object.keys(attrs || {}).forEach((key) => node.setAttribute(key, attrs[key]));
+    return node;
+  }
+
+  function getPeriodStart(points, period) {
+    if (!points || points.length === 0 || period === 'ALL') return null;
+    const last = new Date(points[points.length - 1].d + 'T00:00:00');
+    const years = { '5Y': 5, '3Y': 3, '1Y': 1 };
+    const months = { '3M': 3, '1M': 1 };
+    if (years[period]) return new Date(last.getFullYear() - years[period], last.getMonth(), last.getDate());
+    if (months[period]) return new Date(last.getFullYear(), last.getMonth() - months[period], last.getDate());
+    return null;
+  }
+
+  function filterChartPoints(points, period) {
+    if (!Array.isArray(points) || points.length === 0) return [];
+    const start = getPeriodStart(points, period);
+    if (!start) return points;
+    const filtered = points.filter((point) => new Date(point.d + 'T00:00:00') >= start);
+    return filtered.length > 1 ? filtered : points;
+  }
+
+  function normalizeChartPoints(points) {
+    if (!Array.isArray(points) || points.length === 0) return [];
+    const base = Number(points[0].v) || 1;
+    return points.map((point) => ({
+      d: point.d,
+      raw: Number(point.v) || 0,
+      n: ((Number(point.v) || 0) / base) * 100
+    }));
+  }
+
+  function shortChartDate(value) {
+    if (!value) return '';
+    const date = new Date(value + 'T00:00:00');
+    if (Number.isNaN(date.getTime())) return value;
+    return date.toLocaleDateString('ar-EG', { month: 'short', year: 'numeric' });
+  }
+
+  function updateChartLabels(details, liveMode) {
+    const chartTitle = document.getElementById('chart-main-title');
+    const chartLegendModel = document.getElementById('chart-legend-model');
+    const chartLegendIndex = document.getElementById('chart-legend-index');
+    if (chartTitle) chartTitle.textContent = liveMode && liveEquityChart?.title ? liveEquityChart.title : details.chartTitle;
+    if (chartLegendModel) chartLegendModel.textContent = liveMode ? 'المحفظة / النموذج الكمي' : 'النموذج الكمي';
+    if (chartLegendIndex) chartLegendIndex.textContent = liveMode ? (liveEquityChart?.benchmark_label || 'EGX30 Official') : details.indexName;
+  }
+
+  function renderSyntheticChart(period) {
     if (!svgElement) return;
-    
-    // Clear previous drawing
     svgElement.innerHTML = '';
-    
-    const data = chartData[period];
+
+    const details = currentPerformanceDetails();
+    updateChartLabels(details, false);
+
+    const data = chartData[period] || ((period === '5Y' || period === '3Y') ? chartData.ALL : chartData['1Y']);
     const width = svgElement.clientWidth || 800;
     const height = svgElement.clientHeight || 350;
-    const padding = { top: 40, right: 60, bottom: 40, left: 60 };
-    
+    const padding = { top: 40, right: 60, bottom: 42, left: 60 };
     const usableWidth = width - padding.left - padding.right;
     const usableHeight = height - padding.top - padding.bottom;
-    
-    // Scale standard data points to match specific active market's return rate
-    const market = marketDetails[activeMarket];
-    const scaleFactorModel = parseFloat(market.return) / 284.6;
-    const scaleFactorIndex = market.indexReturn / 30.2;
-    
-    const scaledModel = data.model.map(v => v * scaleFactorModel);
-    const scaledSp500 = data.sp500.map(v => v * scaleFactorIndex);
-    
-    // Find min/max values across both scaled datasets
-    const allValues = [...scaledModel, ...scaledSp500];
-    const maxVal = Math.max(...allValues) * 1.15; // 15% head room
-    const minVal = Math.min(...allValues) * 1.15; // 15% bottom room
-    
-    const valRange = maxVal - minVal;
-    
-    // Dynamic coordinate mapping functions
-    const getX = (index) => padding.left + (index / (data.labels.length - 1)) * usableWidth;
-    const getY = (val) => padding.top + usableHeight - ((val - minVal) / valRange) * usableHeight;
 
-    // Draw Grid Lines (Horizontal & Vertical)
-    const gridLinesGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    gridLinesGroup.setAttribute('stroke', 'rgba(255,255,255,0.04)');
-    gridLinesGroup.setAttribute('stroke-width', '1');
-    
-    // Horizontal grids
+    const scaleFactorModel = details.return / 284.6;
+    const scaleFactorIndex = details.indexReturn / 30.2;
+    const scaledModel = data.model.map((value) => value * scaleFactorModel);
+    const scaledBenchmark = data.sp500.map((value) => value * scaleFactorIndex);
+    const allValues = [...scaledModel, ...scaledBenchmark];
+    const maxVal = Math.max(...allValues) * 1.15;
+    const minVal = Math.min(...allValues) * 1.15;
+    const valRange = maxVal - minVal || 1;
+    const getX = (index) => padding.left + (index / Math.max(data.labels.length - 1, 1)) * usableWidth;
+    const getY = (value) => padding.top + usableHeight - ((value - minVal) / valRange) * usableHeight;
+
+    drawChartScaffold({
+      width,
+      height,
+      padding,
+      labels: data.labels,
+      minVal,
+      maxVal,
+      formatY: (value) => (value >= 0 ? '+' : '') + value.toFixed(1) + '%',
+      getX,
+      getY
+    });
+
+    drawLinePath(scaledBenchmark.map((value, index) => ({ x: getX(index), y: getY(value) })), '#4b5563', true);
+    drawAreaAndLine(scaledModel.map((value, index) => ({ x: getX(index), y: getY(value), value, label: data.dates[index] })), getY(minVal), details.indexName);
+  }
+
+  function drawChartScaffold(config) {
+    const gridLinesGroup = createSvgNode('g', { stroke: 'rgba(255,255,255,0.055)', 'stroke-width': '1' });
     const gridCount = 5;
+    const valRange = config.maxVal - config.minVal || 1;
+
     for (let i = 0; i <= gridCount; i++) {
-      const yVal = minVal + (i / gridCount) * valRange;
-      const y = getY(yVal);
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      line.setAttribute('x1', padding.left);
-      line.setAttribute('y1', y);
-      line.setAttribute('x2', width - padding.right);
-      line.setAttribute('y2', y);
-      gridLinesGroup.appendChild(line);
-      
-      // Grid Y labels
-      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      text.setAttribute('x', width - padding.right + 10);
-      text.setAttribute('y', y + 4);
-      text.setAttribute('fill', 'var(--text-muted)');
-      text.setAttribute('font-size', '10px');
-      text.setAttribute('font-family', 'Cairo');
-      text.setAttribute('text-anchor', 'start');
-      text.textContent = `+${yVal.toFixed(1)}%`;
+      const value = config.minVal + (i / gridCount) * valRange;
+      const y = config.getY(value);
+      gridLinesGroup.appendChild(createSvgNode('line', {
+        x1: config.padding.left,
+        y1: y,
+        x2: config.width - config.padding.right,
+        y2: y
+      }));
+
+      const text = createSvgNode('text', {
+        x: config.width - config.padding.right + 10,
+        y: y + 4,
+        fill: 'var(--text-muted)',
+        'font-size': '10px',
+        'font-family': 'Cairo',
+        'text-anchor': 'start'
+      });
+      text.textContent = config.formatY(value);
       gridLinesGroup.appendChild(text);
     }
-    
-    // Vertical grids & X labels
-    data.labels.forEach((label, idx) => {
-      const x = getX(idx);
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      line.setAttribute('x1', x);
-      line.setAttribute('y1', padding.top);
-      line.setAttribute('x2', x);
-      line.setAttribute('y2', height - padding.bottom);
-      gridLinesGroup.appendChild(line);
-      
-      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      text.setAttribute('x', x);
-      text.setAttribute('y', height - padding.bottom + 22);
-      text.setAttribute('fill', 'var(--text-muted)');
-      text.setAttribute('font-size', '11px');
-      text.setAttribute('font-family', 'Cairo');
-      text.setAttribute('text-anchor', 'middle');
+
+    config.labels.forEach((label, index) => {
+      const x = config.getX(index);
+      gridLinesGroup.appendChild(createSvgNode('line', {
+        x1: x,
+        y1: config.padding.top,
+        x2: x,
+        y2: config.height - config.padding.bottom
+      }));
+
+      const text = createSvgNode('text', {
+        x,
+        y: config.height - config.padding.bottom + 24,
+        fill: 'var(--text-muted)',
+        'font-size': '11px',
+        'font-family': 'Cairo',
+        'text-anchor': 'middle'
+      });
       text.textContent = label;
       gridLinesGroup.appendChild(text);
     });
-    
+
     svgElement.appendChild(gridLinesGroup);
+  }
 
-    // --- Benchmark Line drawing (Scaled local index) ---
-    let spPathD = '';
-    scaledSp500.forEach((val, idx) => {
-      const x = getX(idx);
-      const y = getY(val);
-      if (idx === 0) spPathD += `M ${x} ${y}`;
-      else spPathD += ` L ${x} ${y}`;
+  function drawLinePath(points, color, dashed) {
+    if (!points.length) return;
+    const path = points.map((point, index) => `${index ? 'L' : 'M'} ${point.x} ${point.y}`).join(' ');
+    const line = createSvgNode('path', {
+      d: path,
+      fill: 'none',
+      stroke: color,
+      'stroke-width': dashed ? '2' : '3',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round'
     });
-    
-    const spPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    spPath.setAttribute('d', spPathD);
-    spPath.setAttribute('fill', 'none');
-    spPath.setAttribute('stroke', '#4b5563');
-    spPath.setAttribute('stroke-width', '2');
-    spPath.setAttribute('stroke-dasharray', '5,5');
-    svgElement.appendChild(spPath);
+    if (dashed) line.setAttribute('stroke-dasharray', '6 7');
+    svgElement.appendChild(line);
+  }
 
-    // --- أبحاث كمية Equity Path drawing (Smooth Bezier) ---
-    let modelPathD = '';
-    let areaPathD = `M ${getX(0)} ${getY(minVal)}`; // Start of gradient area
-    
-    scaledModel.forEach((val, idx) => {
-      const x = getX(idx);
-      const y = getY(val);
-      
-      if (idx === 0) {
-        modelPathD += `M ${x} ${y}`;
-        areaPathD += ` L ${x} ${y}`;
-      } else {
-        // Curve construction using simple midpoints control
-        const prevX = getX(idx - 1);
-        const prevY = getY(scaledModel[idx - 1]);
-        const cpX1 = prevX + (x - prevX) / 2;
-        const cpY1 = prevY;
-        const cpX2 = prevX + (x - prevX) / 2;
-        const cpY2 = y;
-        modelPathD += ` C ${cpX1} ${cpY1}, ${cpX2} ${cpY2}, ${x} ${y}`;
-        areaPathD += ` C ${cpX1} ${cpY1}, ${cpX2} ${cpY2}, ${x} ${y}`;
-      }
-      
-      if (idx === scaledModel.length - 1) {
-        areaPathD += ` L ${x} ${getY(minVal)} Z`; // Close the path at the bottom
-      }
+  function drawAreaAndLine(points, baselineY, benchmarkName) {
+    if (!points.length) return;
+    const defs = createSvgNode('defs');
+    const linearGrad = createSvgNode('linearGradient', {
+      id: 'chartGrad',
+      x1: '0',
+      y1: '0',
+      x2: '0',
+      y2: '1'
     });
-
-    // Create Gradient Definition
-    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-    const linearGrad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
-    linearGrad.setAttribute('id', 'chartGrad');
-    linearGrad.setAttribute('x1', '0');
-    linearGrad.setAttribute('y1', '0');
-    linearGrad.setAttribute('x2', '0');
-    linearGrad.setAttribute('y2', '1');
-    
-    const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-    stop1.setAttribute('offset', '0%');
-    stop1.setAttribute('stop-color', 'var(--primary)');
-    stop1.setAttribute('stop-opacity', '0.25');
-    
-    const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-    stop2.setAttribute('offset', '100%');
-    stop2.setAttribute('stop-color', 'var(--primary)');
-    stop2.setAttribute('stop-opacity', '0');
-    
-    linearGrad.appendChild(stop1);
-    linearGrad.appendChild(stop2);
+    linearGrad.appendChild(createSvgNode('stop', {
+      offset: '0%',
+      'stop-color': 'var(--primary)',
+      'stop-opacity': '0.30'
+    }));
+    linearGrad.appendChild(createSvgNode('stop', {
+      offset: '100%',
+      'stop-color': 'var(--primary)',
+      'stop-opacity': '0'
+    }));
     defs.appendChild(linearGrad);
     svgElement.appendChild(defs);
 
-    // Draw area gradient
-    const area = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    area.setAttribute('d', areaPathD);
-    area.setAttribute('fill', 'url(#chartGrad)');
-    svgElement.appendChild(area);
+    const linePath = points.map((point, index) => `${index ? 'L' : 'M'} ${point.x} ${point.y}`).join(' ');
+    const areaPath = [
+      `M ${points[0].x} ${baselineY}`,
+      ...points.map((point) => `L ${point.x} ${point.y}`),
+      `L ${points[points.length - 1].x} ${baselineY}`,
+      'Z'
+    ].join(' ');
 
-    // Draw main line path with glowing stroke
-    const modelPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    modelPath.setAttribute('d', modelPathD);
-    modelPath.setAttribute('fill', 'none');
-    modelPath.setAttribute('stroke', 'var(--primary)');
-    modelPath.setAttribute('stroke-width', '3');
-    modelPath.setAttribute('filter', 'drop-shadow(0px 0px 8px var(--primary))');
+    svgElement.appendChild(createSvgNode('path', { d: areaPath, fill: 'url(#chartGrad)' }));
+    const modelPath = createSvgNode('path', {
+      d: linePath,
+      fill: 'none',
+      stroke: 'var(--primary)',
+      'stroke-width': '3',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      filter: 'drop-shadow(0px 0px 8px var(--primary))'
+    });
     svgElement.appendChild(modelPath);
 
-    // Draw Interactive Data Points & Hover Triggers
-    const pointsGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    scaledModel.forEach((val, idx) => {
-      const x = getX(idx);
-      const y = getY(val);
-      
-      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      circle.setAttribute('cx', x);
-      circle.setAttribute('cy', y);
-      circle.setAttribute('r', '5');
-      circle.setAttribute('fill', 'var(--bg-secondary)');
-      circle.setAttribute('stroke', 'var(--primary)');
-      circle.setAttribute('stroke-width', '2');
+    const step = Math.max(1, Math.floor(points.length / 6));
+    points.forEach((point, index) => {
+      if (index % step !== 0 && index !== points.length - 1) return;
+      const circle = createSvgNode('circle', {
+        cx: point.x,
+        cy: point.y,
+        r: '5',
+        fill: 'var(--bg-secondary)',
+        stroke: 'var(--primary)',
+        'stroke-width': '2'
+      });
       circle.style.cursor = 'pointer';
-      circle.style.transition = 'r 0.2s ease';
-      
-      // Interactive mouseover events to display floating tooltip
-      circle.addEventListener('mouseover', (e) => {
+      circle.addEventListener('mouseover', () => {
         circle.setAttribute('r', '8');
-        tooltip.style.left = `${x}px`;
-        tooltip.style.top = `${y - 12}px`;
+        if (!tooltip) return;
+        tooltip.style.left = `${point.x}px`;
+        tooltip.style.top = `${point.y - 12}px`;
         tooltip.style.display = 'block';
         tooltip.innerHTML = `
-          <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">الفترة: ${data.dates[idx]}</div>
-          <div style="color: var(--accent-green);">الأداء البحثي للنموذج: +${val.toFixed(1)}%</div>
-          <div style="color: var(--text-muted);">${market.indexName}: +${scaledSp500[idx].toFixed(1)}%</div>
+          <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">${point.label || ''}</div>
+          <div style="color: var(--accent-green);">المحفظة: ${point.value.toFixed(1)}</div>
+          <div style="color: var(--text-muted);">${benchmarkName}</div>
         `;
       });
-      
       circle.addEventListener('mouseout', () => {
         circle.setAttribute('r', '5');
-        tooltip.style.display = 'none';
+        if (tooltip) tooltip.style.display = 'none';
       });
-      
-      pointsGroup.appendChild(circle);
+      svgElement.appendChild(circle);
     });
-    svgElement.appendChild(pointsGroup);
+  }
+
+  function renderLiveEquityChart(period) {
+    if (!svgElement || !liveEquityChart || !Array.isArray(liveEquityChart.equity_points)) return false;
+    const rawModel = filterChartPoints(liveEquityChart.equity_points, period);
+    const rawBenchmark = filterChartPoints(liveEquityChart.benchmark_points || [], period);
+    const model = normalizeChartPoints(rawModel);
+    const benchmark = normalizeChartPoints(rawBenchmark);
+    if (model.length < 2) return false;
+
+    svgElement.innerHTML = '';
+    const details = currentPerformanceDetails();
+    updateChartLabels(details, true);
+
+    const width = svgElement.clientWidth || 800;
+    const height = svgElement.clientHeight || 350;
+    const padding = { top: 40, right: 60, bottom: 44, left: 64 };
+    const usableWidth = width - padding.left - padding.right;
+    const usableHeight = height - padding.top - padding.bottom;
+    const values = [...model, ...benchmark].map((point) => point.n).filter(Number.isFinite);
+    const lowRaw = Math.min(...values);
+    const highRaw = Math.max(...values);
+    const padValue = (highRaw - lowRaw) * 0.08 || 8;
+    const minVal = Math.max(0, lowRaw - padValue);
+    const maxVal = highRaw + padValue;
+    const start = new Date(model[0].d + 'T00:00:00');
+    const end = new Date(model[model.length - 1].d + 'T00:00:00');
+    const dateRange = end - start || 1;
+    const getXByDate = (value) => padding.left + ((new Date(value + 'T00:00:00') - start) / dateRange) * usableWidth;
+    const getY = (value) => padding.top + usableHeight - ((value - minVal) / (maxVal - minVal || 1)) * usableHeight;
+    const labelIndexes = [0, 0.2, 0.4, 0.6, 0.8, 1]
+      .map((ratio) => Math.min(model.length - 1, Math.round((model.length - 1) * ratio)));
+    const labels = [...new Set(labelIndexes)].map((index) => shortChartDate(model[index].d));
+
+    drawChartScaffold({
+      width,
+      height,
+      padding,
+      labels,
+      minVal,
+      maxVal,
+      formatY: (value) => value.toFixed(0),
+      getX: (index) => {
+        const pointIndex = labelIndexes[index] ?? 0;
+        return getXByDate(model[pointIndex].d);
+      },
+      getY
+    });
+
+    drawLinePath(benchmark.map((point) => ({ x: getXByDate(point.d), y: getY(point.n) })), '#64748b', true);
+    drawAreaAndLine(
+      model.map((point) => ({
+        x: getXByDate(point.d),
+        y: getY(point.n),
+        value: point.n,
+        label: point.d
+      })),
+      getY(minVal),
+      liveEquityChart.benchmark_label || 'EGX30 Official'
+    );
+    return true;
+  }
+
+  function renderChart(period) {
+    if (!svgElement) return;
+    if (performanceMarket === 'egypt' && renderLiveEquityChart(period)) return;
+    renderSyntheticChart(period);
+  }
+
+  async function loadLiveEquityChart() {
+    try {
+      const response = await fetch('egx-live.json?ts=' + Date.now(), { cache: 'no-store' });
+      if (!response.ok) return;
+      const data = await response.json();
+      if (data && data.chart && Array.isArray(data.chart.equity_points) && data.chart.equity_points.length > 1) {
+        liveEquityChart = data.chart;
+        if (performanceMarket === 'egypt') renderChart(currentPeriod);
+      }
+    } catch (error) {
+      console.warn('Live equity chart load failed:', error);
+    }
   }
 
   // Bind chart period toggle buttons
@@ -545,6 +715,8 @@ document.addEventListener('DOMContentLoaded', () => {
       renderChart(currentPeriod);
     });
   });
+
+  loadLiveEquityChart();
 
   window.addEventListener('resize', () => renderChart(currentPeriod));
 
@@ -1221,12 +1393,22 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     try {
-      const result = await client
+      let result = await client
         .from('posts')
-        .select('id,title,excerpt,content,tag,published_at,created_at')
+        .select('id,title,excerpt,content,image_url,tag,published_at,created_at')
         .eq('status', 'published')
         .order('published_at', { ascending: false, nullsFirst: false })
         .limit(3);
+
+      if (result.error && /image_url/i.test(result.error.message || '')) {
+        result = await client
+          .from('posts')
+          .select('id,title,excerpt,content,tag,published_at,created_at')
+          .eq('status', 'published')
+          .order('published_at', { ascending: false, nullsFirst: false })
+          .limit(3);
+        if (result.data) result.data = result.data.map((post) => ({ ...post, image_url: '' }));
+      }
 
       if (result.error || !result.data || result.data.length === 0) {
         if (result.error) console.warn('Published posts load failed:', result.error.message);
@@ -1237,6 +1419,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const readTime = estimateReadTime(post);
         return `
           <article class="insight-card glass-panel stagger-visible">
+            ${post.image_url ? `<div class="insight-card-media"><img src="${escapeHtml(post.image_url)}" alt=""></div>` : ''}
             <div class="insight-meta">
               <span class="insight-tag">${escapeHtml(post.tag || 'بحثي')}</span>
               <span class="insight-date">${formatDate(post.published_at || post.created_at)}</span>
@@ -1548,6 +1731,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // 🎯 Market Selection Functionality
   // =========================================
   const marketData = {
+    egypt: {
+      return: 485.6,
+      winrate: 66.4,
+      sharpe: 1.95,
+      drawdown: 11.2,
+      title: 'منحنى رأس المال التراكمي — مصر EGX'
+    },
     all: { 
       return: 284.6, 
       winrate: 71.2, 
@@ -1600,35 +1790,62 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const marketTabs = document.querySelectorAll('.market-tab');
+  function applyPerformanceMarket(selectedMarket, activeTab) {
+    const data = marketData[selectedMarket];
+    if (!data) return;
+    performanceMarket = selectedMarket;
+
+    marketTabs.forEach(t => {
+      t.style.background = 'transparent';
+      t.style.color = 'var(--primary)';
+      t.style.borderColor = 'var(--border-gold)';
+      t.classList.remove('active');
+    });
+
+    if (activeTab) {
+      activeTab.style.background = 'var(--primary)';
+      activeTab.style.color = 'var(--text-dark)';
+      activeTab.style.borderColor = 'var(--primary)';
+      activeTab.classList.add('active');
+    }
+
+    const returnEl = document.getElementById('perf-quick-return');
+    const winrateEl = document.getElementById('perf-winrate');
+    const sharpeEl = document.getElementById('perf-quick-sharpe');
+    const drawdownEl = document.getElementById('perf-quick-drawdown');
+    if (returnEl) {
+      returnEl.textContent = '+' + data.return.toFixed(1) + '%';
+      returnEl.dataset.counter = data.return;
+    }
+    if (winrateEl) {
+      winrateEl.textContent = data.winrate.toFixed(1) + '%';
+      winrateEl.dataset.counter = data.winrate;
+    }
+    if (sharpeEl) {
+      sharpeEl.textContent = data.sharpe.toFixed(2);
+      sharpeEl.dataset.counter = data.sharpe;
+    }
+    if (drawdownEl) {
+      drawdownEl.textContent = '-' + data.drawdown.toFixed(1) + '%';
+      drawdownEl.dataset.counter = data.drawdown;
+    }
+
+    const chartTitle = document.getElementById('chart-main-title');
+    if (chartTitle) chartTitle.textContent = data.title;
+    renderChart(currentPeriod);
+  }
+
   marketTabs.forEach(tab => {
     tab.addEventListener('click', (e) => {
       const selectedMarket = e.target.dataset.market;
-      
-      // Update active tab styling
-      marketTabs.forEach(t => {
-        t.style.background = 'transparent';
-        t.style.color = 'var(--primary)';
-        t.style.borderColor = 'var(--border-gold)';
-      });
-      e.target.style.background = 'var(--primary)';
-      e.target.style.color = 'var(--text-dark)';
-      e.target.style.borderColor = 'var(--primary)';
-      
-      // Update metrics
-      const data = marketData[selectedMarket];
-      document.getElementById('perf-quick-return').textContent = '+' + data.return.toFixed(1) + '%';
-      document.getElementById('perf-quick-return').dataset.counter = data.return;
-      document.getElementById('perf-winrate').textContent = data.winrate.toFixed(1) + '%';
-      document.getElementById('perf-winrate').dataset.counter = data.winrate;
-      document.getElementById('perf-quick-sharpe').textContent = data.sharpe.toFixed(2);
-      document.getElementById('perf-quick-sharpe').dataset.counter = data.sharpe;
-      document.getElementById('perf-quick-drawdown').textContent = '-' + data.drawdown.toFixed(1) + '%';
-      document.getElementById('perf-quick-drawdown').dataset.counter = data.drawdown;
-      
-      // Update chart title
-      document.getElementById('chart-main-title').textContent = data.title;
+      applyPerformanceMarket(selectedMarket, e.target);
     });
   });
+
+  const initialPerformanceTab = document.querySelector('.market-tab.active') || document.querySelector('.market-tab');
+  if (initialPerformanceTab) {
+    applyPerformanceMarket(initialPerformanceTab.dataset.market, initialPerformanceTab);
+  }
 
   // Observe hero KPI values
   const heroKpiObserver = new IntersectionObserver((entries, obs) => {
