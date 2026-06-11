@@ -530,6 +530,209 @@
       font-weight: 700;
     }
 
+    /* ===== EGX live snapshot ===== */
+    .db-egx-live-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius-md);
+      overflow: hidden;
+      transition: border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .db-egx-live-card:hover {
+      border-color: var(--border-gold);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+    }
+
+    .db-egx-live-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .db-egx-live-eyebrow {
+      color: var(--primary);
+      display: block;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.66rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .db-egx-live-title {
+      color: #ffffff;
+      font-family: 'Cairo', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 900;
+      line-height: 1.45;
+      margin-bottom: 5px;
+    }
+
+    .db-egx-live-subtitle {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      line-height: 1.7;
+    }
+
+    .db-egx-live-status {
+      align-items: center;
+      border: 1px solid rgba(212,175,55,0.22);
+      border-radius: 999px;
+      color: var(--primary);
+      display: inline-flex;
+      flex-shrink: 0;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 900;
+      min-height: 34px;
+      padding: 7px 14px;
+      white-space: nowrap;
+    }
+
+    .db-egx-live-status.is-good {
+      border-color: rgba(73,209,125,0.32);
+      color: #49d17d;
+    }
+
+    .db-egx-live-status.is-bad {
+      border-color: rgba(255,125,125,0.34);
+      color: #ff7d7d;
+    }
+
+    .db-egx-live-status.is-warn {
+      border-color: rgba(212,175,55,0.28);
+      color: var(--primary);
+    }
+
+    .db-egx-live-metrics {
+      display: grid;
+      gap: 1px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      background: var(--border-color);
+    }
+
+    .db-egx-live-metric {
+      background: rgba(5,6,8,0.54);
+      min-height: 104px;
+      padding: 18px 20px;
+    }
+
+    .db-egx-live-metric span {
+      color: var(--text-subtle);
+      display: block;
+      font-size: 0.68rem;
+      margin-bottom: 9px;
+    }
+
+    .db-egx-live-metric strong {
+      color: #ffffff;
+      display: block;
+      font-family: 'Cairo', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .db-egx-live-metric small {
+      color: var(--text-muted);
+      display: block;
+      font-size: 0.7rem;
+      line-height: 1.55;
+    }
+
+    .db-egx-live-body {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+      padding: 24px;
+    }
+
+    .db-egx-live-block {
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 18px 18px 20px;
+    }
+
+    .db-egx-live-block h4 {
+      color: #ffffff;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.94rem;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .db-egx-live-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      min-height: 33px;
+    }
+
+    .db-egx-chip {
+      align-items: center;
+      background: rgba(212,175,55,0.08);
+      border: 1px solid rgba(212,175,55,0.18);
+      border-radius: 999px;
+      color: var(--primary);
+      display: inline-flex;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 900;
+      min-height: 31px;
+      padding: 6px 11px;
+    }
+
+    .db-egx-chip.is-muted {
+      background: rgba(255,255,255,0.035);
+      border-color: var(--border-color);
+      color: var(--text-muted);
+    }
+
+    .db-egx-live-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .db-egx-live-row {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .db-egx-live-row:last-child {
+      border-bottom: none;
+    }
+
+    .db-egx-live-row span {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    .db-egx-live-row strong {
+      color: #ffffff;
+      direction: ltr;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.86rem;
+      font-weight: 900;
+      text-align: left;
+    }
+
+    .db-egx-live-note {
+      color: var(--text-subtle);
+      font-size: 0.72rem;
+      line-height: 1.7;
+      padding: 0 24px 24px;
+    }
+
     /* Trend arrows before percentage values */
     .db-kpi-arrow-up {
       color: var(--primary);
@@ -732,6 +935,14 @@
       .db-kpi-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+
+      .db-egx-live-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .db-egx-live-body {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 900px) {
@@ -775,6 +986,23 @@
       .db-kpi-card { padding: 16px 14px; }
 
       .db-kpi-value { font-size: 1.3rem; }
+
+      .db-egx-live-header {
+        flex-direction: column;
+        padding: 20px;
+      }
+
+      .db-egx-live-metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .db-egx-live-body {
+        padding: 20px;
+      }
+
+      .db-egx-live-note {
+        padding: 0 20px 20px;
+      }
     }
 
     @media (max-width: 420px) {
@@ -1483,6 +1711,74 @@
             <div class="db-kpi-sub">PDL · MR · Pivot — جميعها تعمل</div>
           </div>
 
+        </div>
+      </section>
+
+      <!-- ========================
+           EGX LIVE SNAPSHOT
+           ======================== -->
+      <section aria-label="EGX live dashboard snapshot">
+        <div class="db-egx-live-card" id="db-egx-live">
+          <div class="db-egx-live-header">
+            <div>
+              <span class="db-egx-live-eyebrow">EGX Live Snapshot</span>
+              <h3 class="db-egx-live-title">ملخص مباشر من نظام EGX الكمي</h3>
+              <p class="db-egx-live-subtitle">تقرأ اللوحة آخر لقطة منشورة من نظام EGX المحلي: حالة البيانات، الجلسة الأخيرة، المراكز الحالية، والمرشحين للجلسة القادمة.</p>
+            </div>
+            <span class="db-egx-live-status is-warn" id="egx-feed-status">جاري التحميل</span>
+          </div>
+
+          <div class="db-egx-live-metrics">
+            <div class="db-egx-live-metric">
+              <span>آخر جلسة</span>
+              <strong id="egx-latest-session">—</strong>
+              <small id="egx-snapshot-time">لم يتم تحميل اللقطة بعد</small>
+            </div>
+            <div class="db-egx-live-metric">
+              <span>تغطية البيانات</span>
+              <strong id="egx-data-coverage">—</strong>
+              <small id="egx-data-errors">—</small>
+            </div>
+            <div class="db-egx-live-metric">
+              <span>العائد المركب التاريخي</span>
+              <strong id="egx-cagr">—</strong>
+              <small id="egx-risk-line">Sharpe — · DD —</small>
+            </div>
+            <div class="db-egx-live-metric">
+              <span>حالة التنفيذ القادمة</span>
+              <strong id="egx-next-action">—</strong>
+              <small id="egx-decision-date">—</small>
+            </div>
+          </div>
+
+          <div class="db-egx-live-body">
+            <div class="db-egx-live-block">
+              <h4>المراكز الحالية</h4>
+              <div class="db-egx-live-chips" id="egx-current-holdings">
+                <span class="db-egx-chip is-muted">جاري التحميل</span>
+              </div>
+            </div>
+
+            <div class="db-egx-live-block">
+              <h4>الأوامر المرشحة</h4>
+              <div class="db-egx-live-list">
+                <div class="db-egx-live-row">
+                  <span>Daily scan</span>
+                  <strong id="egx-daily-scan">—</strong>
+                </div>
+                <div class="db-egx-live-row">
+                  <span>Rebalance</span>
+                  <strong id="egx-rebalance">—</strong>
+                </div>
+                <div class="db-egx-live-row">
+                  <span>Max positions</span>
+                  <strong id="egx-max-positions">—</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="db-egx-live-note" id="egx-live-note">هذه اللقطة للمتابعة البحثية والتشغيلية فقط وليست توصية استثمارية.</p>
         </div>
       </section>
 
@@ -2470,6 +2766,129 @@
         } catch (e) {
           dateEl.textContent = now.toLocaleDateString();
         }
+      }
+
+      /* --- EGX live snapshot rendering --- */
+      var egxRoot = document.getElementById('db-egx-live');
+
+      function setText(id, value) {
+        var node = document.getElementById(id);
+        if (node) node.textContent = value == null || value === '' ? '—' : String(value);
+      }
+
+      function formatPct(value, decimals) {
+        if (value == null || value === '') return '—';
+        var number = Number(value);
+        if (!Number.isFinite(number)) return '—';
+        return (number * 100).toFixed(decimals == null ? 1 : decimals) + '%';
+      }
+
+      function formatSignedPct(value, decimals) {
+        if (value == null || value === '') return '—';
+        var number = Number(value);
+        if (!Number.isFinite(number)) return '—';
+        var pct = number * 100;
+        return (pct > 0 ? '+' : '') + pct.toFixed(decimals == null ? 1 : decimals) + '%';
+      }
+
+      function formatNumber(value, decimals) {
+        if (value == null || value === '') return '—';
+        var number = Number(value);
+        if (!Number.isFinite(number)) return '—';
+        return number.toLocaleString('en-US', {
+          maximumFractionDigits: decimals == null ? 2 : decimals,
+          minimumFractionDigits: decimals == null ? 0 : decimals
+        });
+      }
+
+      function formatTime(value) {
+        if (!value) return 'لم يتم التحديث بعد';
+        try {
+          return 'آخر تحديث ' + new Date(value).toLocaleString('ar-EG', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+        } catch (error) {
+          return value;
+        }
+      }
+
+      function renderChips(id, items, emptyText) {
+        var node = document.getElementById(id);
+        if (!node) return;
+        var list = Array.isArray(items) ? items.filter(Boolean) : [];
+        if (list.length === 0) {
+          node.innerHTML = '<span class="db-egx-chip is-muted">' + emptyText + '</span>';
+          return;
+        }
+        node.innerHTML = list.map(function (item) {
+          return '<span class="db-egx-chip">' + String(item).replace(/[&<>"']/g, function (char) {
+            return {
+              '&': '&amp;',
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#039;'
+            }[char];
+          }) + '</span>';
+        }).join('');
+      }
+
+      function setEgxStatus(status) {
+        var node = document.getElementById('egx-feed-status');
+        var clean = String(status || 'UNKNOWN').toUpperCase();
+        if (!node) return;
+        node.classList.remove('is-good', 'is-bad', 'is-warn');
+        if (clean === 'OK' || clean === 'READY' || clean === 'PASS') {
+          node.classList.add('is-good');
+        } else if (clean === 'BLOCKED' || clean === 'FAIL' || clean === 'FAILED') {
+          node.classList.add('is-bad');
+        } else {
+          node.classList.add('is-warn');
+        }
+        node.textContent = clean;
+      }
+
+      async function loadEgxLiveSnapshot() {
+        if (!egxRoot) return;
+        try {
+          var response = await fetch('egx-live.json?ts=' + Date.now(), { cache: 'no-store' });
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          var data = await response.json();
+          var feed = data.feed || {};
+          var portfolio = data.portfolio || {};
+          var live = data.live || {};
+          var strategy = data.strategy || {};
+          var health = data.health || {};
+
+          setEgxStatus(feed.status || health.status);
+          setText('egx-latest-session', feed.latest_session);
+          setText('egx-snapshot-time', formatTime(data.generated_at));
+          setText('egx-data-coverage', (feed.symbols_ok || 0) + ' / ' + (feed.symbols_total || 0));
+          setText('egx-data-errors', (health.failed_count || 0) + ' فشل · ' + (health.stale_count || 0) + ' متأخر');
+          setText('egx-cagr', formatPct(portfolio.cagr, 1));
+          setText('egx-risk-line', 'Sharpe ' + formatNumber(portfolio.sharpe, 2) + ' · DD ' + formatSignedPct(portfolio.max_dd, 1));
+          setText('egx-next-action', live.fire_at_next_close ? 'إعادة توازن' : ((live.daily_scan_targets || []).length ? 'Daily scan' : 'متابعة'));
+          setText('egx-decision-date', live.decided_at ? 'تاريخ القرار ' + live.decided_at : 'لا يوجد قرار إعادة توازن');
+          setText('egx-daily-scan', (live.daily_scan_targets || []).join(', ') || 'لا يوجد');
+          setText('egx-rebalance', (live.rebalance_targets || []).join(', ') || 'لا يوجد');
+          setText('egx-max-positions', strategy.max_positions || '—');
+          setText('egx-live-note', data.note || 'هذه اللقطة للمتابعة البحثية والتشغيلية فقط وليست توصية استثمارية.');
+          renderChips('egx-current-holdings', live.current_holdings, 'لا توجد مراكز حالية');
+        } catch (error) {
+          setEgxStatus('UNAVAILABLE');
+          setText('egx-snapshot-time', 'قم بتشغيل node scripts/sync-egx-live.js لتوليد اللقطة');
+          setText('egx-live-note', 'تعذر تحميل ملف egx-live.json من الموقع. تأكد من توليد اللقطة ورفعها مع آخر نشر.');
+          renderChips('egx-current-holdings', [], 'اللقطة غير متاحة');
+        }
+      }
+
+      loadEgxLiveSnapshot();
+      if (egxRoot) {
+        window.setInterval(loadEgxLiveSnapshot, 60000);
       }
 
       /* --- Section switching --- */

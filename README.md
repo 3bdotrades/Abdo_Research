@@ -11,6 +11,16 @@ Static Arabic landing site prepared for Vercel with Supabase Auth wiring.
 
 The production entry point is `index.html`. The member area is available at `/dashboard` and checks for a Supabase session before showing the UI.
 
+## EGX Live Snapshot
+
+The dashboard reads `egx-live.json`, which is generated from the local EGX system without writing to it:
+
+```bash
+node scripts/sync-egx-live.js
+```
+
+By default the script reads `D:\stable\egx` and writes only to this website repo. To read another EGX checkout, set `EGX_ROOT` before running the script.
+
 ## Supabase Auth Setup
 
 1. Create a Supabase project.
