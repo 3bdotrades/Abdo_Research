@@ -172,6 +172,56 @@ create policy "Admins can delete posts"
   for delete
   using (public.is_admin());
 
+create table if not exists public.videos (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  description text not null,
+  youtube_url text not null,
+  embed_url text not null,
+  tag text not null default 'فيديو',
+  category text not null default 'analysis' check (category in ('analysis', 'tutorials')),
+  market text check (market in ('saudi', 'uae', 'egypt', 'qatar', 'kuwait') or market is null),
+  status text not null default 'draft' check (status in ('draft', 'published')),
+  sort_order integer not null default 0,
+  published_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.videos enable row level security;
+
+drop policy if exists "Anyone can read published videos" on public.videos;
+drop policy if exists "Admins can read all videos" on public.videos;
+drop policy if exists "Admins can create videos" on public.videos;
+drop policy if exists "Admins can update videos" on public.videos;
+drop policy if exists "Admins can delete videos" on public.videos;
+
+create policy "Anyone can read published videos"
+  on public.videos
+  for select
+  using (status = 'published');
+
+create policy "Admins can read all videos"
+  on public.videos
+  for select
+  using (public.is_admin());
+
+create policy "Admins can create videos"
+  on public.videos
+  for insert
+  with check (public.is_admin());
+
+create policy "Admins can update videos"
+  on public.videos
+  for update
+  using (public.is_admin())
+  with check (public.is_admin());
+
+create policy "Admins can delete videos"
+  on public.videos
+  for delete
+  using (public.is_admin());
+
 insert into public.posts (id, title, excerpt, content, tag, status, published_at, created_at)
 select *
 from (
@@ -263,6 +313,125 @@ from (
 ) as seed(id, title, excerpt, content, tag, status, published_at, created_at)
 on conflict (id) do nothing;
 
+insert into public.videos (id, title, description, youtube_url, embed_url, tag, category, market, status, sort_order, published_at, created_at)
+select *
+from (
+  values
+    (
+      '00000000-0000-4000-8000-000000000201'::uuid,
+      $$تحليل سهم الراجحي وأرامكو ومسار تاسي الأسبوعي$$,
+      $$تحليل فني وكمي لحركة السيولة ومستويات التجميع للأسهم القيادية في السوق السعودي بعد الإغلاق الأسبوعي.$$,
+      $$https://www.youtube.com/watch?v=H7iPwbC0W4M$$,
+      $$https://www.youtube.com/embed/H7iPwbC0W4M?rel=0&controls=1$$,
+      $$تحليل تداول$$,
+      'analysis',
+      'saudi',
+      'published',
+      10,
+      now() - interval '20 days',
+      now() - interval '20 days'
+    ),
+    (
+      '00000000-0000-4000-8000-000000000202'::uuid,
+      $$قراءة السيولة في سهم إعمار وأبوظبي الأول$$,
+      $$مراجعة بحثية لمناطق السيولة المؤسسية في أسواق الإمارات مع التركيز على شروط الفرضية وحدود المخاطر.$$,
+      $$https://www.youtube.com/watch?v=xWd6F26UvV8$$,
+      $$https://www.youtube.com/embed/xWd6F26UvV8?rel=0&controls=1$$,
+      $$سوق دبي وأبوظبي$$,
+      'analysis',
+      'uae',
+      'published',
+      20,
+      now() - interval '18 days',
+      now() - interval '18 days'
+    ),
+    (
+      '00000000-0000-4000-8000-000000000203'::uuid,
+      $$تحليل البورصة المصرية وسهم التجاري الدولي CIB$$,
+      $$دراسة سلوك رأس المال الأجنبي وحركة السيولة في سهم البنك التجاري الدولي ضمن سياق مؤشر EGX30.$$,
+      $$https://www.youtube.com/watch?v=3S_1aR1f1n4$$,
+      $$https://www.youtube.com/embed/3S_1aR1f1n4?rel=0&controls=1$$,
+      $$البورصة المصرية$$,
+      'analysis',
+      'egypt',
+      'published',
+      30,
+      now() - interval '17 days',
+      now() - interval '17 days'
+    ),
+    (
+      '00000000-0000-4000-8000-000000000204'::uuid,
+      $$الأداء الإحصائي لبورصة قطر وسهم بنك قطر الوطني QNB$$,
+      $$مراجعة أسبوعية للتدفقات النقدية ومعدل تذبذب الأسهم القيادية في قطر من منظور بحثي.$$,
+      $$https://www.youtube.com/watch?v=8u9f8KjVpMo$$,
+      $$https://www.youtube.com/embed/8u9f8KjVpMo?rel=0&controls=1$$,
+      $$بورصة قطر$$,
+      'analysis',
+      'qatar',
+      'published',
+      40,
+      now() - interval '15 days',
+      now() - interval '15 days'
+    ),
+    (
+      '00000000-0000-4000-8000-000000000205'::uuid,
+      $$تحليل سهم بيتك KFH والمسار العام لبورصة الكويت$$,
+      $$استعراض بحثي لنقاط الدعم التاريخية للأسهم القيادية الكويتية وسلوك السعر حولها.$$,
+      $$https://www.youtube.com/watch?v=g95D5m-J2o0$$,
+      $$https://www.youtube.com/embed/g95D5m-J2o0?rel=0&controls=1$$,
+      $$بورصة الكويت$$,
+      'analysis',
+      'kuwait',
+      'published',
+      50,
+      now() - interval '14 days',
+      now() - interval '14 days'
+    ),
+    (
+      '00000000-0000-4000-8000-000000000206'::uuid,
+      $$كورس التداول الكمي: كيف تعمل الخوارزميات وصناديق التحوط؟$$,
+      $$شرح مبسط للأساس الرياضي خلف الأنظمة الكمية وكيف تساعد البيانات على تقليل التحيز في القرار.$$,
+      $$https://www.youtube.com/watch?v=H7iPwbC0W4M$$,
+      $$https://www.youtube.com/embed/H7iPwbC0W4M?rel=0&controls=1$$,
+      $$أساسيات الكوانت$$,
+      'tutorials',
+      null,
+      'published',
+      10,
+      now() - interval '12 days',
+      now() - interval '12 days'
+    ),
+    (
+      '00000000-0000-4000-8000-000000000207'::uuid,
+      $$إدارة المخاطر وحساب حجم المركز$$,
+      $$طريقة عملية لإدارة رأس المال وتحديد حجم المركز قبل تنفيذ أي فرضية تداول.$$,
+      $$https://www.youtube.com/watch?v=xWd6F26UvV8$$,
+      $$https://www.youtube.com/embed/xWd6F26UvV8?rel=0&controls=1$$,
+      $$إدارة المخاطر$$,
+      'tutorials',
+      null,
+      'published',
+      20,
+      now() - interval '11 days',
+      now() - interval '11 days'
+    ),
+    (
+      '00000000-0000-4000-8000-000000000208'::uuid,
+      $$تحويل الفرضية البحثية إلى خطة تنفيذ واضحة$$,
+      $$دليل مرئي يوضح كيف تتحول الفرضية إلى نطاق دخول، نقطة بطلان، وحجم مركز مناسب.$$,
+      $$https://www.youtube.com/watch?v=3S_1aR1f1n4$$,
+      $$https://www.youtube.com/embed/3S_1aR1f1n4?rel=0&controls=1$$,
+      $$دليل التطبيق$$,
+      'tutorials',
+      null,
+      'published',
+      30,
+      now() - interval '10 days',
+      now() - interval '10 days'
+    )
+) as seed(id, title, description, youtube_url, embed_url, tag, category, market, status, sort_order, published_at, created_at)
+on conflict (id) do nothing;
+
 create or replace function public.touch_updated_at()
 returns trigger
 language plpgsql
@@ -277,6 +446,12 @@ drop trigger if exists posts_touch_updated_at on public.posts;
 
 create trigger posts_touch_updated_at
   before update on public.posts
+  for each row execute function public.touch_updated_at();
+
+drop trigger if exists videos_touch_updated_at on public.videos;
+
+create trigger videos_touch_updated_at
+  before update on public.videos
   for each row execute function public.touch_updated_at();
 
 drop trigger if exists profiles_touch_updated_at on public.profiles;

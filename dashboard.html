@@ -2133,6 +2133,78 @@
           </div>
         </div>
 
+        <form id="db-video-form" class="db-settings-card db-post-form db-video-form">
+          <h3 class="db-settings-card-title">فيديو جديد</h3>
+
+          <div class="auth-input-group">
+            <label for="video-title">عنوان الفيديو</label>
+            <input id="video-title" type="text" class="auth-input" required maxlength="160" autocomplete="off">
+          </div>
+
+          <div class="auth-input-group">
+            <label for="video-category">نوع الفيديو</label>
+            <select id="video-category" class="auth-input">
+              <option value="analysis">تحليل سوق منفصل</option>
+              <option value="tutorials">درس تعليمي عام</option>
+            </select>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="video-market">السوق</label>
+            <select id="video-market" class="auth-input">
+              <option value="saudi">السعودية</option>
+              <option value="uae">الإمارات</option>
+              <option value="egypt">مصر</option>
+              <option value="qatar">قطر</option>
+              <option value="kuwait">بورصة الكويت</option>
+            </select>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="video-tag">وسم الفيديو</label>
+            <input id="video-tag" type="text" class="auth-input" value="تحليل سوق" maxlength="60" autocomplete="off">
+          </div>
+
+          <div class="auth-input-group">
+            <label for="video-youtube-url">رابط YouTube</label>
+            <input id="video-youtube-url" type="url" class="auth-input" required placeholder="https://www.youtube.com/watch?v=..." autocomplete="off" dir="ltr">
+          </div>
+
+          <div class="auth-input-group">
+            <label for="video-description">وصف قصير</label>
+            <textarea id="video-description" class="auth-input" required maxlength="360"></textarea>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="video-status">حالة النشر</label>
+            <select id="video-status" class="auth-input">
+              <option value="published">نشر في مكتبة الفيديو</option>
+              <option value="draft">حفظ كمسودة</option>
+            </select>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="video-sort-order">ترتيب العرض</label>
+            <input id="video-sort-order" type="number" class="auth-input" value="0" min="0" step="1">
+          </div>
+
+          <button id="db-video-save-btn" class="db-settings-save-btn" type="submit">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            <span id="db-video-save-label">حفظ الفيديو</span>
+          </button>
+          <button id="db-video-cancel-edit-btn" class="db-admin-action-btn" type="button" hidden>إلغاء التعديل</button>
+          <p id="db-video-message" class="db-settings-helper db-post-message" role="status"></p>
+        </form>
+
+        <div class="db-settings-card">
+          <h3 class="db-settings-card-title">مكتبة الفيديو</h3>
+          <div id="db-admin-videos-list" class="db-admin-posts-list">
+            <p class="db-settings-helper">سيظهر آخر ما نشرته في مكتبة الفيديو هنا بعد تحديث قاعدة البيانات.</p>
+          </div>
+        </div>
+
         <div class="db-settings-card db-admin-users-card">
           <h3 class="db-settings-card-title">طلبات الحسابات</h3>
           <div id="db-admin-users-list" class="db-admin-users-list">
@@ -2311,6 +2383,7 @@
       if (isAdmin) {
         revealAdminControls();
         initAdminPosts(client, user);
+        initAdminVideos(client);
         initAccountApprovals(client, user);
       }
 
@@ -2635,6 +2708,279 @@
         }
 
         loadPosts();
+      }
+
+      function initAdminVideos(client) {
+        var form = document.getElementById('db-video-form');
+        var list = document.getElementById('db-admin-videos-list');
+        var message = document.getElementById('db-video-message');
+        var submitBtn = document.getElementById('db-video-save-btn');
+        var submitLabel = document.getElementById('db-video-save-label');
+        var cancelEditBtn = document.getElementById('db-video-cancel-edit-btn');
+        var titleInput = document.getElementById('video-title');
+        var categoryInput = document.getElementById('video-category');
+        var marketInput = document.getElementById('video-market');
+        var tagInput = document.getElementById('video-tag');
+        var youtubeInput = document.getElementById('video-youtube-url');
+        var descriptionInput = document.getElementById('video-description');
+        var statusInput = document.getElementById('video-status');
+        var sortInput = document.getElementById('video-sort-order');
+        var editingVideoId = null;
+        var videosCache = [];
+
+        if (!client || !form || !list) return;
+
+        function setVideoMessage(text, type) {
+          if (!message) return;
+          message.textContent = text || '';
+          message.classList.remove('is-success', 'is-error');
+          if (type) message.classList.add('is-' + type);
+        }
+
+        function escapeHtml(value) {
+          return String(value || '').replace(/[&<>"']/g, function (char) {
+            return {
+              '&': '&amp;',
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#039;'
+            }[char];
+          });
+        }
+
+        function extractYoutubeId(url) {
+          var text = String(url || '').trim();
+          if (!text) return '';
+          var patterns = [
+            /youtu\.be\/([A-Za-z0-9_-]{6,})/,
+            /youtube\.com\/watch\?[^#]*v=([A-Za-z0-9_-]{6,})/,
+            /youtube\.com\/embed\/([A-Za-z0-9_-]{6,})/,
+            /youtube\.com\/shorts\/([A-Za-z0-9_-]{6,})/
+          ];
+          for (var i = 0; i < patterns.length; i++) {
+            var match = text.match(patterns[i]);
+            if (match && match[1]) return match[1];
+          }
+          return '';
+        }
+
+        function buildYoutubeEmbedUrl(url) {
+          var id = extractYoutubeId(url);
+          return id ? 'https://www.youtube.com/embed/' + id + '?rel=0&controls=1' : '';
+        }
+
+        function marketLabel(value) {
+          return {
+            saudi: 'السعودية',
+            uae: 'الإمارات',
+            egypt: 'مصر',
+            qatar: 'قطر',
+            kuwait: 'بورصة الكويت'
+          }[value] || 'عام';
+        }
+
+        function categoryLabel(value) {
+          return value === 'tutorials' ? 'تعليمي عام' : 'تحليل سوق';
+        }
+
+        function formatDate(value) {
+          if (!value) return 'غير منشور';
+          try {
+            return new Date(value).toLocaleDateString('ar-EG', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            });
+          } catch (error) {
+            return value;
+          }
+        }
+
+        function syncMarketAvailability() {
+          var isTutorial = categoryInput && categoryInput.value === 'tutorials';
+          if (marketInput) {
+            marketInput.disabled = isTutorial;
+            marketInput.title = isTutorial ? 'الدروس التعليمية تظهر في كل الأسواق' : '';
+          }
+          if (tagInput && !tagInput.value.trim()) {
+            tagInput.value = isTutorial ? 'تعليمي' : 'تحليل سوق';
+          }
+        }
+
+        function renderVideo(video) {
+          var statusLabel = video.status === 'published' ? 'منشور' : 'مسودة';
+          var marketText = video.category === 'tutorials' ? 'كل الأسواق' : marketLabel(video.market);
+          return [
+            '<article class="db-admin-post-item">',
+              '<div class="db-admin-post-meta">',
+                '<span class="insight-tag">' + escapeHtml(video.tag || categoryLabel(video.category)) + '</span>',
+                '<span class="db-admin-post-status">' + statusLabel + '</span>',
+              '</div>',
+              '<h4>' + escapeHtml(video.title) + '</h4>',
+              '<p>' + escapeHtml(video.description) + '</p>',
+              '<div class="db-admin-post-meta">',
+                '<span>' + categoryLabel(video.category) + ' · ' + marketText + '</span>',
+                '<span>' + formatDate(video.published_at || video.updated_at || video.created_at) + '</span>',
+              '</div>',
+              '<div class="db-admin-post-actions">',
+                '<a href="' + escapeHtml(video.youtube_url) + '" class="db-admin-action-btn" target="_blank" rel="noopener noreferrer">يوتيوب</a>',
+                '<button class="db-admin-action-btn" type="button" data-video-action="edit" data-video-id="' + escapeHtml(video.id) + '">تعديل</button>',
+                '<button class="db-admin-action-btn is-reject" type="button" data-video-action="delete" data-video-id="' + escapeHtml(video.id) + '">حذف</button>',
+              '</div>',
+            '</article>'
+          ].join('');
+        }
+
+        function setEditingVideo(video) {
+          editingVideoId = video ? video.id : null;
+          titleInput.value = video ? (video.title || '') : '';
+          categoryInput.value = video && video.category === 'tutorials' ? 'tutorials' : 'analysis';
+          marketInput.value = video && video.market ? video.market : 'saudi';
+          tagInput.value = video ? (video.tag || '') : 'تحليل سوق';
+          youtubeInput.value = video ? (video.youtube_url || '') : '';
+          descriptionInput.value = video ? (video.description || '') : '';
+          statusInput.value = video && video.status === 'draft' ? 'draft' : 'published';
+          sortInput.value = video && video.sort_order != null ? video.sort_order : 0;
+          syncMarketAvailability();
+
+          if (submitLabel) submitLabel.textContent = video ? 'حفظ تعديل الفيديو' : 'حفظ الفيديو';
+          if (cancelEditBtn) cancelEditBtn.hidden = !video;
+          setVideoMessage(video ? 'وضع التعديل مفعل لهذا الفيديو.' : '', video ? 'success' : '');
+          if (video) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        async function loadVideos() {
+          list.innerHTML = '<p class="db-settings-helper">جاري تحميل مكتبة الفيديو...</p>';
+          var result = await client
+            .from('videos')
+            .select('id,title,description,youtube_url,embed_url,tag,category,market,status,sort_order,published_at,updated_at,created_at')
+            .order('updated_at', { ascending: false })
+            .limit(20);
+
+          if (result.error) {
+            list.innerHTML = '<p class="db-settings-helper">لم يتم تحميل الفيديوهات. شغل ملف supabase.sql لتفعيل مكتبة الفيديو.</p>';
+            console.warn('Video load failed:', result.error.message);
+            return;
+          }
+
+          if (!result.data || result.data.length === 0) {
+            list.innerHTML = '<p class="db-settings-helper">لا توجد فيديوهات بعد.</p>';
+            return;
+          }
+
+          videosCache = result.data;
+          list.innerHTML = videosCache.map(renderVideo).join('');
+        }
+
+        form.addEventListener('submit', async function (event) {
+          event.preventDefault();
+          setVideoMessage('', '');
+
+          var title = titleInput.value.trim();
+          var category = categoryInput.value === 'tutorials' ? 'tutorials' : 'analysis';
+          var youtubeUrl = youtubeInput.value.trim();
+          var embedUrl = buildYoutubeEmbedUrl(youtubeUrl);
+          var description = descriptionInput.value.trim();
+          var status = statusInput.value === 'draft' ? 'draft' : 'published';
+          var sortOrder = Number(sortInput.value || 0);
+
+          if (!title || !youtubeUrl || !description) {
+            setVideoMessage('أكمل العنوان والرابط والوصف قبل الحفظ.', 'error');
+            return;
+          }
+
+          if (!embedUrl) {
+            setVideoMessage('رابط YouTube غير صحيح. استخدم رابط مشاهدة أو Shorts أو youtu.be.', 'error');
+            return;
+          }
+
+          if (submitBtn) submitBtn.disabled = true;
+
+          var payload = {
+            title: title,
+            description: description,
+            youtube_url: youtubeUrl,
+            embed_url: embedUrl,
+            tag: tagInput.value.trim() || (category === 'tutorials' ? 'تعليمي' : 'تحليل سوق'),
+            category: category,
+            market: category === 'analysis' ? marketInput.value : null,
+            status: status,
+            sort_order: Number.isFinite(sortOrder) ? sortOrder : 0,
+            published_at: status === 'published' ? new Date().toISOString() : null
+          };
+
+          var saveQuery = editingVideoId
+            ? client.from('videos').update(payload).eq('id', editingVideoId).select('id').single()
+            : client.from('videos').insert(payload).select('id').single();
+          var saveResult = await saveQuery;
+          if (submitBtn) submitBtn.disabled = false;
+
+          if (saveResult.error) {
+            setVideoMessage('لم يتم حفظ الفيديو. راجع صلاحيات الأدمن أو شغل ملف supabase.sql.', 'error');
+            console.warn('Video save failed:', saveResult.error.message);
+            return;
+          }
+
+          form.reset();
+          if (categoryInput) categoryInput.value = 'analysis';
+          if (marketInput) marketInput.value = 'saudi';
+          if (tagInput) tagInput.value = 'تحليل سوق';
+          if (statusInput) statusInput.value = 'published';
+          if (sortInput) sortInput.value = 0;
+          editingVideoId = null;
+          if (cancelEditBtn) cancelEditBtn.hidden = true;
+          if (submitLabel) submitLabel.textContent = 'حفظ الفيديو';
+          syncMarketAvailability();
+          setVideoMessage('تم حفظ الفيديو بنجاح.', 'success');
+          loadVideos();
+        });
+
+        list.addEventListener('click', async function (event) {
+          var actionEl = event.target.closest('[data-video-action]');
+          if (!actionEl) return;
+
+          var videoId = actionEl.getAttribute('data-video-id');
+          var action = actionEl.getAttribute('data-video-action');
+          var video = videosCache.find(function (item) { return item.id === videoId; });
+
+          if (action === 'edit' && video) {
+            setEditingVideo(video);
+            return;
+          }
+
+          if (action === 'delete' && videoId) {
+            var ok = window.confirm('حذف هذا الفيديو نهائيا من مكتبة الفيديو؟');
+            if (!ok) return;
+
+            actionEl.disabled = true;
+            var deleteResult = await client.from('videos').delete().eq('id', videoId);
+            if (deleteResult.error) {
+              console.warn('Video delete failed:', deleteResult.error.message);
+              setVideoMessage('لم يتم حذف الفيديو. راجع صلاحيات الأدمن.', 'error');
+              actionEl.disabled = false;
+              return;
+            }
+
+            if (editingVideoId === videoId) setEditingVideo(null);
+            setVideoMessage('تم حذف الفيديو.', 'success');
+            loadVideos();
+          }
+        });
+
+        if (categoryInput) {
+          categoryInput.addEventListener('change', syncMarketAvailability);
+        }
+
+        if (cancelEditBtn) {
+          cancelEditBtn.addEventListener('click', function () {
+            form.reset();
+            setEditingVideo(null);
+          });
+        }
+
+        syncMarketAvailability();
+        loadVideos();
       }
 
       function initAccountApprovals(client, adminUser) {

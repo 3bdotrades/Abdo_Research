@@ -734,7 +734,57 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- YouTube Learning & Manual Analysis Video Library ---
-  const videoData = [
+  function escapeHtml(value) {
+    return String(value || '').replace(/[&<>"']/g, function (char) {
+      return {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }[char];
+    });
+  }
+
+  function extractYoutubeId(url) {
+    const text = String(url || '').trim();
+    if (!text) return '';
+    const patterns = [
+      /youtu\.be\/([A-Za-z0-9_-]{6,})/,
+      /youtube\.com\/watch\?[^#]*v=([A-Za-z0-9_-]{6,})/,
+      /youtube\.com\/embed\/([A-Za-z0-9_-]{6,})/,
+      /youtube\.com\/shorts\/([A-Za-z0-9_-]{6,})/
+    ];
+    for (const pattern of patterns) {
+      const match = text.match(pattern);
+      if (match && match[1]) return match[1];
+    }
+    return '';
+  }
+
+  function youtubeEmbedUrl(url) {
+    const id = extractYoutubeId(url);
+    return id ? `https://www.youtube.com/embed/${id}?rel=0&controls=1` : '';
+  }
+
+  function normalizeVideo(row) {
+    const category = row.category === 'tutorials' ? 'tutorials' : 'analysis';
+    const youtubeUrl = row.youtube_url || row.youtubeUrl || '';
+    const embedUrl = row.embed_url || row.embedUrl || youtubeEmbedUrl(youtubeUrl);
+    return {
+      id: row.id,
+      category,
+      market: row.market || '',
+      title: row.title || 'فيديو بدون عنوان',
+      description: row.description || '',
+      embedUrl: embedUrl || youtubeEmbedUrl(youtubeUrl),
+      tag: row.tag || (category === 'tutorials' ? 'تعليمي' : 'تحليل سوق'),
+      date: row.published_at || row.date || row.created_at || '',
+      youtubeUrl
+    };
+  }
+
+  let videoData = [
     // --- Category: analysis (تحليلات البورصات اليدوية) ---
     {
       id: 1,
@@ -838,30 +888,48 @@ document.addEventListener('DOMContentLoaded', () => {
   const videosContainer = document.getElementById('videos-library-container');
   const videoTabAnalysis = document.getElementById('video-tab-analysis');
   const videoTabTutorials = document.getElementById('video-tab-tutorials');
+  let currentVideoCategory = 'analysis';
 
   function renderVideos(categoryFilter) {
     if (!videosContainer) return;
+    currentVideoCategory = categoryFilter || currentVideoCategory;
     
     videosContainer.innerHTML = '';
     
     // Completely isolate manual analysis videos by country
-    const filteredVideos = categoryFilter === 'analysis'
-      ? videoData.filter(vid => vid.category === categoryFilter && vid.market === activeMarket)
-      : videoData.filter(vid => vid.category === categoryFilter);
+    const filteredVideos = currentVideoCategory === 'analysis'
+      ? videoData.filter(vid => vid.category === currentVideoCategory && vid.market === activeMarket)
+      : videoData.filter(vid => vid.category === currentVideoCategory);
+
+    if (filteredVideos.length === 0) {
+      const emptyCard = document.createElement('div');
+      emptyCard.className = 'glass-panel video-card video-empty-state';
+      const marketName = marketDetails[activeMarket] ? marketDetails[activeMarket].name : 'السوق المحدد';
+      emptyCard.innerHTML = `
+        <h4>لا توجد فيديوهات منشورة لهذا القسم حالياً</h4>
+        <p>${currentVideoCategory === 'analysis'
+          ? `لم يتم نشر فيديو خاص بـ ${escapeHtml(marketName)} بعد.`
+          : 'لم يتم نشر دروس تعليمية بعد.'}</p>
+      `;
+      videosContainer.appendChild(emptyCard);
+      return;
+    }
     
     filteredVideos.forEach(vid => {
       const card = document.createElement('div');
       card.className = 'glass-panel video-card';
+      const embedUrl = vid.embedUrl || youtubeEmbedUrl(vid.youtubeUrl);
+      const youtubeUrl = vid.youtubeUrl || '#';
       
       card.innerHTML = `
         <div class="video-container-premium">
-          <iframe src="${vid.embedUrl}" title="${vid.title}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe src="${escapeHtml(embedUrl)}" title="${escapeHtml(vid.title)}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
-        <h4>${vid.title}</h4>
-        <p>${vid.description}</p>
+        <h4>${escapeHtml(vid.title)}</h4>
+        <p>${escapeHtml(vid.description)}</p>
         <div class="video-card-footer-meta">
-          <span class="video-tag">${vid.tag}</span>
-          <a href="${vid.youtubeUrl}" target="_blank" rel="noopener noreferrer" class="video-action-link">
+          <span class="video-tag">${escapeHtml(vid.tag)}</span>
+          <a href="${escapeHtml(youtubeUrl)}" target="_blank" rel="noopener noreferrer" class="video-action-link">
             <span>يوتيوب</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
@@ -872,6 +940,33 @@ document.addEventListener('DOMContentLoaded', () => {
       
       videosContainer.appendChild(card);
     });
+  }
+
+  async function loadVideosFromSupabase() {
+    if (!window.AbdoAuth || typeof window.AbdoAuth.getClient !== 'function') return;
+    const client = window.AbdoAuth.getClient();
+    if (!client) return;
+
+    try {
+      const result = await client
+        .from('videos')
+        .select('id,title,description,youtube_url,embed_url,tag,category,market,published_at,created_at,sort_order')
+        .eq('status', 'published')
+        .order('sort_order', { ascending: true })
+        .order('published_at', { ascending: false, nullsFirst: false });
+
+      if (result.error) {
+        console.warn('Video library load failed:', result.error.message);
+        return;
+      }
+
+      if (result.data && result.data.length > 0) {
+        videoData = result.data.map(normalizeVideo).filter(vid => vid.embedUrl);
+        renderVideos(currentVideoCategory);
+      }
+    } catch (error) {
+      console.warn('Video library load failed:', error);
+    }
   }
 
   // Handle Tab Switch for Videos
@@ -888,6 +983,8 @@ document.addEventListener('DOMContentLoaded', () => {
       renderVideos('tutorials');
     });
   }
+
+  loadVideosFromSupabase();
 
   // --- Central Switch Market Experience Engine ---
   const portalBtns = document.querySelectorAll('[data-portal-market]');
