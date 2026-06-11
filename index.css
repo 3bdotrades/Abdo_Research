@@ -5085,26 +5085,33 @@ html, body {
 
 /* Final hero polish */
 .hero-section-inst {
-  max-width: 1320px;
+  max-width: 1200px;
   justify-content: flex-start;
+  padding-top: 92px !important;
 }
 
 .hero-inst-grid {
-  grid-template-columns: minmax(0, 1.42fr) minmax(350px, 0.58fr);
-  gap: 44px;
+  grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.72fr);
+  gap: 56px;
 }
 
 .hero-inst-headline {
-  max-width: none;
-  text-wrap: balance;
+  max-width: 680px;
+  text-wrap: auto;
+  margin-bottom: 24px;
 }
 
 .hero-inst-sub {
-  max-width: 820px;
+  max-width: 680px;
+  margin-bottom: 44px;
+}
+
+.hero-inst-left {
+  justify-self: start;
 }
 
 .hero-inst-left .hero-btns {
-  margin-top: 24px;
+  margin-top: 16px;
   margin-bottom: 0;
   justify-content: flex-start;
 }
