@@ -2533,7 +2533,7 @@ footer {
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.72fr);
   gap: 56px;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
 }
 
@@ -5031,33 +5031,62 @@ html, body {
 .hero-markets-strip {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px 24px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius-sm);
-  font-size: 0.9rem;
-  color: var(--text-muted);
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 14px 16px;
+  background: rgba(13, 16, 24, 0.78);
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  border-radius: var(--border-radius-md);
+  font-size: 0.84rem;
+  color: #d7dce5;
   font-family: 'Cairo', sans-serif;
-  font-weight: 600;
+  font-weight: 800;
+  line-height: 1.2;
 }
-.hero-markets-sep {
+.hero-markets-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  margin-left: 4px;
   color: var(--primary);
+  font-size: 0.76rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+.hero-market-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  white-space: nowrap;
+}
+.hero-market-chip::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  margin-left: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+  flex-shrink: 0;
 }
 @media (max-width: 768px) {
   .hero-markets-strip {
-    flex-direction: column;
-    gap: 6px;
+    justify-content: center;
     text-align: center;
   }
-  .hero-markets-sep {
-    display: none;
+  .hero-markets-label {
+    text-align: center;
   }
 }
 
 /* Final hero polish */
 .hero-section-inst {
   max-width: 1200px;
+  justify-content: flex-start;
 }
 
 .hero-inst-grid {
@@ -5070,12 +5099,11 @@ html, body {
 
 .hero-markets-strip,
 .hero-media-strip {
-  flex-wrap: wrap;
   border-color: rgba(212, 175, 55, 0.18);
   background: rgba(13, 16, 24, 0.72);
 }
 
-.hero-markets-strip span:not(.hero-markets-sep),
+.hero-markets-strip span:not(.hero-markets-label),
 .hero-media-logo {
   color: #d7dce5;
 }
