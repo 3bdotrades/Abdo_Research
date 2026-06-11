@@ -1568,14 +1568,35 @@
           </a>
         </li>
 
-        <!-- الإعدادات -->
+        <!-- أدوات الأدمن -->
         <li class="db-nav-item db-admin-only" hidden>
-          <a href="#" class="db-nav-link" data-section="admin">
+          <a href="#" class="db-nav-link" data-section="admin-posts">
             <svg class="db-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 20h9"/>
               <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>
             </svg>
-            الإدارة
+            إدارة الأبحاث
+          </a>
+        </li>
+
+        <li class="db-nav-item db-admin-only" hidden>
+          <a href="#" class="db-nav-link" data-section="admin-videos">
+            <svg class="db-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2"/>
+              <polygon points="10 9 15 12 10 15 10 9"/>
+            </svg>
+            مكتبة الفيديو
+          </a>
+        </li>
+
+        <li class="db-nav-item db-admin-only" hidden>
+          <a href="#" class="db-nav-link" data-section="admin-users">
+            <svg class="db-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="m16 11 2 2 4-4"/>
+            </svg>
+            طلبات الحسابات
           </a>
         </li>
 
@@ -2074,13 +2095,13 @@
     </div><!-- /#db-section-research -->
 
     <!-- =====================================================
-         SECTION: الإعدادات (Settings)
+         SECTION: أدوات الأدمن
          ===================================================== -->
-    <div id="db-section-admin" class="db-section" style="display:none;">
+    <div id="db-section-admin-posts" class="db-section" style="display:none;">
 
       <div class="db-section-header">
-        <h2>الإدارة</h2>
-        <span id="db-admin-status" class="db-admin-status">صلاحيات الأدمن</span>
+        <h2>إدارة الأبحاث</h2>
+        <span id="db-admin-status" class="db-admin-status">نشر وتعديل وحذف الأبحاث</span>
       </div>
 
       <div class="db-admin-grid">
@@ -2132,6 +2153,18 @@
             <p class="db-settings-helper">سيظهر آخر ما نشرته هنا بعد تفعيل قاعدة البيانات.</p>
           </div>
         </div>
+      </div>
+
+    </div><!-- /#db-section-admin-posts -->
+
+    <div id="db-section-admin-videos" class="db-section" style="display:none;">
+
+      <div class="db-section-header">
+        <h2>مكتبة الفيديو</h2>
+        <span class="db-admin-status">إضافة الأقسام والفيديوهات أو تعديلها وحذفها</span>
+      </div>
+
+      <div class="db-admin-grid">
 
         <form id="db-video-section-form" class="db-settings-card db-post-form db-video-section-form">
           <h3 class="db-settings-card-title">قسم فيديو جديد</h3>
@@ -2249,6 +2282,18 @@
             <p class="db-settings-helper">سيظهر آخر ما نشرته في مكتبة الفيديو هنا بعد تحديث قاعدة البيانات.</p>
           </div>
         </div>
+      </div>
+
+    </div><!-- /#db-section-admin-videos -->
+
+    <div id="db-section-admin-users" class="db-section" style="display:none;">
+
+      <div class="db-section-header">
+        <h2>طلبات الحسابات</h2>
+        <span class="db-admin-status">قبول أو رفض المستخدمين الجدد</span>
+      </div>
+
+      <div class="db-admin-grid">
 
         <div class="db-settings-card db-admin-users-card">
           <h3 class="db-settings-card-title">طلبات الحسابات</h3>
@@ -2258,7 +2303,7 @@
         </div>
       </div>
 
-    </div><!-- /#db-section-admin -->
+    </div><!-- /#db-section-admin-users -->
 
     <div id="db-section-settings" class="db-section" style="display:none;">
 
@@ -3447,7 +3492,9 @@
         overview:  'نظرة عامة',
         portfolio: 'محفظتي',
         research:  'الأبحاث',
-        admin:     'الإدارة',
+        'admin-posts':  'إدارة الأبحاث',
+        'admin-videos': 'مكتبة الفيديو',
+        'admin-users':  'طلبات الحسابات',
         settings:  'الإعدادات'
       };
 
