@@ -152,3 +152,5 @@ drop trigger if exists posts_touch_updated_at on public.posts;
 create trigger posts_touch_updated_at
   before update on public.posts
   for each row execute function public.touch_updated_at();
+
+notify pgrst, 'reload schema';
