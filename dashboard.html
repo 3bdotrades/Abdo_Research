@@ -1517,6 +1517,146 @@
       color: var(--primary);
       font-weight: 800;
     }
+
+    .db-admin-users-card {
+      grid-column: 1 / -1;
+    }
+
+    .db-admin-users-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .db-admin-user-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background: rgba(5,6,8,0.34);
+      padding: 14px 16px;
+    }
+
+    @media (max-width: 720px) {
+      .db-admin-user-item {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .db-admin-user-main strong {
+      display: block;
+      color: #ffffff;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .db-admin-user-main span {
+      display: block;
+      color: var(--text-muted);
+      direction: ltr;
+      font-size: 0.78rem;
+      margin-top: 3px;
+      text-align: right;
+    }
+
+    .db-admin-user-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .db-access-pill {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 999px;
+      padding: 5px 10px;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.04);
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 800;
+    }
+
+    .db-access-pill.is-approved {
+      color: #49d17d;
+      border-color: rgba(73,209,125,0.3);
+      background: rgba(73,209,125,0.08);
+    }
+
+    .db-access-pill.is-rejected {
+      color: #ff7d7d;
+      border-color: rgba(255,125,125,0.3);
+      background: rgba(255,125,125,0.08);
+    }
+
+    .db-admin-user-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .db-admin-action-btn {
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      color: #ffffff;
+      cursor: pointer;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 8px 14px;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+    }
+
+    .db-admin-action-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .db-admin-action-btn.is-approve {
+      border-color: rgba(73,209,125,0.38);
+      color: #49d17d;
+    }
+
+    .db-admin-action-btn.is-reject {
+      border-color: rgba(255,125,125,0.38);
+      color: #ff7d7d;
+    }
+
+    .db-admin-action-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+      transform: none;
+    }
+
+    .db-access-notice {
+      max-width: 760px;
+      margin: 10vh auto 0;
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius-md);
+      background: var(--bg-card);
+      padding: 34px 32px;
+      text-align: center;
+    }
+
+    .db-access-notice h2 {
+      color: #ffffff;
+      font-family: 'Cairo', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .db-access-notice p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
   </style>
 </head>
 
@@ -1621,7 +1761,7 @@
               <path d="M12 20h9"/>
               <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>
             </svg>
-            نشر الأبحاث
+            الإدارة
           </a>
         </li>
 
@@ -2304,7 +2444,7 @@
     <div id="db-section-admin" class="db-section" style="display:none;">
 
       <div class="db-section-header">
-        <h2>نشر الأبحاث</h2>
+        <h2>الإدارة</h2>
         <span id="db-admin-status" class="db-admin-status">صلاحيات الأدمن</span>
       </div>
 
@@ -2354,6 +2494,13 @@
           <h3 class="db-settings-card-title">آخر المنشورات</h3>
           <div id="db-admin-posts-list" class="db-admin-posts-list">
             <p class="db-settings-helper">سيظهر آخر ما نشرته هنا بعد تفعيل قاعدة البيانات.</p>
+          </div>
+        </div>
+
+        <div class="db-settings-card db-admin-users-card">
+          <h3 class="db-settings-card-title">طلبات الحسابات</h3>
+          <div id="db-admin-users-list" class="db-admin-users-list">
+            <p class="db-settings-helper">سيظهر المستخدمون الجدد هنا بعد تحديث قاعدة البيانات.</p>
           </div>
         </div>
       </div>
@@ -2507,6 +2654,17 @@
         console.warn('Admin check failed:', error);
       }
 
+      setupLogout();
+
+      var profile = await loadCurrentProfile(client, user);
+      if (!isAdmin && profile && profile.access_status && profile.access_status !== 'approved') {
+        if (nameEl && displayName) nameEl.textContent = displayName;
+        if (tierEl) tierEl.textContent = accessStatusLabel(profile.access_status);
+        renderAccessNotice(profile.access_status);
+        document.body.classList.remove('auth-pending');
+        return;
+      }
+
       if (nameEl && displayName) nameEl.textContent = displayName;
       if (tierEl) tierEl.textContent = 'عضو مؤكد';
 
@@ -2515,15 +2673,58 @@
       if (isAdmin) {
         revealAdminControls();
         initAdminPosts(client, user);
+        initAccountApprovals(client, user);
       }
 
       document.body.classList.remove('auth-pending');
 
-      var logoutBtn = document.getElementById('db-logout-btn');
-      if (logoutBtn) {
-        logoutBtn.addEventListener('click', function () {
-          window.AbdoAuth.signOut();
-        });
+      function setupLogout() {
+        var logoutBtn = document.getElementById('db-logout-btn');
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', function () {
+            window.AbdoAuth.signOut();
+          });
+        }
+      }
+
+      async function loadCurrentProfile(client, user) {
+        if (!client || !user || !user.id) return null;
+        try {
+          var result = await client
+            .from('profiles')
+            .select('id,full_name,email,access_status')
+            .eq('id', user.id)
+            .single();
+          if (result.error) {
+            console.warn('Profile load failed:', result.error.message);
+            return null;
+          }
+          return result.data;
+        } catch (error) {
+          console.warn('Profile load failed:', error);
+          return null;
+        }
+      }
+
+      function accessStatusLabel(status) {
+        if (status === 'approved') return 'عضو مؤكد';
+        if (status === 'rejected') return 'مرفوض';
+        return 'قيد المراجعة';
+      }
+
+      function renderAccessNotice(status) {
+        var content = document.querySelector('.db-content');
+        if (!content) return;
+        var rejected = status === 'rejected';
+        content.innerHTML = [
+          '<div class="db-access-notice">',
+            '<h2>' + (rejected ? 'لم يتم قبول الحساب' : 'الحساب قيد المراجعة') + '</h2>',
+            '<p>' + (rejected
+              ? 'تم رفض هذا الحساب من لوحة الإدارة. تواصل معنا إذا كنت تعتقد أن القرار يحتاج مراجعة.'
+              : 'تم إنشاء الحساب بنجاح، لكنه يحتاج موافقة الأدمن قبل فتح لوحة التحكم.')
+            + '</p>',
+          '</div>'
+        ].join('');
       }
 
       function revealAdminControls() {
@@ -2662,6 +2863,119 @@
 
         loadPosts();
       }
+
+      function initAccountApprovals(client, adminUser) {
+        var list = document.getElementById('db-admin-users-list');
+        if (!client || !list) return;
+
+        function escapeHtml(value) {
+          return String(value || '').replace(/[&<>"']/g, function (char) {
+            return {
+              '&': '&amp;',
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#039;'
+            }[char];
+          });
+        }
+
+        function statusClass(status) {
+          if (status === 'approved') return 'is-approved';
+          if (status === 'rejected') return 'is-rejected';
+          return 'is-pending';
+        }
+
+        function formatDate(value) {
+          if (!value) return '';
+          try {
+            return new Date(value).toLocaleDateString('ar-EG', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            });
+          } catch (error) {
+            return value;
+          }
+        }
+
+        function renderUser(profile) {
+          var isSelf = profile.id === adminUser.id;
+          var name = profile.full_name || profile.email || 'مستخدم جديد';
+          var email = profile.email || '';
+          var status = profile.access_status || 'pending';
+          return [
+            '<article class="db-admin-user-item" data-profile-id="' + escapeHtml(profile.id) + '">',
+              '<div class="db-admin-user-main">',
+                '<strong>' + escapeHtml(name) + '</strong>',
+                '<span>' + escapeHtml(email) + '</span>',
+                '<div class="db-admin-user-meta">',
+                  '<span class="db-access-pill ' + statusClass(status) + '">' + accessStatusLabel(status) + '</span>',
+                  '<span class="db-access-pill">' + (formatDate(profile.created_at) || 'بدون تاريخ') + '</span>',
+                  (isSelf ? '<span class="db-access-pill is-approved">أنت</span>' : ''),
+                '</div>',
+              '</div>',
+              '<div class="db-admin-user-actions">',
+                '<button class="db-admin-action-btn is-approve" type="button" data-access-action="approved" data-profile-id="' + escapeHtml(profile.id) + '"' + (status === 'approved' ? ' disabled' : '') + '>قبول</button>',
+                '<button class="db-admin-action-btn is-reject" type="button" data-access-action="rejected" data-profile-id="' + escapeHtml(profile.id) + '"' + (isSelf || status === 'rejected' ? ' disabled' : '') + '>رفض</button>',
+              '</div>',
+            '</article>'
+          ].join('');
+        }
+
+        async function loadProfiles() {
+          list.innerHTML = '<p class="db-settings-helper">جاري تحميل طلبات الحسابات...</p>';
+          var result = await client
+            .from('profiles')
+            .select('id,full_name,email,access_status,created_at,reviewed_at')
+            .order('created_at', { ascending: false })
+            .limit(80);
+
+          if (result.error) {
+            list.innerHTML = '<p class="db-settings-helper">لم يتم تحميل المستخدمين. أعد تشغيل ملف supabase.sql لتفعيل الموافقات.</p>';
+            console.warn('Profiles load failed:', result.error.message);
+            return;
+          }
+
+          if (!result.data || result.data.length === 0) {
+            list.innerHTML = '<p class="db-settings-helper">لا توجد حسابات مسجلة بعد.</p>';
+            return;
+          }
+
+          list.innerHTML = result.data.map(renderUser).join('');
+        }
+
+        list.addEventListener('click', async function (event) {
+          var button = event.target.closest('[data-access-action]');
+          if (!button) return;
+
+          var profileId = button.getAttribute('data-profile-id');
+          var nextStatus = button.getAttribute('data-access-action');
+          if (!profileId || !nextStatus) return;
+
+          var buttons = list.querySelectorAll('button[data-profile-id="' + profileId + '"]');
+          for (var i = 0; i < buttons.length; i++) {
+            buttons[i].disabled = true;
+          }
+
+          var result = await client
+            .from('profiles')
+            .update({
+              access_status: nextStatus,
+              reviewed_at: new Date().toISOString(),
+              reviewed_by: adminUser.id
+            })
+            .eq('id', profileId);
+
+          if (result.error) {
+            console.warn('Profile update failed:', result.error.message);
+          }
+
+          loadProfiles();
+        });
+
+        loadProfiles();
+      }
     })();
   </script>
 
@@ -2687,7 +3001,7 @@
         portfolio: 'محفظتي',
         trading:   'غرفة التداول',
         research:  'الأبحاث',
-        admin:     'نشر الأبحاث',
+        admin:     'الإدارة',
         settings:  'الإعدادات'
       };
 

@@ -5,25 +5,43 @@ create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   full_name text,
   email text,
+  access_status text not null default 'pending',
+  reviewed_at timestamptz,
+  reviewed_by uuid references auth.users(id) on delete set null,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.profiles add column if not exists access_status text not null default 'pending';
+alter table public.profiles add column if not exists reviewed_at timestamptz;
+alter table public.profiles add column if not exists reviewed_by uuid references auth.users(id) on delete set null;
+
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_constraint
+    where conname = 'profiles_access_status_check'
+      and conrelid = 'public.profiles'::regclass
+  ) then
+    alter table public.profiles
+      add constraint profiles_access_status_check
+      check (access_status in ('pending', 'approved', 'rejected'));
+  end if;
+end;
+$$;
 
 alter table public.profiles enable row level security;
 
 drop policy if exists "Users can view their own profile" on public.profiles;
 drop policy if exists "Users can update their own profile" on public.profiles;
+drop policy if exists "Admins can view all profiles" on public.profiles;
+drop policy if exists "Admins can update all profiles" on public.profiles;
 
 create policy "Users can view their own profile"
   on public.profiles
   for select
   using (auth.uid() = id);
-
-create policy "Users can update their own profile"
-  on public.profiles
-  for update
-  using (auth.uid() = id)
-  with check (auth.uid() = id);
 
 create or replace function public.handle_new_user()
 returns trigger
@@ -32,11 +50,12 @@ security definer
 set search_path = public
 as $$
 begin
-  insert into public.profiles (id, full_name, email)
+  insert into public.profiles (id, full_name, email, access_status)
   values (
     new.id,
     coalesce(new.raw_user_meta_data ->> 'full_name', ''),
-    new.email
+    new.email,
+    'pending'
   )
   on conflict (id) do update
     set full_name = excluded.full_name,
@@ -86,9 +105,25 @@ create policy "Admins can view admin users"
   for select
   using (public.is_admin());
 
+create policy "Admins can view all profiles"
+  on public.profiles
+  for select
+  using (public.is_admin());
+
+create policy "Admins can update all profiles"
+  on public.profiles
+  for update
+  using (public.is_admin())
+  with check (public.is_admin());
+
 insert into public.admin_users (email)
 values ('iabdoi2004@gmail.com')
 on conflict (email) do nothing;
+
+update public.profiles
+set access_status = 'approved',
+    reviewed_at = coalesce(reviewed_at, now())
+where lower(email) = 'iabdoi2004@gmail.com';
 
 create table if not exists public.posts (
   id uuid primary key default gen_random_uuid(),
@@ -151,6 +186,12 @@ drop trigger if exists posts_touch_updated_at on public.posts;
 
 create trigger posts_touch_updated_at
   before update on public.posts
+  for each row execute function public.touch_updated_at();
+
+drop trigger if exists profiles_touch_updated_at on public.profiles;
+
+create trigger profiles_touch_updated_at
+  before update on public.profiles
   for each row execute function public.touch_updated_at();
 
 notify pgrst, 'reload schema';
