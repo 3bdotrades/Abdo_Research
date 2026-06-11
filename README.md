@@ -22,8 +22,15 @@ The production entry point is `index.html`. The member area is available at `/da
    - `http://127.0.0.1:4173/dashboard`
 6. Configure a custom SMTP provider in Supabase Auth SMTP settings for production email delivery.
 7. Copy the project URL and anon public key into `auth-config.js`.
+8. After your own account is created, make it the admin account in the SQL editor:
 
-After this, signup creates a Supabase Auth user, sends the confirmation email, and creates/updates a protected `profiles` row.
+```sql
+insert into public.admin_users (email)
+values ('YOUR_EMAIL@example.com')
+on conflict (email) do nothing;
+```
+
+After this, signup creates a Supabase Auth user, sends the confirmation email, creates/updates a protected `profiles` row, and the admin account can publish posts from the dashboard. Published posts are loaded into the homepage insights section.
 
 Supabase's built-in email provider is only suitable for testing and can be blocked by authorization/rate-limit rules. Production signup confirmations should use custom SMTP, then Auth logs and the email provider logs should be checked if a message is not delivered.
 

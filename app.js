@@ -1308,6 +1308,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Run on page load
   updateHeaderAuthUI();
+  loadPublishedInsights();
+
+  async function loadPublishedInsights() {
+    const insightsGrid = document.querySelector('#insights .insights-feed-grid');
+    if (!insightsGrid || !window.AbdoAuth || !window.AbdoAuth.isConfigured()) return;
+
+    const client = window.AbdoAuth.getClient();
+    if (!client) return;
+
+    const escapeHtml = (value) => String(value || '').replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    }[char]));
+
+    const formatDate = (value) => {
+      if (!value) return '';
+      try {
+        return new Date(value).toLocaleDateString('ar-EG', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+      } catch (error) {
+        return value;
+      }
+    };
+
+    const estimateReadTime = (post) => {
+      const text = `${post.excerpt || ''} ${post.content || ''}`.trim();
+      const words = text ? text.split(/\s+/).length : 1;
+      return Math.max(1, Math.ceil(words / 180));
+    };
+
+    try {
+      const result = await client
+        .from('posts')
+        .select('title,excerpt,content,tag,published_at,created_at')
+        .eq('status', 'published')
+        .order('published_at', { ascending: false, nullsFirst: false })
+        .limit(3);
+
+      if (result.error || !result.data || result.data.length === 0) {
+        if (result.error) console.warn('Published posts load failed:', result.error.message);
+        return;
+      }
+
+      insightsGrid.innerHTML = result.data.map((post) => {
+        const readTime = estimateReadTime(post);
+        return `
+          <article class="insight-card glass-panel stagger-visible">
+            <div class="insight-meta">
+              <span class="insight-tag">${escapeHtml(post.tag || 'بحثي')}</span>
+              <span class="insight-date">${formatDate(post.published_at || post.created_at)}</span>
+            </div>
+            <h3>${escapeHtml(post.title)}</h3>
+            <p>${escapeHtml(post.excerpt)}</p>
+            <div class="insight-footer">
+              <span class="insight-read-time">${readTime} دقيقة قراءة</span>
+              <span class="insight-link">منشور<span class="arrow-slide">←</span></span>
+            </div>
+          </article>
+        `;
+      }).join('');
+    } catch (error) {
+      console.warn('Published posts load failed:', error);
+    }
+  }
   
   const loginFormView = document.getElementById('login-form-view');
   const signupFormView = document.getElementById('signup-form-view');

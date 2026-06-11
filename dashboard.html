@@ -1422,6 +1422,101 @@
       color: var(--text-subtle);
       margin-top: -12px;
     }
+
+    .db-admin-only[hidden] {
+      display: none !important;
+    }
+
+    .db-admin-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.75fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 980px) {
+      .db-admin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .db-admin-status {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      border: 1px solid rgba(212,175,55,0.24);
+      border-radius: 50px;
+      padding: 7px 14px;
+      color: var(--primary);
+      background: rgba(212,175,55,0.08);
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .db-post-form textarea.auth-input {
+      min-height: 128px;
+      resize: vertical;
+      line-height: 1.8;
+    }
+
+    .db-post-form .db-settings-save-btn {
+      margin-top: 4px;
+    }
+
+    .db-post-message {
+      min-height: 20px;
+      margin-top: 0;
+    }
+
+    .db-post-message.is-success {
+      color: #49d17d;
+    }
+
+    .db-post-message.is-error {
+      color: #ff7d7d;
+    }
+
+    .db-admin-posts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .db-admin-post-item {
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background: rgba(5,6,8,0.34);
+      padding: 14px 16px;
+    }
+
+    .db-admin-post-item h4 {
+      color: #ffffff;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 800;
+      line-height: 1.5;
+      margin: 8px 0;
+    }
+
+    .db-admin-post-item p {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      line-height: 1.7;
+    }
+
+    .db-admin-post-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--text-subtle);
+      font-size: 0.68rem;
+    }
+
+    .db-admin-post-status {
+      color: var(--primary);
+      font-weight: 800;
+    }
   </style>
 </head>
 
@@ -1520,6 +1615,16 @@
         </li>
 
         <!-- الإعدادات -->
+        <li class="db-nav-item db-admin-only" hidden>
+          <a href="#" class="db-nav-link" data-section="admin">
+            <svg class="db-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 20h9"/>
+              <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+            </svg>
+            نشر الأبحاث
+          </a>
+        </li>
+
         <li class="db-nav-item">
           <a href="#" class="db-nav-link" data-section="settings">
             <svg class="db-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -2196,6 +2301,65 @@
     <!-- =====================================================
          SECTION: الإعدادات (Settings)
          ===================================================== -->
+    <div id="db-section-admin" class="db-section" style="display:none;">
+
+      <div class="db-section-header">
+        <h2>نشر الأبحاث</h2>
+        <span id="db-admin-status" class="db-admin-status">صلاحيات الأدمن</span>
+      </div>
+
+      <div class="db-admin-grid">
+        <form id="db-post-form" class="db-settings-card db-post-form">
+          <h3 class="db-settings-card-title">منشور جديد</h3>
+
+          <div class="auth-input-group">
+            <label for="post-title">عنوان المنشور</label>
+            <input id="post-title" type="text" class="auth-input" required maxlength="140" autocomplete="off">
+          </div>
+
+          <div class="auth-input-group">
+            <label for="post-tag">التصنيف</label>
+            <input id="post-tag" type="text" class="auth-input" value="بحثي" maxlength="40" autocomplete="off">
+          </div>
+
+          <div class="auth-input-group">
+            <label for="post-excerpt">ملخص قصير</label>
+            <textarea id="post-excerpt" class="auth-input" required maxlength="280"></textarea>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="post-content">النص الكامل</label>
+            <textarea id="post-content" class="auth-input" required></textarea>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="post-status">حالة النشر</label>
+            <select id="post-status" class="auth-input">
+              <option value="published">نشر الآن</option>
+              <option value="draft">حفظ كمسودة</option>
+            </select>
+          </div>
+
+          <button id="db-publish-btn" class="db-settings-save-btn" type="submit">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M22 2L11 13"/>
+              <path d="M22 2l-7 20-4-9-9-4Z"/>
+            </svg>
+            نشر المنشور
+          </button>
+          <p id="db-post-message" class="db-settings-helper db-post-message" role="status"></p>
+        </form>
+
+        <div class="db-settings-card">
+          <h3 class="db-settings-card-title">آخر المنشورات</h3>
+          <div id="db-admin-posts-list" class="db-admin-posts-list">
+            <p class="db-settings-helper">سيظهر آخر ما نشرته هنا بعد تفعيل قاعدة البيانات.</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /#db-section-admin -->
+
     <div id="db-section-settings" class="db-section" style="display:none;">
 
       <div class="db-section-header">
@@ -2327,8 +2491,31 @@
       var displayName = user.user_metadata && user.user_metadata.full_name ? user.user_metadata.full_name : user.email;
       var nameEl = document.querySelector('.db-user-name');
       var tierEl = document.querySelector('.db-user-tier');
+      var client = window.AbdoAuth.getClient();
+      var isAdmin = false;
+
+      try {
+        if (client) {
+          var adminResult = await client.rpc('is_admin');
+          if (!adminResult.error) {
+            isAdmin = Boolean(adminResult.data);
+          } else {
+            console.warn('Admin check failed:', adminResult.error.message);
+          }
+        }
+      } catch (error) {
+        console.warn('Admin check failed:', error);
+      }
+
       if (nameEl && displayName) nameEl.textContent = displayName;
       if (tierEl) tierEl.textContent = 'عضو مؤكد';
+
+      if (tierEl) tierEl.textContent = isAdmin ? 'أدمن' : 'عضو مؤكد';
+
+      if (isAdmin) {
+        revealAdminControls();
+        initAdminPosts(client, user);
+      }
 
       document.body.classList.remove('auth-pending');
 
@@ -2337,6 +2524,143 @@
         logoutBtn.addEventListener('click', function () {
           window.AbdoAuth.signOut();
         });
+      }
+
+      function revealAdminControls() {
+        var adminEls = document.querySelectorAll('.db-admin-only');
+        for (var i = 0; i < adminEls.length; i++) {
+          adminEls[i].hidden = false;
+        }
+      }
+
+      function initAdminPosts(client, user) {
+        var form = document.getElementById('db-post-form');
+        var list = document.getElementById('db-admin-posts-list');
+        var message = document.getElementById('db-post-message');
+        var submitBtn = document.getElementById('db-publish-btn');
+        var titleInput = document.getElementById('post-title');
+        var tagInput = document.getElementById('post-tag');
+        var excerptInput = document.getElementById('post-excerpt');
+        var contentInput = document.getElementById('post-content');
+        var statusInput = document.getElementById('post-status');
+
+        if (!client || !form || !list) return;
+
+        function setPostMessage(text, type) {
+          if (!message) return;
+          message.textContent = text || '';
+          message.classList.remove('is-success', 'is-error');
+          if (type) message.classList.add('is-' + type);
+        }
+
+        function escapeHtml(value) {
+          return String(value || '').replace(/[&<>"']/g, function (char) {
+            return {
+              '&': '&amp;',
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#039;'
+            }[char];
+          });
+        }
+
+        function formatPostDate(value) {
+          if (!value) return 'غير منشور';
+          try {
+            return new Date(value).toLocaleDateString('ar-EG', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            });
+          } catch (error) {
+            return value;
+          }
+        }
+
+        function renderPost(post) {
+          var dateValue = post.published_at || post.updated_at || post.created_at;
+          var statusLabel = post.status === 'published' ? 'منشور' : 'مسودة';
+          return [
+            '<article class="db-admin-post-item">',
+              '<div class="db-admin-post-meta">',
+                '<span class="insight-tag">' + escapeHtml(post.tag || 'بحثي') + '</span>',
+                '<span class="db-admin-post-status">' + statusLabel + '</span>',
+              '</div>',
+              '<h4>' + escapeHtml(post.title) + '</h4>',
+              '<p>' + escapeHtml(post.excerpt) + '</p>',
+              '<div class="db-admin-post-meta">',
+                '<span>' + formatPostDate(dateValue) + '</span>',
+              '</div>',
+            '</article>'
+          ].join('');
+        }
+
+        async function loadPosts() {
+          list.innerHTML = '<p class="db-settings-helper">جاري تحميل المنشورات...</p>';
+          var result = await client
+            .from('posts')
+            .select('id,title,excerpt,tag,status,published_at,updated_at,created_at')
+            .order('updated_at', { ascending: false })
+            .limit(8);
+
+          if (result.error) {
+            list.innerHTML = '<p class="db-settings-helper">لم يتم تحميل المنشورات. تأكد من تشغيل ملف supabase.sql.</p>';
+            console.warn('Post load failed:', result.error.message);
+            return;
+          }
+
+          if (!result.data || result.data.length === 0) {
+            list.innerHTML = '<p class="db-settings-helper">لا توجد منشورات بعد.</p>';
+            return;
+          }
+
+          list.innerHTML = result.data.map(renderPost).join('');
+        }
+
+        form.addEventListener('submit', async function (event) {
+          event.preventDefault();
+          setPostMessage('', '');
+
+          var title = titleInput.value.trim();
+          var excerpt = excerptInput.value.trim();
+          var content = contentInput.value.trim();
+          var status = statusInput.value === 'draft' ? 'draft' : 'published';
+
+          if (!title || !excerpt || !content) {
+            setPostMessage('أكمل العنوان والملخص والنص قبل النشر.', 'error');
+            return;
+          }
+
+          if (submitBtn) submitBtn.disabled = true;
+
+          var payload = {
+            author_id: user.id,
+            title: title,
+            excerpt: excerpt,
+            content: content,
+            tag: tagInput.value.trim() || 'بحثي',
+            status: status,
+            published_at: status === 'published' ? new Date().toISOString() : null
+          };
+
+          var insertResult = await client.from('posts').insert(payload).select('id').single();
+          if (submitBtn) submitBtn.disabled = false;
+
+          if (insertResult.error) {
+            setPostMessage('لم يتم حفظ المنشور. راجع صلاحيات الأدمن أو قاعدة البيانات.', 'error');
+            console.warn('Post save failed:', insertResult.error.message);
+            return;
+          }
+
+          form.reset();
+          if (tagInput) tagInput.value = 'بحثي';
+          if (statusInput) statusInput.value = 'published';
+          setPostMessage('تم حفظ المنشور بنجاح.', 'success');
+          loadPosts();
+        });
+
+        loadPosts();
       }
     })();
   </script>
@@ -2363,6 +2687,7 @@
         portfolio: 'محفظتي',
         trading:   'غرفة التداول',
         research:  'الأبحاث',
+        admin:     'نشر الأبحاث',
         settings:  'الإعدادات'
       };
 
