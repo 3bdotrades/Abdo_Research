@@ -42,6 +42,11 @@ import json
 import sys
 from pathlib import Path
 
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
+
 root = Path(sys.argv[1])
 
 def thin(series, limit=1500):
@@ -100,6 +105,11 @@ print(json.dumps(payload, ensure_ascii=False))
   try {
     const result = spawnSync(process.env.PYTHON || 'python', ['-c', pythonCode, egxRoot], {
       encoding: 'utf8',
+      env: {
+        ...process.env,
+        PYTHONIOENCODING: 'utf-8',
+        PYTHONUTF8: '1'
+      },
       maxBuffer: 1024 * 1024 * 8
     });
     if (result.status !== 0 || !result.stdout.trim()) {

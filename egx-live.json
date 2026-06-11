@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-11T23:34:16.925Z",
+  "generated_at": "2026-06-11T23:44:36.902Z",
   "source": "egx-ml-dashboard-snapshot",
   "source_files": [
     "data/processed/data_feed_status.json",
@@ -95,8 +95,8 @@
     "stale_count": 23
   },
   "chart": {
-    "title": "����� ��� ����� �������� � ��� EGX",
-    "label": "������� / ������� �����",
+    "title": "منحنى رأس المال التراكمي — مصر EGX",
+    "label": "المحفظة / النموذج الكمي",
     "benchmark_label": "EGX30 Official",
     "equity_points": [
       {
