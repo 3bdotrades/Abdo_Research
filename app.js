@@ -733,6 +733,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  const faqFilters = document.querySelectorAll('[data-faq-filter]');
+  function setFaqFilter(filter) {
+    const activeFilter = filter || 'all';
+    faqFilters.forEach(btn => {
+      const isActive = btn.dataset.faqFilter === activeFilter;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+
+    faqItems.forEach(item => {
+      const shouldShow = activeFilter === 'all' || item.dataset.faqCategory === activeFilter;
+      item.hidden = !shouldShow;
+      if (!shouldShow) {
+        item.classList.remove('active');
+        const btn = item.querySelector('.faq-trigger');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  faqFilters.forEach(btn => {
+    btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
+    btn.addEventListener('click', () => setFaqFilter(btn.dataset.faqFilter));
+  });
+
   // --- YouTube Learning & Manual Analysis Video Library ---
   function escapeHtml(value) {
     return String(value || '').replace(/[&<>"']/g, function (char) {
@@ -767,139 +792,92 @@ document.addEventListener('DOMContentLoaded', () => {
     return id ? `https://www.youtube.com/embed/${id}?rel=0&controls=1` : '';
   }
 
+  function normalizeSection(row) {
+    const id = String(row.id || row.slug || '').trim();
+    return {
+      id,
+      slug: row.slug || id,
+      label: row.label || row.name || 'قسم فيديو',
+      marketScoped: Boolean(row.market_scoped || row.marketScoped),
+      sortOrder: Number(row.sort_order || row.sortOrder || 0)
+    };
+  }
+
+  function sectionKey(section) {
+    return section ? String(section.id || section.slug || '') : '';
+  }
+
   function normalizeVideo(row) {
-    const category = row.category === 'tutorials' ? 'tutorials' : 'analysis';
     const youtubeUrl = row.youtube_url || row.youtubeUrl || '';
     const embedUrl = row.embed_url || row.embedUrl || youtubeEmbedUrl(youtubeUrl);
+    const fallbackSection = row.category === 'tutorials' ? 'tutorials' : 'analysis';
     return {
       id: row.id,
-      category,
+      sectionId: String(row.section_id || row.sectionId || fallbackSection),
       market: row.market || '',
       title: row.title || 'فيديو بدون عنوان',
       description: row.description || '',
       embedUrl: embedUrl || youtubeEmbedUrl(youtubeUrl),
-      tag: row.tag || (category === 'tutorials' ? 'تعليمي' : 'تحليل سوق'),
+      tag: row.tag || 'فيديو',
       date: row.published_at || row.date || row.created_at || '',
       youtubeUrl
     };
   }
 
-  let videoData = [
-    // --- Category: analysis (تحليلات البورصات اليدوية) ---
-    {
-      id: 1,
-      category: 'analysis',
-      market: 'saudi',
-      title: 'تحليل سهم الراجحي وأرامكو ومسار تاسي الأسبوعي 🇸🇦',
-      description: 'تحليل فني وكمي لحركة السيولة ومستويات التجميع للأسهم القيادية في السوق السعودي عقب الإغلاق الأسبوعي الأخير لمؤشر تاسي.',
-      embedUrl: 'https://www.youtube.com/embed/H7iPwbC0W4M?rel=0&amp;controls=1',
-      tag: 'تحليل تداول 🇸🇦',
-      date: '20 مايو 2026',
-      youtubeUrl: 'https://www.youtube.com/watch?v=H7iPwbC0W4M'
-    },
-    {
-      id: 2,
-      category: 'analysis',
-      market: 'uae',
-      title: 'قراءة السيولة في سهم إعمار وأبوظبي الأول 🇦🇪',
-      description: 'مراجعة بحثية لمناطق السيولة المؤسسية في أسواق الإمارات، مع التركيز على شروط الفرضية وحدود المخاطر.',
-      embedUrl: 'https://www.youtube.com/embed/xWd6F26UvV8?rel=0&amp;controls=1',
-      tag: 'سوق دبي وأبوظبي 🇦🇪',
-      date: '18 مايو 2026',
-      youtubeUrl: 'https://www.youtube.com/watch?v=xWd6F26UvV8'
-    },
-    {
-      id: 3,
-      category: 'analysis',
-      market: 'egypt',
-      title: 'تحليل البورصة المصرية وسهم التجاري الدولي (CIB) 🇪🇬',
-      description: 'دراسة سلوك رأس المال الأجنبي وحركة السيولة في سهم البنك التجاري الدولي ضمن سياق مؤشر EGX30.',
-      embedUrl: 'https://www.youtube.com/embed/3S_1aR1f1n4?rel=0&amp;controls=1',
-      tag: 'البورصة المصرية 🇪🇬',
-      date: '17 مايو 2026',
-      youtubeUrl: 'https://www.youtube.com/watch?v=3S_1aR1f1n4'
-    },
-    {
-      id: 4,
-      category: 'analysis',
-      market: 'qatar',
-      title: 'الأداء الإحصائي لبورصة قطر وسهم بنك قطر الوطني (QNB) 🇶🇦',
-      description: 'مراجعة أسبوعية للتدفقات النقدية ومعدل تذبذب الأسهم القيادية في قطر من منظور بحثي.',
-      embedUrl: 'https://www.youtube.com/embed/8u9f8KjVpMo?rel=0&amp;controls=1',
-      tag: 'بورصة قطر 🇶🇦',
-      date: '15 مايو 2026',
-      youtubeUrl: 'https://www.youtube.com/watch?v=8u9f8KjVpMo'
-    },
-    {
-      id: 5,
-      category: 'analysis',
-      market: 'kuwait',
-      title: 'تحليل سهم بيتك (KFH) والمسار العام لبورصة الكويت 🇰🇼',
-      description: 'استعراض بحثي لنقاط الدعم التاريخية للأسهم القيادية الكويتية وسلوك السعر حولها.',
-      embedUrl: 'https://www.youtube.com/embed/g95D5m-J2o0?rel=0&amp;controls=1',
-      tag: 'بورصة الكويت 🇰🇼',
-      date: '14 مايو 2026',
-      youtubeUrl: 'https://www.youtube.com/watch?v=g95D5m-J2o0'
-    },
-    
-    // --- Category: tutorials (الدروس والمواد التعليمية) ---
-    {
-      id: 6,
-      category: 'tutorials',
-      title: 'كورس التداول الكمي: كيف تعمل الخوارزميات وصناديق التحوط؟ 📊',
-      description: 'فهم الأساس الرياضي خلف أنظمة التداول الكمية وكيف تتغلب البيانات الإحصائية الصارمة على التحيز البشري والعواطف.',
-      embedUrl: 'https://www.youtube.com/embed/H7iPwbC0W4M?rel=0&amp;controls=1',
-      tag: 'أساسيات الكوانت 🧠',
-      date: 'متاح دائماً',
-      youtubeUrl: 'https://www.youtube.com/watch?v=H7iPwbC0W4M'
-    },
-    {
-      id: 7,
-      category: 'tutorials',
-      title: 'إدارة المخاطر وحساب حجم المركز (Position Sizing) 🛡️',
-      description: 'الطريقة الصحيحة لإدارة رأس المال وتحديد حجم العقود بما يضمن حماية المحفظة أثناء فترات التراجع الطبيعية للسوق.',
-      embedUrl: 'https://www.youtube.com/embed/xWd6F26UvV8?rel=0&amp;controls=1',
-      tag: 'إدارة المخاطر 🛡️',
-      date: 'متاح دائماً',
-      youtubeUrl: 'https://www.youtube.com/watch?v=xWd6F26UvV8'
-    },
-    {
-      id: 8,
-      category: 'tutorials',
-      title: 'تحويل الفرضية البحثية إلى خطة تنفيذ واضحة 📱',
-      description: 'دليل مرئي يوضح كيف تُترجم الفرضية إلى نطاق دخول، نقطة بطلان، وحجم مركز مناسب.',
-      embedUrl: 'https://www.youtube.com/embed/3S_1aR1f1n4?rel=0&amp;controls=1',
-      tag: 'دليل التطبيق ⚙️',
-      date: 'متاح دائماً',
-      youtubeUrl: 'https://www.youtube.com/watch?v=3S_1aR1f1n4'
-    },
-    {
-      id: 9,
-      category: 'tutorials',
-      title: 'كيف تُقرأ تقارير الأداء وحدود المخاطر؟ 🤝',
-      description: 'شرح منهجي لكيفية قراءة الأداء، التراجع، والافتراضات قبل اتخاذ أي قرار استثماري.',
-      embedUrl: 'https://www.youtube.com/embed/8u9f8KjVpMo?rel=0&amp;controls=1',
-      tag: 'تقارير الأداء 🤝',
-      date: 'متاح دائماً',
-      youtubeUrl: 'https://www.youtube.com/watch?v=8u9f8KjVpMo'
-    }
+  let videoSections = [
+    { id: 'analysis', slug: 'analysis', label: 'تحليلات يدوية', marketScoped: true, sortOrder: 10 },
+    { id: 'tutorials', slug: 'tutorials', label: 'الدروس والمواد التعليمية', marketScoped: false, sortOrder: 20 }
   ];
+  let videoData = [];
 
   const videosContainer = document.getElementById('videos-library-container');
-  const videoTabAnalysis = document.getElementById('video-tab-analysis');
-  const videoTabTutorials = document.getElementById('video-tab-tutorials');
-  let currentVideoCategory = 'analysis';
+  const videoSectionSelector = document.getElementById('video-section-selector');
+  let currentVideoSectionId = sectionKey(videoSections[0]);
 
-  function renderVideos(categoryFilter) {
+  function currentVideoSection() {
+    return videoSections.find(section => sectionKey(section) === currentVideoSectionId) || videoSections[0] || null;
+  }
+
+  function renderVideoSectionTabs() {
+    if (!videoSectionSelector) return;
+    videoSectionSelector.innerHTML = '';
+    if (!videoSections.length) return;
+
+    if (!currentVideoSectionId || !videoSections.some(section => sectionKey(section) === currentVideoSectionId)) {
+      currentVideoSectionId = sectionKey(videoSections[0]);
+    }
+
+    videoSections.forEach(section => {
+      const btn = document.createElement('button');
+      const key = sectionKey(section);
+      btn.type = 'button';
+      btn.className = 'tab-btn' + (key === currentVideoSectionId ? ' active' : '');
+      btn.dataset.videoSection = key;
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-selected', key === currentVideoSectionId ? 'true' : 'false');
+      btn.textContent = section.label;
+      btn.addEventListener('click', () => {
+        currentVideoSectionId = key;
+        renderVideoSectionTabs();
+        renderVideos(key);
+      });
+      videoSectionSelector.appendChild(btn);
+    });
+  }
+
+  function renderVideos(sectionId) {
     if (!videosContainer) return;
-    currentVideoCategory = categoryFilter || currentVideoCategory;
+    currentVideoSectionId = sectionId || currentVideoSectionId || sectionKey(videoSections[0]);
     
     videosContainer.innerHTML = '';
     
-    // Completely isolate manual analysis videos by country
-    const filteredVideos = currentVideoCategory === 'analysis'
-      ? videoData.filter(vid => vid.category === currentVideoCategory && vid.market === activeMarket)
-      : videoData.filter(vid => vid.category === currentVideoCategory);
+    const selectedSection = currentVideoSection();
+    const selectedSectionId = sectionKey(selectedSection);
+    const filteredVideos = videoData.filter(vid => {
+      const sameSection = vid.sectionId === selectedSectionId || vid.sectionId === selectedSection?.slug;
+      if (!sameSection) return false;
+      return !selectedSection?.marketScoped || vid.market === activeMarket;
+    });
 
     if (filteredVideos.length === 0) {
       const emptyCard = document.createElement('div');
@@ -907,9 +885,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const marketName = marketDetails[activeMarket] ? marketDetails[activeMarket].name : 'السوق المحدد';
       emptyCard.innerHTML = `
         <h4>لا توجد فيديوهات منشورة لهذا القسم حالياً</h4>
-        <p>${currentVideoCategory === 'analysis'
-          ? `لم يتم نشر فيديو خاص بـ ${escapeHtml(marketName)} بعد.`
-          : 'لم يتم نشر دروس تعليمية بعد.'}</p>
+        <p>${selectedSection?.marketScoped
+          ? `لم يتم نشر فيديو خاص بـ ${escapeHtml(marketName)} داخل قسم ${escapeHtml(selectedSection.label)} بعد.`
+          : `لم يتم نشر فيديوهات داخل قسم ${escapeHtml(selectedSection?.label || 'الفيديو')} بعد.`}</p>
       `;
       videosContainer.appendChild(emptyCard);
       return;
@@ -948,9 +926,24 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!client) return;
 
     try {
+      const sectionsResult = await client
+        .from('video_sections')
+        .select('id,slug,label,market_scoped,sort_order,status,created_at')
+        .eq('status', 'published')
+        .order('sort_order', { ascending: true })
+        .order('created_at', { ascending: true });
+
+      if (!sectionsResult.error && sectionsResult.data && sectionsResult.data.length > 0) {
+        videoSections = sectionsResult.data.map(normalizeSection).filter(section => section.id);
+        currentVideoSectionId = sectionKey(videoSections[0]);
+        renderVideoSectionTabs();
+      } else if (sectionsResult.error) {
+        console.warn('Video section load failed:', sectionsResult.error.message);
+      }
+
       const result = await client
         .from('videos')
-        .select('id,title,description,youtube_url,embed_url,tag,category,market,published_at,created_at,sort_order')
+        .select('id,title,description,youtube_url,embed_url,tag,category,section_id,market,published_at,created_at,sort_order')
         .eq('status', 'published')
         .order('sort_order', { ascending: true })
         .order('published_at', { ascending: false, nullsFirst: false });
@@ -960,30 +953,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      if (result.data && result.data.length > 0) {
-        videoData = result.data.map(normalizeVideo).filter(vid => vid.embedUrl);
-        renderVideos(currentVideoCategory);
-      }
+      videoData = result.data ? result.data.map(normalizeVideo).filter(vid => vid.embedUrl) : [];
+      renderVideos(currentVideoSectionId);
     } catch (error) {
       console.warn('Video library load failed:', error);
     }
   }
 
-  // Handle Tab Switch for Videos
-  if (videoTabAnalysis && videoTabTutorials) {
-    videoTabAnalysis.addEventListener('click', () => {
-      videoTabAnalysis.classList.add('active');
-      videoTabTutorials.classList.remove('active');
-      renderVideos('analysis');
-    });
-
-    videoTabTutorials.addEventListener('click', () => {
-      videoTabTutorials.classList.add('active');
-      videoTabAnalysis.classList.remove('active');
-      renderVideos('tutorials');
-    });
-  }
-
+  renderVideoSectionTabs();
+  renderVideos(currentVideoSectionId);
   loadVideosFromSupabase();
 
   // --- Central Switch Market Experience Engine ---
@@ -1047,11 +1025,8 @@ document.addEventListener('DOMContentLoaded', () => {
     updateBacktesterConfig();
     runSimulation();
     
-    // 6. Synchronize Video Library Analysis Video
-    const videoTabAnalysis = document.getElementById('video-tab-analysis');
-    if (videoTabAnalysis && videoTabAnalysis.classList.contains('active')) {
-      renderVideos('analysis');
-    }
+    // 6. Synchronize market-scoped video sections
+    renderVideos(currentVideoSectionId);
     
     // 7. Re-render Chart
     renderChart(currentPeriod);

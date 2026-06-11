@@ -2133,6 +2133,52 @@
           </div>
         </div>
 
+        <form id="db-video-section-form" class="db-settings-card db-post-form db-video-section-form">
+          <h3 class="db-settings-card-title">قسم فيديو جديد</h3>
+
+          <div class="auth-input-group">
+            <label for="video-section-label">اسم القسم</label>
+            <input id="video-section-label" type="text" class="auth-input" required maxlength="80" placeholder="مثلاً: تحليلات يدوية" autocomplete="off">
+          </div>
+
+          <div class="auth-input-group">
+            <label for="video-section-scope">طريقة العرض</label>
+            <select id="video-section-scope" class="auth-input">
+              <option value="market">منفصل حسب السوق</option>
+              <option value="global">يظهر في كل الأسواق</option>
+            </select>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="video-section-status">حالة القسم</label>
+            <select id="video-section-status" class="auth-input">
+              <option value="published">ظاهر في الموقع</option>
+              <option value="draft">مخفي</option>
+            </select>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="video-section-sort-order">ترتيب القسم</label>
+            <input id="video-section-sort-order" type="number" class="auth-input" value="0" min="0" step="1">
+          </div>
+
+          <button id="db-video-section-save-btn" class="db-settings-save-btn" type="submit">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+            <span id="db-video-section-save-label">حفظ القسم</span>
+          </button>
+          <button id="db-video-section-cancel-edit-btn" class="db-admin-action-btn" type="button" hidden>إلغاء التعديل</button>
+          <p id="db-video-section-message" class="db-settings-helper db-post-message" role="status"></p>
+        </form>
+
+        <div class="db-settings-card">
+          <h3 class="db-settings-card-title">أقسام مكتبة الفيديو</h3>
+          <div id="db-admin-video-sections-list" class="db-admin-posts-list">
+            <p class="db-settings-helper">سيظهر ترتيب أقسام الفيديو هنا بعد تحديث قاعدة البيانات.</p>
+          </div>
+        </div>
+
         <form id="db-video-form" class="db-settings-card db-post-form db-video-form">
           <h3 class="db-settings-card-title">فيديو جديد</h3>
 
@@ -2142,10 +2188,9 @@
           </div>
 
           <div class="auth-input-group">
-            <label for="video-category">نوع الفيديو</label>
-            <select id="video-category" class="auth-input">
-              <option value="analysis">تحليل سوق منفصل</option>
-              <option value="tutorials">درس تعليمي عام</option>
+            <label for="video-section-id">القسم</label>
+            <select id="video-section-id" class="auth-input" required>
+              <option value="">أضف قسماً أولاً</option>
             </select>
           </div>
 
@@ -2711,6 +2756,17 @@
       }
 
       function initAdminVideos(client) {
+        var sectionForm = document.getElementById('db-video-section-form');
+        var sectionList = document.getElementById('db-admin-video-sections-list');
+        var sectionMessage = document.getElementById('db-video-section-message');
+        var sectionSubmitBtn = document.getElementById('db-video-section-save-btn');
+        var sectionSubmitLabel = document.getElementById('db-video-section-save-label');
+        var sectionCancelBtn = document.getElementById('db-video-section-cancel-edit-btn');
+        var sectionLabelInput = document.getElementById('video-section-label');
+        var sectionScopeInput = document.getElementById('video-section-scope');
+        var sectionStatusInput = document.getElementById('video-section-status');
+        var sectionSortInput = document.getElementById('video-section-sort-order');
+
         var form = document.getElementById('db-video-form');
         var list = document.getElementById('db-admin-videos-list');
         var message = document.getElementById('db-video-message');
@@ -2718,23 +2774,26 @@
         var submitLabel = document.getElementById('db-video-save-label');
         var cancelEditBtn = document.getElementById('db-video-cancel-edit-btn');
         var titleInput = document.getElementById('video-title');
-        var categoryInput = document.getElementById('video-category');
+        var sectionInput = document.getElementById('video-section-id');
         var marketInput = document.getElementById('video-market');
         var tagInput = document.getElementById('video-tag');
         var youtubeInput = document.getElementById('video-youtube-url');
         var descriptionInput = document.getElementById('video-description');
         var statusInput = document.getElementById('video-status');
         var sortInput = document.getElementById('video-sort-order');
+
+        var editingSectionId = null;
         var editingVideoId = null;
+        var sectionsCache = [];
         var videosCache = [];
 
-        if (!client || !form || !list) return;
+        if (!client || !form || !list || !sectionForm || !sectionList) return;
 
-        function setVideoMessage(text, type) {
-          if (!message) return;
-          message.textContent = text || '';
-          message.classList.remove('is-success', 'is-error');
-          if (type) message.classList.add('is-' + type);
+        function setMessage(node, text, type) {
+          if (!node) return;
+          node.textContent = text || '';
+          node.classList.remove('is-success', 'is-error');
+          if (type) node.classList.add('is-' + type);
         }
 
         function escapeHtml(value) {
@@ -2747,6 +2806,13 @@
               "'": '&#039;'
             }[char];
           });
+        }
+
+        function makeSlug(label) {
+          var base = String(label || '').trim().toLowerCase()
+            .replace(/[^\w\u0600-\u06FF]+/g, '-')
+            .replace(/^-+|-+$/g, '');
+          return base || ('section-' + Date.now());
         }
 
         function extractYoutubeId(url) {
@@ -2780,10 +2846,6 @@
           }[value] || 'عام';
         }
 
-        function categoryLabel(value) {
-          return value === 'tutorials' ? 'تعليمي عام' : 'تحليل سوق';
-        }
-
         function formatDate(value) {
           if (!value) return 'غير منشور';
           try {
@@ -2797,30 +2859,104 @@
           }
         }
 
-        function syncMarketAvailability() {
-          var isTutorial = categoryInput && categoryInput.value === 'tutorials';
-          if (marketInput) {
-            marketInput.disabled = isTutorial;
-            marketInput.title = isTutorial ? 'الدروس التعليمية تظهر في كل الأسواق' : '';
-          }
-          if (tagInput && !tagInput.value.trim()) {
-            tagInput.value = isTutorial ? 'تعليمي' : 'تحليل سوق';
-          }
+        function sectionById(id) {
+          return sectionsCache.find(function (section) { return section.id === id; }) || null;
         }
 
-        function renderVideo(video) {
-          var statusLabel = video.status === 'published' ? 'منشور' : 'مسودة';
-          var marketText = video.category === 'tutorials' ? 'كل الأسواق' : marketLabel(video.market);
+        function sectionScopeLabel(section) {
+          return section && section.market_scoped ? 'منفصل حسب السوق' : 'كل الأسواق';
+        }
+
+        function renderSection(section) {
+          var statusLabel = section.status === 'published' ? 'ظاهر' : 'مخفي';
           return [
             '<article class="db-admin-post-item">',
               '<div class="db-admin-post-meta">',
-                '<span class="insight-tag">' + escapeHtml(video.tag || categoryLabel(video.category)) + '</span>',
+                '<span class="insight-tag">' + sectionScopeLabel(section) + '</span>',
+                '<span class="db-admin-post-status">' + statusLabel + '</span>',
+              '</div>',
+              '<h4>' + escapeHtml(section.label) + '</h4>',
+              '<p>ترتيب العرض: ' + escapeHtml(section.sort_order || 0) + ' · الرمز: ' + escapeHtml(section.slug || '') + '</p>',
+              '<div class="db-admin-post-actions">',
+                '<button class="db-admin-action-btn" type="button" data-video-section-action="edit" data-video-section-id="' + escapeHtml(section.id) + '">تعديل</button>',
+                '<button class="db-admin-action-btn is-reject" type="button" data-video-section-action="delete" data-video-section-id="' + escapeHtml(section.id) + '">حذف القسم</button>',
+              '</div>',
+            '</article>'
+          ].join('');
+        }
+
+        function populateSectionSelect(selectedId) {
+          sectionInput.innerHTML = '';
+          if (!sectionsCache.length) {
+            sectionInput.innerHTML = '<option value="">أضف قسماً أولاً</option>';
+            sectionInput.disabled = true;
+            return;
+          }
+          sectionInput.disabled = false;
+          sectionInput.innerHTML = sectionsCache.map(function (section) {
+            return '<option value="' + escapeHtml(section.id) + '"' + (section.id === selectedId ? ' selected' : '') + '>' + escapeHtml(section.label) + '</option>';
+          }).join('');
+        }
+
+        function syncMarketAvailability() {
+          var section = sectionById(sectionInput.value);
+          var isMarketScoped = Boolean(section && section.market_scoped);
+          marketInput.disabled = !isMarketScoped;
+          marketInput.title = isMarketScoped ? '' : 'هذا القسم يظهر في كل الأسواق';
+          if (tagInput && !tagInput.value.trim()) tagInput.value = isMarketScoped ? 'تحليل سوق' : 'تعليمي';
+        }
+
+        function setEditingSection(section) {
+          editingSectionId = section ? section.id : null;
+          sectionLabelInput.value = section ? (section.label || '') : '';
+          sectionScopeInput.value = section && section.market_scoped ? 'market' : 'global';
+          sectionStatusInput.value = section && section.status === 'draft' ? 'draft' : 'published';
+          sectionSortInput.value = section && section.sort_order != null ? section.sort_order : 0;
+          if (sectionSubmitLabel) sectionSubmitLabel.textContent = section ? 'حفظ تعديل القسم' : 'حفظ القسم';
+          if (sectionCancelBtn) sectionCancelBtn.hidden = !section;
+          setMessage(sectionMessage, section ? 'وضع التعديل مفعل لهذا القسم.' : '', section ? 'success' : '');
+          if (section) sectionForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        async function loadSections() {
+          sectionList.innerHTML = '<p class="db-settings-helper">جاري تحميل أقسام الفيديو...</p>';
+          var result = await client
+            .from('video_sections')
+            .select('id,slug,label,market_scoped,status,sort_order,created_at,updated_at')
+            .order('sort_order', { ascending: true })
+            .order('created_at', { ascending: true });
+
+          if (result.error) {
+            sectionList.innerHTML = '<p class="db-settings-helper">لم يتم تحميل الأقسام. شغل ملف supabase.sql لتفعيل إدارة الأقسام.</p>';
+            list.innerHTML = '<p class="db-settings-helper">لم يتم تحميل الفيديوهات لأن جدول الأقسام غير جاهز.</p>';
+            console.warn('Video section load failed:', result.error.message);
+            populateSectionSelect('');
+            return;
+          }
+
+          sectionsCache = result.data || [];
+          sectionList.innerHTML = sectionsCache.length
+            ? sectionsCache.map(renderSection).join('')
+            : '<p class="db-settings-helper">لا توجد أقسام بعد. أضف أول قسم من النموذج.</p>';
+
+          populateSectionSelect(editingVideoId ? sectionInput.value : (sectionsCache[0] && sectionsCache[0].id));
+          syncMarketAvailability();
+        }
+
+        function renderVideo(video) {
+          var section = sectionById(video.section_id);
+          var statusLabel = video.status === 'published' ? 'منشور' : 'مسودة';
+          var marketText = section && section.market_scoped ? marketLabel(video.market) : 'كل الأسواق';
+          return [
+            '<article class="db-admin-post-item">',
+              '<div class="db-admin-post-meta">',
+                '<span class="insight-tag">' + escapeHtml(video.tag || 'فيديو') + '</span>',
                 '<span class="db-admin-post-status">' + statusLabel + '</span>',
               '</div>',
               '<h4>' + escapeHtml(video.title) + '</h4>',
               '<p>' + escapeHtml(video.description) + '</p>',
               '<div class="db-admin-post-meta">',
-                '<span>' + categoryLabel(video.category) + ' · ' + marketText + '</span>',
+                '<span>' + escapeHtml(section ? section.label : 'بدون قسم') + ' · ' + marketText + '</span>',
                 '<span>' + formatDate(video.published_at || video.updated_at || video.created_at) + '</span>',
               '</div>',
               '<div class="db-admin-post-actions">',
@@ -2835,9 +2971,9 @@
         function setEditingVideo(video) {
           editingVideoId = video ? video.id : null;
           titleInput.value = video ? (video.title || '') : '';
-          categoryInput.value = video && video.category === 'tutorials' ? 'tutorials' : 'analysis';
+          populateSectionSelect(video ? video.section_id : (sectionsCache[0] && sectionsCache[0].id));
           marketInput.value = video && video.market ? video.market : 'saudi';
-          tagInput.value = video ? (video.tag || '') : 'تحليل سوق';
+          tagInput.value = video ? (video.tag || '') : '';
           youtubeInput.value = video ? (video.youtube_url || '') : '';
           descriptionInput.value = video ? (video.description || '') : '';
           statusInput.value = video && video.status === 'draft' ? 'draft' : 'published';
@@ -2846,7 +2982,7 @@
 
           if (submitLabel) submitLabel.textContent = video ? 'حفظ تعديل الفيديو' : 'حفظ الفيديو';
           if (cancelEditBtn) cancelEditBtn.hidden = !video;
-          setVideoMessage(video ? 'وضع التعديل مفعل لهذا الفيديو.' : '', video ? 'success' : '');
+          setMessage(message, video ? 'وضع التعديل مفعل لهذا الفيديو.' : '', video ? 'success' : '');
           if (video) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
@@ -2854,9 +2990,9 @@
           list.innerHTML = '<p class="db-settings-helper">جاري تحميل مكتبة الفيديو...</p>';
           var result = await client
             .from('videos')
-            .select('id,title,description,youtube_url,embed_url,tag,category,market,status,sort_order,published_at,updated_at,created_at')
+            .select('id,title,description,youtube_url,embed_url,tag,category,section_id,market,status,sort_order,published_at,updated_at,created_at')
             .order('updated_at', { ascending: false })
-            .limit(20);
+            .limit(40);
 
           if (result.error) {
             list.innerHTML = '<p class="db-settings-helper">لم يتم تحميل الفيديوهات. شغل ملف supabase.sql لتفعيل مكتبة الفيديو.</p>';
@@ -2864,37 +3000,104 @@
             return;
           }
 
-          if (!result.data || result.data.length === 0) {
-            list.innerHTML = '<p class="db-settings-helper">لا توجد فيديوهات بعد.</p>';
+          videosCache = result.data || [];
+          list.innerHTML = videosCache.length
+            ? videosCache.map(renderVideo).join('')
+            : '<p class="db-settings-helper">لا توجد فيديوهات بعد.</p>';
+        }
+
+        sectionForm.addEventListener('submit', async function (event) {
+          event.preventDefault();
+          setMessage(sectionMessage, '', '');
+          var label = sectionLabelInput.value.trim();
+          var sortOrder = Number(sectionSortInput.value || 0);
+          if (!label) {
+            setMessage(sectionMessage, 'اكتب اسم القسم قبل الحفظ.', 'error');
+            return;
+          }
+          if (sectionSubmitBtn) sectionSubmitBtn.disabled = true;
+
+          var payload = {
+            label: label,
+            market_scoped: sectionScopeInput.value === 'market',
+            status: sectionStatusInput.value === 'draft' ? 'draft' : 'published',
+            sort_order: Number.isFinite(sortOrder) ? sortOrder : 0
+          };
+          if (!editingSectionId) payload.slug = makeSlug(label);
+
+          var saveQuery = editingSectionId
+            ? client.from('video_sections').update(payload).eq('id', editingSectionId).select('id').single()
+            : client.from('video_sections').insert(payload).select('id').single();
+          var saveResult = await saveQuery;
+          if (sectionSubmitBtn) sectionSubmitBtn.disabled = false;
+
+          if (saveResult.error) {
+            setMessage(sectionMessage, 'لم يتم حفظ القسم. راجع صلاحيات الأدمن أو قاعدة البيانات.', 'error');
+            console.warn('Video section save failed:', saveResult.error.message);
             return;
           }
 
-          videosCache = result.data;
-          list.innerHTML = videosCache.map(renderVideo).join('');
-        }
+          sectionForm.reset();
+          sectionScopeInput.value = 'market';
+          sectionStatusInput.value = 'published';
+          sectionSortInput.value = 0;
+          editingSectionId = null;
+          if (sectionCancelBtn) sectionCancelBtn.hidden = true;
+          if (sectionSubmitLabel) sectionSubmitLabel.textContent = 'حفظ القسم';
+          setMessage(sectionMessage, 'تم حفظ القسم بنجاح.', 'success');
+          await loadSections();
+          await loadVideos();
+        });
+
+        sectionList.addEventListener('click', async function (event) {
+          var actionEl = event.target.closest('[data-video-section-action]');
+          if (!actionEl) return;
+          var sectionId = actionEl.getAttribute('data-video-section-id');
+          var action = actionEl.getAttribute('data-video-section-action');
+          var section = sectionById(sectionId);
+
+          if (action === 'edit' && section) {
+            setEditingSection(section);
+            return;
+          }
+
+          if (action === 'delete' && sectionId) {
+            var ok = window.confirm('حذف هذا القسم؟ الفيديوهات المرتبطة به ستبقى في قاعدة البيانات بدون قسم حتى تنقلها.');
+            if (!ok) return;
+            actionEl.disabled = true;
+            var deleteResult = await client.from('video_sections').delete().eq('id', sectionId);
+            if (deleteResult.error) {
+              actionEl.disabled = false;
+              setMessage(sectionMessage, 'لم يتم حذف القسم. راجع صلاحيات الأدمن.', 'error');
+              console.warn('Video section delete failed:', deleteResult.error.message);
+              return;
+            }
+            if (editingSectionId === sectionId) setEditingSection(null);
+            setMessage(sectionMessage, 'تم حذف القسم.', 'success');
+            await loadSections();
+            await loadVideos();
+          }
+        });
 
         form.addEventListener('submit', async function (event) {
           event.preventDefault();
-          setVideoMessage('', '');
-
+          setMessage(message, '', '');
           var title = titleInput.value.trim();
-          var category = categoryInput.value === 'tutorials' ? 'tutorials' : 'analysis';
+          var section = sectionById(sectionInput.value);
           var youtubeUrl = youtubeInput.value.trim();
           var embedUrl = buildYoutubeEmbedUrl(youtubeUrl);
           var description = descriptionInput.value.trim();
           var status = statusInput.value === 'draft' ? 'draft' : 'published';
           var sortOrder = Number(sortInput.value || 0);
 
-          if (!title || !youtubeUrl || !description) {
-            setVideoMessage('أكمل العنوان والرابط والوصف قبل الحفظ.', 'error');
+          if (!title || !section || !youtubeUrl || !description) {
+            setMessage(message, 'أكمل العنوان والقسم والرابط والوصف قبل الحفظ.', 'error');
             return;
           }
-
           if (!embedUrl) {
-            setVideoMessage('رابط YouTube غير صحيح. استخدم رابط مشاهدة أو Shorts أو youtu.be.', 'error');
+            setMessage(message, 'رابط YouTube غير صحيح. استخدم رابط مشاهدة أو Shorts أو youtu.be.', 'error');
             return;
           }
-
           if (submitBtn) submitBtn.disabled = true;
 
           var payload = {
@@ -2902,9 +3105,10 @@
             description: description,
             youtube_url: youtubeUrl,
             embed_url: embedUrl,
-            tag: tagInput.value.trim() || (category === 'tutorials' ? 'تعليمي' : 'تحليل سوق'),
-            category: category,
-            market: category === 'analysis' ? marketInput.value : null,
+            tag: tagInput.value.trim() || (section.market_scoped ? 'تحليل سوق' : 'فيديو'),
+            category: section.market_scoped ? 'analysis' : 'tutorials',
+            section_id: section.id,
+            market: section.market_scoped ? marketInput.value : null,
             status: status,
             sort_order: Number.isFinite(sortOrder) ? sortOrder : 0,
             published_at: status === 'published' ? new Date().toISOString() : null
@@ -2917,29 +3121,27 @@
           if (submitBtn) submitBtn.disabled = false;
 
           if (saveResult.error) {
-            setVideoMessage('لم يتم حفظ الفيديو. راجع صلاحيات الأدمن أو شغل ملف supabase.sql.', 'error');
+            setMessage(message, 'لم يتم حفظ الفيديو. راجع صلاحيات الأدمن أو شغل ملف supabase.sql.', 'error');
             console.warn('Video save failed:', saveResult.error.message);
             return;
           }
 
           form.reset();
-          if (categoryInput) categoryInput.value = 'analysis';
-          if (marketInput) marketInput.value = 'saudi';
-          if (tagInput) tagInput.value = 'تحليل سوق';
-          if (statusInput) statusInput.value = 'published';
-          if (sortInput) sortInput.value = 0;
+          populateSectionSelect(sectionsCache[0] && sectionsCache[0].id);
+          marketInput.value = 'saudi';
+          statusInput.value = 'published';
+          sortInput.value = 0;
           editingVideoId = null;
           if (cancelEditBtn) cancelEditBtn.hidden = true;
           if (submitLabel) submitLabel.textContent = 'حفظ الفيديو';
           syncMarketAvailability();
-          setVideoMessage('تم حفظ الفيديو بنجاح.', 'success');
+          setMessage(message, 'تم حفظ الفيديو بنجاح.', 'success');
           loadVideos();
         });
 
         list.addEventListener('click', async function (event) {
           var actionEl = event.target.closest('[data-video-action]');
           if (!actionEl) return;
-
           var videoId = actionEl.getAttribute('data-video-id');
           var action = actionEl.getAttribute('data-video-action');
           var video = videosCache.find(function (item) { return item.id === videoId; });
@@ -2952,26 +3154,30 @@
           if (action === 'delete' && videoId) {
             var ok = window.confirm('حذف هذا الفيديو نهائيا من مكتبة الفيديو؟');
             if (!ok) return;
-
             actionEl.disabled = true;
             var deleteResult = await client.from('videos').delete().eq('id', videoId);
             if (deleteResult.error) {
-              console.warn('Video delete failed:', deleteResult.error.message);
-              setVideoMessage('لم يتم حذف الفيديو. راجع صلاحيات الأدمن.', 'error');
               actionEl.disabled = false;
+              setMessage(message, 'لم يتم حذف الفيديو. راجع صلاحيات الأدمن.', 'error');
+              console.warn('Video delete failed:', deleteResult.error.message);
               return;
             }
-
             if (editingVideoId === videoId) setEditingVideo(null);
-            setVideoMessage('تم حذف الفيديو.', 'success');
+            setMessage(message, 'تم حذف الفيديو.', 'success');
             loadVideos();
           }
         });
 
-        if (categoryInput) {
-          categoryInput.addEventListener('change', syncMarketAvailability);
+        sectionInput.addEventListener('change', syncMarketAvailability);
+        if (sectionCancelBtn) {
+          sectionCancelBtn.addEventListener('click', function () {
+            sectionForm.reset();
+            sectionScopeInput.value = 'market';
+            sectionStatusInput.value = 'published';
+            sectionSortInput.value = 0;
+            setEditingSection(null);
+          });
         }
-
         if (cancelEditBtn) {
           cancelEditBtn.addEventListener('click', function () {
             form.reset();
@@ -2979,8 +3185,7 @@
           });
         }
 
-        syncMarketAvailability();
-        loadVideos();
+        loadSections().then(loadVideos);
       }
 
       function initAccountApprovals(client, adminUser) {

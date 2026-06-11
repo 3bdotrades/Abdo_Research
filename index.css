@@ -5619,6 +5619,27 @@ header {
   color: #d8deea;
 }
 
+.faq-category-row button {
+  cursor: pointer;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 999px;
+  color: #d8deea;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+  padding: 8px 13px;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.faq-category-row button:hover,
+.faq-category-row button.active {
+  background: rgba(212,175,55,0.12);
+  border-color: rgba(212,175,55,0.38);
+  color: #fff4c9;
+}
+
 .faq-item {
   border-radius: 14px;
   background: rgba(5,6,8,0.42);
@@ -5640,6 +5661,49 @@ header {
   background: linear-gradient(180deg, rgba(5,6,8,0.35), #030405 55%);
 }
 
+.engine-editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.engine-editorial-card {
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 30px 26px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.052), rgba(255,255,255,0.023));
+  border: 1px solid rgba(255,255,255,0.09);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.28);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.engine-editorial-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(212,175,55,0.34);
+}
+
+.engine-editorial-card span {
+  color: rgba(212,175,55,0.42);
+  font-family: 'Cairo', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.engine-editorial-card h3 {
+  font-size: 1.08rem;
+  font-weight: 900;
+}
+
+.engine-editorial-card p {
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  line-height: 1.85;
+}
+
 @media (max-width: 1024px) {
   .hero-section-inst {
     padding-top: 116px !important;
@@ -5656,6 +5720,10 @@ header {
   .hero-inst-headline,
   .hero-inst-sub {
     max-width: 100%;
+  }
+
+  .engine-editorial-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -5765,6 +5833,15 @@ header {
   .persona-card,
   .insight-card,
   .video-card {
+    padding: 24px;
+  }
+
+  .engine-editorial-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .engine-editorial-card {
+    min-height: auto;
     padding: 24px;
   }
 }
