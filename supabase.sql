@@ -54,10 +54,6 @@ create trigger on_auth_user_created
 
 -- Admin accounts can manage research posts from the dashboard.
 -- After your admin user signs up, add your email once:
-insert into public.admin_users (email)
-values ('iabdoi2004@gmail.com')
-on conflict (email) do nothing;
-
 create table if not exists public.admin_users (
   id uuid primary key default gen_random_uuid(),
   user_id uuid unique references auth.users(id) on delete cascade,
@@ -89,6 +85,10 @@ create policy "Admins can view admin users"
   on public.admin_users
   for select
   using (public.is_admin());
+
+insert into public.admin_users (email)
+values ('iabdoi2004@gmail.com')
+on conflict (email) do nothing;
 
 create table if not exists public.posts (
   id uuid primary key default gen_random_uuid(),
