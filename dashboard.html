@@ -623,209 +623,6 @@
       font-family: 'Cairo', sans-serif;
     }
 
-    /* ===== Signals table (locked) ===== */
-    .db-signals-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--border-radius-md);
-      overflow: hidden;
-    }
-
-    .db-signals-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 22px;
-      border-bottom: 1px solid var(--border-color);
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .db-signals-title-group {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .db-signals-eyebrow {
-      font-size: 0.54rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-subtle);
-      font-family: 'Cairo', sans-serif;
-    }
-
-    .db-signals-title {
-      font-family: 'Cairo', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: #ffffff;
-    }
-
-    .db-signals-count-badge {
-      font-size: 0.63rem;
-      font-weight: 700;
-      background: rgba(74,222,128,0.07);
-      border: 1px solid rgba(74,222,128,0.16);
-      color: #4ade80;
-      padding: 4px 10px;
-      border-radius: 4px;
-      font-family: 'Cairo', sans-serif;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .db-signals-pulse {
-      width: 6px;
-      height: 6px;
-      background: #4ade80;
-      border-radius: 50%;
-      flex-shrink: 0;
-      animation: db-pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes db-pulse {
-      0%, 100% { opacity: 1;   transform: scale(1); }
-      50%       { opacity: 0.5; transform: scale(0.8); }
-    }
-
-    /* Table */
-    .db-signals-table-wrap {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .db-signals-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .db-signals-table thead tr {
-      border-bottom: 1px solid var(--border-color);
-      background: rgba(255,255,255,0.02);
-    }
-
-    .db-signals-table th {
-      padding: 10px 16px;
-      font-family: 'Cairo', sans-serif;
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-subtle);
-      text-align: right;
-      white-space: nowrap;
-    }
-
-    .db-signals-table td {
-      padding: 12px 16px;
-      font-size: 0.82rem;
-      color: var(--text-main);
-      text-align: right;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      vertical-align: middle;
-    }
-
-    .db-signals-table tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    .db-signals-table tbody tr {
-      transition: background 0.15s ease;
-    }
-
-    .db-signals-table tbody tr:hover {
-      background: rgba(255,255,255,0.02);
-    }
-
-    .db-tbl-stock-cell {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .db-tbl-ticker {
-      font-family: 'Cairo', sans-serif;
-      font-size: 0.65rem;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      background: rgba(212,175,55,0.07);
-      border: 1px solid rgba(212,175,55,0.15);
-      color: var(--primary);
-      padding: 3px 7px;
-      border-radius: 4px;
-      min-width: 44px;
-      text-align: center;
-    }
-
-    .db-tbl-stock-name {
-      font-family: 'Tajawal', sans-serif;
-      font-weight: 600;
-      color: #ffffff;
-      font-size: 0.84rem;
-    }
-
-    .db-tbl-market-tag {
-      font-size: 0.62rem;
-      font-weight: 700;
-      font-family: 'Cairo', sans-serif;
-      padding: 3px 8px;
-      border-radius: 4px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-    }
-
-    .db-tbl-dir {
-      font-family: 'Cairo', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 800;
-      padding: 3px 10px;
-      border-radius: 4px;
-      display: inline-block;
-    }
-
-    .db-tbl-dir.buy {
-      background: rgba(74,222,128,0.07);
-      border: 1px solid rgba(74,222,128,0.18);
-      color: #4ade80;
-    }
-
-    .db-tbl-dir.sell {
-      background: rgba(224,80,104,0.07);
-      border: 1px solid rgba(224,80,104,0.18);
-      color: var(--accent-red);
-    }
-
-    .db-tbl-price {
-      font-family: 'Cairo', sans-serif;
-      font-weight: 700;
-      font-size: 0.84rem;
-      color: #ffffff;
-    }
-
-    .db-tbl-status {
-      font-family: 'Cairo', sans-serif;
-      font-size: 0.68rem;
-      font-weight: 700;
-      padding: 3px 9px;
-      border-radius: 4px;
-      display: inline-block;
-    }
-
-    .db-tbl-status.open {
-      background: rgba(212,175,55,0.07);
-      border: 1px solid rgba(212,175,55,0.18);
-      color: var(--primary);
-    }
-
-    .db-tbl-status.watching {
-      background: rgba(99,179,237,0.07);
-      border: 1px solid rgba(99,179,237,0.18);
-      color: #63b3ed;
-    }
-
     /* Lock overlay — stronger blur */
     .db-lock-overlay {
       position: absolute;
@@ -921,70 +718,6 @@
       stroke-width: 2.5;
     }
 
-    /* ===== Bottom CTA banner ===== */
-    .db-cta-card {
-      background: linear-gradient(145deg, rgba(212,175,55,0.09) 0%, rgba(212,175,55,0.03) 60%, var(--bg-card) 100%);
-      border: 1px solid rgba(212,175,55,0.35);
-      border-radius: var(--border-radius-md);
-      padding: 28px 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      flex-wrap: wrap;
-      /* Prominent gold glow border effect */
-      box-shadow: 0 0 0 1px rgba(212,175,55,0.4), 0 8px 40px rgba(212,175,55,0.08), 0 2px 0 0 rgba(212,175,55,0.5) inset;
-    }
-
-    .db-cta-text h3 {
-      font-family: 'Cairo', sans-serif;
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: #ffffff;
-      margin-bottom: 6px;
-      letter-spacing: -0.4px;
-    }
-
-    .db-cta-text p {
-      font-size: 0.83rem;
-      color: var(--text-muted);
-      line-height: 1.65;
-      max-width: 540px;
-    }
-
-    .db-cta-btn {
-      background: var(--primary);
-      color: #050608;
-      font-family: 'Cairo', sans-serif;
-      font-weight: 800;
-      font-size: 0.88rem;
-      padding: 13px 30px;
-      border-radius: 50px;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      white-space: nowrap;
-      flex-shrink: 0;
-      transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
-    }
-
-    .db-cta-btn:hover {
-      background: var(--primary-hover);
-      box-shadow: 0 6px 24px rgba(212,175,55,0.3);
-      transform: translateY(-1px);
-    }
-
-    .db-cta-btn svg {
-      width: 14px;
-      height: 14px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2.5;
-    }
-
     /* Ambient glow orbs */
     .db-glow-orb {
       position: fixed;
@@ -1042,28 +775,10 @@
       .db-kpi-card { padding: 16px 14px; }
 
       .db-kpi-value { font-size: 1.3rem; }
-
-      /* Hide entry price column on small screens */
-      .db-signals-table th:nth-child(4),
-      .db-signals-table td:nth-child(4) { display: none; }
-
-      .db-cta-card {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .db-cta-btn {
-        width: 100%;
-        justify-content: center;
-      }
     }
 
     @media (max-width: 420px) {
       .db-kpi-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-
-      /* Also hide status column */
-      .db-signals-table th:nth-child(5),
-      .db-signals-table td:nth-child(5) { display: none; }
     }
 
     /* ===== Section-level header used across non-overview sections ===== */
@@ -1146,122 +861,6 @@
       color: var(--text-muted);
       line-height: 1.7;
       max-width: 440px;
-    }
-
-    /* ===== Trading room — desk note cards wrapper ===== */
-    .db-desk-notes-section {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--border-radius-md);
-      overflow: hidden;
-    }
-
-    .db-desk-notes-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 22px;
-      border-bottom: 1px solid var(--border-color);
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .db-desk-notes-title-group {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .db-desk-notes-eyebrow {
-      font-size: 0.54rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-subtle);
-      font-family: 'Cairo', sans-serif;
-    }
-
-    .db-desk-notes-title {
-      font-family: 'Cairo', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: #ffffff;
-    }
-
-    .db-desk-notes-body {
-      padding: 24px 22px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    @media (max-width: 900px) {
-      .db-desk-notes-body { grid-template-columns: 1fr; }
-    }
-
-    /* Individual trading-room note card */
-    .db-note-card {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      padding: 18px 16px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid var(--border-color);
-      border-right: 2px solid var(--border-gold);
-      border-radius: 8px;
-      transition: border-right-color 0.2s ease, transform 0.2s ease;
-    }
-
-    .db-note-card:hover {
-      border-right-color: var(--primary);
-      transform: translateY(-2px);
-    }
-
-    .db-note-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .db-note-avatar {
-      width: 38px;
-      height: 38px;
-      min-width: 38px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary) 0%, #a07e20 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Cairo', sans-serif;
-      font-weight: 800;
-      font-size: 0.85rem;
-      color: #050608;
-      overflow: hidden;
-    }
-
-    .db-note-meta strong {
-      display: block;
-      font-family: 'Cairo', sans-serif;
-      font-size: 0.85rem;
-      color: #ffffff;
-      font-weight: 700;
-    }
-
-    .db-note-time {
-      font-size: 0.68rem;
-      color: var(--text-subtle);
-    }
-
-    .db-note-card p {
-      font-size: 0.86rem;
-      color: var(--text-muted);
-      line-height: 1.75;
-      flex-grow: 1;
-    }
-
-    .db-note-tags {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
     }
 
     /* ===== Research section ===== */
@@ -1719,22 +1318,6 @@
             نظرة عامة
           </a>
         </li>
-
-        <!-- الإشارات الحية — locked (مميز) -->
-        <li class="db-nav-item">
-          <a href="#" onclick="return false;" style="opacity:0.65; cursor:default;">
-            <svg class="db-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-            </svg>
-            الإشارات الحية
-            <svg class="db-nav-lock" viewBox="0 0 24 24" aria-label="محجوب">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            </svg>
-            <span class="db-nav-premium-pill">مميز</span>
-          </a>
-        </li>
-
         <!-- محفظتي -->
         <li class="db-nav-item">
           <a href="#" class="db-nav-link" data-section="portfolio">
@@ -1746,17 +1329,6 @@
             محفظتي
           </a>
         </li>
-
-        <!-- غرفة التداول -->
-        <li class="db-nav-item">
-          <a href="#" class="db-nav-link" data-section="trading">
-            <svg class="db-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
-            غرفة التداول
-          </a>
-        </li>
-
         <!-- الأبحاث -->
         <li class="db-nav-item">
           <a href="#" class="db-nav-link" data-section="research">
@@ -1862,23 +1434,7 @@
       <section aria-label="مؤشرات الأداء الرئيسية">
         <div class="db-kpi-grid">
 
-          <!-- 1. Active signals -->
-          <div class="db-kpi-card">
-            <div class="db-kpi-header">
-              <span class="db-kpi-label">الإشارات النشطة</span>
-              <div class="db-kpi-icon">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                </svg>
-              </div>
-            </div>
-            <div class="db-kpi-value">4 صفقات</div>
-            <div class="db-kpi-sub">
-              <span class="db-kpi-trend">↑ 2 جديدتان</span> منذ أمس
-            </div>
-          </div>
-
-          <!-- 2. Monthly return -->
+          <!-- 1. Monthly return -->
           <div class="db-kpi-card">
             <div class="db-kpi-header">
               <span class="db-kpi-label">نسبة الأرباح هذا الشهر</span>
@@ -1895,7 +1451,7 @@
             </div>
           </div>
 
-          <!-- 3. Markets covered -->
+          <!-- 2. Markets covered -->
           <div class="db-kpi-card">
             <div class="db-kpi-header">
               <span class="db-kpi-label">عدد البورصات المغطاة</span>
@@ -1911,7 +1467,7 @@
             <div class="db-kpi-sub">تداول · EGX · DFM · ADX · QSE</div>
           </div>
 
-          <!-- 4. Model status -->
+          <!-- 3. Model status -->
           <div class="db-kpi-card">
             <div class="db-kpi-header">
               <span class="db-kpi-label">حالة النموذج</span>
@@ -2126,158 +1682,6 @@
         </div>
       </section>
 
-      <!-- ========================
-           SIGNALS TABLE (LOCKED)
-           ======================== -->
-      <section aria-label="آخر الإشارات الصادرة">
-        <div class="db-signals-card">
-
-          <div class="db-signals-header">
-            <div class="db-signals-title-group">
-              <span class="db-signals-eyebrow">آخر الإشارات — مخرجات النموذج</span>
-              <h3 class="db-signals-title">آخر الإشارات الصادرة</h3>
-            </div>
-            <span class="db-signals-count-badge">
-              <span class="db-signals-pulse" aria-hidden="true"></span>
-              4 إشارات نشطة
-            </span>
-          </div>
-
-          <!-- Relative wrapper so absolute overlay can cover it -->
-          <div class="db-signals-table-wrap">
-
-            <!-- Fake table data (will be blurred by lock overlay) -->
-            <table class="db-signals-table" aria-hidden="true">
-              <thead>
-                <tr>
-                  <th>السهم</th>
-                  <th>البورصة</th>
-                  <th>الاتجاه</th>
-                  <th>سعر الدخول</th>
-                  <th>الحالة</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <div class="db-tbl-stock-cell">
-                      <span class="db-tbl-ticker">2222</span>
-                      <span class="db-tbl-stock-name">أرامكو السعودية</span>
-                    </div>
-                  </td>
-                  <td><span class="db-tbl-market-tag">تداول</span></td>
-                  <td><span class="db-tbl-dir buy">شراء</span></td>
-                  <td><span class="db-tbl-price">27.65 ر.س</span></td>
-                  <td><span class="db-tbl-status open">مفتوحة</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="db-tbl-stock-cell">
-                      <span class="db-tbl-ticker">1120</span>
-                      <span class="db-tbl-stock-name">مصرف الراجحي</span>
-                    </div>
-                  </td>
-                  <td><span class="db-tbl-market-tag">تداول</span></td>
-                  <td><span class="db-tbl-dir buy">شراء</span></td>
-                  <td><span class="db-tbl-price">93.40 ر.س</span></td>
-                  <td><span class="db-tbl-status open">مفتوحة</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="db-tbl-stock-cell">
-                      <span class="db-tbl-ticker">EMAAR</span>
-                      <span class="db-tbl-stock-name">إعمار العقارية</span>
-                    </div>
-                  </td>
-                  <td><span class="db-tbl-market-tag">DFM</span></td>
-                  <td><span class="db-tbl-dir buy">شراء</span></td>
-                  <td><span class="db-tbl-price">9.14 د.إ</span></td>
-                  <td><span class="db-tbl-status watching">مراقبة</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="db-tbl-stock-cell">
-                      <span class="db-tbl-ticker">QNBK</span>
-                      <span class="db-tbl-stock-name">بنك قطر الوطني</span>
-                    </div>
-                  </td>
-                  <td><span class="db-tbl-market-tag">QSE</span></td>
-                  <td><span class="db-tbl-dir sell">بيع</span></td>
-                  <td><span class="db-tbl-price">14.38 ر.ق</span></td>
-                  <td><span class="db-tbl-status watching">مراقبة</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="db-tbl-stock-cell">
-                      <span class="db-tbl-ticker">COMI</span>
-                      <span class="db-tbl-stock-name">البنك التجاري الدولي</span>
-                    </div>
-                  </td>
-                  <td><span class="db-tbl-market-tag">EGX</span></td>
-                  <td><span class="db-tbl-dir buy">شراء</span></td>
-                  <td><span class="db-tbl-price">86.75 ج.م</span></td>
-                  <td><span class="db-tbl-status open">مفتوحة</span></td>
-                </tr>
-              </tbody>
-            </table>
-
-            <!-- ====  LOCK OVERLAY ==== -->
-            <div
-              class="db-lock-overlay"
-              role="region"
-              aria-label="المحتوى محجوب — يتطلب اشتراكاً مميزاً"
-            >
-              <div class="db-lock-icon-wrap">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                </svg>
-              </div>
-
-              <div class="db-lock-text">
-                <h4>الإشارات محجوبة</h4>
-                <p>للوصول للإشارات الحية والتفاصيل الكاملة مع مستويات الدخول والوقف والهدف، تواصل معنا للانضمام للخطة المميزة.</p>
-              </div>
-
-              <a
-                href="https://calendly.com/abdoresearch/30min"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="db-lock-cta"
-              >
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                </svg>
-                مكالمة تعريفية
-              </a>
-            </div>
-            <!-- END LOCK OVERLAY -->
-
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================
-           BOTTOM CTA CARD
-           ======================== -->
-      <section aria-label="الوصول الكامل للإشارات">
-        <div class="db-cta-card">
-          <div class="db-cta-text">
-            <h3>للوصول للإشارات الحية — تواصل معنا</h3>
-            <p>في مكالمة مجانية مدتها 20 دقيقة نتعرف على أهدافك المالية ونناقش ما إذا كانت الخطة المميزة تناسب وضعك. لا التزام، لا ضغط — محادثة صريحة فقط.</p>
-          </div>
-          <a href="https://calendly.com/abdoresearch/30min" target="_blank" rel="noopener noreferrer" class="db-cta-btn">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-              <line x1="16" y1="2" x2="16" y2="6"/>
-              <line x1="8"  y1="2" x2="8"  y2="6"/>
-              <line x1="3"  y1="10" x2="21" y2="10"/>
-            </svg>
-            مكالمة تعريفية
-          </a>
-        </div>
-      </section>
-
     </div><!-- /#db-section-overview -->
 
     <!-- =====================================================
@@ -2315,85 +1719,6 @@
 
     </div><!-- /#db-section-portfolio -->
 
-    <!-- =====================================================
-         SECTION: غرفة التداول (Trading Room)
-         ===================================================== -->
-    <div id="db-section-trading" class="db-section" style="display:none;">
-
-      <div class="db-section-header">
-        <h2>غرفة التداول</h2>
-      </div>
-
-      <div class="db-desk-notes-section">
-
-        <div class="db-desk-notes-header">
-          <div class="db-desk-notes-title-group">
-            <span class="db-desk-notes-eyebrow">سجل التداول — آخر الملاحظات</span>
-            <h3 class="db-desk-notes-title">آخر ملاحظات التداول</h3>
-          </div>
-          <span class="db-signals-count-badge">
-            <span class="db-signals-pulse" aria-hidden="true"></span>
-            3 ملاحظات جديدة
-          </span>
-        </div>
-
-        <div class="db-desk-notes-body">
-
-          <!-- Note 1: Saudi market — Al Rajhi PDL -->
-          <article class="db-note-card">
-            <div class="db-note-header">
-              <div class="db-note-avatar" aria-hidden="true">ع</div>
-              <div class="db-note-meta">
-                <strong>ملاحظة بحثية</strong>
-                <span class="db-note-time">اليوم — 09:15 ص</span>
-              </div>
-            </div>
-            <p>السوق السعودي — سهم الراجحي يختبر مستوى PDL عند 84.20. المراقبة جارية. إذا صمد فوق هذا المستوى في أول 30 دقيقة من التداول يُعطي مدخلاً نظيفاً بوقف تحت 82.00.</p>
-            <div class="db-note-tags">
-              <span class="desk-tag">تداول</span>
-              <span class="desk-tag">PDL</span>
-              <span class="desk-tag">الراجحي</span>
-            </div>
-          </article>
-
-          <!-- Note 2: Egyptian market — CIB MR -->
-          <article class="db-note-card">
-            <div class="db-note-header">
-              <div class="db-note-avatar" aria-hidden="true">ع</div>
-              <div class="db-note-meta">
-                <strong>ملاحظة بحثية</strong>
-                <span class="db-note-time">أمس — 04:45 م</span>
-              </div>
-            </div>
-            <p>البورصة المصرية — نموذج MR يرصد فرصة في سهم CIB. النموذج يرى إفراطاً في البيع مع وجود دعم مؤسسي. التفاصيل الكاملة مع مستويات الدخول والهدف والوقف متاحة للمشتركين.</p>
-            <div class="db-note-tags">
-              <span class="desk-tag">EGX</span>
-              <span class="desk-tag">MR</span>
-              <span class="desk-tag">CIB</span>
-            </div>
-          </article>
-
-          <!-- Note 3: Qatar market — QNB Pivot Memory -->
-          <article class="db-note-card">
-            <div class="db-note-header">
-              <div class="db-note-avatar" aria-hidden="true">ع</div>
-              <div class="db-note-meta">
-                <strong>ملاحظة بحثية</strong>
-                <span class="db-note-time">أمس — 11:30 ص</span>
-              </div>
-            </div>
-            <p>سوق قطر — Pivot Memory في QNB عند 14.10. إشارة محتملة. المستوى كان منطقة توزيع قبل ثلاثة أشهر — الآن يختبره من الأسفل كدعم. الاحتمالات مع الشراء على الإغلاق فوقه.</p>
-            <div class="db-note-tags">
-              <span class="desk-tag">QSE</span>
-              <span class="desk-tag">Pivot</span>
-              <span class="desk-tag">QNB</span>
-            </div>
-          </article>
-
-        </div><!-- /.db-desk-notes-body -->
-      </div><!-- /.db-desk-notes-section -->
-
-    </div><!-- /#db-section-trading -->
 
     <!-- =====================================================
          SECTION: الأبحاث (Research)
@@ -3151,7 +2476,6 @@
       var sectionLabels = {
         overview:  'نظرة عامة',
         portfolio: 'محفظتي',
-        trading:   'غرفة التداول',
         research:  'الأبحاث',
         admin:     'الإدارة',
         settings:  'الإعدادات'

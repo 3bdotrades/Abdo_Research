@@ -396,24 +396,6 @@ section {
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 12px;
 }
-.signal-status-badge {
-  background: rgba(14, 189, 147, 0.08);
-  border: 1px solid rgba(14, 189, 147, 0.15);
-  color: var(--accent-green);
-  padding: 3px 8px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  border-radius: 4px;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-.pulse-circle {
-  width: 6px;
-  height: 6px;
-  background: var(--accent-green);
-  border-radius: 50%;
-}
 
 .model-stat-grid {
   display: grid;
@@ -575,14 +557,6 @@ section {
   transform: translate(-50%, -100%);
 }
 
-/* Clean Stock Signals Section */
-.signals-tabs {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-}
 .tab-btn {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -603,126 +577,6 @@ section {
   background: rgba(212, 175, 55, 0.12);
   border-color: var(--primary);
   color: var(--primary);
-}
-
-.signals-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  margin-bottom: 30px;
-}
-.signal-card {
-  border-right: 2px solid var(--border-gold);
-}
-.signal-card.completed {
-  border-right-color: var(--text-muted);
-}
-.signal-card.target-hit {
-  border-right-color: var(--accent-green);
-}
-.signal-card.stop-loss-hit {
-  border-right-color: var(--accent-red);
-}
-
-.signal-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 12px;
-  margin-bottom: 12px;
-}
-.asset-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.asset-logo {
-  height: 24px;
-  padding: 2px 8px;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Cairo', sans-serif;
-  font-weight: 700;
-  font-size: 0.75rem;
-}
-.asset-details {
-  display: flex;
-  flex-direction: column;
-}
-.asset-name {
-  font-weight: 700;
-  color: #ffffff;
-}
-.asset-type {
-  font-size: 0.7rem;
-  color: var(--text-muted);
-}
-.direction-badge {
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  font-family: 'Cairo', sans-serif;
-}
-.direction-badge.buy {
-  background: rgba(14, 189, 147, 0.08);
-  border: 1px solid rgba(14, 189, 147, 0.15);
-  color: var(--accent-green);
-}
-.direction-badge.sell {
-  background: rgba(223, 56, 91, 0.08);
-  border: 1px solid rgba(223, 56, 91, 0.15);
-  color: var(--accent-red);
-}
-
-.signal-card-body {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 14px;
-}
-.signal-price-box {
-  display: flex;
-  flex-direction: column;
-}
-.price-label {
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  margin-bottom: 2px;
-}
-.price-val {
-  font-family: 'Cairo', sans-serif;
-  font-weight: 700;
-  font-size: 0.95rem;
-}
-
-.signal-card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--bg-primary);
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid var(--border-color);
-  font-size: 0.75rem;
-}
-.signal-time {
-  color: var(--text-muted);
-}
-.signal-result-text {
-  font-weight: 600;
-  font-family: 'Cairo', sans-serif;
-}
-
-.signals-more-info {
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 0.8rem;
 }
 
 /* Investment Simulator Section */
@@ -1194,24 +1048,12 @@ footer {
   margin-bottom: 30px;
 }
 
-/* hero-video-box and signals-tutorial-banner — defined in REFINEMENTS block */
-.signals-tutorial-text h3 {
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-  color: #ffffff;
-}
-.signals-tutorial-text p {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-
 /* Mobile Responsiveness Rules */
 @media (max-width: 1024px) {
   section {
     padding: var(--section-pad-sm) 28px;
   }
-  .hero-grid, .simulator-layout, .engine-grid, .footer-top-grid, .signals-tutorial-banner {
+  .hero-grid, .simulator-layout, .engine-grid, .footer-top-grid {
     grid-template-columns: 1fr;
     gap: 30px;
   }
@@ -1233,7 +1075,7 @@ footer {
   .hero-content h1 {
     font-size: 1.8rem;
   }
-  .stats-grid-main, .pricing-grid, .signals-grid, .videos-library-grid {
+  .stats-grid-main, .pricing-grid, .videos-library-grid {
     grid-template-columns: 1fr;
   }
   .btn-primary, .btn-secondary {
@@ -2040,7 +1882,7 @@ footer {
   border: 1px solid rgba(212, 175, 55, 0.2);
   color: var(--primary);
 }
-.insight-tag-signal {
+.insight-tag-liquidity {
   background: rgba(16, 185, 129, 0.08);
   border-color: rgba(16, 185, 129, 0.2);
   color: #10b981;
@@ -3240,19 +3082,6 @@ footer {
   border-radius: var(--border-radius-md);
 }
 
-/* Signals tutorial banner refinements */
-.signals-tutorial-banner {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius-md);
-  padding: 28px 32px;
-  margin-bottom: 36px;
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 32px;
-  align-items: center;
-}
-
 /* Simulator card refinements */
 .sim-controls-card {
   padding: 32px;
@@ -3896,6 +3725,24 @@ html {
   font-size: 0.8rem;
 }
 
+.footer-legal-links {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.footer-legal-links a {
+  color: var(--text-muted);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-legal-links a:hover {
+  color: var(--primary);
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .site-footer .footer-top-grid {
@@ -4300,11 +4147,6 @@ html, body {
 
   /* --- Pricing grid --- */
   .pricing-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* --- Signals grid --- */
-  .signals-grid {
     grid-template-columns: 1fr;
   }
 
