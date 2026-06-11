@@ -54,7 +54,7 @@ create trigger on_auth_user_created
 
 -- Admin accounts can manage research posts from the dashboard.
 -- After your admin user signs up, add your email once:
--- insert into public.admin_users (email) values ('YOUR_EMAIL@example.com') on conflict (email) do nothing;
+-- insert into public.admin_users (email) values ('iabdoi2004@gmail.com') on conflict (email) do nothing;
 
 create table if not exists public.admin_users (
   id uuid primary key default gen_random_uuid(),
