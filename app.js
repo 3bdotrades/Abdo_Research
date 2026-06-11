@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
       aggressiveMult: 0.68
     },
     kuwait: {
-      name: 'الكويت',
+      name: 'بورصة الكويت',
       indexName: 'مؤشر السوق الأول (BKP)',
       chartTitle: 'منحنى نمو رأس المال التراكمي - بورصة الكويت',
       return: '+184.2%',
@@ -772,7 +772,7 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 5,
       asset: 'بيتك (KFH)',
       market: 'kuwait',
-      marketName: 'الكويت',
+      marketName: 'بورصة الكويت',
       type: 'شراء (BUY)',
       entry: '0.725 د.ك',
       tp: '0.765 د.ك',
@@ -1347,7 +1347,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const result = await client
         .from('posts')
-        .select('title,excerpt,content,tag,published_at,created_at')
+        .select('id,title,excerpt,content,tag,published_at,created_at')
         .eq('status', 'published')
         .order('published_at', { ascending: false, nullsFirst: false })
         .limit(3);
@@ -1369,7 +1369,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <p>${escapeHtml(post.excerpt)}</p>
             <div class="insight-footer">
               <span class="insight-read-time">${readTime} دقيقة قراءة</span>
-              <span class="insight-link">منشور<span class="arrow-slide">←</span></span>
+              <a href="post.html?id=${encodeURIComponent(post.id)}" class="insight-link">اقرأ المنشور<span class="arrow-slide">←</span></a>
             </div>
           </article>
         `;
@@ -1706,6 +1706,13 @@ document.addEventListener('DOMContentLoaded', () => {
       sharpe: 2.38, 
       drawdown: 6.9,
       title: 'منحنى رأس المال التراكمي — QSE (قطر)'
+    },
+    kuwait: {
+      return: 184.2,
+      winrate: 71.8,
+      sharpe: 2.24,
+      drawdown: 4.9,
+      title: 'منحنى رأس المال التراكمي — بورصة الكويت'
     },
     forex: { 
       return: 156.4, 

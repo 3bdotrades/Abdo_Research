@@ -30,7 +30,7 @@ values ('YOUR_EMAIL@example.com')
 on conflict (email) do nothing;
 ```
 
-After this, signup creates a Supabase Auth user, sends the confirmation email, and creates/updates a protected `profiles` row with `access_status = 'pending'`. The admin account can approve/reject users and publish posts from the dashboard. Published posts are loaded into the homepage insights section.
+After this, signup creates a Supabase Auth user, sends the confirmation email, and creates/updates a protected `profiles` row with `access_status = 'pending'`. The admin account can approve/reject users and create/edit/delete research posts from the dashboard. Published posts are loaded into the homepage insights section and open on `post.html?id=...`.
 
 Supabase's built-in email provider is only suitable for testing and can be blocked by authorization/rate-limit rules. Production signup confirmations should use custom SMTP, then Auth logs and the email provider logs should be checked if a message is not delivered.
 

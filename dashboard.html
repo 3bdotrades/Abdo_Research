@@ -1518,6 +1518,16 @@
       font-weight: 800;
     }
 
+    .db-admin-post-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      padding-top: 12px;
+      margin-top: 12px;
+      border-top: 1px solid var(--border-color);
+    }
+
     .db-admin-users-card {
       grid-column: 1 / -1;
     }
@@ -1602,6 +1612,9 @@
     }
 
     .db-admin-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       border: 1px solid var(--border-color);
       border-radius: 999px;
       background: rgba(255,255,255,0.04);
@@ -1611,6 +1624,7 @@
       font-size: 0.76rem;
       font-weight: 800;
       padding: 8px 14px;
+      text-decoration: none;
       transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
     }
 
@@ -2402,7 +2416,7 @@
           <p>شرح مفصل لنموذج Previous Day Low Reclaim: الفكرة خلفه، كيف استُخرج من بيانات تاريخية على أكثر من 100 سهم في السوق السعودي، ومعدلات النجاح عبر مختلف ظروف السوق.</p>
           <div class="db-research-footer">
             <span class="db-research-read-time">8 دقائق قراءة</span>
-            <a href="https://t.me/Abdo_Research" target="_blank" rel="noopener noreferrer" class="db-research-link">اقرأ التقرير ←</a>
+            <a href="post.html?id=00000000-0000-4000-8000-000000000104" class="db-research-link">اقرأ التقرير ←</a>
           </div>
         </article>
 
@@ -2416,7 +2430,7 @@
           <p>تقرير ربعي يستعرض أداء نموذج الانعكاس للمتوسط على أسهم سوق أبوظبي خلال الربع الأول من 2026 — نسب الفوز، متوسط العائد لكل صفقة، والفترات التي أخفق فيها النموذج.</p>
           <div class="db-research-footer">
             <span class="db-research-read-time">12 دقيقة قراءة</span>
-            <a href="https://t.me/Abdo_Research" target="_blank" rel="noopener noreferrer" class="db-research-link">اقرأ التقرير ←</a>
+            <a href="post.html?id=00000000-0000-4000-8000-000000000105" class="db-research-link">اقرأ التقرير ←</a>
           </div>
         </article>
 
@@ -2430,7 +2444,7 @@
           <p>يعتقد كثيرون أن نسبة الفوز هي المقياس الوحيد للحكم على نظام تداول. هذا البحث يوضح لماذا القيمة المتوقعة (Expected Value) هي المقياس الحقيقي، ولماذا نظام بنسبة فوز 36% يمكنه التفوق على نظام بنسبة 70%.</p>
           <div class="db-research-footer">
             <span class="db-research-read-time">10 دقائق قراءة</span>
-            <a href="https://t.me/Abdo_Research" target="_blank" rel="noopener noreferrer" class="db-research-link">اقرأ التقرير ←</a>
+            <a href="post.html?id=00000000-0000-4000-8000-000000000106" class="db-research-link">اقرأ التقرير ←</a>
           </div>
         </article>
 
@@ -2485,8 +2499,9 @@
               <path d="M22 2L11 13"/>
               <path d="M22 2l-7 20-4-9-9-4Z"/>
             </svg>
-            نشر المنشور
+            <span id="db-publish-btn-label">نشر المنشور</span>
           </button>
+          <button id="db-cancel-edit-btn" class="db-admin-action-btn" type="button" hidden>إلغاء التعديل</button>
           <p id="db-post-message" class="db-settings-helper db-post-message" role="status"></p>
         </form>
 
@@ -2552,6 +2567,7 @@
               <option value="dfm">سوق دبي المالي (DFM)</option>
               <option value="adx">سوق أبوظبي (ADX)</option>
               <option value="qse">بورصة قطر (QSE)</option>
+              <option value="bkp">بورصة الكويت (BKP)</option>
             </select>
           </div>
 
@@ -2669,6 +2685,7 @@
       if (tierEl) tierEl.textContent = 'عضو مؤكد';
 
       if (tierEl) tierEl.textContent = isAdmin ? 'أدمن' : 'عضو مؤكد';
+      initDashboardResearch(client);
 
       if (isAdmin) {
         revealAdminControls();
@@ -2734,16 +2751,86 @@
         }
       }
 
+      function initDashboardResearch(client) {
+        var grid = document.querySelector('#db-section-research .db-research-grid');
+        if (!client || !grid) return;
+
+        function escapeHtml(value) {
+          return String(value || '').replace(/[&<>"']/g, function (char) {
+            return {
+              '&': '&amp;',
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#039;'
+            }[char];
+          });
+        }
+
+        function formatDate(value) {
+          if (!value) return '';
+          try {
+            return new Date(value).toLocaleDateString('ar-EG', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            });
+          } catch (error) {
+            return value;
+          }
+        }
+
+        function readTime(post) {
+          var text = ((post.excerpt || '') + ' ' + (post.content || '')).trim();
+          var words = text ? text.split(/\s+/).length : 1;
+          return Math.max(1, Math.ceil(words / 180));
+        }
+
+        client
+          .from('posts')
+          .select('id,title,excerpt,content,tag,published_at,created_at')
+          .eq('status', 'published')
+          .order('published_at', { ascending: false, nullsFirst: false })
+          .limit(12)
+          .then(function (result) {
+            if (result.error || !result.data || result.data.length === 0) {
+              if (result.error) console.warn('Research load failed:', result.error.message);
+              return;
+            }
+
+            grid.innerHTML = result.data.map(function (post) {
+              return [
+                '<article class="db-research-card">',
+                  '<div class="db-research-meta">',
+                    '<span class="insight-tag">' + escapeHtml(post.tag || 'بحثي') + '</span>',
+                    '<span class="db-research-date">' + formatDate(post.published_at || post.created_at) + '</span>',
+                  '</div>',
+                  '<h3>' + escapeHtml(post.title) + '</h3>',
+                  '<p>' + escapeHtml(post.excerpt) + '</p>',
+                  '<div class="db-research-footer">',
+                    '<span class="db-research-read-time">' + readTime(post) + ' دقائق قراءة</span>',
+                    '<a href="post.html?id=' + encodeURIComponent(post.id) + '" class="db-research-link">اقرأ التقرير ←</a>',
+                  '</div>',
+                '</article>'
+              ].join('');
+            }).join('');
+          });
+      }
+
       function initAdminPosts(client, user) {
         var form = document.getElementById('db-post-form');
         var list = document.getElementById('db-admin-posts-list');
         var message = document.getElementById('db-post-message');
         var submitBtn = document.getElementById('db-publish-btn');
+        var submitLabel = document.getElementById('db-publish-btn-label');
+        var cancelEditBtn = document.getElementById('db-cancel-edit-btn');
         var titleInput = document.getElementById('post-title');
         var tagInput = document.getElementById('post-tag');
         var excerptInput = document.getElementById('post-excerpt');
         var contentInput = document.getElementById('post-content');
         var statusInput = document.getElementById('post-status');
+        var editingPostId = null;
+        var postsCache = [];
 
         if (!client || !form || !list) return;
 
@@ -2793,15 +2880,34 @@
               '<div class="db-admin-post-meta">',
                 '<span>' + formatPostDate(dateValue) + '</span>',
               '</div>',
+              '<div class="db-admin-post-actions">',
+                '<a href="post.html?id=' + encodeURIComponent(post.id) + '" class="db-admin-action-btn" target="_blank" rel="noopener noreferrer">فتح</a>',
+                '<button class="db-admin-action-btn" type="button" data-post-action="edit" data-post-id="' + escapeHtml(post.id) + '">تعديل</button>',
+                '<button class="db-admin-action-btn is-reject" type="button" data-post-action="delete" data-post-id="' + escapeHtml(post.id) + '">حذف</button>',
+              '</div>',
             '</article>'
           ].join('');
+        }
+
+        function setEditingPost(post) {
+          editingPostId = post ? post.id : null;
+          titleInput.value = post ? (post.title || '') : '';
+          tagInput.value = post ? (post.tag || 'بحثي') : 'بحثي';
+          excerptInput.value = post ? (post.excerpt || '') : '';
+          contentInput.value = post ? (post.content || '') : '';
+          statusInput.value = post && post.status === 'draft' ? 'draft' : 'published';
+
+          if (submitLabel) submitLabel.textContent = post ? 'حفظ التعديل' : 'نشر المنشور';
+          if (cancelEditBtn) cancelEditBtn.hidden = !post;
+          setPostMessage(post ? 'وضع التعديل مفعل لهذا المنشور.' : '', post ? 'success' : '');
+          if (post) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         async function loadPosts() {
           list.innerHTML = '<p class="db-settings-helper">جاري تحميل المنشورات...</p>';
           var result = await client
             .from('posts')
-            .select('id,title,excerpt,tag,status,published_at,updated_at,created_at')
+            .select('id,title,excerpt,content,tag,status,published_at,updated_at,created_at')
             .order('updated_at', { ascending: false })
             .limit(8);
 
@@ -2816,7 +2922,8 @@
             return;
           }
 
-          list.innerHTML = result.data.map(renderPost).join('');
+          postsCache = result.data;
+          list.innerHTML = postsCache.map(renderPost).join('');
         }
 
         form.addEventListener('submit', async function (event) {
@@ -2845,7 +2952,10 @@
             published_at: status === 'published' ? new Date().toISOString() : null
           };
 
-          var insertResult = await client.from('posts').insert(payload).select('id').single();
+          var saveQuery = editingPostId
+            ? client.from('posts').update(payload).eq('id', editingPostId).select('id').single()
+            : client.from('posts').insert(payload).select('id').single();
+          var insertResult = await saveQuery;
           if (submitBtn) submitBtn.disabled = false;
 
           if (insertResult.error) {
@@ -2857,9 +2967,51 @@
           form.reset();
           if (tagInput) tagInput.value = 'بحثي';
           if (statusInput) statusInput.value = 'published';
+          editingPostId = null;
+          if (cancelEditBtn) cancelEditBtn.hidden = true;
+          if (submitLabel) submitLabel.textContent = 'نشر المنشور';
           setPostMessage('تم حفظ المنشور بنجاح.', 'success');
           loadPosts();
         });
+
+        list.addEventListener('click', async function (event) {
+          var actionEl = event.target.closest('[data-post-action]');
+          if (!actionEl) return;
+
+          var postId = actionEl.getAttribute('data-post-id');
+          var action = actionEl.getAttribute('data-post-action');
+          var post = postsCache.find(function (item) { return item.id === postId; });
+
+          if (action === 'edit' && post) {
+            setEditingPost(post);
+            return;
+          }
+
+          if (action === 'delete' && postId) {
+            var ok = window.confirm('حذف هذا المنشور نهائيا؟');
+            if (!ok) return;
+
+            actionEl.disabled = true;
+            var deleteResult = await client.from('posts').delete().eq('id', postId);
+            if (deleteResult.error) {
+              console.warn('Post delete failed:', deleteResult.error.message);
+              setPostMessage('لم يتم حذف المنشور. راجع صلاحيات الأدمن.', 'error');
+              actionEl.disabled = false;
+              return;
+            }
+
+            if (editingPostId === postId) setEditingPost(null);
+            setPostMessage('تم حذف المنشور.', 'success');
+            loadPosts();
+          }
+        });
+
+        if (cancelEditBtn) {
+          cancelEditBtn.addEventListener('click', function () {
+            form.reset();
+            setEditingPost(null);
+          });
+        }
 
         loadPosts();
       }

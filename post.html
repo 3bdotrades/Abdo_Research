@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index, follow">
+  <title>منشور بحثي | عبدالرحمن محمد</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap"></noscript>
+  <link rel="stylesheet" href="index.css">
+  <style>
+    .post-shell {
+      position: relative;
+      z-index: 2;
+      width: min(920px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 128px 0 72px;
+    }
+
+    .post-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 34px;
+    }
+
+    .post-nav a {
+      color: var(--primary);
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.86rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .post-article {
+      padding: 42px;
+    }
+
+    .post-meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .post-title {
+      font-size: clamp(2rem, 5vw, 3.7rem);
+      line-height: 1.18;
+      margin-bottom: 22px;
+      letter-spacing: 0;
+    }
+
+    .post-excerpt {
+      color: var(--text-muted);
+      font-size: 1.02rem;
+      line-height: 1.9;
+      margin-bottom: 34px;
+    }
+
+    .post-body {
+      border-top: 1px solid var(--border-color);
+      padding-top: 30px;
+    }
+
+    .post-body p {
+      color: var(--text-main);
+      font-size: 1rem;
+      line-height: 2.05;
+      margin-bottom: 22px;
+    }
+
+    .post-state {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.9;
+    }
+
+    @media (max-width: 640px) {
+      .post-shell {
+        width: min(100% - 22px, 920px);
+        padding-top: 104px;
+      }
+
+      .post-article {
+        padding: 28px 22px;
+      }
+
+      .post-nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-subtle-glow glow-primary"></div>
+  <div class="bg-subtle-glow glow-green"></div>
+
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo-container" aria-label="العودة للرئيسية">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 3v18h18" stroke="currentColor"/>
+            <path d="M18.7 8l-5.1 5.2-2.8-2.7-5.3 5.3" stroke="currentColor"/>
+          </svg>
+        </div>
+        <div class="logo-text">أبحاث <span class="logo-badge">كمية</span></div>
+      </a>
+      <a href="index.html#insights" class="btn-secondary" style="padding: 10px 20px; font-size: 0.86rem; text-decoration: none;">كل الأبحاث</a>
+    </div>
+  </header>
+
+  <main class="post-shell">
+    <nav class="post-nav" aria-label="مسار المنشور">
+      <a href="index.html#insights">العودة إلى الأبحاث</a>
+      <a href="dashboard.html">لوحة التحكم</a>
+    </nav>
+
+    <article class="post-article glass-panel" id="post-article">
+      <p class="post-state">جاري تحميل المنشور...</p>
+    </article>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth-config.js"></script>
+  <script src="auth.js"></script>
+  <script>
+    (async function () {
+      'use strict';
+
+      var article = document.getElementById('post-article');
+      var params = new URLSearchParams(window.location.search);
+      var postId = params.get('id');
+
+      function escapeHtml(value) {
+        return String(value || '').replace(/[&<>"']/g, function (char) {
+          return {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+          }[char];
+        });
+      }
+
+      function formatDate(value) {
+        if (!value) return '';
+        try {
+          return new Date(value).toLocaleDateString('ar-EG', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+        } catch (error) {
+          return value;
+        }
+      }
+
+      function renderBody(content) {
+        return String(content || '')
+          .split(/\n{2,}/)
+          .map(function (paragraph) {
+            return '<p>' + escapeHtml(paragraph).replace(/\n/g, '<br>') + '</p>';
+          })
+          .join('');
+      }
+
+      function showState(text) {
+        article.innerHTML = '<p class="post-state">' + escapeHtml(text) + '</p>';
+      }
+
+      if (!window.AbdoAuth || !window.AbdoAuth.isConfigured()) {
+        showState('لم يتم تفعيل اتصال قاعدة البيانات بعد.');
+        return;
+      }
+
+      var client = window.AbdoAuth.getClient();
+      var result;
+
+      if (postId) {
+        result = await client
+          .from('posts')
+          .select('id,title,excerpt,content,tag,status,published_at,created_at')
+          .eq('id', postId)
+          .eq('status', 'published')
+          .single();
+      } else {
+        result = await client
+          .from('posts')
+          .select('id,title,excerpt,content,tag,status,published_at,created_at')
+          .eq('status', 'published')
+          .order('published_at', { ascending: false, nullsFirst: false })
+          .limit(1);
+        result.data = Array.isArray(result.data) ? result.data[0] : result.data;
+      }
+
+      if (result.error || !result.data) {
+        showState('هذا المنشور غير متاح أو لم يتم نشره بعد.');
+        return;
+      }
+
+      var post = result.data;
+      document.title = post.title + ' | عبدالرحمن محمد';
+
+      article.innerHTML = [
+        '<div class="post-meta">',
+          '<span class="insight-tag">' + escapeHtml(post.tag || 'بحثي') + '</span>',
+          '<span class="insight-date">' + formatDate(post.published_at || post.created_at) + '</span>',
+        '</div>',
+        '<h1 class="post-title">' + escapeHtml(post.title) + '</h1>',
+        '<p class="post-excerpt">' + escapeHtml(post.excerpt) + '</p>',
+        '<div class="post-body">' + renderBody(post.content) + '</div>'
+      ].join('');
+    })();
+  </script>
+</body>
+</html>
