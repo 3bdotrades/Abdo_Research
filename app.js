@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <span>500,000 ر.س</span>
           <span>1,000,000 ر.س</span>
         `,
-        profitLabel: 'صافي الأرباح المستهدفة بالريال السعودي',
-        totalLabel: 'رأس المال النهائي للمحفظة (SAR)'
+        profitLabel: 'الأثر التقديري على المحفظة بالريال السعودي',
+        totalLabel: 'القيمة التقديرية للمحفظة (SAR)'
       },
       usd: {
         currency: '$',
@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <span>150,000 $</span>
           <span>300,000 $</span>
         `,
-        profitLabel: 'صافي الأرباح المستهدفة بالدولار',
-        totalLabel: 'رأس المال النهائي للمحفظة ($)'
+        profitLabel: 'الأثر التقديري على المحفظة بالدولار',
+        totalLabel: 'القيمة التقديرية للمحفظة ($)'
       },
       conservativeMult: 0.24,
       balancedMult: 0.42,
@@ -76,8 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <span>500,000 د.إ</span>
           <span>1,000,000 د.إ</span>
         `,
-        profitLabel: 'صافي الأرباح المستهدفة بالدرهم الإماراتي',
-        totalLabel: 'رأس المال النهائي للمحفظة (AED)'
+        profitLabel: 'الأثر التقديري على المحفظة بالدرهم الإماراتي',
+        totalLabel: 'القيمة التقديرية للمحفظة (AED)'
       },
       usd: {
         currency: '$',
@@ -90,8 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <span>150,000 $</span>
           <span>300,000 $</span>
         `,
-        profitLabel: 'صافي الأرباح المستهدفة بالدولار',
-        totalLabel: 'رأس المال النهائي للمحفظة ($)'
+        profitLabel: 'الأثر التقديري على المحفظة بالدولار',
+        totalLabel: 'القيمة التقديرية للمحفظة ($)'
       },
       conservativeMult: 0.22,
       balancedMult: 0.38,
@@ -118,8 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <span>2,500,000 ج.م</span>
           <span>5,000,000 ج.م</span>
         `,
-        profitLabel: 'صافي الأرباح المستهدفة بالجنيه المصري',
-        totalLabel: 'رأس المال النهائي للمحفظة (EGP)'
+        profitLabel: 'الأثر التقديري على المحفظة بالجنيه المصري',
+        totalLabel: 'القيمة التقديرية للمحفظة (EGP)'
       },
       usd: {
         currency: '$',
@@ -132,8 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <span>50,000 $</span>
           <span>100,000 $</span>
         `,
-        profitLabel: 'صافي الأرباح المستهدفة بالدولار',
-        totalLabel: 'رأس المال النهائي للمحفظة ($)'
+        profitLabel: 'الأثر التقديري على المحفظة بالدولار',
+        totalLabel: 'القيمة التقديرية للمحفظة ($)'
       },
       conservativeMult: 0.35,
       balancedMult: 0.58,
@@ -160,8 +160,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <span>500,000 ر.ق</span>
           <span>1,000,000 ر.ق</span>
         `,
-        profitLabel: 'صافي الأرباح المستهدفة بالريال القطري',
-        totalLabel: 'رأس المال النهائي للمحفظة (QAR)'
+        profitLabel: 'الأثر التقديري على المحفظة بالريال القطري',
+        totalLabel: 'القيمة التقديرية للمحفظة (QAR)'
       },
       usd: {
         currency: '$',
@@ -174,8 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <span>150,000 $</span>
           <span>300,000 $</span>
         `,
-        profitLabel: 'صافي الأرباح المستهدفة بالدولار',
-        totalLabel: 'رأس المال النهائي للمحفظة ($)'
+        profitLabel: 'الأثر التقديري على المحفظة بالدولار',
+        totalLabel: 'القيمة التقديرية للمحفظة ($)'
       },
       conservativeMult: 0.20,
       balancedMult: 0.35,
@@ -202,8 +202,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <span>50,000 د.ك</span>
           <span>100,000 د.ك</span>
         `,
-        profitLabel: 'صافي الأرباح المستهدفة بالدينار الكويتي',
-        totalLabel: 'رأس المال النهائي للمحفظة (KWD)'
+        profitLabel: 'الأثر التقديري على المحفظة بالدينار الكويتي',
+        totalLabel: 'القيمة التقديرية للمحفظة (KWD)'
       },
       usd: {
         currency: '$',
@@ -216,8 +216,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <span>150,000 $</span>
           <span>300,000 $</span>
         `,
-        profitLabel: 'صافي الأرباح المستهدفة بالدولار',
-        totalLabel: 'رأس المال النهائي للمحفظة ($)'
+        profitLabel: 'الأثر التقديري على المحفظة بالدولار',
+        totalLabel: 'القيمة التقديرية للمحفظة ($)'
       },
       conservativeMult: 0.18,
       balancedMult: 0.30,
@@ -520,7 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tooltip.style.display = 'block';
         tooltip.innerHTML = `
           <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">الفترة: ${data.dates[idx]}</div>
-          <div style="color: var(--accent-green);">نمو محفظة النموذج الكمي: +${val.toFixed(1)}%</div>
+          <div style="color: var(--accent-green);">الأداء البحثي للنموذج: +${val.toFixed(1)}%</div>
           <div style="color: var(--text-muted);">${market.indexName}: +${scaledSp500[idx].toFixed(1)}%</div>
         `;
       });
@@ -936,8 +936,8 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 2,
       category: 'analysis',
       market: 'uae',
-      title: 'فرص السيولة الذكية في سهم إعمار وأبوظبي الأول 🇦🇪',
-      description: 'رصد لمناطق التجميع المؤسسي في أسواق الإمارات (دبي وأبوظبي) وتوقع نقاط الارتداد القوية المتوافقة مع النموذج الكمي.',
+      title: 'قراءة السيولة في سهم إعمار وأبوظبي الأول 🇦🇪',
+      description: 'مراجعة بحثية لمناطق السيولة المؤسسية في أسواق الإمارات، مع التركيز على شروط الفرضية وحدود المخاطر.',
       embedUrl: 'https://www.youtube.com/embed/xWd6F26UvV8?rel=0&amp;controls=1',
       tag: 'سوق دبي وأبوظبي 🇦🇪',
       date: '18 مايو 2026',
@@ -948,7 +948,7 @@ document.addEventListener('DOMContentLoaded', () => {
       category: 'analysis',
       market: 'egypt',
       title: 'تحليل البورصة المصرية وسهم التجاري الدولي (CIB) 🇪🇬',
-      description: 'دراسة سلوك رأس المال الأجنبي وحركة السيولة في سهم البنك التجاري الدولي والفرص السانحة في مؤشر EGX30.',
+      description: 'دراسة سلوك رأس المال الأجنبي وحركة السيولة في سهم البنك التجاري الدولي ضمن سياق مؤشر EGX30.',
       embedUrl: 'https://www.youtube.com/embed/3S_1aR1f1n4?rel=0&amp;controls=1',
       tag: 'البورصة المصرية 🇪🇬',
       date: '17 مايو 2026',
@@ -959,7 +959,7 @@ document.addEventListener('DOMContentLoaded', () => {
       category: 'analysis',
       market: 'qatar',
       title: 'الأداء الإحصائي لبورصة قطر وسهم بنك قطر الوطني (QNB) 🇶🇦',
-      description: 'مراجعة أسبوعية للتدفقات النقدية ومعدل تذبذب أسعار الأسهم القيادية في قطر لفرص الدخول الكمية القادمة.',
+      description: 'مراجعة أسبوعية للتدفقات النقدية ومعدل تذبذب الأسهم القيادية في قطر من منظور بحثي.',
       embedUrl: 'https://www.youtube.com/embed/8u9f8KjVpMo?rel=0&amp;controls=1',
       tag: 'بورصة قطر 🇶🇦',
       date: '15 مايو 2026',
@@ -970,7 +970,7 @@ document.addEventListener('DOMContentLoaded', () => {
       category: 'analysis',
       market: 'kuwait',
       title: 'تحليل سهم بيتك (KFH) والمسار العام لبورصة الكويت 🇰🇼',
-      description: 'استعراض رياضي وفني متكامل لنقاط الدعم التاريخية للأسهم القيادية الكويتية وفرص جني الأرباح للمشتركين.',
+      description: 'استعراض بحثي لنقاط الدعم التاريخية للأسهم القيادية الكويتية وسلوك السعر حولها.',
       embedUrl: 'https://www.youtube.com/embed/g95D5m-J2o0?rel=0&amp;controls=1',
       tag: 'بورصة الكويت 🇰🇼',
       date: '14 مايو 2026',
@@ -991,7 +991,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 7,
       category: 'tutorials',
-      title: 'إدارة المخاطر الحسابية وحساب حجم الصفقة (Position Sizing) 🛡️',
+      title: 'إدارة المخاطر وحساب حجم المركز (Position Sizing) 🛡️',
       description: 'الطريقة الصحيحة لإدارة رأس المال وتحديد حجم العقود بما يضمن حماية المحفظة أثناء فترات التراجع الطبيعية للسوق.',
       embedUrl: 'https://www.youtube.com/embed/xWd6F26UvV8?rel=0&amp;controls=1',
       tag: 'إدارة المخاطر 🛡️',
@@ -1001,8 +1001,8 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 8,
       category: 'tutorials',
-      title: 'شرح طريقة تطبيق إشارات الدخول والوقف بدقة عالية 📱',
-      description: 'دليل مرئي تفصيلي خطوة بخطوة لكيفية نقل أسعار الدخول، أهداف جني الأرباح (TP) ووقف الخسارة (SL) إلى وسيطك المحلي.',
+      title: 'تحويل الفرضية البحثية إلى خطة تنفيذ واضحة 📱',
+      description: 'دليل مرئي يوضح كيف تُترجم الفرضية إلى نطاق دخول، نقطة بطلان، وحجم مركز مناسب.',
       embedUrl: 'https://www.youtube.com/embed/3S_1aR1f1n4?rel=0&amp;controls=1',
       tag: 'دليل التطبيق ⚙️',
       date: 'متاح دائماً',
@@ -1011,10 +1011,10 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 9,
       category: 'tutorials',
-      title: 'استراتيجية مشاركة الأرباح: لماذا هي الخيار الأكثر أماناً للمشترك؟ 🤝',
-      description: 'تعرف على فلسفة منصة النموذج الكمي: لا نكسب إلا عندما تكسب أنت. تفاصيل حساب الأداء الشهري وتفعيل العضوية مجاناً.',
+      title: 'كيف تُقرأ تقارير الأداء وحدود المخاطر؟ 🤝',
+      description: 'شرح منهجي لكيفية قراءة الأداء، التراجع، والافتراضات قبل اتخاذ أي قرار استثماري.',
       embedUrl: 'https://www.youtube.com/embed/8u9f8KjVpMo?rel=0&amp;controls=1',
-      tag: 'نظام الأرباح 🤝',
+      tag: 'تقارير الأداء 🤝',
       date: 'متاح دائماً',
       youtubeUrl: 'https://www.youtube.com/watch?v=8u9f8KjVpMo'
     }
@@ -1226,9 +1226,9 @@ document.addEventListener('DOMContentLoaded', () => {
               <ul>
                 <li><strong>الاتجاه العام:</strong> صاعد على المدى القصير، مع اختراق إيجابي لمستوى المقاومة الأخير.</li>
                 <li><strong>السيولة:</strong> لوحظ دخول سيولة مؤسساتية ذكية (Smart Money) خلال الـ 48 ساعة الماضية.</li>
-                <li><strong>التقييم الكمي:</strong> معامل المخاطرة إلى العائد (Risk/Reward) ممتاز حالياً. ينصح بوضع وقف الخسارة أسفل منطقة التجميع الحالية بنسبة 2.5%.</li>
+                <li><strong>التقييم الكمي:</strong> ملف المخاطرة إلى العائد يحتاج مراجعة ضمن حجم المحفظة ونقطة بطلان الفرضية قبل أي قرار.</li>
               </ul>
-              <p><em>ملاحظة: هذا التحليل آلي ومبني على محرك الذكاء الاصطناعي التجريبي لمنصة النموذج الكمي.</em></p>
+              <p><em>ملاحظة: هذا عرض تجريبي لأغراض بحثية وتعليمية، ولا يُعد توصية استثمارية.</em></p>
             </div>
           </div>
         `;
