@@ -175,6 +175,33 @@ header.scrolled {
   gap: 10px;
   text-decoration: none;
 }
+
+.inner-nav-container {
+  justify-content: space-between;
+}
+
+.inner-home-link {
+  align-items: center;
+  background: rgba(8, 9, 12, 0.72);
+  border: 1px solid var(--border-gold);
+  border-radius: 999px;
+  color: var(--text-main);
+  display: inline-flex;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 900;
+  min-height: 42px;
+  padding: 0 22px;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.inner-home-link:hover {
+  background: rgba(212, 175, 55, 0.12);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
 .logo-icon {
   width: 34px;
   height: 34px;
@@ -4552,7 +4579,8 @@ html, body {
 .telegram-float-wa {
   position: fixed;
   bottom: 28px;
-  left: 28px;
+  left: auto;
+  right: 28px;
   z-index: 900;
   width: 56px;
   height: 56px;
@@ -4927,7 +4955,8 @@ html, body {
 .float-telegram {
   position: fixed;
   bottom: 32px;
-  left: 32px;
+  left: auto;
+  right: 32px;
   width: 56px;
   height: 56px;
   background: #229ED9;
@@ -4969,7 +4998,7 @@ html, body {
   100% { transform: translateY(0);    opacity: 1; }
 }
 @media (max-width: 480px) {
-  .float-telegram { bottom: 20px; left: 20px; width: 48px; height: 48px; }
+  .float-telegram { bottom: 20px; left: auto; right: 18px; width: 48px; height: 48px; }
 }
 
 /* =========================================

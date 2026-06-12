@@ -34,6 +34,7 @@
     ["تواصل معنا", "Contact Us"],
     ["تواصل عبر تيليغرام", "Contact on Telegram"],
     ["العودة للرئيسية", "Back to Home"],
+    ["الرئيسية", "Home"],
     ["لوحة التحكم", "Dashboard"],
     ["شروط الخدمة", "Terms of Service"],
     ["سياسة الخصوصية", "Privacy Policy"],
