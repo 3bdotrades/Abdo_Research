@@ -857,9 +857,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  loadLiveEquityChart();
-
-  window.addEventListener('resize', () => renderChart(currentPeriod));
+  if (svgElement) {
+    loadLiveEquityChart();
+    window.addEventListener('resize', () => renderChart(currentPeriod));
+  }
 
   // --- Interactive Portfolio Backtester with Dynamic Settings ---
   const capitalInput = document.getElementById('capital-slider');

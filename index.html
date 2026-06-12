@@ -295,89 +295,6 @@
       </div>
     </section>
 
-    <!-- Performance Stats Section with Market Selection -->
-    <section id="performance" class="animate-on-scroll inst-section-sep">
-      <div class="section-title-wrap">
-        <span class="section-badge">قياس الأداء</span>
-        <div class="section-divider"></div>
-        <h2 class="section-title">مقاييس بحثية حسب السوق.</h2>
-        <p class="section-subtitle">
-          تُعرض المقاييس لكل سوق بشكل منفصل لفهم السلوك التاريخي، التراجع، وحساسية النموذج. الأداء السابق لا يضمن نتائج مستقبلية.
-        </p>
-      </div>
-
-      <!-- Market Selection Tabs -->
-      <div class="market-tabs-container" style="display: flex; gap: 12px; margin-bottom: 32px; overflow-x: auto; padding: 0 12px; justify-content: center; flex-wrap: wrap;">
-        <button class="market-tab active" data-market="egx" style="padding: 10px 20px; border: 1px solid var(--primary); background: var(--primary); color: var(--text-dark); border-radius: 24px; cursor: pointer; font-weight: 600; font-size: 0.9rem;">مصر EGX</button>
-        <button class="market-tab" data-market="saudi" style="padding: 10px 20px; border: 1px solid var(--border-gold); background: transparent; color: var(--primary); border-radius: 24px; cursor: pointer; font-weight: 600; font-size: 0.9rem;">تداول السعودية</button>
-        <button class="market-tab" data-market="dubai" style="padding: 10px 20px; border: 1px solid var(--border-gold); color: var(--primary); background: transparent; border-radius: 24px; cursor: pointer; font-weight: 600; font-size: 0.9rem;">سوق دبي المالي</button>
-        <button class="market-tab" data-market="abu-dhabi" style="padding: 10px 20px; border: 1px solid var(--border-gold); color: var(--primary); background: transparent; border-radius: 24px; cursor: pointer; font-weight: 600; font-size: 0.9rem;">سوق أبوظبي</button>
-        <button class="market-tab" data-market="qatar" style="padding: 10px 20px; border: 1px solid var(--border-gold); color: var(--primary); background: transparent; border-radius: 24px; cursor: pointer; font-weight: 600; font-size: 0.9rem;">بورصة قطر</button>
-        <button class="market-tab" data-market="kuwait" style="padding: 10px 20px; border: 1px solid var(--border-gold); color: var(--primary); background: transparent; border-radius: 24px; cursor: pointer; font-weight: 600; font-size: 0.9rem;">بورصة الكويت</button>
-      </div>
-
-      <!-- Markets and Asset Classes Coverage -->
-      <div style="text-align: center; margin: 32px 0; padding: 24px; background: rgba(212,175,55,0.05); border-radius: 16px; border: 1px solid rgba(212,175,55,0.15);">
-        <ul style="font-family: 'Cairo', sans-serif; font-size: 0.95rem; color: var(--text-muted); line-height: 2; margin: 0; padding: 0; list-style: none;">
-          <li style="display: inline-block; margin: 0 8px;">• بورصة الكويت</li>
-          <li style="display: inline-block; margin: 0 8px;">• بورصة قطر</li>
-          <li style="display: inline-block; margin: 0 8px;">• بورصة السعودية</li>
-          <li style="display: inline-block; margin: 0 8px;">• سوق دبي المالي</li>
-          <li style="display: inline-block; margin: 0 8px;">• سوق أبوظبي</li>
-          <li style="display: inline-block; margin: 0 8px;">• البورصة المصرية</li>
-        </ul>
-      </div>
-
-      <div class="glass-panel chart-container-outer" style="margin-top: 24px;">
-        <div class="chart-header">
-          <div class="chart-title-block" style="display: flex; flex-direction: column; gap: 5px;">
-            <span style="font-size: 0.58rem; letter-spacing: 0.18em; color: var(--text-subtle); text-transform: uppercase; font-family: 'Cairo', sans-serif;">النموذج مقابل المؤشر</span>
-            <h3 style="font-size: 1.05rem; font-weight: 800;" id="chart-main-title">منحنى رأس المال التراكمي — مصر EGX</h3>
-          </div>
-
-          <div class="chart-info">
-            <div class="chart-legend-item">
-              <span class="legend-dot" style="background: #16a34a;"></span>
-              <span id="chart-legend-model">النموذج الكمي</span>
-            </div>
-            <div class="chart-legend-item">
-              <span class="legend-dot" style="background: #b45309;"></span>
-              <span id="chart-legend-index">المؤشر المرجعي</span>
-            </div>
-          </div>
-
-          <div class="chart-control-group">
-            <span class="chart-control-label">Scale</span>
-            <button class="scale-btn" data-scale="linear">Linear</button>
-            <button class="scale-btn active" data-scale="log">Log</button>
-          </div>
-
-          <div class="chart-timeframes">
-            <button class="timeframe-btn active" data-timeframe="ALL">الكل</button>
-            <button class="timeframe-btn" data-timeframe="10Y">10 سنوات</button>
-            <button class="timeframe-btn" data-timeframe="5Y">5 سنوات</button>
-            <button class="timeframe-btn" data-timeframe="3Y">3 سنوات</button>
-            <button class="timeframe-btn" data-timeframe="2Y">2 سنة</button>
-            <button class="timeframe-btn" data-timeframe="1Y">سنة</button>
-            <button class="timeframe-btn" data-timeframe="3M">3 أشهر</button>
-            <button class="timeframe-btn" data-timeframe="1M">شهر</button>
-          </div>
-
-          <div class="chart-date-range" dir="ltr" aria-label="Custom chart date range">
-            <label for="chart-start-date"><span>From</span><input id="chart-start-date" type="date"></label>
-            <label for="chart-end-date"><span>To</span><input id="chart-end-date" type="date"></label>
-            <button type="button" id="chart-date-apply">Apply</button>
-            <button type="button" id="chart-date-clear">Clear</button>
-          </div>
-        </div>
-
-        <div class="svg-chart-wrapper" id="svg-chart-container">
-          <svg id="performance-svg" class="svg-element" viewBox="0 0 800 350" preserveAspectRatio="none"></svg>
-          <div id="chart-tooltip" class="chart-tooltip"></div>
-        </div>
-      </div>
-    </section>
-
     <!-- Hidden simulator elements kept for JS compatibility -->
     <div style="display:none;">
       <input id="capital-slider"><span id="capital-val"></span><span id="slider-limits"></span>
@@ -1074,7 +991,6 @@
       <a href="#strategy" onclick="closeDrawer()">استراتيجيتنا</a>
       <a href="#insights" onclick="closeDrawer()">الأبحاث</a>
       <a href="#faq" onclick="closeDrawer()">الأسئلة الشائعة</a>
-      <a href="#performance" onclick="closeDrawer()">الأداء</a>
       <a href="contact.html" onclick="closeDrawer()">تواصل معنا</a>
     </div>
     <div class="mobile-drawer-footer">
