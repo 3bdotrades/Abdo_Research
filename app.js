@@ -463,7 +463,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!value) return '';
     const date = new Date(value + 'T00:00:00');
     if (Number.isNaN(date.getTime())) return value;
-    return date.toLocaleDateString('ar-EG', includeDay
+    return date.toLocaleDateString((window.AbdoI18n && window.AbdoI18n.currentLang() === 'en') ? 'en-US' : 'ar-EG', includeDay
       ? { day: 'numeric', month: 'short' }
       : { month: 'short', year: 'numeric' });
   }
@@ -1406,7 +1406,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typingEl) typingEl.remove();
 
         // Generate Mock Analysis Content
-        const dateStr = new Date().toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' });
+        const dateStr = new Date().toLocaleDateString((window.AbdoI18n && window.AbdoI18n.currentLang() === 'en') ? 'en-US' : 'ar-EG', { year: 'numeric', month: 'long', day: 'numeric' });
         const mockAnalysis = `
           <div class="chat-msg ai-msg">
             <div class="chat-avatar ai-avatar">✨</div>
@@ -1518,7 +1518,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const formatDate = (value) => {
       if (!value) return '';
       try {
-        return new Date(value).toLocaleDateString('ar-EG', {
+        return new Date(value).toLocaleDateString((window.AbdoI18n && window.AbdoI18n.currentLang() === 'en') ? 'en-US' : 'ar-EG', {
           year: 'numeric',
           month: 'long',
           day: 'numeric'
@@ -1568,6 +1568,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </article>
         `;
       }).join('');
+      if (window.AbdoI18n) window.AbdoI18n.applyLanguage();
     } catch (error) {
       console.warn('Published posts load failed:', error);
     }

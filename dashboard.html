@@ -12,7 +12,8 @@
   <meta name="robots" content="noindex, nofollow">
 
   <!-- Reuse all existing CSS variables, fonts, and components -->
-  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="index.css?v=i18n-1">
+  <script src="i18n.js?v=i18n-1" defer></script>
 
   <style>
     /* =============================================
@@ -2599,7 +2600,7 @@
         function formatDate(value) {
           if (!value) return '';
           try {
-            return new Date(value).toLocaleDateString('ar-EG', {
+            return new Date(value).toLocaleDateString((window.AbdoI18n && window.AbdoI18n.currentLang() === 'en') ? 'en-US' : 'ar-EG', {
               year: 'numeric',
               month: 'long',
               day: 'numeric'
@@ -2709,7 +2710,7 @@
         function formatPostDate(value) {
           if (!value) return 'غير منشور';
           try {
-            return new Date(value).toLocaleDateString('ar-EG', {
+            return new Date(value).toLocaleDateString((window.AbdoI18n && window.AbdoI18n.currentLang() === 'en') ? 'en-US' : 'ar-EG', {
               year: 'numeric',
               month: 'long',
               day: 'numeric'
@@ -3065,7 +3066,7 @@
         function formatDate(value) {
           if (!value) return 'غير منشور';
           try {
-            return new Date(value).toLocaleDateString('ar-EG', {
+            return new Date(value).toLocaleDateString((window.AbdoI18n && window.AbdoI18n.currentLang() === 'en') ? 'en-US' : 'ar-EG', {
               year: 'numeric',
               month: 'long',
               day: 'numeric'
@@ -3429,7 +3430,7 @@
         function formatDate(value) {
           if (!value) return '';
           try {
-            return new Date(value).toLocaleDateString('ar-EG', {
+            return new Date(value).toLocaleDateString((window.AbdoI18n && window.AbdoI18n.currentLang() === 'en') ? 'en-US' : 'ar-EG', {
               year: 'numeric',
               month: 'long',
               day: 'numeric'
@@ -3529,7 +3530,7 @@
         var now  = new Date();
         var opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         try {
-          dateEl.textContent = now.toLocaleDateString('ar-EG', opts);
+          dateEl.textContent = now.toLocaleDateString((window.AbdoI18n && window.AbdoI18n.currentLang() === 'en') ? 'en-US' : 'ar-EG', opts);
         } catch (e) {
           dateEl.textContent = now.toLocaleDateString();
         }
