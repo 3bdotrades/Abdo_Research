@@ -87,7 +87,6 @@ function compactList(value) {
 function readMarketCurves() {
   const pythonCode = String.raw`
 import json
-import math
 import sys
 from pathlib import Path
 
@@ -101,15 +100,11 @@ import pandas as pd
 root = Path(sys.argv[1])
 specs = json.loads(sys.argv[2])
 
-def to_points(series, limit=1800):
+def to_points(series):
     series = pd.to_numeric(series, errors="coerce").dropna().sort_index()
     if series.empty:
         return []
-    step = max(1, math.ceil(len(series) / limit))
-    thinned = series.iloc[::step]
-    if thinned.index[-1] != series.index[-1]:
-        thinned = pd.concat([thinned, series.iloc[[-1]]])
-    return [{"d": str(idx.date()), "v": round(float(value), 6)} for idx, value in thinned.items()]
+    return [[str(idx.date()), round(float(value), 6)] for idx, value in series.items()]
 
 def read_nav(market_root):
     path = market_root / "logs" / "backtest_equity.parquet"
@@ -146,8 +141,8 @@ def read_benchmark(market_root, equity_points):
     col = "total_return" if "total_return" in df.columns else "daily_return"
     eq = (1.0 + pd.to_numeric(df[col], errors="coerce").fillna(0.0)).cumprod()
     eq.index = pd.to_datetime(df["date"].values)
-    start = pd.Timestamp(equity_points[0]["d"])
-    end = pd.Timestamp(equity_points[-1]["d"])
+    start = pd.Timestamp(equity_points[0][0])
+    end = pd.Timestamp(equity_points[-1][0])
     eq = eq[(eq.index >= start) & (eq.index <= end)]
     if not eq.empty and eq.index[-1] < end:
         eq = pd.concat([eq, pd.Series([eq.iloc[-1]], index=[end])])

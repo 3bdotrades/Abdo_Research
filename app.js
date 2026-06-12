@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentCurrency = 'local'; // 'local' or 'usd' for Backtester
   let currentPeriod = 'ALL'; // Default chart period mirrors the ML dashboard
   let currentScale = 'log'; // Log keeps long-run NAV curves readable
+  let customChartStart = '';
+  let customChartEnd = '';
   let liveEquityChart = null;
   let liveEquityCharts = {};
 
@@ -374,6 +376,14 @@ document.addEventListener('DOMContentLoaded', () => {
     return node;
   }
 
+  function chartPointDate(point) {
+    return Array.isArray(point) ? point[0] : point?.d;
+  }
+
+  function chartPointValue(point) {
+    return Array.isArray(point) ? point[1] : point?.v;
+  }
+
   function getPeriodStart(points, period) {
     if (!points || points.length === 0 || period === 'ALL') return null;
     const last = new Date(points[points.length - 1].d + 'T00:00:00');
@@ -386,27 +396,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function filterChartPoints(points, period) {
     if (!Array.isArray(points) || points.length === 0) return [];
-    const start = getPeriodStart(points, period);
-    if (!start) return points;
-    const filtered = points.filter((point) => new Date(point.d + 'T00:00:00') >= start);
-    return filtered.length > 1 ? filtered : points;
+    let start = customChartStart ? new Date(customChartStart + 'T00:00:00') : getPeriodStart(points, period);
+    let end = customChartEnd ? new Date(customChartEnd + 'T00:00:00') : null;
+    if (start && Number.isNaN(start.getTime())) start = null;
+    if (end && Number.isNaN(end.getTime())) end = null;
+    if (start && end && start > end) {
+      const oldStart = start;
+      start = end;
+      end = oldStart;
+    }
+    if (!start && !end) return points;
+    const filtered = points.filter((point) => {
+      const date = new Date(chartPointDate(point) + 'T00:00:00');
+      return (!start || date >= start) && (!end || date <= end);
+    });
+    return (customChartStart || customChartEnd) ? filtered : (filtered.length > 1 ? filtered : points);
+  }
+
+  function setChartDateBounds(points) {
+    const startInput = document.getElementById('chart-start-date');
+    const endInput = document.getElementById('chart-end-date');
+    if (!startInput || !endInput || !Array.isArray(points) || points.length === 0) return;
+    const minDate = chartPointDate(points[0]);
+    const maxDate = chartPointDate(points[points.length - 1]);
+    startInput.min = minDate;
+    startInput.max = maxDate;
+    endInput.min = minDate;
+    endInput.max = maxDate;
+  }
+
+  function clearCustomChartRange(restoreAllPeriod = false) {
+    customChartStart = '';
+    customChartEnd = '';
+    const startInput = document.getElementById('chart-start-date');
+    const endInput = document.getElementById('chart-end-date');
+    if (startInput) startInput.value = '';
+    if (endInput) endInput.value = '';
+    if (restoreAllPeriod) {
+      currentPeriod = 'ALL';
+      document.querySelectorAll('.timeframe-btn').forEach((button) => {
+        button.classList.toggle('active', button.dataset.timeframe === 'ALL');
+      });
+    }
   }
 
   function normalizeChartPoints(points) {
     if (!Array.isArray(points) || points.length === 0) return [];
-    const base = Number(points[0].v) || 1;
+    const base = Number(chartPointValue(points[0])) || 1;
     return points.map((point) => ({
-      d: point.d,
-      raw: Number(point.v) || 0,
-      n: ((Number(point.v) || 0) / base) * 100
+      d: chartPointDate(point),
+      raw: Number(chartPointValue(point)) || 0,
+      n: ((Number(chartPointValue(point)) || 0) / base) * 100
     }));
   }
 
-  function shortChartDate(value) {
+  function thinChartPoints(points, limit = 1100) {
+    if (!Array.isArray(points) || points.length <= limit) return points;
+    const step = Math.ceil(points.length / limit);
+    const thinned = points.filter((_, index) => index % step === 0);
+    const lastPoint = points[points.length - 1];
+    if (chartPointDate(thinned[thinned.length - 1]) !== chartPointDate(lastPoint)) thinned.push(lastPoint);
+    return thinned;
+  }
+
+  function shortChartDate(value, includeDay = false) {
     if (!value) return '';
     const date = new Date(value + 'T00:00:00');
     if (Number.isNaN(date.getTime())) return value;
-    return date.toLocaleDateString('ar-EG', { month: 'short', year: 'numeric' });
+    return date.toLocaleDateString('ar-EG', includeDay
+      ? { day: 'numeric', month: 'short' }
+      : { month: 'short', year: 'numeric' });
   }
 
   function formatChartAxisValue(value) {
@@ -614,8 +673,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderLiveEquityChart(period) {
     if (!svgElement || !liveEquityChart || !Array.isArray(liveEquityChart.equity_points)) return false;
-    const rawModel = filterChartPoints(liveEquityChart.equity_points, period);
-    const rawBenchmark = filterChartPoints(liveEquityChart.benchmark_points || [], period);
+    setChartDateBounds(liveEquityChart.equity_points);
+    const rawModel = thinChartPoints(filterChartPoints(liveEquityChart.equity_points, period));
+    const rawBenchmark = thinChartPoints(filterChartPoints(liveEquityChart.benchmark_points || [], period));
     const model = normalizeChartPoints(rawModel);
     const benchmark = normalizeChartPoints(rawBenchmark);
     if (model.length < 2) return false;
@@ -655,6 +715,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const start = new Date(model[0].d + 'T00:00:00');
     const end = new Date(model[model.length - 1].d + 'T00:00:00');
     const dateRange = end - start || 1;
+    const rangeDays = dateRange / (24 * 60 * 60 * 1000);
     const getXByDate = (value) => padding.left + ((new Date(value + 'T00:00:00') - start) / dateRange) * usableWidth;
     const getY = (value) => {
       const scaled = transformValue(value);
@@ -662,7 +723,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const labelIndexes = [0, 0.2, 0.4, 0.6, 0.8, 1]
       .map((ratio) => Math.min(model.length - 1, Math.round((model.length - 1) * ratio)));
-    const labels = [...new Set(labelIndexes)].map((index) => shortChartDate(model[index].d));
+    const labels = [...new Set(labelIndexes)].map((index) => shortChartDate(model[index].d, rangeDays <= 120));
     const axisValues = Array.from({ length: 6 }, (_, index) => (
       inverseValue(minScaled + (index / 5) * (maxScaled - minScaled))
     ));
@@ -750,6 +811,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const tfBtns = document.querySelectorAll('.timeframe-btn');
   tfBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
+      clearCustomChartRange(false);
       tfBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentPeriod = btn.dataset.timeframe;
@@ -766,6 +828,25 @@ document.addEventListener('DOMContentLoaded', () => {
       renderChart(currentPeriod);
     });
   });
+
+  const chartStartInput = document.getElementById('chart-start-date');
+  const chartEndInput = document.getElementById('chart-end-date');
+  const chartDateApply = document.getElementById('chart-date-apply');
+  const chartDateClear = document.getElementById('chart-date-clear');
+  if (chartDateApply) {
+    chartDateApply.addEventListener('click', () => {
+      customChartStart = chartStartInput ? chartStartInput.value : '';
+      customChartEnd = chartEndInput ? chartEndInput.value : '';
+      tfBtns.forEach((button) => button.classList.remove('active'));
+      renderChart(currentPeriod);
+    });
+  }
+  if (chartDateClear) {
+    chartDateClear.addEventListener('click', () => {
+      clearCustomChartRange(true);
+      renderChart(currentPeriod);
+    });
+  }
 
   loadLiveEquityChart();
 
@@ -1811,7 +1892,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function applyPerformanceMarket(selectedMarket, activeTab) {
     const data = getPerformanceMarketData(selectedMarket);
     if (!data) return;
+    const marketChanged = performanceMarket !== selectedMarket;
     performanceMarket = selectedMarket;
+    if (marketChanged) clearCustomChartRange(true);
 
     marketTabs.forEach(t => {
       t.style.background = 'transparent';

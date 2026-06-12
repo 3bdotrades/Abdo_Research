@@ -535,6 +535,55 @@ section {
   border: 1px solid rgba(148,163,184,0.20);
   border-radius: 6px;
 }
+.chart-date-range {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px;
+  background: rgba(2,6,23,0.88);
+  border: 1px solid rgba(148,163,184,0.20);
+  border-radius: 6px;
+  flex-wrap: wrap;
+}
+.chart-date-range label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #94a3b8;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+.chart-date-range input {
+  width: 128px;
+  height: 28px;
+  background: rgba(15,23,42,0.88);
+  border: 1px solid rgba(148,163,184,0.24);
+  border-radius: 4px;
+  color: #e5e7eb;
+  color-scheme: dark;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.72rem;
+  padding: 2px 7px;
+}
+.chart-date-range button {
+  height: 28px;
+  background: none;
+  border: 1px solid rgba(148,163,184,0.24);
+  color: #cbd5e1;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.chart-date-range button:hover {
+  border-color: #13795b;
+  color: #ffffff;
+  background: rgba(19,121,91,0.18);
+}
 .chart-control-label {
   padding: 0 8px;
   color: #94a3b8;
@@ -4194,6 +4243,7 @@ html, body {
 
   /* --- Chart timeframes full-width centered --- */
   .chart-control-group,
+  .chart-date-range,
   .chart-timeframes {
     align-self: flex-end;
   }
