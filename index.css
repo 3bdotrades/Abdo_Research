@@ -202,6 +202,51 @@ header.scrolled {
   color: var(--primary);
 }
 
+.legal-content + .legal-content {
+  margin-top: 26px;
+}
+
+.legal-en {
+  display: none;
+}
+
+html[lang="en"] .legal-ar {
+  display: none;
+}
+
+html[lang="en"] .legal-en {
+  display: block;
+}
+
+.legal-content .policy-section {
+  margin-top: 30px;
+}
+
+.legal-content .policy-section h2 {
+  margin-bottom: 12px;
+}
+
+.legal-content .policy-section p,
+.legal-content .policy-section li {
+  color: var(--text-muted);
+  line-height: 1.95;
+}
+
+.legal-content .policy-section ul {
+  margin: 12px 0 0;
+  padding-inline-start: 22px;
+}
+
+.legal-content .policy-section a {
+  color: var(--primary);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.legal-content .policy-section a:hover {
+  text-decoration: underline;
+}
+
 .logo-icon {
   width: 34px;
   height: 34px;
