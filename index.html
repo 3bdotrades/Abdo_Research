@@ -337,22 +337,30 @@
 
           <div class="chart-info">
             <div class="chart-legend-item">
-              <span class="legend-dot" style="background: var(--primary);"></span>
+              <span class="legend-dot" style="background: #16a34a;"></span>
               <span id="chart-legend-model">النموذج الكمي</span>
             </div>
             <div class="chart-legend-item">
-              <span class="legend-dot" style="background: #4b5563;"></span>
+              <span class="legend-dot" style="background: #b45309;"></span>
               <span id="chart-legend-index">المؤشر المرجعي</span>
             </div>
           </div>
 
+          <div class="chart-control-group">
+            <span class="chart-control-label">Scale</span>
+            <button class="scale-btn" data-scale="linear">Linear</button>
+            <button class="scale-btn active" data-scale="log">Log</button>
+          </div>
+
           <div class="chart-timeframes">
+            <button class="timeframe-btn active" data-timeframe="ALL">الكل</button>
+            <button class="timeframe-btn" data-timeframe="10Y">10 سنوات</button>
             <button class="timeframe-btn" data-timeframe="5Y">5 سنوات</button>
             <button class="timeframe-btn" data-timeframe="3Y">3 سنوات</button>
-            <button class="timeframe-btn" data-timeframe="1M">شهر</button>
+            <button class="timeframe-btn" data-timeframe="2Y">2 سنة</button>
+            <button class="timeframe-btn" data-timeframe="1Y">سنة</button>
             <button class="timeframe-btn" data-timeframe="3M">3 أشهر</button>
-            <button class="timeframe-btn active" data-timeframe="1Y">سنة</button>
-            <button class="timeframe-btn" data-timeframe="ALL">الكل</button>
+            <button class="timeframe-btn" data-timeframe="1M">شهر</button>
           </div>
         </div>
 

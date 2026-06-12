@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeMarket = 'saudi'; // Default localized market on entry
   let performanceMarket = 'egx'; // Default chart source mirrors the local ML dashboard
   let currentCurrency = 'local'; // 'local' or 'usd' for Backtester
-  let currentPeriod = '1Y'; // Default chart period
+  let currentPeriod = 'ALL'; // Default chart period mirrors the ML dashboard
+  let currentScale = 'log'; // Log keeps long-run NAV curves readable
   let liveEquityChart = null;
   let liveEquityCharts = {};
 
@@ -376,7 +377,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function getPeriodStart(points, period) {
     if (!points || points.length === 0 || period === 'ALL') return null;
     const last = new Date(points[points.length - 1].d + 'T00:00:00');
-    const years = { '5Y': 5, '3Y': 3, '1Y': 1 };
+    const years = { '10Y': 10, '5Y': 5, '3Y': 3, '2Y': 2, '1Y': 1 };
     const months = { '3M': 3, '1M': 1 };
     if (years[period]) return new Date(last.getFullYear() - years[period], last.getMonth(), last.getDate());
     if (months[period]) return new Date(last.getFullYear(), last.getMonth() - months[period], last.getDate());
@@ -406,6 +407,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const date = new Date(value + 'T00:00:00');
     if (Number.isNaN(date.getTime())) return value;
     return date.toLocaleDateString('ar-EG', { month: 'short', year: 'numeric' });
+  }
+
+  function formatChartAxisValue(value) {
+    if (!Number.isFinite(value)) return '';
+    if (value >= 1000000000000) return (value / 1000000000000).toFixed(value >= 10000000000000 ? 0 : 1) + 'T';
+    if (value >= 1000000000) return (value / 1000000000).toFixed(value >= 10000000000 ? 0 : 1) + 'B';
+    if (value >= 1000000) return (value / 1000000).toFixed(value >= 10000000 ? 0 : 1) + 'M';
+    if (value >= 1000) return (value / 1000).toFixed(value >= 10000 ? 0 : 1) + 'k';
+    if (value >= 100) return value.toFixed(0);
+    return value.toFixed(1);
   }
 
   function updateChartLabels(details, liveMode) {
@@ -459,12 +470,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function drawChartScaffold(config) {
-    const gridLinesGroup = createSvgNode('g', { stroke: 'rgba(255,255,255,0.055)', 'stroke-width': '1' });
+    const gridLinesGroup = createSvgNode('g', { stroke: 'rgba(148,163,184,0.16)', 'stroke-width': '1' });
     const gridCount = 5;
     const valRange = config.maxVal - config.minVal || 1;
+    const axisValues = config.axisValues || Array.from({ length: gridCount + 1 }, (_, index) => (
+      config.minVal + (index / gridCount) * valRange
+    ));
 
-    for (let i = 0; i <= gridCount; i++) {
-      const value = config.minVal + (i / gridCount) * valRange;
+    axisValues.forEach((value) => {
       const y = config.getY(value);
       gridLinesGroup.appendChild(createSvgNode('line', {
         x1: config.padding.left,
@@ -474,16 +487,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }));
 
       const text = createSvgNode('text', {
-        x: config.width - config.padding.right + 10,
+        x: config.padding.left - 12,
         y: y + 4,
-        fill: 'var(--text-muted)',
+        fill: '#94a3b8',
         'font-size': '10px',
         'font-family': 'Cairo',
-        'text-anchor': 'start'
+        'text-anchor': 'end'
       });
       text.textContent = config.formatY(value);
       gridLinesGroup.appendChild(text);
-    }
+    });
 
     config.labels.forEach((label, index) => {
       const x = config.getX(index);
@@ -497,7 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const text = createSvgNode('text', {
         x,
         y: config.height - config.padding.bottom + 24,
-        fill: 'var(--text-muted)',
+        fill: '#94a3b8',
         'font-size': '11px',
         'font-family': 'Cairo',
         'text-anchor': 'middle'
@@ -536,12 +549,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     linearGrad.appendChild(createSvgNode('stop', {
       offset: '0%',
-      'stop-color': 'var(--primary)',
-      'stop-opacity': '0.30'
+      'stop-color': '#16a34a',
+      'stop-opacity': '0.24'
     }));
     linearGrad.appendChild(createSvgNode('stop', {
       offset: '100%',
-      'stop-color': 'var(--primary)',
+      'stop-color': '#16a34a',
       'stop-opacity': '0'
     }));
     defs.appendChild(linearGrad);
@@ -559,11 +572,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const modelPath = createSvgNode('path', {
       d: linePath,
       fill: 'none',
-      stroke: 'var(--primary)',
+      stroke: '#16a34a',
       'stroke-width': '3',
       'stroke-linecap': 'round',
       'stroke-linejoin': 'round',
-      filter: 'drop-shadow(0px 0px 8px var(--primary))'
+      filter: 'drop-shadow(0px 0px 7px rgba(22,163,74,0.32))'
     });
     svgElement.appendChild(modelPath);
 
@@ -574,8 +587,8 @@ document.addEventListener('DOMContentLoaded', () => {
         cx: point.x,
         cy: point.y,
         r: '5',
-        fill: 'var(--bg-secondary)',
-        stroke: 'var(--primary)',
+        fill: '#08111b',
+        stroke: '#16a34a',
         'stroke-width': '2'
       });
       circle.style.cursor = 'pointer';
@@ -587,7 +600,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tooltip.style.display = 'block';
         tooltip.innerHTML = `
           <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">${point.label || ''}</div>
-          <div style="color: var(--accent-green);">المحفظة: ${point.value.toFixed(1)}</div>
+          <div style="color: #22c55e;">المحفظة: ${point.value.toFixed(1)}</div>
           <div style="color: var(--text-muted);">${benchmarkName}</div>
         `;
       });
@@ -616,20 +629,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const padding = { top: 40, right: 60, bottom: 44, left: 64 };
     const usableWidth = width - padding.left - padding.right;
     const usableHeight = height - padding.top - padding.bottom;
-    const values = [...model, ...benchmark].map((point) => point.n).filter(Number.isFinite);
+    const numericValues = [...model, ...benchmark].map((point) => point.n).filter(Number.isFinite);
+    const values = currentScale === 'log' ? numericValues.filter((value) => value > 0) : numericValues;
+    if (!values.length) return false;
     const lowRaw = Math.min(...values);
     const highRaw = Math.max(...values);
-    const padValue = (highRaw - lowRaw) * 0.08 || 8;
-    const minVal = Math.max(0, lowRaw - padValue);
-    const maxVal = highRaw + padValue;
+    const transformValue = (value) => currentScale === 'log'
+      ? Math.log10(Math.max(value, 0.001))
+      : value;
+    const inverseValue = (value) => currentScale === 'log' ? (10 ** value) : value;
+    const rawPad = (highRaw - lowRaw) * 0.08 || 8;
+    const rawMinVal = currentScale === 'log'
+      ? Math.max(1, lowRaw * 0.88)
+      : Math.max(0, lowRaw - rawPad);
+    const rawMaxVal = currentScale === 'log'
+      ? highRaw * 1.08
+      : highRaw + rawPad;
+    const lowScaled = transformValue(rawMinVal);
+    const highScaled = transformValue(rawMaxVal);
+    const scaledPad = currentScale === 'log' ? 0 : ((highScaled - lowScaled) * 0.04 || 0.08);
+    const minScaled = lowScaled - scaledPad;
+    const maxScaled = highScaled + scaledPad;
+    const minVal = inverseValue(minScaled);
+    const maxVal = inverseValue(maxScaled);
     const start = new Date(model[0].d + 'T00:00:00');
     const end = new Date(model[model.length - 1].d + 'T00:00:00');
     const dateRange = end - start || 1;
     const getXByDate = (value) => padding.left + ((new Date(value + 'T00:00:00') - start) / dateRange) * usableWidth;
-    const getY = (value) => padding.top + usableHeight - ((value - minVal) / (maxVal - minVal || 1)) * usableHeight;
+    const getY = (value) => {
+      const scaled = transformValue(value);
+      return padding.top + usableHeight - ((scaled - minScaled) / (maxScaled - minScaled || 1)) * usableHeight;
+    };
     const labelIndexes = [0, 0.2, 0.4, 0.6, 0.8, 1]
       .map((ratio) => Math.min(model.length - 1, Math.round((model.length - 1) * ratio)));
     const labels = [...new Set(labelIndexes)].map((index) => shortChartDate(model[index].d));
+    const axisValues = Array.from({ length: 6 }, (_, index) => (
+      inverseValue(minScaled + (index / 5) * (maxScaled - minScaled))
+    ));
 
     drawChartScaffold({
       width,
@@ -638,7 +674,8 @@ document.addEventListener('DOMContentLoaded', () => {
       labels,
       minVal,
       maxVal,
-      formatY: (value) => value.toFixed(0),
+      axisValues,
+      formatY: formatChartAxisValue,
       getX: (index) => {
         const pointIndex = labelIndexes[index] ?? 0;
         return getXByDate(model[pointIndex].d);
@@ -646,7 +683,7 @@ document.addEventListener('DOMContentLoaded', () => {
       getY
     });
 
-    drawLinePath(benchmark.map((point) => ({ x: getXByDate(point.d), y: getY(point.n) })), '#64748b', true);
+    drawLinePath(benchmark.map((point) => ({ x: getXByDate(point.d), y: getY(point.n) })), '#b45309', true);
     drawAreaAndLine(
       model.map((point) => ({
         x: getXByDate(point.d),
@@ -716,6 +753,16 @@ document.addEventListener('DOMContentLoaded', () => {
       tfBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentPeriod = btn.dataset.timeframe;
+      renderChart(currentPeriod);
+    });
+  });
+
+  const scaleBtns = document.querySelectorAll('.scale-btn');
+  scaleBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      scaleBtns.forEach((item) => item.classList.remove('active'));
+      btn.classList.add('active');
+      currentScale = btn.dataset.scale === 'linear' ? 'linear' : 'log';
       renderChart(currentPeriod);
     });
   });
