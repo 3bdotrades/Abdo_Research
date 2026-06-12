@@ -132,6 +132,7 @@ create table if not exists public.posts (
   excerpt text not null,
   content text not null,
   image_url text,
+  telegram_url text,
   tag text not null default 'بحثي',
   status text not null default 'draft' check (status in ('draft', 'published')),
   published_at timestamptz,
@@ -140,6 +141,7 @@ create table if not exists public.posts (
 );
 
 alter table public.posts add column if not exists image_url text;
+alter table public.posts add column if not exists telegram_url text;
 
 alter table public.posts enable row level security;
 

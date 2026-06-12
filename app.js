@@ -497,7 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = chartData[period] || ((period === '5Y' || period === '3Y') ? chartData.ALL : chartData['1Y']);
     const width = svgElement.clientWidth || 800;
     const height = svgElement.clientHeight || 350;
-    const padding = { top: 40, right: 60, bottom: 42, left: 60 };
+    const padding = { top: 34, right: 34, bottom: 46, left: 86 };
     const usableWidth = width - padding.left - padding.right;
     const usableHeight = height - padding.top - padding.bottom;
 
@@ -686,7 +686,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const width = svgElement.clientWidth || 800;
     const height = svgElement.clientHeight || 350;
-    const padding = { top: 40, right: 60, bottom: 44, left: 64 };
+    const padding = { top: 34, right: 34, bottom: 46, left: 86 };
     const usableWidth = width - padding.left - padding.right;
     const usableHeight = height - padding.top - padding.bottom;
     const numericValues = [...model, ...benchmark].map((point) => point.n).filter(Number.isFinite);
@@ -723,7 +723,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const labelIndexes = [0, 0.2, 0.4, 0.6, 0.8, 1]
       .map((ratio) => Math.min(model.length - 1, Math.round((model.length - 1) * ratio)));
-    const labels = [...new Set(labelIndexes)].map((index) => shortChartDate(model[index].d, rangeDays <= 120));
+    const labels = [...new Set(labelIndexes)].map((index) => shortChartDate(model[index].d, rangeDays <= 240));
     const axisValues = Array.from({ length: 6 }, (_, index) => (
       inverseValue(minScaled + (index / 5) * (maxScaled - minScaled))
     ));
@@ -833,14 +833,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const chartEndInput = document.getElementById('chart-end-date');
   const chartDateApply = document.getElementById('chart-date-apply');
   const chartDateClear = document.getElementById('chart-date-clear');
-  if (chartDateApply) {
-    chartDateApply.addEventListener('click', () => {
-      customChartStart = chartStartInput ? chartStartInput.value : '';
-      customChartEnd = chartEndInput ? chartEndInput.value : '';
-      tfBtns.forEach((button) => button.classList.remove('active'));
+  const applyCustomChartRange = () => {
+    customChartStart = chartStartInput ? chartStartInput.value : '';
+    customChartEnd = chartEndInput ? chartEndInput.value : '';
+    if (!customChartStart && !customChartEnd) {
+      clearCustomChartRange(true);
       renderChart(currentPeriod);
-    });
+      return;
+    }
+    currentPeriod = 'ALL';
+    tfBtns.forEach((button) => button.classList.remove('active'));
+    renderChart(currentPeriod);
+  };
+  if (chartDateApply) {
+    chartDateApply.addEventListener('click', applyCustomChartRange);
   }
+  if (chartStartInput) chartStartInput.addEventListener('change', applyCustomChartRange);
+  if (chartEndInput) chartEndInput.addEventListener('change', applyCustomChartRange);
   if (chartDateClear) {
     chartDateClear.addEventListener('click', () => {
       clearCustomChartRange(true);
@@ -1518,28 +1527,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    const estimateReadTime = (post) => {
-      const text = `${post.excerpt || ''} ${post.content || ''}`.trim();
-      const words = text ? text.split(/\s+/).length : 1;
-      return Math.max(1, Math.ceil(words / 180));
-    };
-
     try {
       let result = await client
         .from('posts')
-        .select('id,title,excerpt,content,image_url,tag,published_at,created_at')
+        .select('id,title,excerpt,telegram_url,tag,published_at,created_at')
         .eq('status', 'published')
         .order('published_at', { ascending: false, nullsFirst: false })
         .limit(3);
 
-      if (result.error && /image_url/i.test(result.error.message || '')) {
+      if (result.error && /telegram_url/i.test(result.error.message || '')) {
         result = await client
           .from('posts')
-          .select('id,title,excerpt,content,tag,published_at,created_at')
+          .select('id,title,excerpt,tag,published_at,created_at')
           .eq('status', 'published')
           .order('published_at', { ascending: false, nullsFirst: false })
           .limit(3);
-        if (result.data) result.data = result.data.map((post) => ({ ...post, image_url: '' }));
+        if (result.data) result.data = result.data.map((post) => ({ ...post, telegram_url: '' }));
       }
 
       if (result.error || !result.data || result.data.length === 0) {
@@ -1548,10 +1551,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       insightsGrid.innerHTML = result.data.map((post) => {
-        const readTime = estimateReadTime(post);
+        const telegramUrl = post.telegram_url || 'https://t.me/Abdo_Research';
         return `
           <article class="insight-card glass-panel stagger-visible">
-            ${post.image_url ? `<div class="insight-card-media"><img src="${escapeHtml(post.image_url)}" alt=""></div>` : ''}
             <div class="insight-meta">
               <span class="insight-tag">${escapeHtml(post.tag || 'بحثي')}</span>
               <span class="insight-date">${formatDate(post.published_at || post.created_at)}</span>
@@ -1559,8 +1561,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <h3>${escapeHtml(post.title)}</h3>
             <p>${escapeHtml(post.excerpt)}</p>
             <div class="insight-footer">
-              <span class="insight-read-time">${readTime} دقيقة قراءة</span>
-              <a href="post.html?id=${encodeURIComponent(post.id)}" class="insight-link">اقرأ المنشور<span class="arrow-slide">←</span></a>
+              <span class="insight-read-time">تيليجرام</span>
+              <a href="${escapeHtml(telegramUrl)}" class="insight-link" target="_blank" rel="noopener noreferrer">اقرأ على تيليجرام<span class="arrow-slide">←</span></a>
             </div>
           </article>
         `;

@@ -490,20 +490,35 @@ section {
   box-shadow: 0 24px 70px rgba(0,0,0,0.34);
 }
 .chart-header {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "legend title"
+    "dates title"
+    "scale timeframes";
   align-items: center;
   margin-bottom: 20px;
   border-bottom: 1px solid rgba(148,163,184,0.16);
   padding-bottom: 16px;
-  flex-wrap: wrap;
-  gap: 16px;
+  gap: 12px 16px;
+  direction: ltr;
+}
+.chart-title-block {
+  grid-area: title;
+  justify-self: end;
+  align-self: start;
+  min-width: 240px;
+  text-align: right;
+  direction: rtl;
 }
 .chart-info {
+  grid-area: legend;
   display: flex;
   gap: 16px;
   align-items: center;
+  justify-self: start;
   flex-wrap: wrap;
+  direction: rtl;
 }
 .chart-legend-item {
   display: flex;
@@ -518,7 +533,9 @@ section {
   border-radius: 50%;
 }
 .chart-timeframes {
+  grid-area: timeframes;
   display: flex;
+  justify-self: end;
   background: rgba(2,6,23,0.88);
   border: 1px solid rgba(148,163,184,0.20);
   padding: 3px;
@@ -527,8 +544,10 @@ section {
   flex-wrap: wrap;
 }
 .chart-control-group {
+  grid-area: scale;
   display: flex;
   align-items: center;
+  justify-self: start;
   gap: 3px;
   padding: 3px;
   background: rgba(2,6,23,0.88);
@@ -536,14 +555,17 @@ section {
   border-radius: 6px;
 }
 .chart-date-range {
+  grid-area: dates;
   display: flex;
   align-items: center;
+  justify-self: start;
   gap: 6px;
   padding: 3px;
   background: rgba(2,6,23,0.88);
   border: 1px solid rgba(148,163,184,0.20);
   border-radius: 6px;
   flex-wrap: wrap;
+  direction: ltr;
 }
 .chart-date-range label {
   display: flex;
@@ -3182,7 +3204,7 @@ footer {
 .svg-chart-wrapper {
   position: relative;
   width: 100%;
-  height: 420px;
+  height: 390px;
   background:
     linear-gradient(180deg, rgba(15,23,42,0.52), rgba(2,6,23,0.98)),
     #020617;
@@ -4231,8 +4253,14 @@ html, body {
 
   /* --- CHART HEADER wraps --- */
   .chart-header {
-    flex-direction: column;
-    align-items: flex-start;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "title"
+      "legend"
+      "timeframes"
+      "scale"
+      "dates";
+    align-items: stretch;
     gap: 12px;
   }
 
@@ -4245,7 +4273,17 @@ html, body {
   .chart-control-group,
   .chart-date-range,
   .chart-timeframes {
-    align-self: flex-end;
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  .chart-title-block,
+  .chart-info {
+    justify-self: stretch;
+  }
+
+  .chart-info {
+    justify-content: flex-start;
   }
 
   /* --- FAQ trigger font size --- */

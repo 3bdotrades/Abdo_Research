@@ -204,29 +204,32 @@
       if (postId) {
         result = await client
           .from('posts')
-          .select('id,title,excerpt,content,image_url,tag,status,published_at,created_at')
+          .select('id,title,excerpt,content,image_url,telegram_url,tag,status,published_at,created_at')
           .eq('id', postId)
           .eq('status', 'published')
           .single();
 
-        if (result.error && /image_url/i.test(result.error.message || '')) {
+        if (result.error && /(image_url|telegram_url)/i.test(result.error.message || '')) {
           result = await client
             .from('posts')
             .select('id,title,excerpt,content,tag,status,published_at,created_at')
             .eq('id', postId)
             .eq('status', 'published')
             .single();
-          if (result.data) result.data.image_url = '';
+          if (result.data) {
+            result.data.image_url = '';
+            result.data.telegram_url = '';
+          }
         }
       } else {
         result = await client
           .from('posts')
-          .select('id,title,excerpt,content,image_url,tag,status,published_at,created_at')
+          .select('id,title,excerpt,content,image_url,telegram_url,tag,status,published_at,created_at')
           .eq('status', 'published')
           .order('published_at', { ascending: false, nullsFirst: false })
           .limit(1);
 
-        if (result.error && /image_url/i.test(result.error.message || '')) {
+        if (result.error && /(image_url|telegram_url)/i.test(result.error.message || '')) {
           result = await client
             .from('posts')
             .select('id,title,excerpt,content,tag,status,published_at,created_at')
@@ -236,6 +239,7 @@
         }
         result.data = Array.isArray(result.data) ? result.data[0] : result.data;
         if (result.data && !Object.prototype.hasOwnProperty.call(result.data, 'image_url')) result.data.image_url = '';
+        if (result.data && !Object.prototype.hasOwnProperty.call(result.data, 'telegram_url')) result.data.telegram_url = '';
       }
 
       if (result.error || !result.data) {
@@ -244,6 +248,10 @@
       }
 
       var post = result.data;
+      if (post.telegram_url) {
+        window.location.replace(post.telegram_url);
+        return;
+      }
       document.title = post.title + ' | عبدالرحمن محمد';
 
       article.innerHTML = [

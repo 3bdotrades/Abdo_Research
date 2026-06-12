@@ -2084,8 +2084,8 @@
           <h3>PDL Reclaim — كيف يعمل النموذج على البيانات التاريخية</h3>
           <p>شرح مفصل لنموذج Previous Day Low Reclaim: الفكرة خلفه، كيف استُخرج من بيانات تاريخية على أكثر من 100 سهم في السوق السعودي، ومعدلات النجاح عبر مختلف ظروف السوق.</p>
           <div class="db-research-footer">
-            <span class="db-research-read-time">8 دقائق قراءة</span>
-            <a href="post.html?id=00000000-0000-4000-8000-000000000104" class="db-research-link">اقرأ التقرير ←</a>
+            <span class="db-research-read-time">تيليجرام</span>
+            <a href="https://t.me/Abdo_Research" class="db-research-link" target="_blank" rel="noopener noreferrer">اقرأ على تيليجرام ←</a>
           </div>
         </article>
 
@@ -2098,8 +2098,8 @@
           <h3>تحليل أداء Mean Reversion في سوق أبوظبي Q1 2026</h3>
           <p>تقرير ربعي يستعرض أداء نموذج الانعكاس للمتوسط على أسهم سوق أبوظبي خلال الربع الأول من 2026 — نسب الفوز، متوسط العائد لكل صفقة، والفترات التي أخفق فيها النموذج.</p>
           <div class="db-research-footer">
-            <span class="db-research-read-time">12 دقيقة قراءة</span>
-            <a href="post.html?id=00000000-0000-4000-8000-000000000105" class="db-research-link">اقرأ التقرير ←</a>
+            <span class="db-research-read-time">تيليجرام</span>
+            <a href="https://t.me/Abdo_Research" class="db-research-link" target="_blank" rel="noopener noreferrer">اقرأ على تيليجرام ←</a>
           </div>
         </article>
 
@@ -2112,8 +2112,8 @@
           <h3>الميزة الإحصائية: Expected Value ولماذا WR 36% قد يكون أفضل من 70%</h3>
           <p>يعتقد كثيرون أن نسبة الفوز هي المقياس الوحيد للحكم على نظام تداول. هذا البحث يوضح لماذا القيمة المتوقعة (Expected Value) هي المقياس الحقيقي، ولماذا نظام بنسبة فوز 36% يمكنه التفوق على نظام بنسبة 70%.</p>
           <div class="db-research-footer">
-            <span class="db-research-read-time">10 دقائق قراءة</span>
-            <a href="post.html?id=00000000-0000-4000-8000-000000000106" class="db-research-link">اقرأ التقرير ←</a>
+            <span class="db-research-read-time">تيليجرام</span>
+            <a href="https://t.me/Abdo_Research" class="db-research-link" target="_blank" rel="noopener noreferrer">اقرأ على تيليجرام ←</a>
           </div>
         </article>
 
@@ -2151,9 +2151,12 @@
           </div>
 
           <div class="auth-input-group">
-            <label for="post-content">النص الكامل</label>
-            <textarea id="post-content" class="auth-input" required></textarea>
+            <label for="post-telegram-url">رابط منشور تيليجرام</label>
+            <input id="post-telegram-url" type="url" class="auth-input" required placeholder="https://t.me/..." autocomplete="off" dir="ltr">
+            <p class="db-settings-helper">سيظهر في الموقع العنوان والملخص فقط، وزر القراءة يفتح هذا الرابط.</p>
           </div>
+
+          <textarea id="post-content" class="auth-input" hidden></textarea>
 
           <div class="auth-input-group">
             <label for="post-image-file">صورة المنشور</label>
@@ -2606,40 +2609,59 @@
           }
         }
 
-        function readTime(post) {
-          var text = ((post.excerpt || '') + ' ' + (post.content || '')).trim();
-          var words = text ? text.split(/\s+/).length : 1;
-          return Math.max(1, Math.ceil(words / 180));
+        function renderResearchPosts(posts) {
+          grid.innerHTML = posts.map(function (post) {
+            var telegramUrl = post.telegram_url || 'https://t.me/Abdo_Research';
+            return [
+              '<article class="db-research-card">',
+                '<div class="db-research-meta">',
+                  '<span class="insight-tag">' + escapeHtml(post.tag || 'بحثي') + '</span>',
+                  '<span class="db-research-date">' + formatDate(post.published_at || post.created_at) + '</span>',
+                '</div>',
+                '<h3>' + escapeHtml(post.title) + '</h3>',
+                '<p>' + escapeHtml(post.excerpt) + '</p>',
+                '<div class="db-research-footer">',
+                  '<span class="db-research-read-time">تيليجرام</span>',
+                  '<a href="' + escapeHtml(telegramUrl) + '" class="db-research-link" target="_blank" rel="noopener noreferrer">اقرأ على تيليجرام ←</a>',
+                '</div>',
+              '</article>'
+            ].join('');
+          }).join('');
         }
 
         client
           .from('posts')
-          .select('id,title,excerpt,content,tag,published_at,created_at')
+          .select('id,title,excerpt,telegram_url,tag,published_at,created_at')
           .eq('status', 'published')
           .order('published_at', { ascending: false, nullsFirst: false })
           .limit(12)
           .then(function (result) {
+            if (result.error && /telegram_url/i.test(result.error.message || '')) {
+              client
+                .from('posts')
+                .select('id,title,excerpt,tag,published_at,created_at')
+                .eq('status', 'published')
+                .order('published_at', { ascending: false, nullsFirst: false })
+                .limit(12)
+                .then(function (fallbackResult) {
+                  if (fallbackResult.error || !fallbackResult.data || fallbackResult.data.length === 0) {
+                    if (fallbackResult.error) console.warn('Research load failed:', fallbackResult.error.message);
+                    return;
+                  }
+                  renderResearchPosts(fallbackResult.data.map(function (post) {
+                    post.telegram_url = '';
+                    return post;
+                  }));
+                });
+              return;
+            }
+
             if (result.error || !result.data || result.data.length === 0) {
               if (result.error) console.warn('Research load failed:', result.error.message);
               return;
             }
 
-            grid.innerHTML = result.data.map(function (post) {
-              return [
-                '<article class="db-research-card">',
-                  '<div class="db-research-meta">',
-                    '<span class="insight-tag">' + escapeHtml(post.tag || 'بحثي') + '</span>',
-                    '<span class="db-research-date">' + formatDate(post.published_at || post.created_at) + '</span>',
-                  '</div>',
-                  '<h3>' + escapeHtml(post.title) + '</h3>',
-                  '<p>' + escapeHtml(post.excerpt) + '</p>',
-                  '<div class="db-research-footer">',
-                    '<span class="db-research-read-time">' + readTime(post) + ' دقائق قراءة</span>',
-                    '<a href="post.html?id=' + encodeURIComponent(post.id) + '" class="db-research-link">اقرأ التقرير ←</a>',
-                  '</div>',
-                '</article>'
-              ].join('');
-            }).join('');
+            renderResearchPosts(result.data);
           });
       }
 
@@ -2653,6 +2675,7 @@
         var titleInput = document.getElementById('post-title');
         var tagInput = document.getElementById('post-tag');
         var excerptInput = document.getElementById('post-excerpt');
+        var telegramUrlInput = document.getElementById('post-telegram-url');
         var contentInput = document.getElementById('post-content');
         var imageFileInput = document.getElementById('post-image-file');
         var imageUrlInput = document.getElementById('post-image-url');
@@ -2737,6 +2760,7 @@
         function renderPost(post) {
           var dateValue = post.published_at || post.updated_at || post.created_at;
           var statusLabel = post.status === 'published' ? 'منشور' : 'مسودة';
+          var telegramUrl = post.telegram_url || 'https://t.me/Abdo_Research';
           return [
             '<article class="db-admin-post-item">',
               post.image_url ? '<img class="db-admin-post-thumb" src="' + escapeHtml(post.image_url) + '" alt="">' : '',
@@ -2750,7 +2774,7 @@
                 '<span>' + formatPostDate(dateValue) + '</span>',
               '</div>',
               '<div class="db-admin-post-actions">',
-                '<a href="post.html?id=' + encodeURIComponent(post.id) + '" class="db-admin-action-btn" target="_blank" rel="noopener noreferrer">فتح</a>',
+                '<a href="' + escapeHtml(telegramUrl) + '" class="db-admin-action-btn" target="_blank" rel="noopener noreferrer">فتح تيليجرام</a>',
                 '<button class="db-admin-action-btn" type="button" data-post-action="edit" data-post-id="' + escapeHtml(post.id) + '">تعديل</button>',
                 '<button class="db-admin-action-btn is-reject" type="button" data-post-action="delete" data-post-id="' + escapeHtml(post.id) + '">حذف</button>',
               '</div>',
@@ -2763,7 +2787,8 @@
           titleInput.value = post ? (post.title || '') : '';
           tagInput.value = post ? (post.tag || 'بحثي') : 'بحثي';
           excerptInput.value = post ? (post.excerpt || '') : '';
-          contentInput.value = post ? (post.content || '') : '';
+          if (telegramUrlInput) telegramUrlInput.value = post ? (post.telegram_url || '') : '';
+          contentInput.value = post ? (post.content || post.excerpt || '') : '';
           if (imageUrlInput) imageUrlInput.value = post ? (post.image_url || '') : '';
           if (imageFileInput) imageFileInput.value = '';
           setImagePreview(post ? post.image_url : '');
@@ -2779,11 +2804,11 @@
           list.innerHTML = '<p class="db-settings-helper">جاري تحميل المنشورات...</p>';
           var result = await client
             .from('posts')
-            .select('id,title,excerpt,content,image_url,tag,status,published_at,updated_at,created_at')
+            .select('id,title,excerpt,content,image_url,telegram_url,tag,status,published_at,updated_at,created_at')
             .order('updated_at', { ascending: false })
             .limit(8);
 
-          if (result.error && /image_url/i.test(result.error.message || '')) {
+          if (result.error && /(image_url|telegram_url)/i.test(result.error.message || '')) {
             result = await client
               .from('posts')
               .select('id,title,excerpt,content,tag,status,published_at,updated_at,created_at')
@@ -2792,6 +2817,7 @@
             if (result.data) {
               result.data = result.data.map(function (post) {
                 post.image_url = '';
+                post.telegram_url = '';
                 return post;
               });
             }
@@ -2818,15 +2844,16 @@
 
           var title = titleInput.value.trim();
           var excerpt = excerptInput.value.trim();
-          var content = contentInput.value.trim();
+          var telegramUrl = telegramUrlInput ? telegramUrlInput.value.trim() : '';
+          var content = contentInput.value.trim() || excerpt;
           var status = statusInput.value === 'draft' ? 'draft' : 'published';
           var imageUrl = imageUrlInput ? imageUrlInput.value.trim() : '';
           var imageFile = imageFileInput && imageFileInput.files && imageFileInput.files[0]
             ? imageFileInput.files[0]
             : null;
 
-          if (!title || !excerpt || !content) {
-            setPostMessage('أكمل العنوان والملخص والنص قبل النشر.', 'error');
+          if (!title || !excerpt || !telegramUrl) {
+            setPostMessage('أكمل العنوان والملخص ورابط تيليجرام قبل النشر.', 'error');
             return;
           }
 
@@ -2849,6 +2876,7 @@
             title: title,
             excerpt: excerpt,
             content: content,
+            telegram_url: telegramUrl,
             tag: tagInput.value.trim() || 'بحثي',
             status: status,
             published_at: status === 'published' ? new Date().toISOString() : null
@@ -2862,13 +2890,17 @@
           if (submitBtn) submitBtn.disabled = false;
 
           if (insertResult.error) {
-            setPostMessage('لم يتم حفظ المنشور. راجع صلاحيات الأدمن أو قاعدة البيانات.', 'error');
+            var saveMessage = /telegram_url/i.test(insertResult.error.message || '')
+              ? 'لم يتم حفظ رابط تيليجرام. شغّل آخر نسخة من supabase.sql لإضافة عمود telegram_url.'
+              : 'لم يتم حفظ المنشور. راجع صلاحيات الأدمن أو قاعدة البيانات.';
+            setPostMessage(saveMessage, 'error');
             console.warn('Post save failed:', insertResult.error.message);
             return;
           }
 
           form.reset();
           if (tagInput) tagInput.value = 'بحثي';
+          if (telegramUrlInput) telegramUrlInput.value = '';
           if (imageUrlInput) imageUrlInput.value = '';
           if (imageFileInput) imageFileInput.value = '';
           setImagePreview('');
