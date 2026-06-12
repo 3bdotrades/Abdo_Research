@@ -15,8 +15,8 @@
     ["عبدالرحمن محمد لطفي — باحث كمي. أبحاث نماذج تداول وأدوات للمتداول اليدوي وإدارة مخاطر الصفقات والمحافظ.", "Abdulrhman Mohamed Lotfy — Quant researcher. Trading model research and tools for discretionary traders and trade/portfolio risk management."],
     ["404 — الصفحة غير موجودة | أبحاث كمية", "404 — Page Not Found | Quant Research"],
     ["تواصل معنا | أبحاث كمية", "Contact Us | Quant Research"],
-    ["شروط الخدمة | أبحاث كمية", "Terms of Service | Quant Research"],
-    ["سياسة الخصوصية | أبحاث كمية", "Privacy Policy | Quant Research"],
+    ["شروط الخدمة | عبدالرحمن محمد لطفي", "Terms of Service | Abdulrhman Mohamed Lotfy"],
+    ["سياسة الخصوصية | عبدالرحمن محمد لطفي", "Privacy Policy | Abdulrhman Mohamed Lotfy"],
     ["الأسئلة الشائعة | أبحاث كمية", "FAQ | Quant Research"],
     ["منشور بحثي | عبدالرحمن محمد لطفي", "Research Post | Abdulrhman Mohamed Lotfy"],
 
@@ -207,7 +207,7 @@
 
     ["آخر تحديث: 11 يونيو 2026", "Last updated: June 11, 2026"],
     ["1. نطاق الخدمة", "1. Scope of Service"],
-    ["يوفر موقع أبحاث كمية محتوى بحثياً وتعليمياً حول النماذج الكمية، سلوك الأسواق، وإدارة مخاطر المحافظ. المحتوى لا يمثل نصيحة استثمارية شخصية، ولا يعد عرضاً لإدارة أموال أو شراء أو بيع أي أصل مالي.", "Quant Research provides research and educational content about quantitative models, market behavior, and portfolio risk management. The content is not personal investment advice and is not an offer to manage money or buy or sell any financial asset."],
+    ["يوفر هذا الموقع محتوى بحثياً وتعليمياً حول النماذج الكمية، سلوك الأسواق، وإدارة مخاطر المحافظ. المحتوى لا يمثل نصيحة استثمارية شخصية، ولا يعد عرضاً لإدارة أموال أو شراء أو بيع أي أصل مالي.", "This website provides research and educational content about quantitative models, market behavior, and portfolio risk management. The content is not personal investment advice and is not an offer to manage money or buy or sell any financial asset."],
     ["2. استخدام المحتوى", "2. Use of Content"],
     ["تستخدم الأبحاث لأغراض التحليل والتعلم فقط.", "Research is used for analysis and learning only."],
     ["أي قرار تداول أو استثمار تتحمله أنت بالكامل بناءً على ظروفك وأهدافك ومخاطرك.", "You are fully responsible for any trading or investment decision based on your circumstances, objectives, and risk."],
@@ -215,7 +215,7 @@
     ["3. الحسابات والوصول", "3. Accounts and Access"],
     ["قد يتطلب الوصول إلى لوحة التحكم أو بعض الأبحاث إنشاء حساب وموافقة إدارية. نحتفظ بحق قبول أو رفض أو تعليق الوصول عند وجود إساءة استخدام، بيانات غير صحيحة، أو نشاط يخالف هذه الشروط.", "Access to the dashboard or some research may require an account and administrative approval. We reserve the right to accept, reject, or suspend access in cases of misuse, inaccurate information, or activity that violates these terms."],
     ["4. الملكية الفكرية", "4. Intellectual Property"],
-    ["جميع النصوص، التصاميم، النماذج التوضيحية، وطريقة عرض المحتوى مملوكة لأبحاث كمية أو مرخصة لها. لا يجوز نسخها أو إعادة نشرها أو بيعها دون إذن مكتوب.", "All text, designs, illustrative models, and content presentation are owned by or licensed to Quant Research. They may not be copied, republished, or sold without written permission."],
+    ["جميع النصوص، التصاميم، النماذج التوضيحية، وطريقة عرض المحتوى مملوكة لعبدالرحمن محمد لطفي أو مرخصة له. لا يجوز نسخها أو إعادة نشرها أو بيعها دون إذن مكتوب.", "All text, designs, illustrative models, and content presentation are owned by or licensed to Abdulrhman Mohamed Lotfy. They may not be copied, republished, or sold without written permission."],
     ["5. حدود المسؤولية", "5. Limitation of Liability"],
     ["نقدم المحتوى كما هو، دون ضمان دقة مطلقة أو ملاءمة لغرض استثماري محدد. لا نتحمل مسؤولية الخسائر أو الأضرار الناتجة عن استخدام الموقع أو الاعتماد على محتواه.", "Content is provided as is, without a guarantee of absolute accuracy or suitability for any specific investment purpose. We are not responsible for losses or damages resulting from site use or reliance on its content."],
     ["6. التغييرات والتواصل", "6. Changes and Contact"],
