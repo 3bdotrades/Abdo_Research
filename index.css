@@ -3814,7 +3814,7 @@ html {
 
 .site-footer .footer-top-grid {
   display: grid;
-  grid-template-columns: 1.4fr 0.8fr 0.8fr;
+  grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.65fr);
   gap: 48px;
   margin-bottom: 48px;
   padding-bottom: 40px;
@@ -3839,7 +3839,7 @@ html {
   margin-top: 8px;
 }
 
-/* Quick links column headings */
+/* Footer column headings */
 .site-footer .footer-links-col h4 {
   font-family: 'Cairo', sans-serif;
   font-size: 0.88rem;
@@ -4685,7 +4685,8 @@ html, body {
 .back-to-top {
   position: fixed;
   bottom: 28px;
-  right: 28px;
+  left: 28px;
+  right: auto;
   z-index: 900;
   width: 44px;
   height: 44px;
@@ -4703,6 +4704,12 @@ html, body {
   transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease,
               background 0.2s ease, box-shadow 0.2s ease;
 }
+
+html[dir="ltr"] .back-to-top {
+  left: 28px;
+  right: auto;
+}
+
 .back-to-top svg {
   width: 18px;
   height: 18px;
@@ -5004,12 +5011,12 @@ html, body {
   right: 32px;
   width: 56px;
   height: 56px;
-  background: #229ED9;
+  background: var(--primary);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 20px rgba(34, 158, 217, 0.4);
+  box-shadow: 0 4px 22px rgba(212, 175, 55, 0.32);
   z-index: 999;
   text-decoration: none;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -5017,7 +5024,11 @@ html, body {
 }
 .float-telegram:hover {
   transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 8px 32px rgba(34, 158, 217, 0.55);
+  box-shadow: 0 8px 34px rgba(212, 175, 55, 0.48);
+}
+.float-telegram svg,
+.float-telegram svg path {
+  fill: #050607;
 }
 .float-telegram-tip {
   position: absolute;
@@ -5044,6 +5055,7 @@ html, body {
 }
 @media (max-width: 480px) {
   .float-telegram { bottom: 20px; left: auto; right: 18px; width: 48px; height: 48px; }
+  .back-to-top { left: 18px; right: auto; }
 }
 
 /* =========================================
@@ -6146,9 +6158,7 @@ html[dir="ltr"] .faq-content-inner {
 html[dir="ltr"] .hero-method-item,
 html[dir="ltr"] .pillar-inst-card,
 html[dir="ltr"] .faq-item,
-html[dir="ltr"] .footer-bottom,
-html[dir="ltr"] .policy-nav,
-html[dir="ltr"] .post-nav {
+html[dir="ltr"] .footer-bottom {
   direction: ltr;
 }
 

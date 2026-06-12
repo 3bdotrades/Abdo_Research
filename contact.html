@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap"></noscript>
-  <link rel="stylesheet" href="index.css?v=inner-nav-contact-1">
-  <script src="i18n.js?v=inner-nav-contact-1" defer></script>
+  <link rel="stylesheet" href="index.css?v=faq-page-1">
+  <script src="i18n.js?v=faq-page-1" defer></script>
   <style>
     .policy-shell {
       position: relative;
@@ -19,22 +19,6 @@
       width: min(1040px, calc(100% - 32px));
       margin: 0 auto;
       padding: 128px 0 80px;
-    }
-
-    .policy-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 34px;
-    }
-
-    .policy-nav a {
-      color: var(--primary);
-      font-family: 'Cairo', sans-serif;
-      font-size: 0.86rem;
-      font-weight: 800;
-      text-decoration: none;
     }
 
     .policy-hero {
@@ -95,6 +79,11 @@
       text-decoration: none;
     }
 
+    .contact-link.btn-primary {
+      background: var(--primary);
+      color: #050607;
+    }
+
     .policy-note {
       color: var(--text-subtle);
       font-size: 0.86rem;
@@ -114,11 +103,6 @@
         padding-top: 104px;
       }
 
-      .policy-nav {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
       .contact-card {
         padding: 24px 20px;
       }
@@ -136,11 +120,6 @@
   </header>
 
   <main class="policy-shell">
-    <nav class="policy-nav" aria-label="مسار الصفحة">
-      <a href="index.html">العودة للرئيسية</a>
-      <a href="terms.html">شروط الخدمة</a>
-    </nav>
-
     <section class="policy-hero">
       <span class="policy-eyebrow">Contact Us</span>
       <h1 class="policy-title">تواصل معنا</h1>
@@ -157,7 +136,7 @@
       <article class="contact-card glass-panel">
         <h2>Telegram</h2>
         <p>للتواصل السريع بخصوص الحساب، الوصول، أو الأسئلة العامة حول الاشتراك والمواد البحثية.</p>
-        <a class="btn-secondary contact-link" href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer">افتح Telegram</a>
+        <a class="btn-primary contact-link" href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer">افتح Telegram</a>
       </article>
     </section>
 

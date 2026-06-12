@@ -17,6 +17,7 @@
     ["تواصل معنا | أبحاث كمية", "Contact Us | Quant Research"],
     ["شروط الخدمة | أبحاث كمية", "Terms of Service | Quant Research"],
     ["سياسة الخصوصية | أبحاث كمية", "Privacy Policy | Quant Research"],
+    ["الأسئلة الشائعة | أبحاث كمية", "FAQ | Quant Research"],
     ["منشور بحثي | عبدالرحمن محمد لطفي", "Research Post | Abdulrhman Mohamed Lotfy"],
 
     ["أبحاث", "Research"],
@@ -38,7 +39,6 @@
     ["لوحة التحكم", "Dashboard"],
     ["شروط الخدمة", "Terms of Service"],
     ["سياسة الخصوصية", "Privacy Policy"],
-    ["روابط سريعة", "Quick Links"],
     ["إطار البحث", "Research Framework"],
     ["قناة يوتيوب", "YouTube Channel"],
     ["قناة YouTube", "YouTube Channel"],
