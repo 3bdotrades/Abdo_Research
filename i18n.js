@@ -18,6 +18,8 @@
     ["شروط الخدمة | عبدالرحمن محمد لطفي", "Terms of Service | Abdulrhman Mohamed Lotfy"],
     ["سياسة الخصوصية | عبدالرحمن محمد لطفي", "Privacy Policy | Abdulrhman Mohamed Lotfy"],
     ["الأسئلة الشائعة | أبحاث كمية", "FAQ | Quant Research"],
+    ["من أنا | عبدالرحمن محمد لطفي", "About | Abdulrhman Mohamed Lotfy"],
+    ["نبذة عن عبدالرحمن محمد لطفي ومنهجيته في بناء أبحاث وأدوات تداول قابلة للمراجعة عبر الأسواق المالية.", "About Abdulrhman Mohamed Lotfy and his approach to building reviewable research and trading tools across financial markets."],
     ["منشور بحثي | عبدالرحمن محمد لطفي", "Research Post | Abdulrhman Mohamed Lotfy"],
 
     ["أبحاث", "Research"],
@@ -33,7 +35,7 @@
     ["إنشاء حساب", "Create Account"],
     ["استراتيجيتنا", "Our Approach"],
     ["تواصل معنا", "Contact Us"],
-    ["تواصل عبر تيليغرام", "Contact on Telegram"],
+    ["تواصل عبر تيليجرام", "Contact on Telegram"],
     ["العودة للرئيسية", "Back to Home"],
     ["الرئيسية", "Home"],
     ["لوحة التحكم", "Dashboard"],
@@ -209,7 +211,7 @@
     ["للاستفسارات المهنية أو طلب الوصول إلى الأبحاث، اختر القناة المناسبة. المكالمة التعريفية مخصصة لفهم احتياجك البحثي ونطاق الأسواق محل الاهتمام، وليست جلسة توصيات أو إدارة أموال.", "For professional inquiries or research access requests, choose the right channel. The introductory call is for understanding your research need and markets of interest; it is not a recommendations or money-management session."],
     ["مكالمة تعريفية قصيرة لمناقشة نطاق الأبحاث، أسلوب إدارة المخاطر، وطريقة استخدام لوحة الأبحاث.", "A short introductory call to discuss research scope, risk management style, and how to use the research dashboard."],
     ["للتواصل السريع بخصوص الحساب، الوصول، أو الأسئلة العامة حول الاشتراك والمواد البحثية.", "For quick contact about accounts, access, subscriptions, or research material."],
-    ["افتح Telegram", "Open Telegram"],
+    ["افتح تيليجرام", "Open Telegram"],
     ["تابع الشروحات العامة والتحديثات التعليمية المرتبطة بالمنهجية الكمية والأسواق.", "Follow general explanations and educational updates related to the quantitative methodology and markets."],
     ["جميع النقاشات والمحتويات لأغراض بحثية وتعليمية فقط. لا يتم تقديم توصيات شخصية أو ضمان عائد أو إدارة محافظ من خلال هذه الصفحة.", "All discussions and content are for research and education only. No personal recommendations, return guarantees, or portfolio management are provided through this page."],
 

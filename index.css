@@ -1715,16 +1715,79 @@ footer {
 /* ========================================= */
 .header-auth-group {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0 0 auto;
+  gap: 8px;
+  min-width: max-content;
+}
+
+.header-auth-group .auth-btn {
+  min-height: 36px;
+  padding: 8px 14px !important;
+  font-size: 0.78rem !important;
+}
+
+.header-social-icons {
+  display: none !important;
+}
+
+.header-brand-slot {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  min-width: 190px;
+}
+
+.header-name-link {
+  color: var(--text-main);
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.header-name-link:hover {
+  color: var(--primary);
 }
 
 .header-nav-pill {
+  display: none;
+  align-items: center;
+  flex: 1 1 auto;
+  gap: 4px;
+  justify-content: flex-start;
+  margin: 0 12px;
+  min-width: 0;
+  max-width: none;
+  overflow-x: auto;
+  padding: 5px;
+  scrollbar-width: none;
+  white-space: nowrap;
+}
+
+.header-nav-pill::-webkit-scrollbar {
   display: none;
 }
 @media (min-width: 900px) {
   .header-nav-pill {
     display: flex;
   }
+}
+.nav-pill-link {
+  border-radius: 999px;
+  color: var(--text-muted);
+  flex: 0 0 auto;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1;
+  padding: 9px 9px;
+  text-decoration: none;
 }
 .nav-pill-link:hover {
   background: rgba(255, 255, 255, 0.05);
@@ -4121,6 +4184,7 @@ html, body {
 
   /* Hide login + signup buttons on mobile */
   .nav-login-link,
+  #nav-login-btn,
   #nav-signup-btn {
     display: none !important;
   }
@@ -4128,6 +4192,17 @@ html, body {
   /* Keep only: CTA button (احجز مكالمة) on left + menu toggle on right */
   .nav-container {
     padding: 12px 16px;
+  }
+
+  .header-brand-slot {
+    display: none;
+  }
+
+  .header-name-link {
+    font-size: 0.82rem;
+    max-width: 42vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* The احجز مكالمة flex-1 left side — keep visible */
@@ -5992,17 +6067,25 @@ header {
 
   .hero-section-inst {
     padding: 96px 18px 52px !important;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   .hero-inst-grid {
     display: flex;
     flex-direction: column;
     gap: 28px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
   }
 
   .hero-inst-left {
     order: 1;
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
     justify-self: stretch;
   }
 
@@ -6020,15 +6103,19 @@ header {
   .hero-inst-headline {
     width: 100%;
     max-width: 100%;
+    min-width: 0;
     font-size: 34px;
     line-height: 1.22;
     text-align: right;
+    overflow-wrap: anywhere;
   }
 
   .hero-inst-sub {
     max-width: 100%;
+    min-width: 0;
     font-size: 0.98rem;
     line-height: 1.85;
+    overflow-wrap: break-word;
   }
 
   .hero-eyebrow {
@@ -6039,11 +6126,15 @@ header {
 
   .hero-markets-strip {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
     border-radius: 16px;
+    overflow: hidden;
   }
 
   .hero-btns {
     width: 100%;
+    max-width: 100%;
     align-items: stretch;
   }
 
