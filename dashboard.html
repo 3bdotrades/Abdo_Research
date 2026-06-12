@@ -1826,7 +1826,7 @@
             </div>
           </div>
 
-          <p class="db-egx-live-note" id="egx-live-note">هذه اللقطة للمتابعة البحثية والتشغيلية فقط وليست توصية استثمارية.</p>
+          <p class="db-egx-live-note" id="egx-live-note">هذه اللقطة للمتابعة البحثية والتشغيلية فقط وليست توصية تداول أو استثمار.</p>
         </div>
       </section>
 
@@ -2050,7 +2050,7 @@
 
         <div class="db-coming-soon-body">
           <h3>تتبع محفظتك وأداء صفقاتك تلقائياً</h3>
-          <p>قريباً ستتمكن من ربط محفظتك الاستثمارية ومتابعة أداء كل صفقة مع النماذج الكمية — P&amp;L في الوقت الفعلي، نسب الفوز، والعائد الشهري كل ذلك في مكان واحد.</p>
+          <p>قريباً ستتمكن من ربط دفتر صفقاتك أو محفظتك ومتابعة أداء كل صفقة مع النماذج الكمية — P&amp;L في الوقت الفعلي، نسب الفوز، والعائد الشهري كل ذلك في مكان واحد.</p>
         </div>
 
         <a href="https://calendly.com/abdoresearch/30min" target="_blank" rel="noopener noreferrer" class="db-lock-cta">
@@ -3643,7 +3643,7 @@
           setText('egx-daily-scan', (live.daily_scan_targets || []).join(', ') || 'لا يوجد');
           setText('egx-rebalance', (live.rebalance_targets || []).join(', ') || 'لا يوجد');
           setText('egx-max-positions', strategy.max_positions || '—');
-          setText('egx-live-note', data.note || 'هذه اللقطة للمتابعة البحثية والتشغيلية فقط وليست توصية استثمارية.');
+          setText('egx-live-note', data.note || 'هذه اللقطة للمتابعة البحثية والتشغيلية فقط وليست توصية تداول أو استثمار.');
           renderChips('egx-current-holdings', live.current_holdings, 'لا توجد مراكز حالية');
         } catch (error) {
           setEgxStatus('UNAVAILABLE');
