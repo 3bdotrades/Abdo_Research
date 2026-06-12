@@ -5532,9 +5532,11 @@ header {
 
 .hero-inst-headline {
   max-width: 760px;
-  font-size: clamp(3rem, 5.25vw, 5.15rem);
-  line-height: 1.05;
+  font-size: 56px;
+  line-height: 1.12;
   margin-bottom: 26px;
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 .hero-inst-sub {
@@ -5850,6 +5852,11 @@ header {
     max-width: 100%;
   }
 
+  .hero-inst-headline {
+    font-size: 46px;
+    line-height: 1.18;
+  }
+
   .engine-editorial-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -5891,8 +5898,8 @@ header {
   .hero-inst-headline {
     width: 100%;
     max-width: 100%;
-    font-size: clamp(2.1rem, 10.5vw, 2.8rem);
-    line-height: 1.14;
+    font-size: 34px;
+    line-height: 1.22;
     text-align: right;
   }
 
@@ -5971,5 +5978,12 @@ header {
   .engine-editorial-card {
     min-height: auto;
     padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-inst-headline {
+    font-size: 30px;
+    line-height: 1.24;
   }
 }
