@@ -6,16 +6,64 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 
 const repoRoot = path.resolve(__dirname, '..');
-const egxRootCandidates = [
-  process.env.EGX_ROOT,
-  'D:\\Orderflow\\Projects\\ml\\markets\\egx',
-  'D:\\stable\\egx'
+const mlRootCandidates = [
+  process.env.ML_ROOT,
+  'D:\\Orderflow\\Projects\\ml'
 ].filter(Boolean);
-const egxRoot = path.resolve(egxRootCandidates.find((candidate) => fs.existsSync(candidate)) || egxRootCandidates[0]);
+const mlRoot = path.resolve(mlRootCandidates.find((candidate) => fs.existsSync(candidate)) || mlRootCandidates[0]);
+const marketsRoot = path.join(mlRoot, 'markets');
 const outPath = path.join(repoRoot, 'egx-live.json');
 
-function readJson(relativePath, fallback) {
-  const filePath = path.join(egxRoot, relativePath);
+const marketConfigs = [
+  {
+    slug: 'egx',
+    name: 'مصر EGX',
+    title: 'منحنى رأس المال التراكمي — مصر EGX',
+    label: 'المحفظة / النموذج الكمي',
+    benchmarkLabel: 'EGX30 Official'
+  },
+  {
+    slug: 'saudi',
+    name: 'تداول السعودية',
+    title: 'منحنى رأس المال التراكمي — تداول السعودية',
+    label: 'المحفظة / النموذج الكمي',
+    benchmarkLabel: 'Saudi Index30 Official'
+  },
+  {
+    slug: 'dubai',
+    name: 'سوق دبي المالي',
+    title: 'منحنى رأس المال التراكمي — سوق دبي المالي',
+    label: 'المحفظة / النموذج الكمي',
+    benchmarkLabel: 'Dubai Index30 Official'
+  },
+  {
+    slug: 'abu-dhabi',
+    name: 'سوق أبوظبي',
+    title: 'منحنى رأس المال التراكمي — سوق أبوظبي',
+    label: 'المحفظة / النموذج الكمي',
+    benchmarkLabel: 'Abu Dhabi Index30 Official'
+  },
+  {
+    slug: 'qatar',
+    name: 'بورصة قطر',
+    title: 'منحنى رأس المال التراكمي — بورصة قطر',
+    label: 'المحفظة / النموذج الكمي',
+    benchmarkLabel: 'QSE Index30 Official'
+  },
+  {
+    slug: 'kuwait',
+    name: 'بورصة الكويت',
+    title: 'منحنى رأس المال التراكمي — بورصة الكويت',
+    label: 'المحفظة / النموذج الكمي',
+    benchmarkLabel: 'Kuwait Index30 Official'
+  }
+];
+
+const primaryMarketSlug = 'egx';
+const primaryMarketRoot = path.join(marketsRoot, primaryMarketSlug);
+
+function readJsonFromRoot(root, relativePath, fallback) {
+  const filePath = path.join(root, relativePath);
   try {
     return JSON.parse(fs.readFileSync(filePath, 'utf8'));
   } catch (error) {
@@ -36,9 +84,10 @@ function compactList(value) {
     : [];
 }
 
-function readEquityChart() {
+function readMarketCurves() {
   const pythonCode = String.raw`
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -47,35 +96,48 @@ try:
 except Exception:
     pass
 
-root = Path(sys.argv[1])
+import pandas as pd
 
-def thin(series, limit=1500):
-    series = series.dropna()
+root = Path(sys.argv[1])
+specs = json.loads(sys.argv[2])
+
+def to_points(series, limit=1800):
+    series = pd.to_numeric(series, errors="coerce").dropna().sort_index()
     if series.empty:
         return []
-    step = max(1, len(series) // limit)
+    step = max(1, math.ceil(len(series) / limit))
     thinned = series.iloc[::step]
     if thinned.index[-1] != series.index[-1]:
-        thinned = thinned._append(series.iloc[[-1]])
+        thinned = pd.concat([thinned, series.iloc[[-1]]])
     return [{"d": str(idx.date()), "v": round(float(value), 6)} for idx, value in thinned.items()]
 
-def read_nav():
-    import pandas as pd
-    path = root / "logs" / "backtest_equity.parquet"
+def read_nav(market_root):
+    path = market_root / "logs" / "backtest_equity.parquet"
     if not path.exists():
-        return []
+        return [], {}
     df = pd.read_parquet(path)
     if "date" in df.columns:
         df = df.set_index(pd.to_datetime(df["date"]))
     else:
         df.index = pd.to_datetime(df.index)
-    return thin(df["nav"])
+    df = df.sort_index()
+    nav = pd.to_numeric(df["nav"], errors="coerce").dropna()
+    if nav.empty:
+        return [], {}
+    first = float(nav.iloc[0]) or 1.0
+    last = float(nav.iloc[-1])
+    return to_points(nav), {
+        "start": str(nav.index[0].date()),
+        "end": str(nav.index[-1].date()),
+        "point_count": int(len(nav)),
+        "latest_nav": round(last, 6),
+        "total_return": round((last / first) - 1.0, 6),
+    }
 
-def read_benchmark(equity_points):
-    import pandas as pd
+def read_benchmark(market_root, equity_points):
     if not equity_points:
         return []
-    path = root / "data" / "processed" / "benchmarks" / "index30_official.parquet"
+    path = market_root / "data" / "processed" / "benchmarks" / "index30_official.parquet"
     if not path.exists():
         return []
     df = pd.read_parquet(path).sort_values("date")
@@ -89,50 +151,94 @@ def read_benchmark(equity_points):
     eq = eq[(eq.index >= start) & (eq.index <= end)]
     if not eq.empty and eq.index[-1] < end:
         eq = pd.concat([eq, pd.Series([eq.iloc[-1]], index=[end])])
-    return thin(eq)
+    return to_points(eq)
 
-equity = read_nav()
-payload = {
-    "title": "منحنى رأس المال التراكمي — مصر EGX",
-    "label": "المحفظة / النموذج الكمي",
-    "benchmark_label": "EGX30 Official",
-    "equity_points": equity,
-    "benchmark_points": read_benchmark(equity),
-}
+payload = {}
+for spec in specs:
+    slug = spec["slug"]
+    market_root = root / "markets" / slug
+    equity, meta = read_nav(market_root)
+    if len(equity) < 2:
+        continue
+    payload[slug] = {
+        **meta,
+        "equity_points": equity,
+        "benchmark_points": read_benchmark(market_root, equity),
+    }
+
 print(json.dumps(payload, ensure_ascii=False))
 `;
 
   try {
-    const result = spawnSync(process.env.PYTHON || 'python', ['-c', pythonCode, egxRoot], {
-      encoding: 'utf8',
-      env: {
-        ...process.env,
-        PYTHONIOENCODING: 'utf-8',
-        PYTHONUTF8: '1'
-      },
-      maxBuffer: 1024 * 1024 * 8
-    });
+    const result = spawnSync(
+      process.env.PYTHON || 'python',
+      ['-c', pythonCode, mlRoot, JSON.stringify(marketConfigs.map(({ slug }) => ({ slug })))],
+      {
+        encoding: 'utf8',
+        env: {
+          ...process.env,
+          PYTHONIOENCODING: 'utf-8',
+          PYTHONUTF8: '1'
+        },
+        maxBuffer: 1024 * 1024 * 32
+      }
+    );
     if (result.status !== 0 || !result.stdout.trim()) {
       if (result.stderr) console.warn(result.stderr.trim());
-      return null;
+      return {};
     }
-    const chart = JSON.parse(result.stdout);
-    if (!Array.isArray(chart.equity_points) || chart.equity_points.length < 2) return null;
-    return chart;
+    return JSON.parse(result.stdout);
   } catch (error) {
-    console.warn(`Could not read equity chart data: ${error.message}`);
-    return null;
+    console.warn(`Could not read ML market curves: ${error.message}`);
+    return {};
   }
 }
 
-const feed = readJson('data\\processed\\data_feed_status.json', {});
-const picks = readJson('logs\\tomorrow_picks.json', {});
-const backtest = readJson('logs\\backtest_full.json', {});
-const dailyScan = readJson('logs\\backtest_daily_scan.json', {});
-const chart = readEquityChart();
-const sourceLabel = egxRoot.toLowerCase().includes('projects\\ml')
-  ? 'egx-ml-dashboard-snapshot'
-  : 'egx-stable-snapshot';
+function buildChart(config, rawChart) {
+  if (!rawChart || !Array.isArray(rawChart.equity_points) || rawChart.equity_points.length < 2) {
+    return null;
+  }
+  const backtest = readJsonFromRoot(path.join(marketsRoot, config.slug), 'logs\\backtest_full.json', {});
+  const portfolio = backtest.portfolio && typeof backtest.portfolio === 'object'
+    ? backtest.portfolio
+    : {};
+  return {
+    slug: config.slug,
+    name: config.name,
+    title: config.title,
+    label: config.label,
+    benchmark_label: config.benchmarkLabel,
+    start: rawChart.start || null,
+    end: rawChart.end || backtest.end || null,
+    point_count: Number(rawChart.point_count || rawChart.equity_points.length),
+    equity_points: rawChart.equity_points,
+    benchmark_points: rawChart.benchmark_points || [],
+    metrics: {
+      total_return: round(rawChart.total_return),
+      cagr: round(portfolio.cagr),
+      sharpe: round(portfolio.sharpe, 3),
+      sortino: round(portfolio.sortino, 3),
+      max_dd: round(portfolio.max_dd),
+      calmar: round(portfolio.calmar, 3),
+      vol: round(portfolio.vol),
+      n_days: Number(backtest.n_days || rawChart.point_count || 0),
+      trade_count: Number(backtest.fusion_trade_count || 0)
+    }
+  };
+}
+
+const rawCharts = readMarketCurves();
+const charts = Object.fromEntries(
+  marketConfigs
+    .map((config) => [config.slug, buildChart(config, rawCharts[config.slug])])
+    .filter(([, chart]) => chart)
+);
+
+const feed = readJsonFromRoot(primaryMarketRoot, 'data\\processed\\data_feed_status.json', {});
+const picks = readJsonFromRoot(primaryMarketRoot, 'logs\\tomorrow_picks.json', {});
+const backtest = readJsonFromRoot(primaryMarketRoot, 'logs\\backtest_full.json', {});
+const dailyScan = readJsonFromRoot(primaryMarketRoot, 'logs\\backtest_daily_scan.json', {});
+const chart = charts[primaryMarketSlug] || Object.values(charts)[0] || null;
 
 const portfolio = backtest.portfolio && typeof backtest.portfolio === 'object'
   ? backtest.portfolio
@@ -140,15 +246,24 @@ const portfolio = backtest.portfolio && typeof backtest.portfolio === 'object'
 
 const snapshot = {
   generated_at: new Date().toISOString(),
-  source: sourceLabel,
+  source: 'ml-market-dashboard-snapshot',
   source_files: [
-    'data/processed/data_feed_status.json',
-    'logs/tomorrow_picks.json',
-    'logs/backtest_full.json',
-    'logs/backtest_daily_scan.json',
-    'logs/backtest_equity.parquet',
-    'data/processed/benchmarks/index30_official.parquet'
+    'markets/*/logs/backtest_equity.parquet',
+    'markets/*/logs/backtest_full.json',
+    'markets/*/data/processed/benchmarks/index30_official.parquet',
+    'markets/egx/data/processed/data_feed_status.json',
+    'markets/egx/logs/tomorrow_picks.json',
+    'markets/egx/logs/backtest_daily_scan.json'
   ],
+  available_markets: marketConfigs
+    .filter((config) => charts[config.slug])
+    .map((config) => ({
+      slug: config.slug,
+      name: config.name,
+      point_count: charts[config.slug].point_count,
+      start: charts[config.slug].start,
+      end: charts[config.slug].end
+    })),
   feed: {
     status: feed.status || 'UNKNOWN',
     latest_session: feed.latest_session || null,
@@ -198,8 +313,9 @@ const snapshot = {
     stale_count: compactList(feed.stale_vs_latest_symbols).length
   },
   chart,
-  note: 'EGX operational snapshot for research monitoring only. Not investment advice.'
+  charts,
+  note: 'ML market snapshots for research monitoring only. Curves are read from local ML outputs and are not investment advice.'
 };
 
 fs.writeFileSync(outPath, `${JSON.stringify(snapshot, null, 2)}\n`, 'utf8');
-console.log(`EGX live snapshot written: ${outPath}`);
+console.log(`ML market snapshot written: ${outPath}`);

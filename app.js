@@ -9,10 +9,11 @@
 document.addEventListener('DOMContentLoaded', () => {
   // --- Portal Market Selector Configuration & State ---
   let activeMarket = 'saudi'; // Default localized market on entry
-  let performanceMarket = 'egypt'; // Default chart source mirrors the local EGX dashboard
+  let performanceMarket = 'egx'; // Default chart source mirrors the local ML dashboard
   let currentCurrency = 'local'; // 'local' or 'usd' for Backtester
   let currentPeriod = '1Y'; // Default chart period
   let liveEquityChart = null;
+  let liveEquityCharts = {};
 
   const marketDetails = {
     saudi: {
@@ -228,61 +229,35 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const performanceChartDetails = {
-    egypt: {
-      name: 'مصر',
+    egx: {
+      name: 'مصر EGX',
       indexName: 'EGX30 Official',
-      chartTitle: 'منحنى رأس المال التراكمي — مصر EGX',
-      return: 485.6,
-      indexReturn: 92.6
+      chartTitle: 'منحنى رأس المال التراكمي — مصر EGX'
     },
-    all: {
-      name: 'جميع الأسواق',
-      indexName: 'مؤشر مرجعي مركب',
-      chartTitle: 'منحنى رأس المال التراكمي — جميع الأسواق',
-      return: 284.6,
-      indexReturn: 30.2
+    saudi: {
+      name: 'تداول السعودية',
+      indexName: 'Saudi Index30 Official',
+      chartTitle: 'منحنى رأس المال التراكمي — تداول السعودية'
     },
-    tadawul: {
-      name: 'تداول',
-      indexName: 'مؤشر تاسي (TASI)',
-      chartTitle: 'منحنى رأس المال التراكمي — تداول (السعودية)',
-      return: 312.4,
-      indexReturn: 42.5
+    dubai: {
+      name: 'سوق دبي المالي',
+      indexName: 'Dubai Index30 Official',
+      chartTitle: 'منحنى رأس المال التراكمي — سوق دبي المالي'
     },
-    dfm: {
-      name: 'DFM',
-      indexName: 'مؤشر سوق دبي',
-      chartTitle: 'منحنى رأس المال التراكمي — DFM (الإمارات)',
-      return: 198.7,
-      indexReturn: 34.8
+    'abu-dhabi': {
+      name: 'سوق أبوظبي',
+      indexName: 'Abu Dhabi Index30 Official',
+      chartTitle: 'منحنى رأس المال التراكمي — سوق أبوظبي'
     },
-    adx: {
-      name: 'ADX',
-      indexName: 'مؤشر سوق أبوظبي',
-      chartTitle: 'منحنى رأس المال التراكمي — ADX (أبوظبي)',
-      return: 245.3,
-      indexReturn: 37.4
-    },
-    qse: {
-      name: 'QSE',
-      indexName: 'مؤشر بورصة قطر',
-      chartTitle: 'منحنى رأس المال التراكمي — QSE (قطر)',
-      return: 267.9,
-      indexReturn: 25.4
+    qatar: {
+      name: 'بورصة قطر',
+      indexName: 'QSE Index30 Official',
+      chartTitle: 'منحنى رأس المال التراكمي — بورصة قطر'
     },
     kuwait: {
       name: 'بورصة الكويت',
-      indexName: 'مؤشر السوق الأول',
-      chartTitle: 'منحنى رأس المال التراكمي — بورصة الكويت',
-      return: 184.2,
-      indexReturn: 18.9
-    },
-    forex: {
-      name: 'فوركس',
-      indexName: 'مؤشر مرجعي للعملات',
-      chartTitle: 'منحنى رأس المال التراكمي — فوركس',
-      return: 156.4,
-      indexReturn: 22.2
+      indexName: 'Kuwait Index30 Official',
+      chartTitle: 'منحنى رأس المال التراكمي — بورصة الكويت'
     }
   };
 
@@ -389,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const tooltip = document.getElementById('chart-tooltip');
 
   function currentPerformanceDetails() {
-    return performanceChartDetails[performanceMarket] || performanceChartDetails.all;
+    return performanceChartDetails[performanceMarket] || performanceChartDetails.egx;
   }
 
   function createSvgNode(name, attrs) {
@@ -438,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chartLegendModel = document.getElementById('chart-legend-model');
     const chartLegendIndex = document.getElementById('chart-legend-index');
     if (chartTitle) chartTitle.textContent = liveMode && liveEquityChart?.title ? liveEquityChart.title : details.chartTitle;
-    if (chartLegendModel) chartLegendModel.textContent = liveMode ? 'المحفظة / النموذج الكمي' : 'النموذج الكمي';
+    if (chartLegendModel) chartLegendModel.textContent = liveMode ? (liveEquityChart?.label || 'المحفظة / النموذج الكمي') : 'النموذج الكمي';
     if (chartLegendIndex) chartLegendIndex.textContent = liveMode ? (liveEquityChart?.benchmark_label || 'EGX30 Official') : details.indexName;
   }
 
@@ -685,10 +660,30 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   }
 
+  function renderUnavailableChart() {
+    if (!svgElement) return;
+    svgElement.innerHTML = '';
+    const details = currentPerformanceDetails();
+    updateChartLabels(details, false);
+    const width = svgElement.clientWidth || 800;
+    const height = svgElement.clientHeight || 350;
+    const text = createSvgNode('text', {
+      x: width / 2,
+      y: height / 2,
+      fill: 'var(--text-muted)',
+      'font-size': '14px',
+      'font-family': 'Cairo',
+      'text-anchor': 'middle'
+    });
+    text.textContent = 'لا يوجد منحنى حقيقي منشور لهذا السوق من ملفات ML.';
+    svgElement.appendChild(text);
+  }
+
   function renderChart(period) {
     if (!svgElement) return;
-    if (performanceMarket === 'egypt' && renderLiveEquityChart(period)) return;
-    renderSyntheticChart(period);
+    liveEquityChart = liveEquityCharts[performanceMarket] || null;
+    if (renderLiveEquityChart(period)) return;
+    renderUnavailableChart();
   }
 
   async function loadLiveEquityChart() {
@@ -696,9 +691,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const response = await fetch('egx-live.json?ts=' + Date.now(), { cache: 'no-store' });
       if (!response.ok) return;
       const data = await response.json();
-      if (data && data.chart && Array.isArray(data.chart.equity_points) && data.chart.equity_points.length > 1) {
-        liveEquityChart = data.chart;
-        if (performanceMarket === 'egypt') renderChart(currentPeriod);
+      const charts = data && data.charts && typeof data.charts === 'object'
+        ? data.charts
+        : (data && data.chart ? { egx: data.chart } : {});
+      liveEquityCharts = charts;
+      if (!liveEquityCharts[performanceMarket] && liveEquityCharts.egx) {
+        performanceMarket = 'egx';
+      }
+      const activePerformanceTab = document.querySelector(`.market-tab[data-market="${performanceMarket}"]`);
+      if (activePerformanceTab) {
+        applyPerformanceMarket(performanceMarket, activePerformanceTab);
+      } else {
+        renderChart(currentPeriod);
       }
     } catch (error) {
       console.warn('Live equity chart load failed:', error);
@@ -1730,68 +1734,35 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================
   // 🎯 Market Selection Functionality
   // =========================================
-  const marketData = {
-    egypt: {
-      return: 485.6,
-      winrate: 66.4,
-      sharpe: 1.95,
-      drawdown: 11.2,
-      title: 'منحنى رأس المال التراكمي — مصر EGX'
-    },
-    all: { 
-      return: 284.6, 
-      winrate: 71.2, 
-      sharpe: 2.28, 
-      drawdown: 7.2,
-      title: 'منحنى رأس المال التراكمي — جميع الأسواق'
-    },
-    tadawul: { 
-      return: 312.4, 
-      winrate: 73.8, 
-      sharpe: 2.51, 
-      drawdown: 6.2,
-      title: 'منحنى رأس المال التراكمي — تداول (السعودية)'
-    },
-    dfm: { 
-      return: 198.7, 
-      winrate: 68.5, 
-      sharpe: 1.94, 
-      drawdown: 9.1,
-      title: 'منحنى رأس المال التراكمي — DFM (الإمارات)'
-    },
-    adx: { 
-      return: 245.3, 
-      winrate: 70.2, 
-      sharpe: 2.15, 
-      drawdown: 7.8,
-      title: 'منحنى رأس المال التراكمي — ADX (أبوظبي)'
-    },
-    qse: { 
-      return: 267.9, 
-      winrate: 72.1, 
-      sharpe: 2.38, 
-      drawdown: 6.9,
-      title: 'منحنى رأس المال التراكمي — QSE (قطر)'
-    },
-    kuwait: {
-      return: 184.2,
-      winrate: 71.8,
-      sharpe: 2.24,
-      drawdown: 4.9,
-      title: 'منحنى رأس المال التراكمي — بورصة الكويت'
-    },
-    forex: { 
-      return: 156.4, 
-      winrate: 65.3, 
-      sharpe: 1.72, 
-      drawdown: 11.5,
-      title: 'منحنى رأس المال التراكمي — فوركس'
-    }
-  };
+  function formatMetricPct(value, signed = true) {
+    const number = Number(value);
+    if (!Number.isFinite(number)) return '—';
+    const pct = number * 100;
+    return (signed && pct > 0 ? '+' : '') + pct.toFixed(1) + '%';
+  }
+
+  function formatMetricNumber(value, decimals = 2) {
+    const number = Number(value);
+    if (!Number.isFinite(number)) return '—';
+    return number.toFixed(decimals);
+  }
+
+  function getPerformanceMarketData(selectedMarket) {
+    const details = performanceChartDetails[selectedMarket];
+    if (!details) return null;
+    const chart = liveEquityCharts[selectedMarket] || {};
+    const metrics = chart.metrics || {};
+    return {
+      title: chart.title || details.chartTitle,
+      totalReturn: metrics.total_return,
+      sharpe: metrics.sharpe,
+      drawdown: metrics.max_dd
+    };
+  }
 
   const marketTabs = document.querySelectorAll('.market-tab');
   function applyPerformanceMarket(selectedMarket, activeTab) {
-    const data = marketData[selectedMarket];
+    const data = getPerformanceMarketData(selectedMarket);
     if (!data) return;
     performanceMarket = selectedMarket;
 
@@ -1814,20 +1785,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const sharpeEl = document.getElementById('perf-quick-sharpe');
     const drawdownEl = document.getElementById('perf-quick-drawdown');
     if (returnEl) {
-      returnEl.textContent = '+' + data.return.toFixed(1) + '%';
-      returnEl.dataset.counter = data.return;
+      returnEl.textContent = formatMetricPct(data.totalReturn);
+      returnEl.dataset.counter = Number(data.totalReturn || 0) * 100;
     }
     if (winrateEl) {
-      winrateEl.textContent = data.winrate.toFixed(1) + '%';
-      winrateEl.dataset.counter = data.winrate;
+      winrateEl.textContent = '—';
+      winrateEl.dataset.counter = 0;
     }
     if (sharpeEl) {
-      sharpeEl.textContent = data.sharpe.toFixed(2);
-      sharpeEl.dataset.counter = data.sharpe;
+      sharpeEl.textContent = formatMetricNumber(data.sharpe, 2);
+      sharpeEl.dataset.counter = Number(data.sharpe || 0);
     }
     if (drawdownEl) {
-      drawdownEl.textContent = '-' + data.drawdown.toFixed(1) + '%';
-      drawdownEl.dataset.counter = data.drawdown;
+      drawdownEl.textContent = formatMetricPct(data.drawdown, false);
+      drawdownEl.dataset.counter = Math.abs(Number(data.drawdown || 0) * 100);
     }
 
     const chartTitle = document.getElementById('chart-main-title');
