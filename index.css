@@ -1724,35 +1724,33 @@ footer {
 
 .header-auth-group .auth-btn {
   min-height: 36px;
-  padding: 8px 14px !important;
-  font-size: 0.78rem !important;
+  padding: 8px 12px !important;
+  font-size: 0.72rem !important;
+}
+
+#nav-signup-btn {
+  display: none !important;
 }
 
 .header-social-icons {
   display: none !important;
 }
 
-.header-brand-slot {
+.header-cta-slot {
   align-items: center;
   display: flex;
   flex: 0 0 auto;
-  min-width: 190px;
+  min-width: 170px;
 }
 
-.header-name-link {
-  color: var(--text-main);
-  font-family: 'Cairo', sans-serif;
-  font-size: 0.9rem;
+.header-call-btn {
+  border-radius: 999px;
+  font-size: 0.78rem;
   font-weight: 900;
-  letter-spacing: 0;
-  line-height: 1.2;
+  min-height: 38px;
+  padding: 9px 16px;
   text-decoration: none;
-  transition: color 0.2s ease;
   white-space: nowrap;
-}
-
-.header-name-link:hover {
-  color: var(--primary);
 }
 
 .header-nav-pill {
@@ -1761,7 +1759,7 @@ footer {
   flex: 1 1 auto;
   gap: 4px;
   justify-content: flex-start;
-  margin: 0 12px;
+  margin: 0 8px;
   min-width: 0;
   max-width: none;
   overflow-x: auto;
@@ -1783,15 +1781,20 @@ footer {
   color: var(--text-muted);
   flex: 0 0 auto;
   font-family: 'Cairo', sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.62rem;
   font-weight: 800;
   line-height: 1;
-  padding: 9px 9px;
+  padding: 8px 7px;
   text-decoration: none;
 }
 .nav-pill-link:hover {
   background: rgba(255, 255, 255, 0.05);
   color: #ffffff !important;
+}
+
+html[dir="rtl"] .nav-pill-link {
+  font-size: 0.72rem;
+  padding: 8px 10px;
 }
 .nav-login-link:hover {
   color: #ffffff !important;
@@ -4194,15 +4197,8 @@ html, body {
     padding: 12px 16px;
   }
 
-  .header-brand-slot {
+  .header-cta-slot {
     display: none;
-  }
-
-  .header-name-link {
-    font-size: 0.82rem;
-    max-width: 42vw;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   /* The احجز مكالمة flex-1 left side — keep visible */
@@ -5426,7 +5422,7 @@ html[dir="ltr"] .back-to-top {
 }
 
 /* =====================================================================
-   ===============  REDESIGN LAYER · 2026 (عبدالرحمن محمد لطفي)  =============
+   ===============  REDESIGN LAYER · 2026 (عبدالرحمن محمد)  =============
    Premium dark + champagne-gold elevation. Appended last so it wins.
    Keeps the existing structure; refreshes the visual language.
    ===================================================================== */

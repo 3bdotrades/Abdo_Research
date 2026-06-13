@@ -1072,7 +1072,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => setFaqFilter(btn.dataset.faqFilter));
   });
 
-  // --- YouTube Learning & Manual Analysis Video Library ---
+  // --- YouTube Video Library ---
   function escapeHtml(value) {
     return String(value || '').replace(/[&<>"']/g, function (char) {
       return {
@@ -1108,13 +1108,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function normalizeSection(row) {
     const id = String(row.id || row.slug || '').trim();
+    const slug = row.slug || id;
     return {
       id,
-      slug: row.slug || id,
-      label: row.label || row.name || 'قسم فيديو',
+      slug,
+      label: row.label || row.name || uiText('قسم فيديو', 'Video Section'),
       marketScoped: Boolean(row.market_scoped || row.marketScoped),
-      sortOrder: Number(row.sort_order || row.sortOrder || 0)
+      sortOrder: Number(row.sort_order || row.sortOrder || 0),
+      language: normalizeSectionLanguage(row.language, slug, row.label || row.name || '')
     };
+  }
+
+  function currentContentLanguage() {
+    if (window.AbdoI18n && typeof window.AbdoI18n.currentLang === 'function') {
+      return window.AbdoI18n.currentLang() === 'en' ? 'en' : 'ar';
+    }
+    return document.documentElement.lang === 'en' ? 'en' : 'ar';
+  }
+
+  function uiText(ar, en) {
+    return currentContentLanguage() === 'en' ? en : ar;
+  }
+
+  function normalizeSectionLanguage(value, slug, label) {
+    const raw = String(value || '').toLowerCase();
+    if (raw === 'en' || raw === 'english') return 'en';
+    if (raw === 'ar' || raw === 'arabic') return 'ar';
+    const slugText = String(slug || '').toLowerCase();
+    if (slugText.startsWith('en-')) return 'en';
+    if (slugText.startsWith('ar-')) return 'ar';
+    return /[\u0600-\u06ff]/.test(String(label || '')) ? 'ar' : 'en';
+  }
+
+  function isLegacyDefaultVideoSection(section) {
+    const slug = String(section?.slug || '').toLowerCase();
+    return slug === 'manual-analysis' || slug === 'education';
   }
 
   function sectionKey(section) {
@@ -1138,10 +1166,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
-  let videoSections = [
-    { id: 'analysis', slug: 'analysis', label: 'تحليلات يدوية', marketScoped: true, sortOrder: 10 },
-    { id: 'tutorials', slug: 'tutorials', label: 'الدروس والمواد التعليمية', marketScoped: false, sortOrder: 20 }
-  ];
+  let videoSections = [];
   let videoData = [];
 
   const videosContainer = document.getElementById('videos-library-container');
@@ -1155,7 +1180,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderVideoSectionTabs() {
     if (!videoSectionSelector) return;
     videoSectionSelector.innerHTML = '';
-    if (!videoSections.length) return;
+    if (!videoSections.length) {
+      currentVideoSectionId = '';
+      return;
+    }
 
     if (!currentVideoSectionId || !videoSections.some(section => sectionKey(section) === currentVideoSectionId)) {
       currentVideoSectionId = sectionKey(videoSections[0]);
@@ -1186,6 +1214,16 @@ document.addEventListener('DOMContentLoaded', () => {
     videosContainer.innerHTML = '';
     
     const selectedSection = currentVideoSection();
+    if (!selectedSection) {
+      const emptyCard = document.createElement('div');
+      emptyCard.className = 'glass-panel video-card video-empty-state';
+      emptyCard.innerHTML = `
+        <h4>${uiText('لم يتم نشر أقسام فيديو بعد', 'No video sections have been published yet')}</h4>
+        <p>${uiText('أضف قسماً من لوحة التحكم باللغة الحالية، ثم اربط الفيديوهات به.', 'Add a section from the dashboard in the current language, then attach videos to it.')}</p>
+      `;
+      videosContainer.appendChild(emptyCard);
+      return;
+    }
     const selectedSectionId = sectionKey(selectedSection);
     const filteredVideos = videoData.filter(vid => {
       const sameSection = vid.sectionId === selectedSectionId || vid.sectionId === selectedSection?.slug;
@@ -1196,12 +1234,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (filteredVideos.length === 0) {
       const emptyCard = document.createElement('div');
       emptyCard.className = 'glass-panel video-card video-empty-state';
-      const marketName = marketDetails[activeMarket] ? marketDetails[activeMarket].name : 'السوق المحدد';
+      const marketName = marketDetails[activeMarket] ? marketDetails[activeMarket].name : uiText('السوق المحدد', 'the selected market');
       emptyCard.innerHTML = `
-        <h4>لا توجد فيديوهات منشورة لهذا القسم حالياً</h4>
+        <h4>${uiText('لا توجد فيديوهات منشورة لهذا القسم حالياً', 'No videos have been published for this section yet')}</h4>
         <p>${selectedSection?.marketScoped
-          ? `لم يتم نشر فيديو خاص بـ ${escapeHtml(marketName)} داخل قسم ${escapeHtml(selectedSection.label)} بعد.`
-          : `لم يتم نشر فيديوهات داخل قسم ${escapeHtml(selectedSection?.label || 'الفيديو')} بعد.`}</p>
+          ? uiText(`لم يتم نشر فيديو خاص بـ ${escapeHtml(marketName)} داخل قسم ${escapeHtml(selectedSection.label)} بعد.`, `No ${escapeHtml(marketName)} video has been published in the ${escapeHtml(selectedSection.label)} section yet.`)
+          : uiText(`لم يتم نشر فيديوهات داخل قسم ${escapeHtml(selectedSection?.label || 'الفيديو')} بعد.`, `No videos have been published in the ${escapeHtml(selectedSection?.label || 'video')} section yet.`)}</p>
       `;
       videosContainer.appendChild(emptyCard);
       return;
@@ -1222,7 +1260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="video-card-footer-meta">
           <span class="video-tag">${escapeHtml(vid.tag)}</span>
           <a href="${escapeHtml(youtubeUrl)}" target="_blank" rel="noopener noreferrer" class="video-action-link">
-            <span>يوتيوب</span>
+            <span>${uiText('يوتيوب', 'YouTube')}</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
             </svg>
@@ -1240,15 +1278,27 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!client) return;
 
     try {
-      const sectionsResult = await client
+      let sectionsResult = await client
         .from('video_sections')
-        .select('id,slug,label,market_scoped,sort_order,status,created_at')
+        .select('id,slug,label,language,market_scoped,sort_order,status,created_at')
         .eq('status', 'published')
         .order('sort_order', { ascending: true })
         .order('created_at', { ascending: true });
 
+      if (sectionsResult.error && /language/i.test(sectionsResult.error.message || '')) {
+        sectionsResult = await client
+          .from('video_sections')
+          .select('id,slug,label,market_scoped,sort_order,status,created_at')
+          .eq('status', 'published')
+          .order('sort_order', { ascending: true })
+          .order('created_at', { ascending: true });
+      }
+
       if (!sectionsResult.error && sectionsResult.data && sectionsResult.data.length > 0) {
-        videoSections = sectionsResult.data.map(normalizeSection).filter(section => section.id);
+        const lang = currentContentLanguage();
+        videoSections = sectionsResult.data
+          .map(normalizeSection)
+          .filter(section => section.id && section.language === lang && !isLegacyDefaultVideoSection(section));
         currentVideoSectionId = sectionKey(videoSections[0]);
         renderVideoSectionTabs();
       } else if (sectionsResult.error) {
@@ -1277,6 +1327,13 @@ document.addEventListener('DOMContentLoaded', () => {
   renderVideoSectionTabs();
   renderVideos(currentVideoSectionId);
   loadVideosFromSupabase();
+  window.addEventListener('abdo:languagechange', () => {
+    videoSections = [];
+    videoData = [];
+    renderVideoSectionTabs();
+    renderVideos('');
+    loadVideosFromSupabase();
+  });
 
   // --- Central Switch Market Experience Engine ---
   const portalBtns = document.querySelectorAll('[data-portal-market]');

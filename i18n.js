@@ -8,24 +8,24 @@
   var observerTimer = null;
 
   var entries = [
-    ["عبدالرحمن محمد لطفي | باحث كمي", "Abdulrhman Mohamed Lotfy | Quant Researcher"],
-    ["عبدالرحمن محمد لطفي — باحث كمي. أبحاث وأدوات تداول لإدارة مخاطر الصفقات والمحافظ عبر اختبارات خارج العينة وقياس منضبط للأداء.", "Abdulrhman Mohamed Lotfy — Quant researcher. Research and trading tools for managing trade and portfolio risk through out-of-sample testing and disciplined performance measurement."],
+    ["عبدالرحمن محمد | باحث كمي", "Abdulrhman Mohamed | Quant Researcher"],
+    ["عبدالرحمن محمد — باحث كمي. أبحاث وأدوات تداول لإدارة مخاطر الصفقات والمحافظ عبر اختبارات خارج العينة وقياس منضبط للأداء.", "Abdulrhman Mohamed — Quant researcher. Research and trading tools for managing trade and portfolio risk through out-of-sample testing and disciplined performance measurement."],
     ["أبحاث كمية وأدوات تداول لإدارة الصفقات والمحافظ، ضبط المخاطر، وقياس الأداء خارج العينة.", "Quant research and trading tools for managing trades and portfolios, controlling risk, and measuring out-of-sample performance."],
-    ["عبدالرحمن محمد لطفي | باحث كمي مستقل · تداول منهجي", "Abdulrhman Mohamed Lotfy | Independent Quant Researcher · Systematic Trading"],
-    ["عبدالرحمن محمد لطفي — باحث كمي. أبحاث نماذج تداول وأدوات للمتداول اليدوي وإدارة مخاطر الصفقات والمحافظ.", "Abdulrhman Mohamed Lotfy — Quant researcher. Trading model research and tools for discretionary traders and trade/portfolio risk management."],
+    ["عبدالرحمن محمد | باحث كمي مستقل · تداول منهجي", "Abdulrhman Mohamed | Independent Quant Researcher · Systematic Trading"],
+    ["عبدالرحمن محمد — باحث كمي. أبحاث نماذج تداول وأدوات للمتداول اليدوي وإدارة مخاطر الصفقات والمحافظ.", "Abdulrhman Mohamed — Quant researcher. Trading model research and tools for discretionary traders and trade/portfolio risk management."],
     ["404 — الصفحة غير موجودة | أبحاث كمية", "404 — Page Not Found | Quant Research"],
-    ["تواصل معنا | أبحاث كمية", "Contact Us | Quant Research"],
-    ["شروط الخدمة | عبدالرحمن محمد لطفي", "Terms of Service | Abdulrhman Mohamed Lotfy"],
-    ["سياسة الخصوصية | عبدالرحمن محمد لطفي", "Privacy Policy | Abdulrhman Mohamed Lotfy"],
+    ["تواصل معي | أبحاث كمية", "Contact Me | Quant Research"],
+    ["شروط الخدمة | عبدالرحمن محمد", "Terms of Service | Abdulrhman Mohamed"],
+    ["سياسة الخصوصية | عبدالرحمن محمد", "Privacy Policy | Abdulrhman Mohamed"],
     ["الأسئلة الشائعة | أبحاث كمية", "FAQ | Quant Research"],
-    ["من أنا | عبدالرحمن محمد لطفي", "About | Abdulrhman Mohamed Lotfy"],
-    ["نبذة عن عبدالرحمن محمد لطفي ومنهجيته في بناء أبحاث وأدوات تداول قابلة للمراجعة عبر الأسواق المالية.", "About Abdulrhman Mohamed Lotfy and his approach to building reviewable research and trading tools across financial markets."],
-    ["منشور بحثي | عبدالرحمن محمد لطفي", "Research Post | Abdulrhman Mohamed Lotfy"],
+    ["من أنا | عبدالرحمن محمد", "About | Abdulrhman Mohamed"],
+    ["نبذة عن عبدالرحمن محمد ومنهجيته في بناء أبحاث وأدوات تداول قابلة للمراجعة عبر الأسواق المالية.", "About Abdulrhman Mohamed and his approach to building reviewable research and trading tools across financial markets."],
+    ["منشور بحثي | عبدالرحمن محمد", "Research Post | Abdulrhman Mohamed"],
 
     ["أبحاث", "Research"],
     ["كمية", "Quant"],
     ["أبحاث كمية · الأسواق العربية", "Quant Research · Arabic Markets"],
-    ["عبدالرحمن محمد لطفي", "Abdulrhman Mohamed Lotfy"],
+    ["عبدالرحمن محمد", "Abdulrhman Mohamed"],
     ["أحجز مكالمة", "Book a Call"],
     ["المنهجية", "Methodology"],
     ["الأبحاث", "Research"],
@@ -34,7 +34,8 @@
     ["تسجيل الدخول", "Log In"],
     ["إنشاء حساب", "Create Account"],
     ["استراتيجيتنا", "Our Approach"],
-    ["تواصل معنا", "Contact Us"],
+    ["تواصل معي", "Contact Me"],
+    ["روابط مهمة", "Important Links"],
     ["تواصل عبر تيليجرام", "Contact on Telegram"],
     ["العودة للرئيسية", "Back to Home"],
     ["الرئيسية", "Home"],
@@ -44,11 +45,10 @@
     ["إطار البحث", "Research Framework"],
     ["قناة يوتيوب", "YouTube Channel"],
     ["قناة YouTube", "YouTube Channel"],
-    ["© 2026 عبدالرحمن محمد لطفي", "© 2026 Abdulrhman Mohamed Lotfy"],
+    ["© 2026 عبدالرحمن محمد", "© 2026 Abdulrhman Mohamed"],
     ["قنوات التواصل", "Contact Channels"],
     ["الشروط القانونية", "Legal Terms"],
     ["بيان الخصوصية", "Privacy Notice"],
-    ["طريقة العمل", "Working Method"],
     ["إطار بحثي يساعد على قراءة القرار قبل التنفيذ، بدون وعود بعائد أو توصيات جاهزة.", "A research framework for reading decisions before execution, without return promises or ready-made calls."],
     ["السياق الكلي", "Macro Context"],
     ["الحالة المالية وسلوك السعر", "Financial Condition and Price Behavior"],
@@ -104,7 +104,7 @@
 
     ["أبني أبحاثاً كمية تُقيّم القرار قبل التنفيذ.", "I build quantitative research that evaluates decisions before execution."],
     ["محلل ومتداول بخبرة تزيد عن ٨ سنوات في الأسواق المالية العالمية.", "Analyst and trader with more than 8 years of experience in global financial markets."],
-    ["أنا عبدالرحمن محمد لطفي.", "I am Abdulrhman Mohamed Lotfy."],
+    ["أنا عبدالرحمن محمد.", "I am Abdulrhman Mohamed."],
     ["أنا محلل ومتداول بخبرة تزيد عن ٨ سنوات في الأسواق المالية العالمية. أعمل على تحويل الخبرة العملية إلى محتوى بحثي واضح، قابل للمراجعة، بعيد عن المبالغة.", "I am an analyst and trader with more than 8 years of experience in global financial markets. I turn practical market experience into clear, reviewable research without exaggeration."],
     ["الفلسفة", "Philosophy"],
     ["الفلسفة بسيطة: لا أتعامل مع السوق كقصة أو إحساس. أبدأ من فرضية واضحة، أراجع الاقتصاد الكلي، الحالة المالية للشركة أو العملة، سلوك السعر، ثم أحدد متى تكون الفكرة صالحة ومتى يجب تجاهلها.", "The philosophy is simple: I do not treat the market as a story or a feeling. I start with a clear hypothesis, review the macro backdrop, the company or currency's financial condition, price behavior, then define when the idea is valid and when it should be ignored."],
@@ -125,7 +125,6 @@
     ["مواد تعليمية تدعم القرار اليدوي", "Educational material for discretionary decisions"],
     ["تعليمي", "Education"],
     ["تغطية من نظام ML", "Coverage from the ML System"],
-    ["فيديوهات التحليل اليدوي ترتبط بالسوق المختار. إذا اخترت بورصة الكويت تظهر فيديوهات الكويت، وإذا اخترت مصر تظهر فيديوهات مصر. الدروس التعليمية فقط تظهر للجميع لأنها تشرح المنهجية العامة.", "Manual-analysis videos are tied to the selected market. If you choose Kuwait, Kuwait videos appear; if you choose Egypt, Egypt videos appear. Educational lessons appear for everyone because they explain the general methodology."],
     ["لا يوجد منحنى حقيقي منشور لهذا السوق من ملفات ML.", "No real published curve is available for this market from the ML files."],
     ["المحفظة / النموذج الكمي", "Portfolio / Quant Model"],
     ["النموذج الكمي", "Quant Model"],
@@ -171,7 +170,7 @@
     ["الأسواق", "Markets"],
     ["الوصول", "Access"],
     ["مبادئ العمل", "Working Principles"],
-    ["ما الفلسفة الأساسية خلف أبحاث عبدالرحمن لطفي؟", "What is the core philosophy behind Abdulrhman Lotfy's research?"],
+    ["ما الفلسفة الأساسية خلف أبحاث عبدالرحمن محمد؟", "What is the core philosophy behind Abdulrhman Mohamed's research?"],
     ["يركز عملي على بناء نماذج قابلة للاختبار ومواد تساعد المتداول اليدوي وصاحب المحفظة على قراءة السوق وإدارة المخاطر. ما أقدمه هو إطار بحث وتحليل، وليس وعداً بعائد أو توصية تنفيذ.", "My work focuses on building testable models and material that help discretionary traders and portfolio owners read the market and manage risk. What I provide is a research and analysis framework, not a promise of returns or execution advice."],
     ["هل المحتوى توصية تداول أو نصيحة استثمارية؟", "Is the content trading advice or investment advice?"],
     ["لا. المحتوى بحثي وتعليمي فقط. لا توجد وعود بعائد، ولا أتحمل قرار الدخول أو الخروج أو حجم الصفقة. أي قرار مالي يجب أن يعتمد على تقييمك الشخصي ووضعك ومخاطرك.", "No. The content is research and education only. There are no return promises, and I do not take responsibility for entries, exits, or trade size. Any financial decision must be based on your own evaluation, circumstances, and risk."],
@@ -180,7 +179,6 @@
     ["ما أنواع الأدوات أو الأفكار التي تركز عليها؟", "What types of instruments or ideas do you focus on?"],
     ["أركز على الربط بين حالة الاقتصاد الكلي، الحالة المالية للشركات أو العملات، ثم سلوك السعر: مناطق الفشل والاستعادة، الانحراف عن المتوسط، وسلوك الأدوات الأكثر قابلية للقراءة داخل كل سوق. الهدف ليس تغطية كل شيء، بل اختيار ما يمكن قياسه بوضوح.", "I focus on linking the macro backdrop, company or currency financial condition, then price behavior: failure and reclaim zones, mean deviation, and the most readable instruments within each market. The goal is not to cover everything, but to choose what can be measured clearly."],
     ["كيف يتم فصل الأسواق داخل الموقع؟", "How are markets separated inside the site?"],
-    ["فيديوهات التحليل اليدوي ترتبط بالسوق المختار. إذا اخترت بورصة الكويت تظهر فيديوهات الكويت، وإذا اخترت مصر تظهر فيديوهات مصر. الدروس التعليمية فقط تظهر للجميع لأنها تشرح المنهجية العامة.", "Manual-analysis videos are tied to the chosen market. If you choose Kuwait, Kuwait videos appear; if you choose Egypt, Egypt videos appear. Educational lessons appear for everyone because they explain the general methodology."],
     ["كيف تتغير المنهجية مع تغير ظروف السوق؟", "How does the methodology change with market conditions?"],
     ["عندما تتغير حالة الاقتصاد الكلي، أو الحالة المالية للأداة، أو سلوك السعر، تتغير طريقة قراءة الفكرة. لا أتعامل مع نموذج واحد كأنه صالح دائماً، بل أراجع الشروط قبل الاعتماد عليه.", "When the macro backdrop, the instrument's financial condition, or price behavior changes, the reading changes. I do not treat one model as always valid; I review the conditions before relying on it."],
     ["ما الذي تتضمنه الخطة البحثية؟", "What does the research plan include?"],
@@ -225,14 +223,14 @@
     ["3. الحسابات والوصول", "3. Accounts and Access"],
     ["قد يتطلب الوصول إلى لوحة التحكم أو بعض الأبحاث إنشاء حساب وموافقة إدارية. نحتفظ بحق قبول أو رفض أو تعليق الوصول عند وجود إساءة استخدام، بيانات غير صحيحة، أو نشاط يخالف هذه الشروط.", "Access to the dashboard or some research may require an account and administrative approval. We reserve the right to accept, reject, or suspend access in cases of misuse, inaccurate information, or activity that violates these terms."],
     ["4. الملكية الفكرية", "4. Intellectual Property"],
-    ["جميع النصوص، التصاميم، النماذج التوضيحية، وطريقة عرض المحتوى مملوكة لعبدالرحمن محمد لطفي أو مرخصة له. لا يجوز نسخها أو إعادة نشرها أو بيعها دون إذن مكتوب.", "All text, designs, illustrative models, and content presentation are owned by or licensed to Abdulrhman Mohamed Lotfy. They may not be copied, republished, or sold without written permission."],
+    ["جميع النصوص، التصاميم، النماذج التوضيحية، وطريقة عرض المحتوى مملوكة لعبدالرحمن محمد أو مرخصة له. لا يجوز نسخها أو إعادة نشرها أو بيعها دون إذن مكتوب.", "All text, designs, illustrative models, and content presentation are owned by or licensed to Abdulrhman Mohamed. They may not be copied, republished, or sold without written permission."],
     ["5. حدود المسؤولية", "5. Limitation of Liability"],
     ["نقدم المحتوى كما هو، دون ضمان دقة مطلقة أو ملاءمة لغرض استثماري محدد. لا نتحمل مسؤولية الخسائر أو الأضرار الناتجة عن استخدام الموقع أو الاعتماد على محتواه.", "Content is provided as is, without a guarantee of absolute accuracy or suitability for any specific investment purpose. We are not responsible for losses or damages resulting from site use or reliance on its content."],
     ["6. التغييرات والتواصل", "6. Changes and Contact"],
     ["قد نقوم بتحديث هذه الشروط عند الحاجة. استمرار استخدامك للموقع بعد التحديث يعني قبول النسخة الجديدة. للاستفسار، استخدم صفحة", "We may update these terms when needed. Continued use of the site after an update means accepting the new version. For inquiries, use the"],
 
     ["1. البيانات التي نجمعها", "1. Data We Collect"],
-    ["عند إنشاء حساب أو التواصل معنا، قد نجمع الاسم، البريد الإلكتروني، حالة الموافقة على الحساب، وأي معلومات ترسلها طوعاً عبر نماذج التسجيل أو قنوات التواصل.", "When you create an account or contact us, we may collect your name, email, account approval status, and any information you voluntarily send through registration forms or communication channels."],
+    ["عند إنشاء حساب أو التواصل معي، قد نجمع الاسم، البريد الإلكتروني، حالة الموافقة على الحساب، وأي معلومات ترسلها طوعاً عبر نماذج التسجيل أو قنوات التواصل.", "When you create an account or contact me, we may collect your name, email, account approval status, and any information you voluntarily send through registration forms or communication channels."],
     ["2. كيف نستخدم البيانات", "2. How We Use Data"],
     ["تشغيل الحساب وتحديد صلاحية الوصول إلى لوحة الأبحاث.", "Operate the account and determine access permission to the research dashboard."],
     ["إدارة طلبات التسجيل والموافقة أو الرفض.", "Manage registration requests and approvals or rejections."],
@@ -286,7 +284,10 @@
     ["جاري تحميل طلبات الحسابات...", "Loading account requests..."],
     ["لا توجد حسابات مسجلة بعد.", "No registered accounts yet."],
     ["أضف قسماً أولاً", "Add a section first"],
-    ["مثلاً: تحليلات يدوية", "Example: Manual Analysis"],
+    ["لغة القسم", "Section Language"],
+    ["العربية", "Arabic"],
+    ["مراجعة السوق", "Market Review"],
+    ["مثلاً: مراجعة السوق", "Example: Market Review"],
     ["معاينة صورة المنشور", "Post image preview"],
 
     ["إطار بحثي يوازن بين حالة الاقتصاد الكلي، جودة البيانات المالية، سلوك السعر، والانضباط في تخصيص رأس المال.", "A research framework that balances the macro backdrop, financial data quality, price behavior, and disciplined capital allocation."],
@@ -313,10 +314,7 @@
     ["جميع المحتويات لأغراض بحثية وتعليمية ولا تُعد نصيحة استثمارية أو توصية تداول أو عرضاً لإدارة أموال. الأداء السابق لا يضمن نتائج مستقبلية.", "All content is for research and education only and is not investment advice, trading recommendations, or an offer to manage money. Past performance does not guarantee future results."],
     ["آلية العمل", "How It Works"],
     ["لا تكتمل الفكرة قبل تحديد نقطة الخطأ، حجم الصفقة أو المركز، وأثرها على المحفظة ككل. إدارة المخاطر تأتي قبل التنفيذ.", "An idea is not complete before defining the invalidation point, trade or position size, and impact on the whole portfolio. Risk management comes before execution."],
-    ["تحليلات يدوية", "Manual Analysis"],
-    ["الدروس والمواد التعليمية", "Lessons and Educational Material"],
     ["لا توجد فيديوهات منشورة لهذا القسم حالياً", "No videos have been published for this section yet"],
-    ["لم يتم نشر فيديو خاص بـ السعودية داخل قسم تحليلات يدوية بعد.", "No Saudi Arabia video has been published in the Manual Analysis section yet."],
     ["أسئلة شائعة", "Frequently Asked Questions"],
     ["الخبرة", "Experience"],
     ["الخطة البحثية", "Research Plan"],
@@ -339,8 +337,10 @@
   }
 
   function setLang(lang) {
-    localStorage.setItem(STORAGE_KEY, supported[lang] ? lang : "ar");
+    var nextLang = supported[lang] ? lang : "ar";
+    localStorage.setItem(STORAGE_KEY, nextLang);
     applyLanguage();
+    window.dispatchEvent(new CustomEvent("abdo:languagechange", { detail: { lang: nextLang } }));
   }
 
   function translate(value) {

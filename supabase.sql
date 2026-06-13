@@ -221,12 +221,15 @@ create table if not exists public.video_sections (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,
   label text not null,
+  language text not null default 'ar' check (language in ('ar', 'en')),
   market_scoped boolean not null default false,
   status text not null default 'published' check (status in ('draft', 'published')),
   sort_order integer not null default 0,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.video_sections add column if not exists language text not null default 'ar' check (language in ('ar', 'en'));
 
 alter table public.video_sections enable row level security;
 
@@ -315,11 +318,12 @@ create policy "Admins can delete videos"
   for delete
   using (public.is_admin());
 
-insert into public.video_sections (id, slug, label, market_scoped, status, sort_order, created_at)
-values
-  ('00000000-0000-4000-8000-000000000301'::uuid, 'manual-analysis', 'تحليلات يدوية', true, 'published', 10, now()),
-  ('00000000-0000-4000-8000-000000000302'::uuid, 'education', 'الدروس والمواد التعليمية', false, 'published', 20, now())
-on conflict (slug) do nothing;
+delete from public.video_sections
+where slug in ('manual-analysis', 'education')
+   or id in (
+    '00000000-0000-4000-8000-000000000301'::uuid,
+    '00000000-0000-4000-8000-000000000302'::uuid
+   );
 
 delete from public.videos
 where id in (

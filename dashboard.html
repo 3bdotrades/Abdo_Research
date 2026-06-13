@@ -12,8 +12,8 @@
   <meta name="robots" content="noindex, nofollow">
 
   <!-- Reuse all existing CSS variables, fonts, and components -->
-  <link rel="stylesheet" href="index.css?v=header-about-1">
-  <script src="i18n.js?v=header-about-1" defer></script>
+  <link rel="stylesheet" href="index.css?v=owner-video-1">
+  <script src="i18n.js?v=owner-video-1" defer></script>
 
   <style>
     /* =============================================
@@ -2217,7 +2217,15 @@
 
           <div class="auth-input-group">
             <label for="video-section-label">اسم القسم</label>
-            <input id="video-section-label" type="text" class="auth-input" required maxlength="80" placeholder="مثلاً: تحليلات يدوية" autocomplete="off">
+            <input id="video-section-label" type="text" class="auth-input" required maxlength="80" placeholder="مثلاً: مراجعة السوق" autocomplete="off">
+          </div>
+
+          <div class="auth-input-group">
+            <label for="video-section-language">لغة القسم</label>
+            <select id="video-section-language" class="auth-input">
+              <option value="ar">العربية</option>
+              <option value="en">English</option>
+            </select>
           </div>
 
           <div class="auth-input-group">
@@ -2567,7 +2575,7 @@
           '<div class="db-access-notice">',
             '<h2>' + (rejected ? 'لم يتم قبول الحساب' : 'الحساب قيد المراجعة') + '</h2>',
             '<p>' + (rejected
-              ? 'تم رفض هذا الحساب من لوحة الإدارة. تواصل معنا إذا كنت تعتقد أن القرار يحتاج مراجعة.'
+              ? 'تم رفض هذا الحساب من لوحة الإدارة. تواصل معي إذا كنت تعتقد أن القرار يحتاج مراجعة.'
               : 'تم إنشاء الحساب بنجاح، لكنه يحتاج موافقة الأدمن قبل فتح لوحة التحكم.')
             + '</p>',
           '</div>'
@@ -2980,6 +2988,7 @@
         var sectionSubmitLabel = document.getElementById('db-video-section-save-label');
         var sectionCancelBtn = document.getElementById('db-video-section-cancel-edit-btn');
         var sectionLabelInput = document.getElementById('video-section-label');
+        var sectionLanguageInput = document.getElementById('video-section-language');
         var sectionScopeInput = document.getElementById('video-section-scope');
         var sectionStatusInput = document.getElementById('video-section-status');
         var sectionSortInput = document.getElementById('video-section-sort-order');
@@ -3030,6 +3039,22 @@
             .replace(/[^\w\u0600-\u06FF]+/g, '-')
             .replace(/^-+|-+$/g, '');
           return base || ('section-' + Date.now());
+        }
+
+        function sectionLanguage(value, slug, label) {
+          var raw = String(value || '').toLowerCase();
+          if (raw === 'en' || raw === 'english') return 'en';
+          if (raw === 'ar' || raw === 'arabic') return 'ar';
+          var slugText = String(slug || '').toLowerCase();
+          if (slugText.indexOf('en-') === 0) return 'en';
+          if (slugText.indexOf('ar-') === 0) return 'ar';
+          return /[\u0600-\u06ff]/.test(String(label || '')) ? 'ar' : 'en';
+        }
+
+        function makeSectionSlug(label, language) {
+          var lang = language === 'en' ? 'en' : 'ar';
+          var slug = makeSlug(label);
+          return slug.indexOf(lang + '-') === 0 ? slug : lang + '-' + slug;
         }
 
         function extractYoutubeId(url) {
@@ -3084,12 +3109,17 @@
           return section && section.market_scoped ? 'منفصل حسب السوق' : 'كل الأسواق';
         }
 
+        function sectionLanguageLabel(section) {
+          return sectionLanguage(section && section.language, section && section.slug, section && section.label) === 'en' ? 'English' : 'العربية';
+        }
+
         function renderSection(section) {
           var statusLabel = section.status === 'published' ? 'ظاهر' : 'مخفي';
           return [
             '<article class="db-admin-post-item">',
               '<div class="db-admin-post-meta">',
                 '<span class="insight-tag">' + sectionScopeLabel(section) + '</span>',
+                '<span class="insight-tag">' + sectionLanguageLabel(section) + '</span>',
                 '<span class="db-admin-post-status">' + statusLabel + '</span>',
               '</div>',
               '<h4>' + escapeHtml(section.label) + '</h4>',
@@ -3126,6 +3156,7 @@
         function setEditingSection(section) {
           editingSectionId = section ? section.id : null;
           sectionLabelInput.value = section ? (section.label || '') : '';
+          if (sectionLanguageInput) sectionLanguageInput.value = section ? sectionLanguage(section.language, section.slug, section.label) : 'ar';
           sectionScopeInput.value = section && section.market_scoped ? 'market' : 'global';
           sectionStatusInput.value = section && section.status === 'draft' ? 'draft' : 'published';
           sectionSortInput.value = section && section.sort_order != null ? section.sort_order : 0;
@@ -3139,9 +3170,17 @@
           sectionList.innerHTML = '<p class="db-settings-helper">جاري تحميل أقسام الفيديو...</p>';
           var result = await client
             .from('video_sections')
-            .select('id,slug,label,market_scoped,status,sort_order,created_at,updated_at')
+            .select('id,slug,label,language,market_scoped,status,sort_order,created_at,updated_at')
             .order('sort_order', { ascending: true })
             .order('created_at', { ascending: true });
+
+          if (result.error && /language/i.test(result.error.message || '')) {
+            result = await client
+              .from('video_sections')
+              .select('id,slug,label,market_scoped,status,sort_order,created_at,updated_at')
+              .order('sort_order', { ascending: true })
+              .order('created_at', { ascending: true });
+          }
 
           if (result.error) {
             sectionList.innerHTML = '<p class="db-settings-helper">لم يتم تحميل الأقسام. شغل ملف supabase.sql لتفعيل إدارة الأقسام.</p>';
@@ -3227,6 +3266,7 @@
           event.preventDefault();
           setMessage(sectionMessage, '', '');
           var label = sectionLabelInput.value.trim();
+          var language = sectionLanguageInput && sectionLanguageInput.value === 'en' ? 'en' : 'ar';
           var sortOrder = Number(sectionSortInput.value || 0);
           if (!label) {
             setMessage(sectionMessage, 'اكتب اسم القسم قبل الحفظ.', 'error');
@@ -3236,16 +3276,24 @@
 
           var payload = {
             label: label,
+            language: language,
             market_scoped: sectionScopeInput.value === 'market',
             status: sectionStatusInput.value === 'draft' ? 'draft' : 'published',
             sort_order: Number.isFinite(sortOrder) ? sortOrder : 0
           };
-          if (!editingSectionId) payload.slug = makeSlug(label);
+          if (!editingSectionId) payload.slug = makeSectionSlug(label, language);
 
           var saveQuery = editingSectionId
             ? client.from('video_sections').update(payload).eq('id', editingSectionId).select('id').single()
             : client.from('video_sections').insert(payload).select('id').single();
           var saveResult = await saveQuery;
+          if (saveResult.error && /language/i.test(saveResult.error.message || '')) {
+            var fallbackPayload = Object.assign({}, payload);
+            delete fallbackPayload.language;
+            saveResult = await (editingSectionId
+              ? client.from('video_sections').update(fallbackPayload).eq('id', editingSectionId).select('id').single()
+              : client.from('video_sections').insert(fallbackPayload).select('id').single());
+          }
           if (sectionSubmitBtn) sectionSubmitBtn.disabled = false;
 
           if (saveResult.error) {
@@ -3255,6 +3303,7 @@
           }
 
           sectionForm.reset();
+          if (sectionLanguageInput) sectionLanguageInput.value = 'ar';
           sectionScopeInput.value = 'market';
           sectionStatusInput.value = 'published';
           sectionSortInput.value = 0;
