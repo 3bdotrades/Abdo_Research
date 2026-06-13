@@ -64,8 +64,8 @@
   <link rel="apple-touch-icon" href="/icon-192.png">
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="index.css?v=owner-video-4">
-  <script src="i18n.js?v=owner-video-4" defer></script>
+  <link rel="stylesheet" href="index.css?v=owner-video-5">
+  <script src="i18n.js?v=owner-video-5" defer></script>
 </head>
 <body>
 
@@ -90,6 +90,7 @@
         <a href="#methodology" class="nav-pill-link">البحث</a>
         <a href="#engine" class="nav-pill-link">آلية العمل</a>
         <a href="#learning" class="nav-pill-link">الفيديو</a>
+        <a href="/pricing" class="nav-pill-link">الخطط</a>
       </div>
 
       <div class="header-auth-group">
@@ -564,10 +565,41 @@
       </div>
     </section>
 
-    <!-- Hidden pricing elements kept for JS compatibility -->
-    <div style="display:none;" id="pricing">
-      <a id="btn-way-profit"></a><a id="btn-way-sub"></a>
-    </div>
+    <!-- Pricing Section -->
+    <section id="pricing" class="animate-on-scroll inst-section-sep pricing-preview-section">
+      <div class="section-title-wrap">
+        <span class="section-badge">الخطط</span>
+        <div class="section-divider"></div>
+        <h2 class="section-title">خطط قابلة للتخصيص حسب نطاق العمل.</h2>
+        <p class="section-subtitle">اختر بين الوصول إلى لوحة الأبحاث أو نطاق متابعة المحفظة. التسعير النهائي يعتمد على الأسواق، عدد الأدوات، وتكرار المراجعة المطلوبة.</p>
+      </div>
+
+      <div class="pricing-preview-grid">
+        <a href="/pricing" class="pricing-preview-card glass-panel">
+          <span class="pricing-plan-kicker">Dashboard</span>
+          <h3>خطة لوحة البيانات</h3>
+          <p>وصول إلى لوحة الأبحاث، مكتبة الفيديو، وسجل القراءات حسب الأسواق التي تختارها.</p>
+          <ul>
+            <li>تخصيص الأسواق المغطاة</li>
+            <li>مكتبة أبحاث وفيديو حسب اللغة</li>
+            <li>متابعة مؤشرات الأداء والمخاطر</li>
+          </ul>
+          <span class="pricing-preview-action">تخصيص الخطة</span>
+        </a>
+
+        <a href="/pricing" class="pricing-preview-card glass-panel pricing-preview-card-featured">
+          <span class="pricing-plan-kicker">Portfolio</span>
+          <h3>خطة إدارة المحفظة</h3>
+          <p>إطار مخصص لمتابعة التعرض، المخاطر، ومراجعة القرارات على مستوى المحفظة.</p>
+          <ul>
+            <li>تحديد ميزانية المخاطر</li>
+            <li>مراجعات دورية للصفقات والمراكز</li>
+            <li>تقارير بحثية حسب نطاق المحفظة</li>
+          </ul>
+          <span class="pricing-preview-action">تخصيص الخطة</span>
+        </a>
+      </div>
+    </section>
 
   </main>
 
@@ -604,6 +636,7 @@
           <ul>
             <li><a href="about.html">من أنا</a></li>
             <li><a href="faq.html">الأسئلة الشائعة</a></li>
+            <li><a href="/pricing">الخطط</a></li>
             <li><a href="contact.html">تواصل معي</a></li>
           </ul>
         </div>
@@ -621,12 +654,12 @@
 
       <!-- Copyright Bottom -->
       <div class="footer-bottom">
-        <span>© 2026 عبدالرحمن محمد</span>
+        <span class="footer-copyright">© 2026 عبدالرحمن محمد</span>
         <nav class="footer-legal-links" aria-label="روابط قانونية">
           <a href="terms.html">شروط الخدمة</a>
           <a href="privacy.html">سياسة الخصوصية</a>
         </nav>
-        <span style="color: var(--text-subtle); font-size: 0.75rem;">جميع المحتويات لأغراض بحثية وتعليمية فقط. لا يمثل أي محتوى نصيحة استثمارية أو دعوة لاتخاذ قرار أو ضماناً للعوائد. لا يتم تقديم خدمات إدارة محافظ.</span>
+        <span class="footer-bottom-disclaimer">جميع المحتويات لأغراض بحثية وتعليمية فقط. لا يمثل أي محتوى نصيحة استثمارية أو دعوة لاتخاذ قرار أو ضماناً للعوائد. لا يتم تقديم خدمات إدارة محافظ.</span>
       </div>
 
     </div>
@@ -698,6 +731,7 @@
       <a href="#methodology" onclick="closeDrawer()">المنهجية البحثية</a>
       <a href="#engine" onclick="closeDrawer()">آلية العمل</a>
       <a href="#learning" onclick="closeDrawer()">مكتبة الفيديو</a>
+      <a href="/pricing" onclick="closeDrawer()">الخطط</a>
       <a href="contact.html" onclick="closeDrawer()">تواصل معي</a>
     </div>
     <div class="mobile-drawer-footer">
