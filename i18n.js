@@ -18,7 +18,7 @@
     ["شروط الخدمة | عبدالرحمن محمد", "Terms of Service | Abdulrhman Mohamed"],
     ["سياسة الخصوصية | عبدالرحمن محمد", "Privacy Policy | Abdulrhman Mohamed"],
     ["الأسئلة الشائعة | أبحاث كمية", "FAQ | Quant Research"],
-    ["من أنا | عبدالرحمن محمد", "About | Abdulrhman Mohamed"],
+    ["من أنا | عبدالرحمن محمد", "About Me | Abdulrhman Mohamed"],
     ["نبذة عن عبدالرحمن محمد ومنهجيته في بناء أبحاث وأدوات تداول قابلة للمراجعة عبر الأسواق المالية.", "About Abdulrhman Mohamed and his approach to building reviewable research and trading tools across financial markets."],
     ["منشور بحثي | عبدالرحمن محمد", "Research Post | Abdulrhman Mohamed"],
 
@@ -29,7 +29,7 @@
     ["أحجز مكالمة", "Book a Call"],
     ["المنهجية", "Methodology"],
     ["الأبحاث", "Research"],
-    ["من أنا", "About"],
+    ["من أنا", "About Me"],
     ["الأسئلة الشائعة", "FAQ"],
     ["تسجيل الدخول", "Log In"],
     ["إنشاء حساب", "Create Account"],
@@ -449,6 +449,24 @@
     });
   }
 
+  function removePricingFromFooterQuickLinks() {
+    Array.prototype.slice.call(document.querySelectorAll(".footer-links-col")).forEach(function (column) {
+      var heading = column.querySelector("h4");
+      var title = normalize(heading ? heading.textContent : "");
+      if (title !== "روابط سريعة" && title !== "Quick Links") return;
+
+      Array.prototype.slice.call(column.querySelectorAll("a")).forEach(function (link) {
+        var href = String(link.getAttribute("href") || "").toLowerCase();
+        var text = normalize(link.textContent);
+        if (href === "/pricing" || href === "pricing.html" || href === "#pricing" || text === "الخطط" || text === "Pricing") {
+          var item = link.closest("li");
+          if (item) item.remove();
+          else link.remove();
+        }
+      });
+    });
+  }
+
   function translateTree(root, lang) {
     var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
       acceptNode: function (node) {
@@ -517,6 +535,7 @@
     installSwitcher();
     if (document.body) translateTree(document.body, lang);
     translateAttributes(document.documentElement, lang);
+    removePricingFromFooterQuickLinks();
     updateSwitcher(lang);
   }
 
