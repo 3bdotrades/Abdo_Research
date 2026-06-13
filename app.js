@@ -1212,14 +1212,16 @@ document.addEventListener('DOMContentLoaded', () => {
     currentVideoSectionId = sectionId || currentVideoSectionId || sectionKey(videoSections[0]);
     
     videosContainer.innerHTML = '';
+    videosContainer.classList.remove('is-empty');
     
     const selectedSection = currentVideoSection();
     if (!selectedSection) {
+      videosContainer.classList.add('is-empty');
       const emptyCard = document.createElement('div');
       emptyCard.className = 'glass-panel video-card video-empty-state';
       emptyCard.innerHTML = `
-        <h4>${uiText('لم يتم نشر أقسام فيديو بعد', 'No video sections have been published yet')}</h4>
-        <p>${uiText('أضف قسماً من لوحة التحكم باللغة الحالية، ثم اربط الفيديوهات به.', 'Add a section from the dashboard in the current language, then attach videos to it.')}</p>
+        <h4>${uiText('لا توجد فيديوهات منشورة حالياً', 'No videos published yet')}</h4>
+        <p>${uiText('سيتم عرض مراجعات السوق والمواد التعليمية هنا فور نشرها باللغة الحالية.', 'Market reviews and educational material will appear here once they are published in the current language.')}</p>
       `;
       videosContainer.appendChild(emptyCard);
       return;
@@ -1232,14 +1234,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (filteredVideos.length === 0) {
+      videosContainer.classList.add('is-empty');
       const emptyCard = document.createElement('div');
       emptyCard.className = 'glass-panel video-card video-empty-state';
       const marketName = marketDetails[activeMarket] ? marketDetails[activeMarket].name : uiText('السوق المحدد', 'the selected market');
       emptyCard.innerHTML = `
-        <h4>${uiText('لا توجد فيديوهات منشورة لهذا القسم حالياً', 'No videos have been published for this section yet')}</h4>
+        <h4>${uiText('لا توجد فيديوهات في هذا القسم حالياً', 'No videos in this section yet')}</h4>
         <p>${selectedSection?.marketScoped
-          ? uiText(`لم يتم نشر فيديو خاص بـ ${escapeHtml(marketName)} داخل قسم ${escapeHtml(selectedSection.label)} بعد.`, `No ${escapeHtml(marketName)} video has been published in the ${escapeHtml(selectedSection.label)} section yet.`)
-          : uiText(`لم يتم نشر فيديوهات داخل قسم ${escapeHtml(selectedSection?.label || 'الفيديو')} بعد.`, `No videos have been published in the ${escapeHtml(selectedSection?.label || 'video')} section yet.`)}</p>
+          ? uiText(`سيظهر محتوى ${escapeHtml(marketName)} هنا بعد نشره داخل قسم ${escapeHtml(selectedSection.label)}.`, `${escapeHtml(marketName)} content will appear here after it is published in the ${escapeHtml(selectedSection.label)} section.`)
+          : uiText(`سيظهر محتوى قسم ${escapeHtml(selectedSection?.label || 'الفيديو')} هنا بعد نشره.`, `${escapeHtml(selectedSection?.label || 'Video')} content will appear here after it is published.`)}</p>
       `;
       videosContainer.appendChild(emptyCard);
       return;
@@ -1726,6 +1729,14 @@ document.addEventListener('DOMContentLoaded', () => {
         openAuthModal('signup', navSignupBtn);
       });
     }
+
+    document.querySelectorAll('[data-auth-open]').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (typeof window.closeDrawer === 'function') window.closeDrawer();
+        openAuthModal(btn.getAttribute('data-auth-open') === 'signup' ? 'signup' : 'login', btn);
+      });
+    });
 
     // Close Modal
     if (closeModalBtn) {

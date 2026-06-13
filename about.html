@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap"></noscript>
-  <link rel="stylesheet" href="index.css?v=owner-video-1">
-  <script src="i18n.js?v=owner-video-1" defer></script>
+  <link rel="stylesheet" href="index.css?v=owner-video-2">
+  <script src="i18n.js?v=owner-video-2" defer></script>
   <style>
     .about-page-shell {
       position: relative;
@@ -24,6 +24,48 @@
     .about-page-hero {
       padding: clamp(30px, 5vw, 54px);
       margin-bottom: 22px;
+    }
+
+    .about-profile-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+      gap: clamp(28px, 5vw, 56px);
+      align-items: center;
+    }
+
+    .about-profile-kicker {
+      color: var(--primary);
+      display: inline-flex;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+
+    .about-profile-media {
+      justify-self: center;
+      text-align: center;
+    }
+
+    .about-profile-photo {
+      width: min(260px, 68vw);
+      aspect-ratio: 1;
+      border-radius: 999px;
+      object-fit: cover;
+      object-position: center top;
+      border: 1px solid rgba(212, 175, 55, 0.34);
+      box-shadow: 0 22px 70px rgba(0,0,0,0.46), 0 0 0 10px rgba(212,175,55,0.035);
+      background: #111;
+    }
+
+    .about-profile-caption {
+      color: var(--text-muted);
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 800;
+      margin-top: 14px;
     }
 
     .about-page-title {
@@ -118,6 +160,16 @@
         grid-template-columns: 1fr;
       }
 
+      .about-profile-hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .about-page-lead {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
       .about-page-card,
       .about-principle-card,
       .about-market-card {
@@ -138,10 +190,16 @@
 
   <main class="about-page-shell">
     <article class="legal-content legal-ar">
-      <section class="about-page-hero glass-panel">
-        <span class="policy-eyebrow">من أنا</span>
-        <h1 class="about-page-title">عبدالرحمن محمد</h1>
-        <p class="about-page-lead">محلل ومتداول بخبرة تزيد عن ٨ سنوات في الأسواق المالية العالمية. أعمل على تحويل الخبرة العملية إلى أبحاث وأدوات تداول قابلة للمراجعة، تساعد المتداول وصاحب المحفظة على قراءة القرار قبل التنفيذ، بدون وعود بعائد أو توصيات جاهزة.</p>
+      <section class="about-page-hero about-profile-hero glass-panel">
+        <div>
+          <span class="about-profile-kicker">من أنا</span>
+          <h1 class="about-page-title">عبدالرحمن محمد</h1>
+          <p class="about-page-lead">محلل ومتداول بخبرة تزيد عن ٨ سنوات في الأسواق المالية العالمية. أعمل على تحويل الخبرة العملية إلى أبحاث وأدوات تداول قابلة للمراجعة، تساعد المتداول وصاحب المحفظة على قراءة القرار قبل التنفيذ، بدون وعود بعائد أو توصيات جاهزة.</p>
+        </div>
+        <figure class="about-profile-media">
+          <img src="/abdo-profile-hero.jpg" srcset="/abdo-profile-hero.jpg 1x, /abdo-profile-hero-4k.jpg 2x" onerror="this.onerror=null; this.src='/abdo-profile.jpg';" alt="عبدالرحمن محمد" width="260" height="260" loading="eager" decoding="async" class="about-profile-photo">
+          <figcaption class="about-profile-caption">باحث كمي · خبرة أكثر من 8 سنوات</figcaption>
+        </figure>
       </section>
 
       <section class="about-page-grid" aria-label="نبذة العمل">
@@ -206,10 +264,16 @@
     </article>
 
     <article class="legal-content legal-en">
-      <section class="about-page-hero glass-panel">
-        <span class="policy-eyebrow">About</span>
-        <h1 class="about-page-title">Abdulrhman Mohamed</h1>
-        <p class="about-page-lead">Analyst and trader with more than 8 years of experience in global financial markets. I turn practical market experience into reviewable research and trading tools that help traders and portfolio owners evaluate decisions before execution, without return promises or ready-made calls.</p>
+      <section class="about-page-hero about-profile-hero glass-panel">
+        <div>
+          <span class="about-profile-kicker">About</span>
+          <h1 class="about-page-title">Abdulrhman Mohamed</h1>
+          <p class="about-page-lead">Analyst and trader with more than 8 years of experience in global financial markets. I turn practical market experience into reviewable research and trading tools that help traders and portfolio owners evaluate decisions before execution, without return promises or ready-made calls.</p>
+        </div>
+        <figure class="about-profile-media">
+          <img src="/abdo-profile-hero.jpg" srcset="/abdo-profile-hero.jpg 1x, /abdo-profile-hero-4k.jpg 2x" onerror="this.onerror=null; this.src='/abdo-profile.jpg';" alt="Abdulrhman Mohamed" width="260" height="260" loading="eager" decoding="async" class="about-profile-photo">
+          <figcaption class="about-profile-caption">Quant Researcher · 8+ Years of Experience</figcaption>
+        </figure>
       </section>
 
       <section class="about-page-grid" aria-label="Professional profile">

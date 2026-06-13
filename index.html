@@ -64,8 +64,8 @@
   <link rel="apple-touch-icon" href="/icon-192.png">
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="index.css?v=owner-video-1">
-  <script src="i18n.js?v=owner-video-1" defer></script>
+  <link rel="stylesheet" href="index.css?v=owner-video-2">
+  <script src="i18n.js?v=owner-video-2" defer></script>
 </head>
 <body>
 
@@ -82,13 +82,14 @@
 
       <!-- Primary navigation -->
       <div class="header-nav-pill">
-        <a href="#strategy" class="nav-pill-link active">المنهجية الكمية</a>
-        <a href="#who-is-this-for" class="nav-pill-link">لمن هذا؟</a>
-        <a href="#insights" class="nav-pill-link">رؤى بحثية</a>
-        <a href="#why-us" class="nav-pill-link">مبادئ العمل</a>
-        <a href="#methodology" class="nav-pill-link">المنهجية البحثية</a>
+        <a href="#hero" class="nav-pill-link active">الرئيسية</a>
+        <a href="#strategy" class="nav-pill-link">المنهجية</a>
+        <a href="#who-is-this-for" class="nav-pill-link">لمن؟</a>
+        <a href="#insights" class="nav-pill-link">الرؤى</a>
+        <a href="#why-us" class="nav-pill-link">المبادئ</a>
+        <a href="#methodology" class="nav-pill-link">البحث</a>
         <a href="#engine" class="nav-pill-link">آلية العمل</a>
-        <a href="#learning" class="nav-pill-link">مكتبة الفيديو</a>
+        <a href="#learning" class="nav-pill-link">الفيديو</a>
       </div>
 
       <div class="header-auth-group">
@@ -599,7 +600,7 @@
 
         <!-- Core Links Column -->
         <div class="footer-links-col">
-          <h4>روابط مهمة</h4>
+          <h4>روابط سريعة</h4>
           <ul>
             <li><a href="about.html">من أنا</a></li>
             <li><a href="faq.html">الأسئلة الشائعة</a></li>
@@ -663,7 +664,7 @@
         </div>
         <div class="auth-input-group">
           <label for="signup-password">كلمة المرور</label>
-          <input id="signup-password" name="password" type="password" placeholder="كلمة المرور قوية" class="auth-input" autocomplete="new-password" minlength="8" required>
+          <input id="signup-password" name="password" type="password" placeholder="استخدم كلمة مرور قوية" class="auth-input" autocomplete="new-password" minlength="8" required>
         </div>
         <button id="submit-signup-btn" type="button" class="auth-submit-btn">إنشاء الحساب</button>
         <p class="auth-switch-text">لديك حساب بالفعل؟ <a href="#" id="switch-to-login">تسجيل الدخول</a></p>
@@ -688,6 +689,7 @@
       <button class="mobile-drawer-close" id="mobile-drawer-close" aria-label="إغلاق القائمة">✕</button>
     </div>
     <div class="mobile-drawer-nav">
+      <a href="#hero" onclick="closeDrawer()">الرئيسية</a>
       <a href="#strategy" onclick="closeDrawer()">المنهجية الكمية</a>
       <a href="#who-is-this-for" onclick="closeDrawer()">لمن هذا؟</a>
       <a href="#insights" onclick="closeDrawer()">رؤى بحثية</a>
@@ -698,6 +700,10 @@
       <a href="contact.html" onclick="closeDrawer()">تواصل معي</a>
     </div>
     <div class="mobile-drawer-footer">
+      <div class="mobile-drawer-auth">
+        <button type="button" class="drawer-auth-btn" data-auth-open="login">تسجيل الدخول</button>
+        <button type="button" class="drawer-auth-btn drawer-auth-btn-primary" data-auth-open="signup">إنشاء حساب</button>
+      </div>
       <div class="footer-social-row">
         <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="تيليجرام">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.93c-.12.56-.46.69-.93.43l-2.58-1.9-1.24 1.2c-.14.14-.25.25-.51.25l.18-2.62 4.7-4.25c.2-.18-.05-.28-.32-.1L7.9 14.84l-2.54-.8c-.55-.17-.56-.55.12-.82l9.92-3.82c.46-.17.86.11.69.8l.55-.2z"/></svg>
