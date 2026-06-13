@@ -167,7 +167,7 @@ header.scrolled {
   min-height: 64px;
   padding: 10px 24px;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 14px;
 }
@@ -178,41 +178,18 @@ header.scrolled {
   text-decoration: none;
 }
 
-.header-brand-link {
-  align-items: center;
-  color: #ffffff;
-  display: inline-flex;
-  gap: 10px;
-  min-width: max-content;
-  text-decoration: none;
-}
-
-.header-brand-mark {
-  align-items: center;
-  background: linear-gradient(135deg, rgba(212,175,55,0.95), rgba(238,213,124,0.92));
-  border-radius: 12px;
-  color: #050608;
-  display: inline-flex;
-  font-family: 'Cairo', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 900;
-  height: 34px;
-  justify-content: center;
-  letter-spacing: 0;
-  width: 34px;
-}
-
-.header-brand-name {
-  font-family: 'Cairo', sans-serif;
-  font-size: 0.94rem;
-  font-weight: 900;
-  letter-spacing: 0;
-  line-height: 1;
-  white-space: nowrap;
-}
-
 .inner-nav-container {
+  display: flex;
   justify-content: space-between;
+}
+
+.inner-nav-container .language-switcher {
+  margin-left: auto;
+}
+
+html[dir="rtl"] .inner-nav-container .language-switcher {
+  margin-right: auto;
+  margin-left: 0;
 }
 
 .inner-home-link {
@@ -1868,13 +1845,6 @@ html[dir="rtl"] .nav-pill-link {
     grid-template-columns: auto minmax(0, 1fr) auto;
   }
 
-  .header-cta-slot {
-    display: none;
-  }
-
-  .header-brand-name {
-    display: none;
-  }
 }
 
 @media (max-width: 980px) {
@@ -4288,15 +4258,6 @@ html, body {
     padding: 12px 16px;
   }
 
-  .header-brand-link {
-    min-width: 0;
-  }
-
-  .header-brand-name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
   .header-cta-slot {
     display: none;
   }
@@ -6391,7 +6352,6 @@ html[dir="ltr"] .hero-inst-left,
 html[dir="ltr"] .hero-inst-right,
 html[dir="ltr"] .hero-inst-headline,
 html[dir="ltr"] .hero-inst-sub,
-html[dir="ltr"] .section-title-wrap,
 html[dir="ltr"] .about-simple,
 html[dir="ltr"] .pillar-inst-card,
 html[dir="ltr"] .persona-card,
@@ -6408,20 +6368,20 @@ html[dir="ltr"] .footer-links {
 }
 
 html[dir="ltr"] .hero-inst-left,
-html[dir="ltr"] .section-title-wrap,
 html[dir="ltr"] .faq-content-inner {
   margin-left: 0;
   margin-right: auto;
 }
 
-html[dir="ltr"] #learning .section-title-wrap {
+html[dir="ltr"] .section-title-wrap {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
 }
 
-html[dir="ltr"] #learning .section-badge,
-html[dir="ltr"] #learning .section-divider {
+html[dir="ltr"] .section-title-wrap p,
+html[dir="ltr"] .section-badge,
+html[dir="ltr"] .section-divider {
   margin-left: auto;
   margin-right: auto;
 }

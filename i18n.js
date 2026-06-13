@@ -35,6 +35,16 @@
     ["إنشاء حساب", "Create Account"],
     ["استراتيجيتنا", "Our Approach"],
     ["تواصل معي", "Contact Me"],
+    ["التواصل", "Contact"],
+    ["اختر قناة التواصل", "Get in Touch"],
+    ["اختر القناة المناسبة لاستفسارك. المكالمات التعريفية مخصصة لفهم احتياجك البحثي وتركيزك في الأسواق، وليست جلسات استشارية أو إدارة محافظ أو اشتراك إشارات.", "Select the appropriate channel for your inquiry. Introductory calls are scoped to understanding your research needs and market focus — they are not advisory, portfolio management, or signal-subscription sessions."],
+    ["حجز مكالمة", "Schedule a Call"],
+    ["جلسة مركزة لمدة 20 دقيقة لمناقشة أهدافك البحثية، الأسواق محل الاهتمام، وكيف يمكن أن تناسب لوحة البيانات سير عملك.", "A focused 20-minute session to discuss your research objectives, market coverage, and how my dashboard fits your workflow."],
+    ["احجز جلسة", "Book a Session"],
+    ["تواصل مباشرة للأسئلة المتعلقة بالوصول، الاشتراكات، أو المواد البحثية المنشورة.", "Reach out directly for questions about access, subscriptions, or existing research material."],
+    ["راسلني على تيليجرام", "Message on Telegram"],
+    ["جميع المحتويات تُنتج لأغراض بحثية وتعليمية فقط. لا يمثل أي محتوى في هذه الصفحة نصيحة استثمارية أو دعوة لاتخاذ قرار أو ضماناً للعوائد. لا يتم تقديم خدمات إدارة محافظ.", "All content is produced for research and educational purposes only. Nothing on this page constitutes investment advice, a solicitation, or a guarantee of returns. No portfolio management services are offered."],
+    ["جميع المحتويات لأغراض بحثية وتعليمية فقط. لا يمثل أي محتوى نصيحة استثمارية أو دعوة لاتخاذ قرار أو ضماناً للعوائد. لا يتم تقديم خدمات إدارة محافظ.", "All content is produced for research and educational purposes only. Nothing on this page constitutes investment advice, a solicitation, or a guarantee of returns. No portfolio management services are offered."],
     ["روابط مهمة", "Important Links"],
     ["روابط سريعة", "Quick Links"],
     ["تواصل عبر تيليجرام", "Contact on Telegram"],
@@ -332,7 +342,7 @@
     ["المراجعة الدورية", "Periodic Review"],
     ["تقييم دوري لكل نموذج مقابل المؤشر المرجعي ومعايير المخاطر. عند تدهور السلوك إحصائياً، تتم مراجعة النموذج أو إيقافه.", "Each model is periodically evaluated against the benchmark and risk criteria. When behavior deteriorates statistically, the model is reviewed or paused."],
     ["طريقتي في العمل تبدأ بتحديد الفرضية، ثم اختبارها، ثم وضعها داخل إطار مخاطر واضح. لا أتعامل مع السوق كقصة أو إحساس، بل كمجموعة احتمالات يجب قياسها ومراجعتها.", "My process starts by defining the hypothesis, testing it, then placing it inside a clear risk framework. I do not treat the market as a story or a feeling, but as a set of probabilities that must be measured and reviewed."],
-    ["جميع المحتويات لأغراض بحثية وتعليمية ولا تُعد نصيحة استثمارية أو توصية تداول أو عرضاً لإدارة أموال. الأداء السابق لا يضمن نتائج مستقبلية.", "All content is for research and education only and is not investment advice, trading recommendations, or an offer to manage money. Past performance does not guarantee future results."],
+    ["جميع المحتويات لأغراض بحثية وتعليمية ولا تُعد نصيحة استثمارية أو توصية تداول أو عرضاً لإدارة أموال. الأداء السابق لا يضمن نتائج مستقبلية.", "All content is produced for research and educational purposes only. Nothing on this page constitutes investment advice, a solicitation, or a guarantee of returns. No portfolio management services are offered."],
     ["آلية العمل", "How It Works"],
     ["لا تكتمل الفكرة قبل تحديد نقطة الخطأ، حجم الصفقة أو المركز، وأثرها على المحفظة ككل. إدارة المخاطر تأتي قبل التنفيذ.", "An idea is not complete before defining the invalidation point, trade or position size, and impact on the whole portfolio. Risk management comes before execution."],
     ["لا توجد فيديوهات منشورة لهذا القسم حالياً", "No videos have been published for this section yet"],
@@ -340,7 +350,7 @@
     ["الخبرة", "Experience"],
     ["الخطة البحثية", "Research Plan"],
     ["ما خبرتك في الأسواق؟", "What is your market experience?"],
-    ["جميع المحتويات لأغراض بحثية وتعليمية ولا تُعد نصيحة استثمارية أو توصية تداول.", "All content is for research and education only and is not investment advice or a trading recommendation."]
+    ["جميع المحتويات لأغراض بحثية وتعليمية ولا تُعد نصيحة استثمارية أو توصية تداول.", "All content is produced for research and educational purposes only. Nothing on this page constitutes investment advice, a solicitation, or a guarantee of returns. No portfolio management services are offered."]
   ];
 
   var EN = {};
