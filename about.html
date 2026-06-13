@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="index, follow">
   <title>من أنا | عبدالرحمن محمد</title>
-  <meta name="description" content="نبذة عن عبدالرحمن محمد ومنهجيته في بناء أبحاث وأدوات تداول قابلة للمراجعة عبر الأسواق المالية.">
+  <meta name="description" content="نبذة شخصية ومهنية عن عبدالرحمن محمد، محلل ومتداول بخبرة تزيد عن 8 سنوات في الأسواق المالية العالمية.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -18,22 +18,19 @@
       z-index: 2;
       width: min(1120px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 128px 0 84px;
+      padding: 128px 0 88px;
     }
 
-    .about-page-hero {
-      padding: clamp(30px, 5vw, 54px);
+    .about-profile-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(230px, 310px);
+      gap: clamp(30px, 5vw, 58px);
+      align-items: center;
+      padding: clamp(30px, 5vw, 58px);
       margin-bottom: 22px;
     }
 
-    .about-profile-hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
-      gap: clamp(28px, 5vw, 56px);
-      align-items: center;
-    }
-
-    .about-profile-kicker {
+    .about-kicker {
       color: var(--primary);
       display: inline-flex;
       font-family: 'Cairo', sans-serif;
@@ -44,23 +41,37 @@
       text-transform: uppercase;
     }
 
-    .about-profile-media {
+    .about-title {
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+      margin-bottom: 18px;
+    }
+
+    .about-lead {
+      color: var(--text-muted);
+      font-size: clamp(1rem, 1.7vw, 1.18rem);
+      line-height: 2;
+      max-width: 760px;
+    }
+
+    .about-photo-wrap {
       justify-self: center;
       text-align: center;
     }
 
-    .about-profile-photo {
-      width: min(260px, 68vw);
+    .about-photo {
+      width: min(280px, 70vw);
       aspect-ratio: 1;
       border-radius: 999px;
       object-fit: cover;
       object-position: center top;
       border: 1px solid rgba(212, 175, 55, 0.34);
-      box-shadow: 0 22px 70px rgba(0,0,0,0.46), 0 0 0 10px rgba(212,175,55,0.035);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.48), 0 0 0 10px rgba(212,175,55,0.035);
       background: #111;
     }
 
-    .about-profile-caption {
+    .about-caption {
       color: var(--text-muted);
       font-family: 'Cairo', sans-serif;
       font-size: 0.82rem;
@@ -68,112 +79,103 @@
       margin-top: 14px;
     }
 
-    .about-page-title {
-      font-size: clamp(2.25rem, 6vw, 5.4rem);
-      line-height: 1.04;
-      letter-spacing: 0;
-      max-width: 900px;
-      margin-bottom: 18px;
+    .about-bio-panel {
+      padding: clamp(26px, 4vw, 38px);
+      margin-bottom: 22px;
     }
 
-    .about-page-lead {
+    .about-bio-panel p {
       color: var(--text-muted);
-      font-size: clamp(1rem, 1.7vw, 1.18rem);
-      line-height: 1.95;
-      max-width: 840px;
+      font-size: 1rem;
+      line-height: 2;
+      margin-bottom: 14px;
     }
 
-    .about-page-grid,
-    .about-principles-grid {
+    .about-bio-panel p:last-child {
+      margin-bottom: 0;
+    }
+
+    .about-snapshot-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-      margin-top: 22px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 22px;
     }
 
-    .about-page-card,
-    .about-principle-card,
-    .about-market-card {
-      padding: 26px;
+    .about-snapshot-card {
+      padding: 24px;
     }
 
-    .about-page-card h2,
-    .about-principle-card h2,
-    .about-market-card h2 {
-      font-size: 1.16rem;
+    .about-snapshot-card span {
+      color: var(--primary);
+      display: block;
+      font-family: 'Cairo', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 900;
+      line-height: 1;
       margin-bottom: 12px;
     }
 
-    .about-page-card p,
-    .about-principle-card p,
-    .about-market-card p {
+    .about-snapshot-card h2 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    .about-snapshot-card p {
       color: var(--text-muted);
       line-height: 1.9;
     }
 
-    .about-market-card {
-      margin-top: 18px;
+    .about-note-card {
+      padding: clamp(24px, 4vw, 34px);
     }
 
-    .about-market-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
+    .about-note-card h2 {
+      font-size: 1.18rem;
+      margin-bottom: 12px;
     }
 
-    .about-market-list span {
-      border: 1px solid rgba(212, 175, 55, 0.24);
-      border-radius: 999px;
-      color: var(--text-main);
-      font-family: 'Cairo', sans-serif;
-      font-size: 0.86rem;
-      font-weight: 800;
-      padding: 8px 13px;
-      background: rgba(255,255,255,0.03);
+    .about-note-card p {
+      color: var(--text-muted);
+      line-height: 2;
+      max-width: 900px;
     }
 
-    .about-page-cta {
+    .about-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
       margin-top: 22px;
     }
 
-    .about-page-cta a {
-      min-height: 46px;
+    .about-actions a {
       align-items: center;
       display: inline-flex;
       justify-content: center;
+      min-height: 46px;
       padding: 12px 22px;
       text-decoration: none;
     }
 
-    @media (max-width: 760px) {
-      .about-page-shell {
-        width: min(100% - 22px, 1120px);
-        padding-top: 104px;
-      }
-
-      .about-page-grid,
-      .about-principles-grid {
+    @media (max-width: 860px) {
+      .about-profile-card,
+      .about-snapshot-grid {
         grid-template-columns: 1fr;
       }
 
-      .about-profile-hero {
-        grid-template-columns: 1fr;
+      .about-profile-card {
         text-align: center;
       }
 
-      .about-page-lead {
-        margin-left: auto;
-        margin-right: auto;
+      .about-lead {
+        margin: 0 auto;
       }
+    }
 
-      .about-page-card,
-      .about-principle-card,
-      .about-market-card {
-        padding: 22px;
+    @media (max-width: 640px) {
+      .about-page-shell {
+        width: min(100% - 22px, 1120px);
+        padding-top: 104px;
       }
     }
   </style>
@@ -190,73 +192,46 @@
 
   <main class="about-page-shell">
     <article class="legal-content legal-ar">
-      <section class="about-page-hero about-profile-hero glass-panel">
+      <section class="about-profile-card glass-panel">
         <div>
-          <span class="about-profile-kicker">من أنا</span>
-          <h1 class="about-page-title">عبدالرحمن محمد</h1>
-          <p class="about-page-lead">محلل ومتداول بخبرة تزيد عن ٨ سنوات في الأسواق المالية العالمية. أعمل على تحويل الخبرة العملية إلى أبحاث وأدوات تداول قابلة للمراجعة، تساعد المتداول وصاحب المحفظة على قراءة القرار قبل التنفيذ، بدون وعود بعائد أو توصيات جاهزة.</p>
+          <span class="about-kicker">من أنا</span>
+          <h1 class="about-title">عبدالرحمن محمد</h1>
+          <p class="about-lead">محلل ومتداول بخبرة تزيد عن 8 سنوات في الأسواق المالية العالمية. أتعامل مع السوق من زاوية عملية: كيف أفهم القرار، كيف أقيس المخاطر، وكيف أراجع الفكرة بعد أن تظهر نتائجها.</p>
         </div>
-        <figure class="about-profile-media">
-          <img src="/abdo-profile-hero.jpg" srcset="/abdo-profile-hero.jpg 1x, /abdo-profile-hero-4k.jpg 2x" onerror="this.onerror=null; this.src='/abdo-profile.jpg';" alt="عبدالرحمن محمد" width="260" height="260" loading="eager" decoding="async" class="about-profile-photo">
-          <figcaption class="about-profile-caption">باحث كمي · خبرة أكثر من 8 سنوات</figcaption>
+        <figure class="about-photo-wrap">
+          <img src="/abdo-profile-hero.jpg" srcset="/abdo-profile-hero.jpg 1x, /abdo-profile-hero-4k.jpg 2x" onerror="this.onerror=null; this.src='/abdo-profile.jpg';" alt="عبدالرحمن محمد" width="280" height="280" loading="eager" decoding="async" class="about-photo">
+          <figcaption class="about-caption">محلل ومتداول · خبرة أكثر من 8 سنوات</figcaption>
         </figure>
       </section>
 
-      <section class="about-page-grid" aria-label="نبذة العمل">
-        <article class="about-page-card glass-panel">
-          <h2>ماذا أفعل</h2>
-          <p>أبني فرضيات بحثية تبدأ من حالة الاقتصاد الكلي، ثم الحالة المالية للشركات أو العملات، ثم سلوك السعر. الفكرة لا تدخل إطار العمل قبل أن تكون قابلة للقياس والمراجعة.</p>
-        </article>
+      <section class="about-bio-panel glass-panel">
+        <p>بدأ اهتمامي بالأسواق من التداول الفعلي ومتابعة تغير سلوك السعر مع تغير الظروف الاقتصادية والمالية. مع الوقت أصبحت أكثر اهتماماً بتحويل الملاحظة إلى فرضية يمكن اختبارها، بدلاً من التعامل مع السوق كقصة أو انطباع سريع.</p>
+        <p>أركز على بناء قراءة منظمة تجمع بين السياق الكلي، الحالة المالية للشركات أو العملات، ثم سلوك السعر. الهدف ليس تقديم إجابة جاهزة، بل بناء إطار يساعدني ويساعد القارئ على رؤية القرار بوضوح أكبر قبل المخاطرة.</p>
+        <p>أكتب وأبني الأدوات من منظور شخص يعمل داخل السوق، يعرف أن الخطأ جزء طبيعي من العمل، وأن قيمة أي فكرة تظهر فقط عندما تكون قابلة للمراجعة والقياس.</p>
+      </section>
 
-        <article class="about-page-card glass-panel">
-          <h2>كيف أفكر في المخاطر</h2>
-          <p>المخاطر لا تُقاس فقط على الصفقة، بل على المركز وحالة المحفظة ككل. حجم الصفقة، نقطة الخطأ، وحدود التعرض جزء أساسي من أي قراءة بحثية.</p>
+      <section class="about-snapshot-grid" aria-label="نبذة مختصرة">
+        <article class="about-snapshot-card glass-panel">
+          <span>8+</span>
+          <h2>سنوات خبرة</h2>
+          <p>تجربة عملية في متابعة الأسواق العالمية، التداول، وتحليل القرارات قبل وبعد التنفيذ.</p>
         </article>
-
-        <article class="about-page-card glass-panel">
-          <h2>لمن أكتب</h2>
-          <p>المحتوى مناسب للمتداول اليدوي، المتداول المنهجي، وصاحب المحفظة النشطة الذي يريد أدوات تفكير منظمة تساعده على المقارنة بين الأسواق والسيناريوهات.</p>
+        <article class="about-snapshot-card glass-panel">
+          <span>بحث</span>
+          <h2>طريقة تفكير</h2>
+          <p>أفضل الفرضيات القابلة للاختبار على الآراء العامة أو التوقعات التي لا يمكن مراجعتها.</p>
         </article>
-
-        <article class="about-page-card glass-panel">
-          <h2>حدود العمل</h2>
-          <p>كل ما يُنشر هنا لأغراض بحثية وتعليمية فقط. لا أقدم إدارة أموال أو توصيات شخصية أو ضمانات نتائج، والأداء السابق لا يضمن نتائج مستقبلية.</p>
+        <article class="about-snapshot-card glass-panel">
+          <span>مخاطر</span>
+          <h2>حدود واضحة</h2>
+          <p>أي قراءة لا تكتمل عندي قبل تحديد حجم المخاطرة، نقطة الخطأ، وتأثير القرار على المحفظة ككل.</p>
         </article>
       </section>
 
-      <section class="about-principles-grid" aria-label="مبادئ العمل">
-        <article class="about-principle-card glass-panel">
-          <h2>١. صياغة الفرضية</h2>
-          <p>تحديد سؤال واضح: ما السلوك الذي نريد قياسه، وفي أي سوق أو أصل يظهر بوضوح؟</p>
-        </article>
-        <article class="about-principle-card glass-panel">
-          <h2>٢. اختبار ومراجعة</h2>
-          <p>مراجعة الفكرة عبر بيانات تاريخية وفترات مختلفة مع فصل بيانات التطوير عن التحقق قدر الإمكان.</p>
-        </article>
-        <article class="about-principle-card glass-panel">
-          <h2>٣. قواعد مخاطر</h2>
-          <p>تحويل القراءة إلى نطاق قرار واضح يشمل حجم الصفقة أو المركز، نقطة الخطأ، وحدود التعرض.</p>
-        </article>
-        <article class="about-principle-card glass-panel">
-          <h2>٤. نشر ومتابعة</h2>
-          <p>نشر البحث أو الفيديو ثم مراجعته عند تغير الظروف، بدل التعامل معه كحكم نهائي على السوق.</p>
-        </article>
-      </section>
-
-      <section class="about-market-card glass-panel">
-        <h2>الأسواق محل التغطية</h2>
-        <p>التغطية تُعامل كل سوق كبيئة مستقلة، مع اختلاف البيانات والسيولة والمخاطر بين سوق وآخر.</p>
-        <div class="about-market-list" aria-label="الأسواق">
-          <span>مصر</span>
-          <span>السعودية</span>
-          <span>الإمارات</span>
-          <span>قطر</span>
-          <span>الكويت</span>
-          <span>الولايات المتحدة الأمريكية</span>
-          <span>العملات المشفرة</span>
-          <span>العقود الآجلة</span>
-        </div>
-        <div class="about-page-cta">
+      <section class="about-note-card glass-panel">
+        <h2>ملاحظة مهمة</h2>
+        <p>كل المحتوى المنشور هنا لأغراض بحثية وتعليمية فقط. لا أقدم إدارة أموال، أو توصيات شخصية، أو ضمانات نتائج. ما أقدمه هو طريقة أكثر انضباطاً للتفكير في السوق، لا بديلاً عن قرارك ومسؤوليتك.</p>
+        <div class="about-actions">
           <a href="contact.html" class="btn-primary">تواصل معي</a>
           <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="btn-secondary">تيليجرام</a>
         </div>
@@ -264,74 +239,47 @@
     </article>
 
     <article class="legal-content legal-en">
-      <section class="about-page-hero about-profile-hero glass-panel">
+      <section class="about-profile-card glass-panel">
         <div>
-          <span class="about-profile-kicker">About Me</span>
-          <h1 class="about-page-title">Abdulrhman Mohamed</h1>
-          <p class="about-page-lead">Analyst and trader with more than 8 years of experience in global financial markets. I turn practical market experience into reviewable research and trading tools that help traders and portfolio owners evaluate decisions before execution, without return promises or ready-made calls.</p>
+          <span class="about-kicker">About Me</span>
+          <h1 class="about-title">Abdulrhman Mohamed</h1>
+          <p class="about-lead">Analyst and trader with more than 8 years of experience in global financial markets. I look at markets from a practical angle: how to understand a decision, measure risk, and review an idea after the outcome appears.</p>
         </div>
-        <figure class="about-profile-media">
-          <img src="/abdo-profile-hero.jpg" srcset="/abdo-profile-hero.jpg 1x, /abdo-profile-hero-4k.jpg 2x" onerror="this.onerror=null; this.src='/abdo-profile.jpg';" alt="Abdulrhman Mohamed" width="260" height="260" loading="eager" decoding="async" class="about-profile-photo">
-          <figcaption class="about-profile-caption">Quant Researcher · 8+ Years of Experience</figcaption>
+        <figure class="about-photo-wrap">
+          <img src="/abdo-profile-hero.jpg" srcset="/abdo-profile-hero.jpg 1x, /abdo-profile-hero-4k.jpg 2x" onerror="this.onerror=null; this.src='/abdo-profile.jpg';" alt="Abdulrhman Mohamed" width="280" height="280" loading="eager" decoding="async" class="about-photo">
+          <figcaption class="about-caption">Analyst and Trader · 8+ Years of Experience</figcaption>
         </figure>
       </section>
 
-      <section class="about-page-grid" aria-label="Professional profile">
-        <article class="about-page-card glass-panel">
-          <h2>What I Do</h2>
-          <p>I build research hypotheses that start with the macro backdrop, then the financial condition of companies or currencies, then price behavior. An idea does not enter the workflow until it can be measured and reviewed.</p>
-        </article>
+      <section class="about-bio-panel glass-panel">
+        <p>My interest in markets started from actual trading and watching how price behavior changes when economic and financial conditions change. Over time, I became more focused on turning observations into testable hypotheses instead of treating the market as a story or a quick impression.</p>
+        <p>I focus on building structured readings that combine macro context, the financial condition of companies or currencies, and price behavior. The goal is not to deliver ready-made answers, but to create a clearer framework for evaluating decisions before taking risk.</p>
+        <p>I write and build tools from the perspective of someone who works inside the market and understands that being wrong is part of the process. A market idea only has value when it can be reviewed, measured, and improved.</p>
+      </section>
 
-        <article class="about-page-card glass-panel">
-          <h2>How I Think About Risk</h2>
-          <p>Risk is not measured only at the trade level. It also depends on the position and the portfolio as a whole. Trade size, invalidation level, and exposure limits are part of every research view.</p>
+      <section class="about-snapshot-grid" aria-label="Profile snapshot">
+        <article class="about-snapshot-card glass-panel">
+          <span>8+</span>
+          <h2>Years of Experience</h2>
+          <p>Practical experience following global markets, trading decisions, and post-decision review.</p>
         </article>
-
-        <article class="about-page-card glass-panel">
-          <h2>Who I Write For</h2>
-          <p>The work is built for discretionary traders, systematic traders, and active portfolio owners who want a more structured way to compare markets and scenarios.</p>
+        <article class="about-snapshot-card glass-panel">
+          <span>Research</span>
+          <h2>Thinking Style</h2>
+          <p>I prefer testable hypotheses over broad opinions or forecasts that cannot be reviewed.</p>
         </article>
-
-        <article class="about-page-card glass-panel">
-          <h2>Work Boundaries</h2>
-          <p>Everything published here is for research and education only. I do not provide money management, personal recommendations, or outcome guarantees. Past performance does not guarantee future results.</p>
+        <article class="about-snapshot-card glass-panel">
+          <span>Risk</span>
+          <h2>Clear Boundaries</h2>
+          <p>A reading is incomplete without risk size, invalidation level, and portfolio-level impact.</p>
         </article>
       </section>
 
-      <section class="about-principles-grid" aria-label="Working method">
-        <article class="about-principle-card glass-panel">
-          <h2>1. Form the Hypothesis</h2>
-          <p>Define a clear question: what behavior are we measuring, and in which market or asset does it appear with enough clarity?</p>
-        </article>
-        <article class="about-principle-card glass-panel">
-          <h2>2. Test and Review</h2>
-          <p>Review the idea across historical data and different periods while separating development and validation data wherever possible.</p>
-        </article>
-        <article class="about-principle-card glass-panel">
-          <h2>3. Define Risk Rules</h2>
-          <p>Convert the reading into a decision range that includes trade or position size, invalidation level, and exposure limits.</p>
-        </article>
-        <article class="about-principle-card glass-panel">
-          <h2>4. Publish and Monitor</h2>
-          <p>Publish the research or video, then review it as conditions change instead of treating it as a final market verdict.</p>
-        </article>
-      </section>
-
-      <section class="about-market-card glass-panel">
-        <h2>Covered Markets</h2>
-        <p>Each market is treated as its own environment, with different data quality, liquidity, and risk conditions.</p>
-        <div class="about-market-list" aria-label="Markets">
-          <span>Egypt</span>
-          <span>Saudi Arabia</span>
-          <span>UAE</span>
-          <span>Qatar</span>
-          <span>Kuwait</span>
-          <span>United States</span>
-          <span>Crypto</span>
-          <span>Futures</span>
-        </div>
-        <div class="about-page-cta">
-          <a href="contact.html" class="btn-primary">Contact</a>
+      <section class="about-note-card glass-panel">
+        <h2>Important Note</h2>
+        <p>All content published here is for research and educational purposes only. I do not provide money management, personal recommendations, or outcome guarantees. What I provide is a more disciplined way to think about markets, not a substitute for your own decision and responsibility.</p>
+        <div class="about-actions">
+          <a href="contact.html" class="btn-primary">Contact Me</a>
           <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="btn-secondary">Telegram</a>
         </div>
       </section>
