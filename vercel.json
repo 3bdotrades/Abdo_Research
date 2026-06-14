@@ -136,6 +136,24 @@
       ]
     },
     {
+      "source": "/abdo-profile-hero-clean.jpg",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/abdo-profile-hero-clean-2x.jpg",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, immutable"
+        }
+      ]
+    },
+    {
       "source": "/abdo-profile.jpg",
       "headers": [
         {
