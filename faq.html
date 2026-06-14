@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap"></noscript>
-  <link rel="stylesheet" href="index.css?v=faq-pricing-1">
-  <script src="i18n.js?v=faq-pricing-1" defer></script>
+  <link rel="stylesheet" href="index.css?v=plans-4">
+  <script src="i18n.js?v=plans-4" defer></script>
   <style>
     .faq-page-shell {
       position: relative;
@@ -322,7 +322,7 @@
       <section class="faq-hero">
         <span class="faq-kicker">الأسئلة الشائعة</span>
         <h1 class="faq-title">إجابات واضحة قبل الاشتراك أو استخدام المحتوى.</h1>
-        <p class="faq-lead">هذه الصفحة تجمع الأسئلة العملية حول لوحة الأبحاث، مكتبة الفيديو، الأسواق المغطاة، الدفع، وحدود المحتوى البحثي. الهدف أن تعرف بالضبط ما الذي تحصل عليه، وما الذي لا يقدمه الموقع.</p>
+        <p class="faq-lead">هذه الصفحة تجمع الأسئلة العملية حول مجتمع تيليجرام المجاني، لوحة الأبحاث، المكالمات الخاصة 1v1، متابعة المحفظة، الدفع، وحدود المحتوى البحثي. الهدف أن تعرف بالضبط ما الذي تحصل عليه، وما الذي لا يقدمه الموقع.</p>
       </section>
 
       <section class="faq-layout" aria-label="الأسئلة الشائعة">
@@ -330,6 +330,7 @@
           <span class="faq-category-panel-title">التصنيفات</span>
           <div class="faq-category-row">
             <button type="button" class="active" data-faq-filter="all">كل الأسئلة</button>
+            <button type="button" data-faq-filter="plans">الخطط</button>
             <button type="button" data-faq-filter="access">الوصول</button>
             <button type="button" data-faq-filter="research">المحتوى</button>
             <button type="button" data-faq-filter="markets">الأسواق</button>
@@ -346,6 +347,26 @@
             </button>
             <div class="faq-content">
               <div class="faq-content-inner">الوصول يركز على لوحة الأبحاث، قراءات السوق المنشورة، مكتبة الفيديو، وأي أدوات متابعة يتم تفعيلها داخل حسابك. النطاق النهائي يعتمد على الخطة، اللغة، والأسواق التي تختارها.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="plans">
+            <button class="faq-trigger" id="faq-ar-plan-1">
+              <span>ما الفرق بين الخطط الأربع؟</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">مجتمع تيليجرام مجاني للمتابعة العامة. خطة لوحة الأبحاث للوصول إلى الأدوات والمحتوى. مكالمة 1v1 جلسة خاصة لمناقشة أسئلتك ومنهجيتك. نطاق متابعة المحفظة مخصص لقراءة التعرض والمخاطر على مستوى المحفظة بعد تحديد النطاق في مكالمة.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="plans">
+            <button class="faq-trigger" id="faq-ar-plan-2">
+              <span>ما هو مجتمع تيليجرام البحثي المجاني؟</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">هو قناة متابعة مجانية للإعلانات العامة، تحديثات الأبحاث، والتنبيهات الخاصة بالمحتوى الجديد. لا يتضمن وصولا خاصا إلى لوحة البيانات، ولا إشارات مباشرة، ولا توصيات تداول.</div>
             </div>
           </div>
 
@@ -419,13 +440,13 @@
             </div>
           </div>
 
-          <div class="faq-item" data-faq-category="payments">
+          <div class="faq-item" data-faq-category="plans">
             <button class="faq-trigger" id="faq-ar-q9">
-              <span>ما الفرق بين خطة لوحة البيانات وخطة متابعة المحفظة؟</span>
+              <span>متى أختار مكالمة خاصة 1v1؟</span>
               <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-content">
-              <div class="faq-content-inner">خطة لوحة البيانات مناسبة لمن يريد الوصول للمحتوى والأدوات. خطة متابعة المحفظة تحتاج مكالمة أولا لأن نطاقها يعتمد على الأسواق، حجم التعرض، تكرار المراجعة، وطريقة استخدامك للأبحاث.</div>
+              <div class="faq-content-inner">اختر المكالمة الخاصة إذا كنت تحتاج شرحا مباشرا، مراجعة طريقة تفكيرك في السوق، أو توضيح كيفية استخدام لوحة الأبحاث والمحتوى. المكالمة ليست توصية شراء أو بيع، وليست إدارة محفظة.</div>
             </div>
           </div>
 
@@ -464,7 +485,7 @@
       <section class="faq-cta" aria-label="تواصل معي">
         <div>
           <h2>تحتاج إجابة محددة؟</h2>
-          <p>اختر قناة التواصل المناسبة إذا كان سؤالك يتعلق بالوصول، خطة لوحة البيانات، أو نطاق متابعة محفظة يحتاج إلى توضيح قبل الاشتراك.</p>
+          <p>اختر قناة التواصل المناسبة إذا كان سؤالك يتعلق بالوصول، خطة لوحة البيانات، مكالمة 1v1، أو نطاق متابعة محفظة يحتاج إلى توضيح قبل الاشتراك.</p>
         </div>
         <div class="faq-cta-actions">
           <a href="contact.html" class="btn-primary">تواصل معي</a>
@@ -476,7 +497,7 @@
       <section class="faq-hero">
         <span class="faq-kicker">FAQ</span>
         <h1 class="faq-title">Clear answers before subscribing or using the material.</h1>
-        <p class="faq-lead">This page covers practical questions about dashboard access, the video library, market coverage, payment routes, and the limits of the research content. The goal is to make the scope clear before you commit.</p>
+        <p class="faq-lead">This page covers practical questions about the free Telegram community, dashboard access, private 1v1 calls, portfolio monitoring, payment routes, and the limits of the research content. The goal is to make the scope clear before you commit.</p>
       </section>
 
       <section class="faq-layout" aria-label="Frequently asked questions">
@@ -484,6 +505,7 @@
           <span class="faq-category-panel-title">Categories</span>
           <div class="faq-category-row">
             <button type="button" class="active" data-faq-filter="all">All Questions</button>
+            <button type="button" data-faq-filter="plans">Plans</button>
             <button type="button" data-faq-filter="access">Access</button>
             <button type="button" data-faq-filter="research">Content</button>
             <button type="button" data-faq-filter="markets">Markets</button>
@@ -500,6 +522,26 @@
             </button>
             <div class="faq-content">
               <div class="faq-content-inner">Access is focused on the research dashboard, published market readings, video material, and any monitoring tools enabled for your account. The final scope depends on the plan, language, and markets selected.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="plans">
+            <button class="faq-trigger" id="faq-en-plan-1">
+              <span>What is the difference between the four plans?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">The Telegram community is free for general updates. The dashboard plan is for access to tools and content. The 1v1 call is a private session for your questions and methodology. Portfolio monitoring is for reviewing exposure and risk at portfolio level after the scope is defined in a call.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="plans">
+            <button class="faq-trigger" id="faq-en-plan-2">
+              <span>What is the free Telegram Research Community?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">It is a free channel for general announcements, research updates, and new-content notices. It does not include private dashboard access, live signals, or trading recommendations.</div>
             </div>
           </div>
 
@@ -573,13 +615,13 @@
             </div>
           </div>
 
-          <div class="faq-item" data-faq-category="payments">
+          <div class="faq-item" data-faq-category="plans">
             <button class="faq-trigger" id="faq-en-q9">
-              <span>What is the difference between dashboard access and portfolio monitoring?</span>
+              <span>When should I choose a private 1v1 call?</span>
               <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-content">
-              <div class="faq-content-inner">Dashboard access is for using the published content and tools. Portfolio monitoring needs a call first because the scope depends on markets, exposure, review cadence, and how you intend to use the research.</div>
+              <div class="faq-content-inner">Choose a private call if you need direct explanation, a review of how you think about the market, or clarification on how to use the dashboard and material. The call is not a buy/sell recommendation and is not portfolio management.</div>
             </div>
           </div>
 
@@ -618,7 +660,7 @@
       <section class="faq-cta" aria-label="Contact">
         <div>
           <h2>Need a specific answer?</h2>
-          <p>Use the right contact channel if your question is about access, the dashboard plan, or a portfolio-monitoring scope that needs clarification before subscribing.</p>
+          <p>Use the right contact channel if your question is about access, the dashboard plan, a 1v1 call, or a portfolio-monitoring scope that needs clarification before subscribing.</p>
         </div>
         <div class="faq-cta-actions">
           <a href="contact.html" class="btn-primary">Contact Me</a>
