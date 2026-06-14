@@ -75,82 +75,89 @@
 
     .faq-layout {
       align-items: start;
+      direction: ltr;
       display: grid;
-      grid-template-columns: 280px minmax(0, 1fr);
-      gap: 22px;
+      gap: 24px;
+      grid-template-areas: "categories questions";
+      grid-template-columns: 260px minmax(0, 1fr);
     }
 
     html[dir="rtl"] .faq-layout {
-      grid-template-columns: minmax(0, 1fr) 280px;
+      grid-template-areas: "questions categories";
+      grid-template-columns: minmax(0, 1fr) 260px;
     }
 
     .faq-category-panel {
-      background: rgba(9,10,13,0.78);
-      border: 1px solid var(--border-color);
-      border-radius: 22px;
-      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012));
+      border: 1px solid rgba(255,255,255,0.075);
+      border-radius: 18px;
+      grid-area: categories;
+      padding: 14px;
       position: sticky;
       top: 92px;
     }
 
-    html[dir="rtl"] .faq-category-panel {
-      order: 2;
+    html[dir="rtl"] .faq-category-panel,
+    html[dir="rtl"] .faq-grid {
+      direction: rtl;
+    }
+
+    html[dir="ltr"] .faq-category-panel,
+    html[dir="ltr"] .faq-grid {
+      direction: ltr;
     }
 
     .faq-category-panel-title {
       display: block;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
+      padding: 0 4px;
     }
 
     .faq-category-row {
       display: grid;
-      gap: 8px;
+      gap: 6px;
+      grid-template-columns: minmax(0, 1fr);
+      justify-items: stretch;
       margin: 0;
       max-width: none;
     }
 
     .faq-category-row button {
       align-items: center;
-      background: rgba(255,255,255,0.035);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-inline-start: 2px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
       color: var(--text-muted);
       cursor: pointer;
       display: flex;
       font-family: 'Cairo', sans-serif;
-      font-size: 0.86rem;
+      font-size: 0.84rem;
       font-weight: 900;
-      justify-content: space-between;
-      min-height: 44px;
-      padding: 0 13px;
+      justify-content: flex-start;
+      min-height: 40px;
+      padding: 0 12px;
       text-align: inherit;
       transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
       width: 100%;
     }
 
     .faq-category-row button::after {
-      content: '';
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.22);
+      display: none;
     }
 
     .faq-category-row button:hover,
     .faq-category-row button.active {
-      background: rgba(212,175,55,0.12);
-      border-color: rgba(212,175,55,0.42);
+      background: rgba(212,175,55,0.09);
+      border-color: rgba(212,175,55,0.18);
+      border-inline-start-color: var(--primary);
       color: var(--primary);
-    }
-
-    .faq-category-row button.active::after {
-      background: var(--primary);
-      box-shadow: 0 0 16px rgba(212,175,55,0.42);
     }
 
     .faq-grid {
       display: grid;
       gap: 12px;
+      grid-area: questions;
       margin: 0;
       max-width: none;
     }
@@ -246,11 +253,10 @@
     @media (max-width: 900px) {
       .faq-layout,
       html[dir="rtl"] .faq-layout {
+        grid-template-areas:
+          "categories"
+          "questions";
         grid-template-columns: 1fr;
-      }
-
-      html[dir="rtl"] .faq-category-panel {
-        order: 0;
       }
 
       .faq-category-panel {
@@ -449,7 +455,7 @@
               <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-content">
-              <div class="faq-content-inner">استخدم صفحة تواصل معي للأسئلة العامة أو تيليجرام للأسئلة المباشرة عن الوصول، الاشتراكات، أو المواد المنشورة. يتم التعامل مع الأسئلة حسب وضوح الطلب وتوفر المعلومات.</div>
+              <div class="faq-content-inner">استخدم صفحة تواصل معي للأسئلة العامة أو الأسئلة المباشرة عن الوصول، الاشتراكات، أو المواد المنشورة. يتم التعامل مع الأسئلة حسب وضوح الطلب وتوفر المعلومات.</div>
             </div>
           </div>
         </div>
@@ -462,7 +468,6 @@
         </div>
         <div class="faq-cta-actions">
           <a href="contact.html" class="btn-primary">تواصل معي</a>
-          <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="btn-secondary">تيليجرام</a>
         </div>
       </section>
     </article>
@@ -604,7 +609,7 @@
               <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-content">
-              <div class="faq-content-inner">Use the Contact Me page for general questions or Telegram for direct questions about access, subscriptions, or published material. Clear requests are easier to handle quickly.</div>
+              <div class="faq-content-inner">Use the Contact Me page for general questions or direct questions about access, subscriptions, or published material. Clear requests are easier to handle quickly.</div>
             </div>
           </div>
         </div>
@@ -617,7 +622,6 @@
         </div>
         <div class="faq-cta-actions">
           <a href="contact.html" class="btn-primary">Contact Me</a>
-          <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="btn-secondary">Telegram</a>
         </div>
       </section>
     </article>
