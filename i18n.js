@@ -215,7 +215,7 @@
     ["الأسواق", "Markets"],
     ["الوصول", "Access"],
     ["مبادئ العمل", "Working Principles"],
-    ["ما الفلسفة الأساسية خلف أبحاث عبدالرحمن محمد؟", "What is the core philosophy behind Abdulrhman Mohamed's research?"],
+    ["ما الفلسفة الأساسية خلف أبحاث عبدالرحمن محمد؟", "How is the research framework built?"],
     ["يركز عملي على بناء نماذج قابلة للاختبار ومواد تساعد المتداول اليدوي وصاحب المحفظة على قراءة السوق وإدارة المخاطر. ما أقدمه هو إطار بحث وتحليل، وليس وعداً بعائد أو توصية تنفيذ.", "My work focuses on building testable models and material that help discretionary traders and portfolio owners read the market and manage risk. What I provide is a research and analysis framework, not a promise of returns or execution advice."],
     ["هل المحتوى توصية تداول أو نصيحة استثمارية؟", "Is the content trading advice or investment advice?"],
     ["لا. المحتوى بحثي وتعليمي فقط. لا توجد وعود بعائد، ولا أتحمل قرار الدخول أو الخروج أو حجم الصفقة. أي قرار مالي يجب أن يعتمد على تقييمك الشخصي ووضعك ومخاطرك.", "No. The content is research and education only. There are no return promises, and I do not take responsibility for entries, exits, or trade size. Any financial decision must be based on your own evaluation, circumstances, and risk."],

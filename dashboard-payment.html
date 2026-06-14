@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index, follow">
+  <title>اختيار طريقة الدفع | عبدالرحمن محمد</title>
+  <meta name="description" content="اختر طريقة الدفع المفضلة لتفعيل خطة لوحة الأبحاث. الاختيار لا ينفذ دفعا فوريا، بل يحدد مسار المتابعة والتأكيد.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap"></noscript>
+  <link rel="stylesheet" href="index.css?v=faq-pricing-1">
+  <script src="i18n.js?v=faq-pricing-1" defer></script>
+  <style>
+    .payment-page-shell {
+      position: relative;
+      z-index: 2;
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 112px 0 84px;
+      overflow-x: clip;
+    }
+
+    .payment-hero {
+      border: 1px solid rgba(212,175,55,0.18);
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015) 52%, rgba(212,175,55,0.055));
+      margin-bottom: 24px;
+      overflow: hidden;
+      padding: clamp(34px, 6vw, 64px);
+      position: relative;
+      text-align: center;
+    }
+
+    .payment-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(212,175,55,0.13), transparent 35%);
+      pointer-events: none;
+    }
+
+    .payment-hero > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .payment-kicker,
+    .payment-route-label,
+    .payment-summary-label {
+      color: var(--primary);
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .payment-title {
+      font-size: clamp(2.35rem, 6.5vw, 4.9rem);
+      line-height: 1.04;
+      margin: 16px auto 18px;
+      max-width: 900px;
+      overflow-wrap: break-word;
+      text-wrap: balance;
+    }
+
+    .payment-lead {
+      color: var(--text-muted);
+      font-size: clamp(1rem, 1.6vw, 1.14rem);
+      line-height: 1.95;
+      margin: 0 auto;
+      max-width: 820px;
+    }
+
+    .payment-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .payment-route {
+      background: linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.018));
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      min-height: 250px;
+      min-width: 0;
+      padding: 22px;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+
+    .payment-route:hover {
+      border-color: rgba(212,175,55,0.36);
+      background: linear-gradient(145deg, rgba(212,175,55,0.08), rgba(255,255,255,0.02));
+      transform: translateY(-2px);
+    }
+
+    .payment-route h2 {
+      font-size: clamp(1.25rem, 2vw, 1.65rem);
+      line-height: 1.25;
+      margin: 12px 0;
+    }
+
+    .payment-route p {
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin: 0 0 20px;
+    }
+
+    .payment-route a {
+      align-items: center;
+      display: inline-flex;
+      justify-content: center;
+      margin-top: auto;
+      min-height: 44px;
+      padding: 11px 16px;
+      text-decoration: none;
+      width: 100%;
+    }
+
+    .payment-summary {
+      align-items: center;
+      background: rgba(9,10,13,0.78);
+      border: 1px solid rgba(212,175,55,0.18);
+      border-radius: 22px;
+      display: flex;
+      gap: 18px;
+      justify-content: space-between;
+      padding: clamp(22px, 4vw, 34px);
+    }
+
+    .payment-summary h2 {
+      font-size: clamp(1.35rem, 2.5vw, 2rem);
+      margin: 8px 0;
+    }
+
+    .payment-summary p {
+      color: var(--text-muted);
+      line-height: 1.9;
+      margin: 0;
+      max-width: 760px;
+    }
+
+    .payment-summary-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .payment-summary-actions a {
+      align-items: center;
+      display: inline-flex;
+      justify-content: center;
+      min-height: 46px;
+      padding: 12px 20px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 1020px) {
+      .payment-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .payment-summary {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .payment-summary-actions {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .payment-page-shell {
+        width: min(100% - 22px, 1120px);
+        padding-top: 98px;
+      }
+
+      .payment-hero {
+        border-radius: 22px;
+        padding: 30px 18px;
+      }
+
+      .payment-title {
+        font-size: clamp(2rem, 12vw, 2.45rem);
+        line-height: 1.16;
+      }
+
+      .payment-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-subtle-glow glow-primary"></div>
+  <div class="bg-subtle-glow glow-green"></div>
+
+  <header>
+    <div class="nav-container inner-nav-container">
+      <a href="index.html" class="inner-home-link" aria-label="العودة للرئيسية">الرئيسية</a>
+    </div>
+  </header>
+
+  <main class="payment-page-shell">
+    <article class="legal-content legal-ar">
+      <section class="payment-hero">
+        <span class="payment-kicker">لوحة الأبحاث</span>
+        <h1 class="payment-title">اختر طريقة الدفع المفضلة.</h1>
+        <p class="payment-lead">هذه الصفحة مخصصة لخطة لوحة الأبحاث فقط. اختيار الطريقة لا ينفذ دفعا فوريا، بل يحدد قناة المتابعة المناسبة قبل تفعيل الحساب وتأكيد تفاصيل الوصول.</p>
+      </section>
+
+      <section class="payment-grid" aria-label="طرق الدفع">
+        <article class="payment-route">
+          <span class="payment-route-label">Card</span>
+          <h2>بطاقة بنكية</h2>
+          <p>اختر هذا المسار إذا كنت تفضل الدفع عبر رابط بطاقة بعد تأكيد تفاصيل الحساب والخطة.</p>
+          <a href="contact.html?plan=dashboard&payment=card" class="btn-primary">اختيار البطاقة</a>
+        </article>
+
+        <article class="payment-route">
+          <span class="payment-route-label">Bank</span>
+          <h2>تحويل بنكي</h2>
+          <p>مناسب إذا كنت تفضل التحويل البنكي بعد استلام بيانات التحويل وتأكيد اسم الحساب.</p>
+          <a href="contact.html?plan=dashboard&payment=bank" class="btn-secondary">اختيار التحويل البنكي</a>
+        </article>
+
+        <article class="payment-route">
+          <span class="payment-route-label">Local</span>
+          <h2>تحويل محلي</h2>
+          <p>مسار مرن للدفع المحلي عندما يكون متاحا، ويتم تأكيد التفاصيل حسب بلدك وطريقة الوصول.</p>
+          <a href="contact.html?plan=dashboard&payment=local" class="btn-secondary">اختيار التحويل المحلي</a>
+        </article>
+
+        <article class="payment-route">
+          <span class="payment-route-label">Crypto</span>
+          <h2>عملات مشفرة</h2>
+          <p>يمكن استخدام هذا المسار عند توفره، مع تأكيد الشبكة والقيمة قبل أي تحويل.</p>
+          <a href="contact.html?plan=dashboard&payment=crypto" class="btn-secondary">اختيار العملات المشفرة</a>
+        </article>
+      </section>
+
+      <section class="payment-summary" aria-label="الخطوة التالية">
+        <div>
+          <span class="payment-summary-label">الخطوة التالية</span>
+          <h2>سيتم تأكيد تفاصيل الوصول قبل التفعيل.</h2>
+          <p>بعد اختيار الطريقة، استخدم صفحة التواصل أو تيليجرام لتأكيد الخطة واللغة والأسواق المطلوبة. لا ترسل أي مدفوعات قبل تأكيد التفاصيل النهائية.</p>
+        </div>
+        <div class="payment-summary-actions">
+          <a href="contact.html" class="btn-primary">تواصل معي</a>
+          <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="btn-secondary">تيليجرام</a>
+        </div>
+      </section>
+    </article>
+
+    <article class="legal-content legal-en">
+      <section class="payment-hero">
+        <span class="payment-kicker">Research Dashboard</span>
+        <h1 class="payment-title">Choose your preferred payment method.</h1>
+        <p class="payment-lead">This page is for the dashboard plan only. Choosing a route does not charge you immediately. It simply identifies the best follow-up channel before account activation and access confirmation.</p>
+      </section>
+
+      <section class="payment-grid" aria-label="Payment methods">
+        <article class="payment-route">
+          <span class="payment-route-label">Card</span>
+          <h2>Card Payment</h2>
+          <p>Select this route if you prefer a card-payment link after the account and plan details are confirmed.</p>
+          <a href="contact.html?plan=dashboard&payment=card" class="btn-primary">Select Card</a>
+        </article>
+
+        <article class="payment-route">
+          <span class="payment-route-label">Bank</span>
+          <h2>Bank Transfer</h2>
+          <p>Use this route if you prefer bank transfer after receiving the transfer details and account confirmation.</p>
+          <a href="contact.html?plan=dashboard&payment=bank" class="btn-secondary">Select Bank Transfer</a>
+        </article>
+
+        <article class="payment-route">
+          <span class="payment-route-label">Local</span>
+          <h2>Local Transfer</h2>
+          <p>A flexible local-payment route when available, confirmed according to your country and access requirements.</p>
+          <a href="contact.html?plan=dashboard&payment=local" class="btn-secondary">Select Local Transfer</a>
+        </article>
+
+        <article class="payment-route">
+          <span class="payment-route-label">Crypto</span>
+          <h2>Crypto</h2>
+          <p>This route may be used when available, with network and amount confirmation before any transfer.</p>
+          <a href="contact.html?plan=dashboard&payment=crypto" class="btn-secondary">Select Crypto</a>
+        </article>
+      </section>
+
+      <section class="payment-summary" aria-label="Next step">
+        <div>
+          <span class="payment-summary-label">Next Step</span>
+          <h2>Access details are confirmed before activation.</h2>
+          <p>After selecting a route, use Contact or Telegram to confirm the plan, language, and markets required. Do not send payment before the final details are confirmed.</p>
+        </div>
+        <div class="payment-summary-actions">
+          <a href="contact.html" class="btn-primary">Contact Me</a>
+          <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="btn-secondary">Telegram</a>
+        </div>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

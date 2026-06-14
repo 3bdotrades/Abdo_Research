@@ -4,37 +4,299 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="index, follow">
-  <title>الأسئلة الشائعة | أبحاث كمية</title>
-  <meta name="description" content="إجابات حول منهجية أبحاث عبدالرحمن محمد، تغطية الأسواق، الوصول، مكتبة الفيديو، وإدارة المخاطر.">
+  <title>الأسئلة الشائعة | عبدالرحمن محمد</title>
+  <meta name="description" content="إجابات عملية حول الوصول إلى لوحة الأبحاث، الاشتراكات، طرق الدفع، الأسواق المغطاة، حدود المحتوى البحثي، ومكتبة الفيديو.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap"></noscript>
-  <link rel="stylesheet" href="index.css?v=owner-video-6">
-  <script src="i18n.js?v=owner-video-6" defer></script>
+  <link rel="stylesheet" href="index.css?v=faq-pricing-1">
+  <script src="i18n.js?v=faq-pricing-1" defer></script>
   <style>
     .faq-page-shell {
       position: relative;
       z-index: 2;
       width: min(1120px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 128px 0 80px;
+      padding: 112px 0 84px;
+      overflow-x: clip;
     }
 
-    .faq-page-shell #faq {
+    .faq-hero {
+      border: 1px solid rgba(212,175,55,0.18);
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015) 56%, rgba(212,175,55,0.055));
+      padding: clamp(34px, 6vw, 64px);
+      text-align: center;
+      margin-bottom: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .faq-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(212,175,55,0.12), transparent 34%);
+      pointer-events: none;
+    }
+
+    .faq-hero > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .faq-kicker,
+    .faq-category-panel-title {
+      color: var(--primary);
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .faq-title {
+      font-size: clamp(2.5rem, 7vw, 5.2rem);
+      line-height: 1.02;
+      margin: 16px auto 18px;
+      max-width: 860px;
+      overflow-wrap: break-word;
+      text-wrap: balance;
+    }
+
+    .faq-lead {
+      color: var(--text-muted);
+      font-size: clamp(1rem, 1.6vw, 1.14rem);
+      line-height: 1.95;
+      margin: 0 auto;
+      max-width: 780px;
+    }
+
+    .faq-layout {
+      align-items: start;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 22px;
+    }
+
+    html[dir="rtl"] .faq-layout {
+      grid-template-columns: minmax(0, 1fr) 280px;
+    }
+
+    .faq-category-panel {
+      background: rgba(9,10,13,0.78);
+      border: 1px solid var(--border-color);
+      border-radius: 22px;
+      padding: 18px;
+      position: sticky;
+      top: 92px;
+    }
+
+    html[dir="rtl"] .faq-category-panel {
+      order: 2;
+    }
+
+    .faq-category-panel-title {
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    .faq-category-row {
+      display: grid;
+      gap: 8px;
       margin: 0;
-      padding-top: clamp(42px, 7vw, 76px);
-      padding-bottom: clamp(42px, 7vw, 76px);
+      max-width: none;
     }
 
-    .faq-page-section .section-title-wrap {
-      margin-bottom: 38px;
+    .faq-category-row button {
+      align-items: center;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.86rem;
+      font-weight: 900;
+      justify-content: space-between;
+      min-height: 44px;
+      padding: 0 13px;
+      text-align: inherit;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+      width: 100%;
+    }
+
+    .faq-category-row button::after {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.22);
+    }
+
+    .faq-category-row button:hover,
+    .faq-category-row button.active {
+      background: rgba(212,175,55,0.12);
+      border-color: rgba(212,175,55,0.42);
+      color: var(--primary);
+    }
+
+    .faq-category-row button.active::after {
+      background: var(--primary);
+      box-shadow: 0 0 16px rgba(212,175,55,0.42);
+    }
+
+    .faq-grid {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      max-width: none;
+    }
+
+    .faq-item {
+      background: linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.018));
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 18px;
+      min-width: 0;
+      overflow: hidden;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .faq-item.active {
+      border-color: rgba(212,175,55,0.32);
+      background: linear-gradient(145deg, rgba(212,175,55,0.08), rgba(255,255,255,0.02));
+    }
+
+    .faq-trigger {
+      align-items: center;
+      background: transparent;
+      border: 0;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      gap: 16px;
+      justify-content: space-between;
+      padding: 22px 24px;
+      text-align: inherit;
+      width: 100%;
+    }
+
+    .faq-trigger span {
+      font-family: 'Cairo', sans-serif;
+      font-size: clamp(1rem, 1.45vw, 1.22rem);
+      font-weight: 900;
+      line-height: 1.55;
+    }
+
+    .faq-chevron {
+      flex: 0 0 auto;
+    }
+
+    .faq-content-inner {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.9;
+      padding: 18px 24px 24px;
+    }
+
+    .faq-cta {
+      align-items: center;
+      background: rgba(9,10,13,0.78);
+      border: 1px solid rgba(212,175,55,0.18);
+      border-radius: 24px;
+      display: flex;
+      gap: 18px;
+      justify-content: space-between;
+      margin-top: 24px;
+      padding: clamp(22px, 4vw, 34px);
+    }
+
+    .faq-cta h2 {
+      font-size: clamp(1.35rem, 2.4vw, 2rem);
+      margin-bottom: 8px;
+    }
+
+    .faq-cta p {
+      color: var(--text-muted);
+      line-height: 1.85;
+      margin: 0;
+      max-width: 720px;
+    }
+
+    .faq-cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .faq-cta-actions a {
+      align-items: center;
+      display: inline-flex;
+      justify-content: center;
+      min-height: 46px;
+      padding: 12px 20px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 900px) {
+      .faq-layout,
+      html[dir="rtl"] .faq-layout {
+        grid-template-columns: 1fr;
+      }
+
+      html[dir="rtl"] .faq-category-panel {
+        order: 0;
+      }
+
+      .faq-category-panel {
+        position: static;
+      }
+
+      .faq-category-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .faq-cta {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .faq-cta-actions {
+        justify-content: flex-start;
+      }
     }
 
     @media (max-width: 640px) {
       .faq-page-shell {
         width: min(100% - 22px, 1120px);
-        padding-top: 104px;
+        padding-top: 98px;
+      }
+
+      .faq-hero {
+        border-radius: 22px;
+        padding: 30px 18px;
+      }
+
+      .faq-title {
+        font-size: clamp(2rem, 12vw, 2.45rem);
+        line-height: 1.16;
+      }
+
+      .faq-category-row {
+        grid-template-columns: 1fr;
+      }
+
+      .faq-trigger {
+        padding: 18px;
+      }
+
+      .faq-content-inner {
+        padding: 16px 18px 20px;
       }
     }
   </style>
@@ -50,271 +312,324 @@
   </header>
 
   <main class="faq-page-shell">
-    <!-- FAQs Accordion Section -->
-    <section id="faq" class="faq-page-section inst-section-sep">
-      <div class="section-title-wrap">
-        <span class="section-badge">أسئلة شائعة</span>
-        <div class="section-divider"></div>
-        <h2 class="section-title">الأسئلة الشائعة</h2>
-        <p class="section-subtitle">
-          إجابات مباشرة حول منهجيتي، تغطية الأسواق، الوصول، مكتبة الفيديو، وحدود المحتوى البحثي.
-        </p>
-      </div>
+    <article class="legal-content legal-ar" data-faq-block>
+      <section class="faq-hero">
+        <span class="faq-kicker">الأسئلة الشائعة</span>
+        <h1 class="faq-title">إجابات واضحة قبل الاشتراك أو استخدام المحتوى.</h1>
+        <p class="faq-lead">هذه الصفحة تجمع الأسئلة العملية حول لوحة الأبحاث، مكتبة الفيديو، الأسواق المغطاة، الدفع، وحدود المحتوى البحثي. الهدف أن تعرف بالضبط ما الذي تحصل عليه، وما الذي لا يقدمه الموقع.</p>
+      </section>
 
-      <div class="faq-category-row" aria-label="تصنيفات الأسئلة">
-        <button type="button" class="active" data-faq-filter="all">كل الأسئلة</button>
-        <button type="button" data-faq-filter="philosophy">الفلسفة</button>
-        <button type="button" data-faq-filter="access">الوصول</button>
-        <button type="button" data-faq-filter="markets">الأسواق</button>
-        <button type="button" data-faq-filter="experience">الخبرة</button>
-        <button type="button" data-faq-filter="planning">الخطة البحثية</button>
-      </div>
+      <section class="faq-layout" aria-label="الأسئلة الشائعة">
+        <aside class="faq-category-panel" aria-label="تصنيفات الأسئلة">
+          <span class="faq-category-panel-title">التصنيفات</span>
+          <div class="faq-category-row">
+            <button type="button" class="active" data-faq-filter="all">كل الأسئلة</button>
+            <button type="button" data-faq-filter="access">الوصول</button>
+            <button type="button" data-faq-filter="research">المحتوى</button>
+            <button type="button" data-faq-filter="markets">الأسواق</button>
+            <button type="button" data-faq-filter="payments">الدفع</button>
+            <button type="button" data-faq-filter="risk">المخاطر</button>
+          </div>
+        </aside>
 
-      <div class="faq-grid">
-        <!-- FAQ 1 -->
-        <div class="faq-item" data-faq-category="philosophy">
-          <button class="faq-trigger" id="faq-q1">
-            <span>ما الفلسفة الأساسية خلف أبحاث عبدالرحمن محمد؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              الفلسفة بسيطة: لا أتعامل مع السوق كقصة أو إحساس. أبدأ من فرضية واضحة، أراجع الاقتصاد الكلي، الحالة المالية للشركة أو العملة، سلوك السعر، ثم أحدد متى تكون الفكرة صالحة ومتى يجب تجاهلها.
+        <div class="faq-grid">
+          <div class="faq-item" data-faq-category="access">
+            <button class="faq-trigger" id="faq-ar-q1">
+              <span>ما الذي أستطيع الوصول إليه؟</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">الوصول يركز على لوحة الأبحاث، قراءات السوق المنشورة، مكتبة الفيديو، وأي أدوات متابعة يتم تفعيلها داخل حسابك. النطاق النهائي يعتمد على الخطة، اللغة، والأسواق التي تختارها.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="risk">
+            <button class="faq-trigger" id="faq-ar-q2">
+              <span>هل المحتوى توصيات تداول أو إدارة أموال؟</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">لا. المحتوى بحثي وتعليمي فقط. لا توجد توصيات دخول أو خروج، ولا إدارة أموال، ولا تنفيذ صفقات، ولا وعود بعائد. أي قرار مالي يظل مسؤوليتك الشخصية حسب وضعك ومخاطرك.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="research">
+            <button class="faq-trigger" id="faq-ar-q3">
+              <span>كيف يتم بناء الفرضية البحثية؟</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">أبدأ من سؤال واضح، ثم أراجع حالة الاقتصاد الكلي، الوضع المالي للشركات أو العملات، وسلوك السعر. بعد ذلك يتم تحديد شروط صلاحية الفرضية، نقاط بطلانها، وطريقة التعامل مع المخاطر.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="markets">
+            <button class="faq-trigger" id="faq-ar-q4">
+              <span>ما الأسواق التي يتم تغطيتها؟</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">التغطية تكون حسب الدولة أو فئة الأصل: مصر، السعودية، الإمارات، قطر، الكويت، الولايات المتحدة الأمريكية، العملات المشفرة، والعقود الآجلة. كل سوق يعرض بشكل منفصل عندما تتوفر بيانات كافية.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="research">
+            <button class="faq-trigger" id="faq-ar-q5">
+              <span>كيف تعمل مكتبة الفيديو؟</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">الفيديوهات تنشر حسب اللغة والقسم. ما يضاف في النسخة العربية يظهر للعربية فقط، وما يضاف في النسخة الإنجليزية يظهر للإنجليزية فقط، مع إمكانية تقسيم المحتوى حسب السوق أو المادة التعليمية.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="access">
+            <button class="faq-trigger" id="faq-ar-q6">
+              <span>هل أحتاج خبرة تقنية لاستخدام لوحة البيانات؟</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">لا تحتاج خبرة برمجية. الفكرة أن ترى القراءة، السوق، الفيديو أو البحث، وملاحظات المخاطر بشكل منظم. لكن يجب أن تكون مدركا لطبيعة الأسواق ومخاطر التداول قبل استخدام أي محتوى.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="access">
+            <button class="faq-trigger" id="faq-ar-q7">
+              <span>كيف أطلب الاشتراك في لوحة البيانات؟</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">من صفحة الخطط اختر مسار لوحة البيانات، ثم انتقل إلى صفحة اختيار طريقة الدفع. بعد تحديد الطريقة المفضلة يتم تأكيد تفاصيل الوصول قبل التفعيل.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="payments">
+            <button class="faq-trigger" id="faq-ar-q8">
+              <span>هل يمكن اختيار طريقة الدفع؟</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">نعم. خطة لوحة البيانات توجهك إلى صفحة لاختيار الطريقة المفضلة، مثل بطاقة بنكية، تحويل بنكي، تحويل محلي، أو عملات مشفرة عند توفرها. الاختيار لا ينفذ دفعا فوريا، بل يحدد مسار المتابعة.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="payments">
+            <button class="faq-trigger" id="faq-ar-q9">
+              <span>ما الفرق بين خطة لوحة البيانات وخطة متابعة المحفظة؟</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">خطة لوحة البيانات مناسبة لمن يريد الوصول للمحتوى والأدوات. خطة متابعة المحفظة تحتاج مكالمة أولا لأن نطاقها يعتمد على الأسواق، حجم التعرض، تكرار المراجعة، وطريقة استخدامك للأبحاث.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="risk">
+            <button class="faq-trigger" id="faq-ar-q10">
+              <span>هل توجد إدارة محافظ أو تنفيذ صفقات؟</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">لا. لا يتم استلام أموال، ولا فتح أوامر، ولا إدارة حسابات. أي نطاق مرتبط بالمحفظة هو بحث ومتابعة مخاطر وقراءة تعرض فقط، وليس إدارة تقديرية أو خدمة وساطة.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="risk">
+            <button class="faq-trigger" id="faq-ar-q11">
+              <span>كيف يتم التعامل مع المخاطر؟</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">المخاطر لا تقاس على الصفقة وحدها. يتم النظر إلى حجم الصفقة أو المركز، حالة المحفظة ككل، أسوأ سيناريو منطقي، والشروط التي تجعل الفرضية غير صالحة.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="access">
+            <button class="faq-trigger" id="faq-ar-q12">
+              <span>أين أطرح سؤالا عن الوصول أو الحساب؟</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">استخدم صفحة تواصل معي للأسئلة العامة أو تيليجرام للأسئلة المباشرة عن الوصول، الاشتراكات، أو المواد المنشورة. يتم التعامل مع الأسئلة حسب وضوح الطلب وتوفر المعلومات.</div>
             </div>
           </div>
         </div>
+      </section>
 
-        <!-- FAQ 2 -->
-        <div class="faq-item" data-faq-category="philosophy">
-          <button class="faq-trigger" id="faq-q2">
-            <span>كيف يتم ربط التحليل بهدف المتداول أو المستثمر؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              أفرّق بين من يريد متابعة سوق محدد، ومن يريد فهم منهجية، ومن يريد قراءة مخاطر صفقة أو محفظة. لذلك لا أقدم نفس الإجابة للجميع، بل أوضح الإطار المناسب للسؤال.
+      <section class="faq-cta" aria-label="تواصل معي">
+        <div>
+          <h2>تحتاج إجابة محددة؟</h2>
+          <p>اختر قناة التواصل المناسبة إذا كان سؤالك يتعلق بالوصول، خطة لوحة البيانات، أو نطاق متابعة محفظة يحتاج إلى توضيح قبل الاشتراك.</p>
+        </div>
+        <div class="faq-cta-actions">
+          <a href="contact.html" class="btn-primary">تواصل معي</a>
+          <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="btn-secondary">تيليجرام</a>
+        </div>
+      </section>
+    </article>
+
+    <article class="legal-content legal-en" data-faq-block>
+      <section class="faq-hero">
+        <span class="faq-kicker">FAQ</span>
+        <h1 class="faq-title">Clear answers before subscribing or using the material.</h1>
+        <p class="faq-lead">This page covers practical questions about dashboard access, the video library, market coverage, payment routes, and the limits of the research content. The goal is to make the scope clear before you commit.</p>
+      </section>
+
+      <section class="faq-layout" aria-label="Frequently asked questions">
+        <aside class="faq-category-panel" aria-label="FAQ categories">
+          <span class="faq-category-panel-title">Categories</span>
+          <div class="faq-category-row">
+            <button type="button" class="active" data-faq-filter="all">All Questions</button>
+            <button type="button" data-faq-filter="access">Access</button>
+            <button type="button" data-faq-filter="research">Content</button>
+            <button type="button" data-faq-filter="markets">Markets</button>
+            <button type="button" data-faq-filter="payments">Payments</button>
+            <button type="button" data-faq-filter="risk">Risk</button>
+          </div>
+        </aside>
+
+        <div class="faq-grid">
+          <div class="faq-item" data-faq-category="access">
+            <button class="faq-trigger" id="faq-en-q1">
+              <span>What do I get access to?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">Access is focused on the research dashboard, published market readings, video material, and any monitoring tools enabled for your account. The final scope depends on the plan, language, and markets selected.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="risk">
+            <button class="faq-trigger" id="faq-en-q2">
+              <span>Is the content trading advice or money management?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">No. The content is research and educational material only. It does not include entry or exit recommendations, money management, trade execution, or return promises. Any financial decision remains your responsibility.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="research">
+            <button class="faq-trigger" id="faq-en-q3">
+              <span>How is a research hypothesis built?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">The process starts with a clear question, then reviews macro context, company or currency financial condition, and price behavior. From there, the valid conditions, invalidation points, and risk boundaries are defined.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="markets">
+            <button class="faq-trigger" id="faq-en-q4">
+              <span>Which markets are covered?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">Coverage is organized by country or asset class: Egypt, Saudi Arabia, United Arab Emirates, Qatar, Kuwait, United States, crypto assets, and futures. Each market is handled separately when sufficient data is available.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="research">
+            <button class="faq-trigger" id="faq-en-q5">
+              <span>How does the video library work?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">Videos are published by language and section. Arabic uploads appear in Arabic, English uploads appear in English, and material can be separated by market or educational topic.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="access">
+            <button class="faq-trigger" id="faq-en-q6">
+              <span>Do I need technical experience?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">No programming experience is required. The dashboard is meant to organize the reading, market, video, or risk notes. You still need to understand that financial markets involve risk before using any material.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="access">
+            <button class="faq-trigger" id="faq-en-q7">
+              <span>How do I request dashboard access?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">Go to Pricing, choose the dashboard path, then continue to the payment-method selection page. After you select the preferred route, access details are confirmed before activation.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="payments">
+            <button class="faq-trigger" id="faq-en-q8">
+              <span>Can I choose a payment method?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">Yes. Dashboard access sends you to a page where you can select a preferred route, such as card payment, bank transfer, local transfer, or crypto when available. Selecting a route does not charge you immediately.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="payments">
+            <button class="faq-trigger" id="faq-en-q9">
+              <span>What is the difference between dashboard access and portfolio monitoring?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">Dashboard access is for using the published content and tools. Portfolio monitoring needs a call first because the scope depends on markets, exposure, review cadence, and how you intend to use the research.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="risk">
+            <button class="faq-trigger" id="faq-en-q10">
+              <span>Do you manage portfolios or execute trades?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">No. I do not custody funds, place orders, or manage accounts. Portfolio-related work is research, risk monitoring, and exposure review only, not discretionary management or brokerage activity.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="risk">
+            <button class="faq-trigger" id="faq-en-q11">
+              <span>How is risk treated?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">Risk is not viewed only at the trade level. Position size, total portfolio condition, plausible downside scenarios, and the conditions that invalidate the hypothesis are considered together.</div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-faq-category="access">
+            <button class="faq-trigger" id="faq-en-q12">
+              <span>Where do I ask access or account questions?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">Use the Contact Me page for general questions or Telegram for direct questions about access, subscriptions, or published material. Clear requests are easier to handle quickly.</div>
             </div>
           </div>
         </div>
+      </section>
 
-        <!-- FAQ 3 -->
-        <div class="faq-item" data-faq-category="philosophy">
-          <button class="faq-trigger" id="faq-q3">
-            <span>ما الذي يجعل المنهجية مختلفة عن متابعة توصيات؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              التركيز ليس على كلمة "شراء" أو "بيع". الأهم هو لماذا الفكرة موجودة، ما الشرط الذي يبطلها، كيف تُدار المخاطرة، وهل السلوك قابل للتكرار أم مجرد حركة عشوائية.
-            </div>
-          </div>
+      <section class="faq-cta" aria-label="Contact">
+        <div>
+          <h2>Need a specific answer?</h2>
+          <p>Use the right contact channel if your question is about access, the dashboard plan, or a portfolio-monitoring scope that needs clarification before subscribing.</p>
         </div>
-
-        <!-- FAQ 4 -->
-        <div class="faq-item" data-faq-category="philosophy">
-          <button class="faq-trigger" id="faq-q4">
-            <span>كيف تتغير المنهجية مع تغير ظروف السوق؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              عندما تتغير حالة الاقتصاد الكلي، أو الحالة المالية للأداة، أو سلوك السعر، تتغير طريقة قراءة الفكرة. لا أتعامل مع نموذج واحد كأنه صالح دائماً، بل أراجع الشروط قبل الاعتماد عليه.
-            </div>
-          </div>
+        <div class="faq-cta-actions">
+          <a href="contact.html" class="btn-primary">Contact Me</a>
+          <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="btn-secondary">Telegram</a>
         </div>
-
-        <!-- FAQ 5 -->
-        <div class="faq-item" data-faq-category="access">
-          <button class="faq-trigger" id="faq-q5">
-            <span>هل يوجد اشتراك أو رسوم للوصول؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              تفاصيل الوصول يتم توضيحها بشكل مباشر قبل أي التزام. لا توجد وعود بعائد، ولا يتم تقديم الوصول كمنتج سريع، بل كمساحة أبحاث وفيديوهات لمن يفهم طبيعة المخاطر.
-            </div>
-          </div>
-        </div>
-
-        <!-- FAQ 6 -->
-        <div class="faq-item" data-faq-category="access">
-          <button class="faq-trigger" id="faq-q6">
-            <span>هل توجد تكاليف إضافية يجب معرفتها؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              أي تكاليف خاصة بمنصة التداول، البيانات، العمولات، أو تنفيذ الصفقات تكون خارج الموقع وخارج المحتوى البحثي. دوري هو توضيح الفكرة والمخاطر، وليس إدارة حسابات أو تنفيذ أوامر.
-            </div>
-          </div>
-        </div>
-
-        <!-- FAQ 7 -->
-        <div class="faq-item" data-faq-category="access">
-          <button class="faq-trigger" id="faq-q7">
-            <span>هل يوجد حد أدنى لحجم الحساب؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              لا أضع حداً عاماً داخل الموقع لأن الهدف ليس إدارة أموال. لكن حجم الحساب مهم عند تطبيق أي فكرة، لأن العمولات، حجم الصفقة أو المركز، وحالة المحفظة ككل قد تجعل نفس الفكرة مناسبة لشخص وغير مناسبة لشخص آخر.
-            </div>
-          </div>
-        </div>
-
-        <!-- FAQ 8 -->
-        <div class="faq-item" data-faq-category="access">
-          <button class="faq-trigger" id="faq-q8">
-            <span>كيف أعرف أن المحتوى يستحق وقتي؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              القيمة ليست في كثرة المنشورات، بل في وضوح الفكرة. إذا كنت تريد فهم السياق، المخاطر، ومستويات بطلان الفرضية بدلاً من مطاردة إشارات عشوائية، فالمحتوى مناسب لك.
-            </div>
-          </div>
-        </div>
-
-        <!-- FAQ 9 -->
-        <div class="faq-item" data-faq-category="markets">
-          <button class="faq-trigger" id="faq-q9">
-            <span>ما الأسواق التي تغطيها؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              أتابع الأسواق حسب الدولة أو فئة الأصل: مصر، السعودية، الإمارات، قطر، الكويت، الولايات المتحدة الأمريكية، العملات المشفرة، والعقود الآجلة. كل سوق له بياناته وقراءته بشكل منفصل.
-            </div>
-          </div>
-        </div>
-
-        <!-- FAQ 10 -->
-        <div class="faq-item" data-faq-category="markets">
-          <button class="faq-trigger" id="faq-q10">
-            <span>كيف يتم فصل الأسواق داخل الموقع؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              فيديوهات التحليل اليدوي ترتبط بالسوق المختار. إذا اخترت بورصة الكويت تظهر فيديوهات الكويت، وإذا اخترت مصر تظهر فيديوهات مصر. الدروس التعليمية فقط تظهر للجميع لأنها تشرح المنهجية العامة.
-            </div>
-          </div>
-        </div>
-
-        <!-- FAQ 11 -->
-        <div class="faq-item" data-faq-category="markets">
-          <button class="faq-trigger" id="faq-q11">
-            <span>ما أنواع الأدوات أو الأفكار التي تركز عليها؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              أركز على الربط بين حالة الاقتصاد الكلي، الحالة المالية للشركات أو العملات، ثم سلوك السعر: مناطق الفشل والاستعادة، الانحراف عن المتوسط، وسلوك الأدوات الأكثر قابلية للقراءة داخل كل سوق. الهدف ليس تغطية كل شيء، بل اختيار ما يمكن قياسه بوضوح.
-            </div>
-          </div>
-        </div>
-
-        <!-- FAQ 12 -->
-        <div class="faq-item" data-faq-category="markets">
-          <button class="faq-trigger" id="faq-q12">
-            <span>كيف تتعامل مع إدارة المخاطر؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              قبل أي فكرة أسأل: أين تكون خاطئة؟ ما حجم الصفقة أو المركز؟ ما أثرها على المحفظة ككل؟ وما أسوأ سيناريو منطقي؟ إذا لم تكن المخاطرة واضحة، لا أعتبر الفكرة مكتملة.
-            </div>
-          </div>
-        </div>
-
-        <!-- FAQ 13 -->
-        <div class="faq-item" data-faq-category="markets">
-          <button class="faq-trigger" id="faq-q13">
-            <span>هل يمكن طلب تفضيلات أو قيود معينة؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              نعم، يمكن مناقشة سوق محدد، أسهم مستبعدة، أو مستوى مخاطرة مفضل. قبول أي طلب يعتمد على توفر بيانات اقتصادية ومالية وسعرية كافية تسمح بتحليل محترم.
-            </div>
-          </div>
-        </div>
-
-        <!-- FAQ 14 -->
-        <div class="faq-item" data-faq-category="experience">
-          <button class="faq-trigger" id="faq-q14">
-            <span>ما خبرتك في الأسواق؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              أنا محلل ومتداول بخبرة تزيد عن ٨ سنوات في الأسواق المالية العالمية. أعمل على تحويل الخبرة العملية إلى محتوى بحثي واضح، قابل للمراجعة، بعيد عن المبالغة.
-            </div>
-          </div>
-        </div>
-
-        <!-- FAQ 15 -->
-        <div class="faq-item" data-faq-category="experience">
-          <button class="faq-trigger" id="faq-q15">
-            <span>كيف تبدأ عملية الوصول أو التعارف؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              تبدأ بمكالمة قصيرة لفهم السوق الذي تهتم به، مستوى خبرتك، وطريقة استخدامك للأبحاث أو الفيديوهات. بعدها يتم توضيح ما يناسبك وما لا يناسبك بصراحة.
-            </div>
-          </div>
-        </div>
-
-        <!-- FAQ 16 -->
-        <div class="faq-item" data-faq-category="experience">
-          <button class="faq-trigger" id="faq-q16">
-            <span>كيف أبقى على اطلاع بالتحديثات؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              التحديثات تظهر داخل لوحة التحكم من خلال الأبحاث المنشورة ومكتبة الفيديو. التحليلات المهمة يمكن أيضاً الإشارة لها عبر قنوات التواصل الرسمية.
-            </div>
-          </div>
-        </div>
-
-        <!-- FAQ 17 -->
-        <div class="faq-item" data-faq-category="planning">
-          <button class="faq-trigger" id="faq-q17">
-            <span>ما الذي تتضمنه الخطة البحثية؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              الخطة البحثية تشمل تحديد السوق، مراجعة الاقتصاد الكلي، قراءة الحالة المالية، مراقبة سلوك السعر، توثيق الفرضية، ثم مراجعة المخاطر قبل نشر البحث أو الفيديو.
-            </div>
-          </div>
-        </div>
-
-        <!-- FAQ 18 -->
-        <div class="faq-item" data-faq-category="planning">
-          <button class="faq-trigger" id="faq-q18">
-            <span>هل المحتوى توصية تداول أو نصيحة استثمارية؟</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-content">
-            <div class="faq-content-inner">
-              لا. المحتوى بحثي وتعليمي فقط. لا توجد وعود بعائد، ولا أتحمل قرار الدخول أو الخروج أو حجم الصفقة. أي قرار مالي يجب أن يعتمد على تقييمك الشخصي ووضعك ومخاطرك.
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </article>
   </main>
 
   <script>
     (function () {
       'use strict';
 
-      function bindFaq() {
-        var faqItems = Array.prototype.slice.call(document.querySelectorAll('.faq-item'));
-        var faqFilters = Array.prototype.slice.call(document.querySelectorAll('[data-faq-filter]'));
+      function bindFaqBlock(block) {
+        var faqItems = Array.prototype.slice.call(block.querySelectorAll('.faq-item'));
+        var faqFilters = Array.prototype.slice.call(block.querySelectorAll('[data-faq-filter]'));
 
         faqItems.forEach(function (item) {
           var trigger = item.querySelector('.faq-trigger');
@@ -322,7 +637,7 @@
           if (!trigger || !content) return;
           if (!content.id) content.id = (trigger.id || 'faq') + '-content';
           trigger.setAttribute('aria-controls', content.id);
-          trigger.setAttribute('aria-expanded', item.classList.contains('active') ? 'true' : 'false');
+          trigger.setAttribute('aria-expanded', 'false');
           trigger.addEventListener('click', function () {
             var isActive = item.classList.contains('active');
             faqItems.forEach(function (other) {
@@ -356,7 +671,6 @@
         }
 
         faqFilters.forEach(function (btn) {
-          btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
           btn.addEventListener('click', function () {
             setFaqFilter(btn.dataset.faqFilter);
           });
@@ -364,7 +678,9 @@
         setFaqFilter('all');
       }
 
-      document.addEventListener('DOMContentLoaded', bindFaq);
+      document.addEventListener('DOMContentLoaded', function () {
+        Array.prototype.slice.call(document.querySelectorAll('[data-faq-block]')).forEach(bindFaqBlock);
+      });
     })();
   </script>
 </body>

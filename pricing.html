@@ -5,49 +5,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="index, follow">
   <title>الخطط | عبدالرحمن محمد</title>
-  <meta name="description" content="خطط قابلة للتخصيص للوصول إلى لوحة الأبحاث أو بناء نطاق متابعة محفظة قائم على البحث وإدارة المخاطر.">
+  <meta name="description" content="اختر بين الوصول إلى لوحة الأبحاث أو نطاق متابعة محفظة قائم على البحث والمخاطر. خطة اللوحة تذهب لاختيار طريقة الدفع، وخطة المحفظة تبدأ بمكالمة.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap"></noscript>
-  <link rel="stylesheet" href="index.css?v=owner-video-6">
-  <script src="i18n.js?v=owner-video-6" defer></script>
+  <link rel="stylesheet" href="index.css?v=faq-pricing-1">
+  <script src="i18n.js?v=faq-pricing-1" defer></script>
   <style>
     .pricing-page-shell {
       position: relative;
       z-index: 2;
       width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 92px 0 84px;
+      padding: 112px 0 84px;
+      overflow-x: clip;
     }
 
     .pricing-page-hero {
-      max-width: 780px;
+      border: 1px solid rgba(212,175,55,0.18);
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015) 52%, rgba(212,175,55,0.055));
       margin-bottom: 24px;
+      overflow: hidden;
+      padding: clamp(34px, 6vw, 64px);
+      position: relative;
+      text-align: center;
     }
 
-    .pricing-page-kicker {
+    .pricing-page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(212,175,55,0.13), transparent 35%);
+      pointer-events: none;
+    }
+
+    .pricing-page-hero > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .pricing-page-kicker,
+    .pricing-plan-label,
+    .pricing-note-label {
       color: var(--primary);
-      display: inline-flex;
       font-family: 'Cairo', sans-serif;
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       font-weight: 900;
       letter-spacing: 0.08em;
-      margin-bottom: 12px;
       text-transform: uppercase;
     }
 
     .pricing-page-title {
-      font-size: clamp(2rem, 3.8vw, 3.35rem);
-      line-height: 1.14;
-      margin-bottom: 14px;
+      font-size: clamp(2.5rem, 7vw, 5.15rem);
+      line-height: 1.03;
+      margin: 16px auto 18px;
+      max-width: 920px;
+      overflow-wrap: break-word;
+      text-wrap: balance;
     }
 
     .pricing-page-lead {
       color: var(--text-muted);
-      font-size: clamp(1rem, 1.7vw, 1.16rem);
+      font-size: clamp(1rem, 1.6vw, 1.14rem);
       line-height: 1.95;
-      max-width: 820px;
+      margin: 0 auto;
+      max-width: 840px;
     }
 
     .pricing-page-grid {
@@ -58,15 +82,19 @@
     }
 
     .pricing-plan-card {
-      padding: clamp(26px, 4vw, 38px);
+      background: linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.018));
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 24px;
       display: flex;
       flex-direction: column;
       min-height: 100%;
+      min-width: 0;
+      padding: clamp(26px, 4vw, 38px);
     }
 
     .pricing-plan-card.featured {
       border-color: rgba(212,175,55,0.34);
-      background: linear-gradient(145deg, rgba(212,175,55,0.075), rgba(255,255,255,0.032) 48%, rgba(255,255,255,0.018));
+      background: linear-gradient(145deg, rgba(212,175,55,0.085), rgba(255,255,255,0.028) 48%, rgba(255,255,255,0.018));
     }
 
     .pricing-plan-topline {
@@ -74,38 +102,46 @@
       display: flex;
       gap: 10px;
       justify-content: space-between;
-      margin-bottom: 18px;
+      margin-bottom: 22px;
     }
 
     .pricing-plan-label {
       border: 1px solid rgba(212,175,55,0.28);
       border-radius: 999px;
-      color: var(--primary);
-      font-family: 'Cairo', sans-serif;
-      font-size: 0.68rem;
-      font-weight: 900;
-      letter-spacing: 0.08em;
       padding: 6px 12px;
-      text-transform: uppercase;
     }
 
     .pricing-plan-status {
       color: var(--text-subtle);
       font-family: 'Cairo', sans-serif;
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       font-weight: 900;
     }
 
     .pricing-plan-card h2 {
-      font-size: clamp(1.6rem, 2.8vw, 2.35rem);
-      line-height: 1.2;
+      font-size: clamp(1.7rem, 2.9vw, 2.55rem);
+      line-height: 1.18;
       margin-bottom: 14px;
+      overflow-wrap: break-word;
     }
 
     .pricing-plan-card p {
       color: var(--text-muted);
       line-height: 1.9;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
+    }
+
+    .pricing-fit-box {
+      background: rgba(5,6,8,0.42);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      color: #dce2ee;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 800;
+      line-height: 1.7;
+      margin-bottom: 22px;
+      padding: 16px;
     }
 
     .pricing-scope-list {
@@ -113,7 +149,7 @@
       display: grid;
       gap: 12px;
       list-style: none;
-      margin: 0 0 24px;
+      margin: 0 0 26px;
       padding-top: 22px;
     }
 
@@ -122,89 +158,51 @@
       font-family: 'Cairo', sans-serif;
       font-size: 0.9rem;
       font-weight: 800;
-      line-height: 1.55;
+      line-height: 1.6;
     }
 
     .pricing-scope-list li::before {
       content: '';
       background: var(--primary);
       border-radius: 999px;
+      box-shadow: 0 0 12px rgba(212,175,55,0.38);
       display: inline-block;
       height: 7px;
       margin-inline-end: 10px;
       width: 7px;
     }
 
-    .pricing-customizer {
-      background: rgba(5,6,8,0.42);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 14px;
-      display: grid;
-      gap: 14px;
-      margin-top: auto;
-      padding: 18px;
-    }
-
-    .pricing-field label,
-    .pricing-checkbox {
-      color: #ffffff;
-      display: block;
-      font-family: 'Cairo', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 900;
-      margin-bottom: 7px;
-    }
-
-    .pricing-field select {
-      appearance: none;
-      background: #080a0f;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      color: var(--text-main);
-      font-family: 'Tajawal', sans-serif;
-      min-height: 44px;
-      padding: 0 12px;
-      width: 100%;
-    }
-
-    .pricing-checkbox {
-      align-items: center;
-      color: var(--text-muted);
-      display: flex;
-      gap: 10px;
-      line-height: 1.6;
-      margin: 0;
-    }
-
-    .pricing-checkbox input {
-      accent-color: var(--primary);
-      width: 16px;
-      height: 16px;
-      flex: 0 0 auto;
-    }
-
     .pricing-plan-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 18px;
+      margin-top: auto;
     }
 
     .pricing-plan-actions a {
-      min-height: 46px;
       align-items: center;
       display: inline-flex;
       justify-content: center;
+      min-height: 48px;
       padding: 12px 20px;
       text-decoration: none;
     }
 
     .pricing-page-note {
-      color: var(--text-subtle);
-      font-size: 0.86rem;
+      align-items: start;
+      background: rgba(9,10,13,0.78);
+      border: 1px solid rgba(212,175,55,0.18);
+      border-radius: 22px;
+      display: grid;
+      gap: 10px;
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .pricing-page-note p {
+      color: var(--text-muted);
       line-height: 1.9;
-      margin-top: 22px;
-      text-align: center;
+      margin: 0;
     }
 
     @media (max-width: 860px) {
@@ -216,7 +214,38 @@
     @media (max-width: 640px) {
       .pricing-page-shell {
         width: min(100% - 22px, 1180px);
-        padding-top: 104px;
+        padding-top: 98px;
+      }
+
+      .pricing-page-hero {
+        border-radius: 22px;
+        padding: 30px 18px;
+      }
+
+      .pricing-page-title {
+        font-size: clamp(2rem, 12vw, 2.45rem);
+        line-height: 1.16;
+      }
+
+      .pricing-plan-topline,
+      .pricing-plan-actions {
+        flex-direction: column;
+      }
+
+      .pricing-plan-topline {
+        align-items: flex-start;
+      }
+
+      .pricing-plan-label {
+        width: fit-content;
+      }
+
+      .pricing-plan-actions {
+        align-items: stretch;
+      }
+
+      .pricing-plan-actions a {
+        width: 100%;
       }
     }
   </style>
@@ -235,177 +264,111 @@
     <article class="legal-content legal-ar">
       <section class="pricing-page-hero">
         <span class="pricing-page-kicker">الخطط</span>
-        <h1 class="pricing-page-title">خطط مخصصة للبحث والمتابعة.</h1>
-        <p class="pricing-page-lead">لا يتم عرض سعر ثابت قبل فهم الأسواق، عدد الأدوات، مستوى المتابعة، وتكرار المراجعة المطلوب. اختر المسار الأقرب لاحتياجك ثم خصص النطاق قبل التواصل.</p>
+        <h1 class="pricing-page-title">اختر المسار المناسب قبل الاشتراك.</h1>
+        <p class="pricing-page-lead">هناك مساران واضحان: الوصول إلى لوحة الأبحاث ومكتبة الفيديو، أو نطاق متابعة محفظة يحتاج إلى مكالمة لفهم الأسواق، التعرض، وطريقة استخدامك للأبحاث. لا توجد إدارة أموال أو وعود بعائد من خلال الموقع.</p>
       </section>
 
-      <section class="pricing-page-grid" aria-label="خطط قابلة للتخصيص">
-        <article class="pricing-plan-card glass-panel" id="dashboard-plan">
+      <section class="pricing-page-grid" aria-label="خطط الوصول">
+        <article class="pricing-plan-card" id="dashboard-plan">
           <div class="pricing-plan-topline">
             <span class="pricing-plan-label">Dashboard</span>
-            <span class="pricing-plan-status">تخصيص حسب النطاق</span>
+            <span class="pricing-plan-status">وصول مباشر بعد التأكيد</span>
           </div>
-          <h2>خطة لوحة البيانات</h2>
-          <p>مناسبة لمن يريد الوصول إلى لوحة الأبحاث، الفيديوهات، ومتابعة قراءات السوق داخل إطار واحد.</p>
+          <h2>خطة لوحة الأبحاث</h2>
+          <p>لمن يريد استخدام لوحة البيانات، مكتبة الفيديو، والأبحاث المنشورة حسب اللغة والسوق، مع مسار واضح لاختيار طريقة الدفع قبل تفعيل الحساب.</p>
+          <div class="pricing-fit-box">مناسبة للمتداول أو الباحث الذي يريد متابعة محتوى منظم، أدوات قراءة، وفيديوهات تعليمية دون مكالمة إلزامية.</div>
           <ul class="pricing-scope-list">
-            <li>لوحة أبحاث حسب الأسواق المختارة</li>
-            <li>مكتبة فيديو ومواد تعليمية حسب اللغة</li>
-            <li>متابعة مؤشرات الأداء والمخاطر الأساسية</li>
+            <li>وصول إلى لوحة الأبحاث حسب الأسواق المتاحة</li>
+            <li>مكتبة فيديو مرتبطة باللغة والأقسام المنشورة</li>
+            <li>قراءات سوق وملاحظات مخاطر ضمن إطار بحثي</li>
+            <li>اختيار طريقة الدفع المفضلة قبل التفعيل</li>
           </ul>
-          <div class="pricing-customizer" aria-label="تخصيص خطة لوحة البيانات">
-            <div class="pricing-field">
-              <label for="dashboard-market-ar">نطاق الأسواق</label>
-              <select id="dashboard-market-ar">
-                <option>سوق واحد</option>
-                <option>3 أسواق</option>
-                <option>كل الأسواق المتاحة</option>
-              </select>
-            </div>
-            <div class="pricing-field">
-              <label for="dashboard-access-ar">نوع الوصول</label>
-              <select id="dashboard-access-ar">
-                <option>حساب فردي</option>
-                <option>حسابات فريق صغيرة</option>
-                <option>نطاق مؤسسة</option>
-              </select>
-            </div>
-            <label class="pricing-checkbox"><input type="checkbox" checked> تضمين مكتبة الفيديو والأبحاث</label>
-            <label class="pricing-checkbox"><input type="checkbox"> إضافة مراجعة شهرية للوحة</label>
-          </div>
           <div class="pricing-plan-actions">
-            <a href="contact.html" class="btn-primary">ناقش الخطة</a>
+            <a href="dashboard-payment.html" class="btn-primary">اختيار طريقة الدفع</a>
             <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="btn-secondary">تيليجرام</a>
           </div>
         </article>
 
-        <article class="pricing-plan-card glass-panel featured" id="portfolio-plan">
+        <article class="pricing-plan-card featured" id="portfolio-plan">
           <div class="pricing-plan-topline">
             <span class="pricing-plan-label">Portfolio</span>
-            <span class="pricing-plan-status">تخصيص متقدم</span>
+            <span class="pricing-plan-status">يبدأ بمكالمة</span>
           </div>
-          <h2>خطة إدارة المحفظة</h2>
-          <p>نطاق بحث ومتابعة مخصص للمحافظ النشطة، يركز على التعرض، المخاطر، ومراجعة القرارات على مستوى المحفظة.</p>
+          <h2>نطاق متابعة المحفظة</h2>
+          <p>لمن يحتاج قراءة بحثية أعمق للتعرض، المخاطر، وتكرار المراجعة على مستوى المحفظة ككل. هذا المسار لا يبدأ بدفع مباشر لأنه يحتاج تحديد نطاق واضح أولا.</p>
+          <div class="pricing-fit-box">مناسب عندما يكون لديك أكثر من مركز أو سوق وتحتاج إطار متابعة مخاطر، وليس توصيات دخول وخروج أو إدارة حساب.</div>
           <ul class="pricing-scope-list">
-            <li>تحديد ميزانية المخاطر والتعرض حسب السوق</li>
-            <li>مراجعة دورية للصفقات والمراكز</li>
-            <li>تقارير بحثية حسب هيكل المحفظة</li>
+            <li>فهم الأسواق والأدوات داخل المحفظة</li>
+            <li>مراجعة التعرض والمخاطر على مستوى المراكز</li>
+            <li>تحديد تكرار المراجعة المناسب حسب النطاق</li>
+            <li>تأكيد ما يمكن تقديمه وما لا يمكن تقديمه قبل أي التزام</li>
           </ul>
-          <div class="pricing-customizer" aria-label="تخصيص خطة إدارة المحفظة">
-            <div class="pricing-field">
-              <label for="portfolio-scope-ar">نطاق المحفظة</label>
-              <select id="portfolio-scope-ar">
-                <option>محفظة سوق واحد</option>
-                <option>محفظة متعددة الأسواق</option>
-                <option>محفظة متعددة الأصول</option>
-              </select>
-            </div>
-            <div class="pricing-field">
-              <label for="portfolio-review-ar">تكرار المراجعة</label>
-              <select id="portfolio-review-ar">
-                <option>شهري</option>
-                <option>كل أسبوعين</option>
-                <option>أسبوعي حسب النطاق</option>
-              </select>
-            </div>
-            <label class="pricing-checkbox"><input type="checkbox" checked> متابعة المخاطر والتعرض</label>
-            <label class="pricing-checkbox"><input type="checkbox"> تقرير أداء مخصص</label>
-          </div>
           <div class="pricing-plan-actions">
-            <a href="contact.html" class="btn-primary">ناقش الخطة</a>
+            <a href="contact.html" class="btn-primary">احجز مكالمة</a>
             <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="btn-secondary">تيليجرام</a>
           </div>
         </article>
       </section>
 
-      <p class="pricing-page-note">جميع الخطط مخصصة لأغراض البحث والتعليم وبناء أدوات متابعة القرار. لا توجد وعود بعائد، ولا حفظ أموال، ولا تنفيذ صفقات من خلال الموقع.</p>
+      <section class="pricing-page-note" aria-label="تنبيه">
+        <span class="pricing-note-label">تنبيه مهم</span>
+        <p>كل الخطط مخصصة لأغراض البحث والتعليم وبناء أدوات متابعة القرار. لا توجد إدارة أموال، ولا حفظ أموال، ولا تنفيذ صفقات، ولا ضمانات نتائج. قرار استخدام أي فكرة أو قراءة يظل مسؤوليتك الشخصية.</p>
+      </section>
     </article>
 
     <article class="legal-content legal-en">
       <section class="pricing-page-hero">
         <span class="pricing-page-kicker">Pricing</span>
-        <h1 class="pricing-page-title">Custom Research Plans.</h1>
-        <p class="pricing-page-lead">Pricing is not fixed before the markets, instruments, review cadence, and workflow requirements are clear. Select the closest track, customize the scope, then use the appropriate contact channel.</p>
+        <h1 class="pricing-page-title">Choose the right path before subscribing.</h1>
+        <p class="pricing-page-lead">There are two clear paths: access to the research dashboard and video library, or a portfolio-monitoring scope that requires a call to understand your markets, exposure, and intended workflow. The website does not manage money or promise returns.</p>
       </section>
 
-      <section class="pricing-page-grid" aria-label="Customizable plans">
-        <article class="pricing-plan-card glass-panel" id="dashboard-plan-en">
+      <section class="pricing-page-grid" aria-label="Access plans">
+        <article class="pricing-plan-card" id="dashboard-plan-en">
           <div class="pricing-plan-topline">
             <span class="pricing-plan-label">Dashboard</span>
-            <span class="pricing-plan-status">Scoped Quote</span>
+            <span class="pricing-plan-status">Access after confirmation</span>
           </div>
-          <h2>Dashboard Plan</h2>
-          <p>For access to the research dashboard, video library, and market readings inside one organized workflow.</p>
+          <h2>Research Dashboard Plan</h2>
+          <p>For users who want the dashboard, video library, and published research organized by language and market, with a clear route to choose a preferred payment method before account activation.</p>
+          <div class="pricing-fit-box">Best for a trader or researcher who wants structured market material, reading tools, and educational videos without a required call.</div>
           <ul class="pricing-scope-list">
-            <li>Research dashboard for selected markets</li>
-            <li>Video and research library by language</li>
-            <li>Core performance and risk metrics</li>
+            <li>Dashboard access for available markets</li>
+            <li>Video library tied to language and published sections</li>
+            <li>Market readings and risk notes inside a research framework</li>
+            <li>Preferred payment-method selection before activation</li>
           </ul>
-          <div class="pricing-customizer" aria-label="Customize dashboard plan">
-            <div class="pricing-field">
-              <label for="dashboard-market-en">Market Coverage</label>
-              <select id="dashboard-market-en">
-                <option>Single market</option>
-                <option>3 markets</option>
-                <option>All available markets</option>
-              </select>
-            </div>
-            <div class="pricing-field">
-              <label for="dashboard-access-en">Access Type</label>
-              <select id="dashboard-access-en">
-                <option>Individual account</option>
-                <option>Small team access</option>
-                <option>Institutional scope</option>
-              </select>
-            </div>
-            <label class="pricing-checkbox"><input type="checkbox" checked> Include video and research library</label>
-            <label class="pricing-checkbox"><input type="checkbox"> Add monthly dashboard review</label>
-          </div>
           <div class="pricing-plan-actions">
-            <a href="contact.html" class="btn-primary">Discuss Plan</a>
+            <a href="dashboard-payment.html" class="btn-primary">Choose Payment Method</a>
             <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="btn-secondary">Telegram</a>
           </div>
         </article>
 
-        <article class="pricing-plan-card glass-panel featured" id="portfolio-plan-en">
+        <article class="pricing-plan-card featured" id="portfolio-plan-en">
           <div class="pricing-plan-topline">
             <span class="pricing-plan-label">Portfolio</span>
-            <span class="pricing-plan-status">Advanced Scope</span>
+            <span class="pricing-plan-status">Starts with a call</span>
           </div>
-          <h2>Portfolio Management Plan</h2>
-          <p>A customized research and risk-monitoring workflow for active portfolios, focused on exposure, risk, and decision review.</p>
+          <h2>Portfolio Monitoring Scope</h2>
+          <p>For deeper research support around exposure, risk, and review cadence at portfolio level. This path does not start with direct payment because the scope needs to be defined first.</p>
+          <div class="pricing-fit-box">Best when you have multiple positions or markets and need a risk-monitoring framework, not entry and exit calls or account management.</div>
           <ul class="pricing-scope-list">
-            <li>Risk budget and exposure mapping by market</li>
-            <li>Periodic review of trades and positions</li>
-            <li>Research reporting based on portfolio structure</li>
+            <li>Understand the markets and instruments in scope</li>
+            <li>Review exposure and risk across positions</li>
+            <li>Set an appropriate review cadence for the scope</li>
+            <li>Confirm what can and cannot be provided before any commitment</li>
           </ul>
-          <div class="pricing-customizer" aria-label="Customize portfolio plan">
-            <div class="pricing-field">
-              <label for="portfolio-scope-en">Portfolio Scope</label>
-              <select id="portfolio-scope-en">
-                <option>Single-market portfolio</option>
-                <option>Multi-market portfolio</option>
-                <option>Multi-asset portfolio</option>
-              </select>
-            </div>
-            <div class="pricing-field">
-              <label for="portfolio-review-en">Review Cadence</label>
-              <select id="portfolio-review-en">
-                <option>Monthly</option>
-                <option>Bi-weekly</option>
-                <option>Weekly by scope</option>
-              </select>
-            </div>
-            <label class="pricing-checkbox"><input type="checkbox" checked> Risk and exposure monitoring</label>
-            <label class="pricing-checkbox"><input type="checkbox"> Custom performance report</label>
-          </div>
           <div class="pricing-plan-actions">
-            <a href="contact.html" class="btn-primary">Discuss Plan</a>
+            <a href="contact.html" class="btn-primary">Book a Call</a>
             <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="btn-secondary">Telegram</a>
           </div>
         </article>
       </section>
 
-      <p class="pricing-page-note">Plans are for research, education, and decision-monitoring workflows. They do not include return guarantees, custody, or trade execution through the website.</p>
+      <section class="pricing-page-note" aria-label="Important note">
+        <span class="pricing-note-label">Important Note</span>
+        <p>All plans are for research, education, and decision-monitoring workflows. They do not include money management, custody, trade execution, or guaranteed results. Any decision based on the material remains your responsibility.</p>
+      </section>
     </article>
   </main>
 </body>
