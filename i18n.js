@@ -79,7 +79,7 @@
     ["بدون التزام أو رسوم", "No commitment or fee"],
     ["انضم إلى تيليجرام", "Join Telegram"],
     ["خطة لوحة الأبحاث", "Research Dashboard Plan"],
-    ["اختر طريقة الدفع", "Choose Payment Method"],
+    ["تواصل لتفعيل الحساب", "Contact to Activate"],
     ["مكالمة استشارة خاصة 1v1", "Private 1v1 Consultation Call"],
     ["جلسة خاصة لمناقشة هدفك البحثي، أسئلتك، وطريقة استخدامك للأدوات أو قراءة المخاطر.", "A private session to discuss your research objective, questions, and how you use tools or read risk."],
     ["مناقشة خاصة للأسئلة والمنهجية", "Private discussion for questions and methodology"],
