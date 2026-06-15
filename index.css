@@ -1072,6 +1072,15 @@ input[type="range"]::-webkit-slider-thumb {
   margin-bottom: 24px;
 }
 
+.pricing-preview-price {
+  color: var(--primary);
+  font-family: 'Cairo', sans-serif;
+  font-size: 1.02rem;
+  font-weight: 900;
+  line-height: 1.4;
+  margin: -6px 0 16px;
+}
+
 .pricing-preview-card ul {
   border-top: 1px solid var(--border-color);
   display: flex;
