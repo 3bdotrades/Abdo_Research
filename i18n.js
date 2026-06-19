@@ -2,6 +2,7 @@
   "use strict";
 
   var STORAGE_KEY = "abdo_research_lang";
+  var THEME_STORAGE_KEY = "abdo_research_theme";
   var supported = { ar: true, en: true };
   var originalText = new WeakMap();
   var originalAttrs = new WeakMap();
@@ -415,6 +416,31 @@
     window.dispatchEvent(new CustomEvent("abdo:languagechange", { detail: { lang: nextLang } }));
   }
 
+  function getTheme() {
+    try {
+      var saved = localStorage.getItem(THEME_STORAGE_KEY);
+      if (saved === "light" || saved === "dark") return saved;
+    } catch (e) {}
+    return "dark";
+  }
+
+  function setTheme(theme) {
+    var nextTheme = theme === "light" ? "light" : "dark";
+    try { localStorage.setItem(THEME_STORAGE_KEY, nextTheme); } catch (e) {}
+    applyTheme();
+  }
+
+  function applyTheme() {
+    var theme = getTheme();
+    var html = document.documentElement;
+    html.setAttribute("data-theme", theme);
+    if (document.body) {
+      document.body.classList.toggle("theme-light", theme === "light");
+      document.body.classList.toggle("theme-dark", theme === "dark");
+    }
+    updateThemeSwitcher(theme);
+  }
+
   function translate(value) {
     return EN[normalize(value)] || value;
   }
@@ -543,9 +569,54 @@
     });
   }
 
+  function installThemeSwitcher() {
+    if (document.querySelector(".theme-switcher")) return;
+    var switcher = document.createElement("div");
+    switcher.className = "theme-switcher";
+    switcher.setAttribute("role", "group");
+    switcher.setAttribute("aria-label", "Theme");
+    switcher.setAttribute("data-i18n-skip", "true");
+    switcher.innerHTML = [
+      '<button type="button" class="theme-toggle-btn" data-theme-choice="dark" aria-label="Dark mode" title="Dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 14.7A8.5 8.5 0 0 1 9.3 3 7 7 0 1 0 21 14.7Z"/></svg></button>',
+      '<button type="button" class="theme-toggle-btn" data-theme-choice="light" aria-label="Light mode" title="Light mode"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>'
+    ].join("");
+
+    var desktopTarget = document.querySelector(".header-auth-group");
+    var dashboardTarget = document.querySelector(".db-topbar-actions");
+    var simpleTarget = document.querySelector(".nav-container");
+    var target = desktopTarget || dashboardTarget || simpleTarget || document.body;
+    var languageSwitcher = target.querySelector ? target.querySelector(".language-switcher") : null;
+
+    if (languageSwitcher && languageSwitcher.parentNode === target) {
+      target.insertBefore(switcher, languageSwitcher.nextSibling);
+    } else if (dashboardTarget) {
+      dashboardTarget.insertBefore(switcher, dashboardTarget.firstChild);
+    } else if (desktopTarget) {
+      desktopTarget.insertBefore(switcher, desktopTarget.firstChild);
+    } else if (simpleTarget) {
+      simpleTarget.appendChild(switcher);
+    } else {
+      document.body.insertBefore(switcher, document.body.firstChild);
+    }
+
+    switcher.addEventListener("click", function (event) {
+      var button = event.target.closest("[data-theme-choice]");
+      if (!button) return;
+      setTheme(button.getAttribute("data-theme-choice"));
+    });
+  }
+
   function updateSwitcher(lang) {
     Array.prototype.slice.call(document.querySelectorAll(".lang-toggle-btn")).forEach(function (button) {
       var active = button.getAttribute("data-lang") === lang;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+  }
+
+  function updateThemeSwitcher(theme) {
+    Array.prototype.slice.call(document.querySelectorAll(".theme-toggle-btn")).forEach(function (button) {
+      var active = button.getAttribute("data-theme-choice") === theme;
       button.classList.toggle("is-active", active);
       button.setAttribute("aria-pressed", active ? "true" : "false");
     });
@@ -560,10 +631,13 @@
     document.body && document.body.classList.toggle("lang-en", lang === "en");
     document.title = lang === "ar" ? html.dataset.originalTitle : translate(html.dataset.originalTitle);
     installSwitcher();
+    installThemeSwitcher();
+    applyTheme();
     if (document.body) translateTree(document.body, lang);
     translateAttributes(document.documentElement, lang);
     removePricingFromFooterQuickLinks();
     updateSwitcher(lang);
+    updateThemeSwitcher(getTheme());
   }
 
   function observeDynamicContent() {
@@ -585,6 +659,8 @@
     applyLanguage: applyLanguage,
     currentLang: getLang,
     setLanguage: setLang,
+    currentTheme: getTheme,
+    setTheme: setTheme,
     t: function (value) {
       return getLang() === "en" ? translate(value) : value;
     },
