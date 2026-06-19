@@ -263,73 +263,18 @@
       margin: 0;
     }
 
-    .about-boundary-list {
-      display: grid;
-      gap: 12px;
-      margin-top: 24px;
-    }
-
-    .about-boundary-item {
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 8px;
-      background: rgba(5, 6, 8, 0.48);
-      color: var(--text-muted);
-      line-height: 1.85;
-      padding: 16px 18px;
-    }
-
-    .about-contact-panel {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 24px;
-      align-items: center;
-      border: 1px solid rgba(212, 175, 55, 0.28);
-      border-radius: 8px;
-      background: rgba(255,255,255,0.028);
-      margin-top: 42px;
-      padding: clamp(22px, 4vw, 34px);
-    }
-
-    .about-contact-panel h2 {
-      color: #fff;
-      font-size: clamp(1.45rem, 3vw, 2.25rem);
-      margin: 0 0 10px;
-    }
-
-    .about-contact-panel p {
-      color: var(--text-muted);
-      line-height: 1.9;
-      margin: 0;
-      max-width: 760px;
-    }
-
-    .about-contact-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      justify-content: flex-end;
-      min-width: 260px;
-    }
-
-    .about-contact-actions a {
-      align-items: center;
-      display: inline-flex;
-      justify-content: center;
-      min-height: 46px;
-      padding: 12px 22px;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
     .about-page-footer {
       color: var(--text-subtle);
       display: flex;
       flex-wrap: wrap;
-      gap: 12px 24px;
-      justify-content: space-between;
-      padding-top: 28px;
+      gap: 10px 18px;
+      justify-content: center;
+      margin-top: 34px;
+      padding-top: 22px;
+      border: 0;
       font-size: 0.82rem;
       line-height: 1.8;
+      text-align: center;
     }
 
     .about-page-footer a {
@@ -357,8 +302,7 @@
     @media (max-width: 980px) {
       .about-profile-hero,
       .about-two-column,
-      .about-method-section .about-two-column,
-      .about-contact-panel {
+      .about-method-section .about-two-column {
         grid-template-columns: 1fr;
       }
 
@@ -372,8 +316,7 @@
         margin-right: auto;
       }
 
-      .about-social-row,
-      .about-contact-actions {
+      .about-social-row {
         justify-content: center;
       }
 
@@ -391,9 +334,6 @@
         grid-template-columns: 1fr;
       }
 
-      .about-contact-actions {
-        min-width: 0;
-      }
     }
 
     @media (max-width: 640px) {
@@ -437,10 +377,6 @@
         padding: 18px;
       }
 
-      .about-contact-actions a {
-        width: 100%;
-      }
-
       .about-page-footer {
         justify-content: center;
         text-align: center;
@@ -464,8 +400,8 @@
         <div>
           <span class="about-eyebrow">من أنا</span>
           <h1 class="about-title">عبدالرحمن محمد</h1>
-          <p class="about-role">باحث كمي ومتداول في الأسواق المالية</p>
-          <p class="about-lead">أتعامل مع السوق كمسألة بحثية: اقتصاد كلي، حالة مالية، سلوك سعر، ثم حدود مخاطرة واضحة. الهدف ليس بيع توقعات جاهزة، بل بناء قراءة قابلة للمراجعة تساعد على اتخاذ قرار أكثر هدوءاً وانضباطاً.</p>
+          <p class="about-role">محلل ومتداول بخبرة تزيد عن 8 سنوات</p>
+          <p class="about-lead">أنا عبدالرحمن محمد. بدأت علاقتي بالأسواق من فضول حقيقي تجاه حركة السعر والقرار تحت الضغط، ثم تحولت مع الوقت إلى ممارسة يومية من القراءة، التداول، المراجعة، وبناء أدوات تساعدني على رؤية السوق بشكل أوضح.</p>
           <div class="about-social-row" aria-label="روابط عبدالرحمن محمد">
             <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="تيليجرام">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.93c-.12.56-.46.69-.93.43l-2.58-1.9-1.24 1.2c-.14.14-.25.25-.51.25l.18-2.62 4.7-4.25c.2-.18-.05-.28-.32-.1L7.9 14.84l-2.54-.8c-.55-.17-.56-.55.12-.82l9.92-3.82c.46-.17.86.11.69.8l.55-.2z"/></svg>
@@ -486,8 +422,8 @@
           <img src="/abdo-profile-hero-clean.jpg" srcset="/abdo-profile-hero-clean.jpg 1x, /abdo-profile-hero-clean-2x.jpg 2x" onerror="this.onerror=null; this.src='/abdo-profile-hero.jpg';" alt="عبدالرحمن محمد" width="420" height="525" loading="eager" decoding="async" class="about-photo">
           <figcaption class="about-profile-meta">
             <div>
-              <strong>أكثر من 8 سنوات في الأسواق</strong>
-              <span>تداول، تحليل، مراجعة قرارات، وبناء أدوات قراءة تساعد على قياس الفرضية والمخاطر.</span>
+              <strong>خبرة عملية في الأسواق</strong>
+              <span>أكثر من 8 سنوات بين التداول، التحليل، مراجعة القرارات، والتعامل مع أسواق مختلفة.</span>
             </div>
           </figcaption>
         </figure>
@@ -496,31 +432,31 @@
       <section class="about-section">
         <div class="about-two-column">
           <div>
-            <span class="about-section-label">الخلفية</span>
-            <h2 class="about-section-title">ليست صفحة وعود، بل طريقة تفكير.</h2>
+            <span class="about-section-label">نبذة شخصية</span>
+            <h2 class="about-section-title">رحلتي مع السوق بدأت من الفضول ثم أصبحت التزاماً يومياً.</h2>
           </div>
           <div class="about-copy">
-            <p>بدأت علاقتي بالأسواق من الفضول، ثم تحولت إلى عمل يومي مع البيانات، القراءة، تنفيذ الصفقات، ومراجعة الأخطاء. مع الوقت أصبحت مقتنعاً أن جودة القرار لا تقاس بالنتيجة وحدها، بل بطريقة بناء الفرضية قبل الدخول وطريقة مراجعتها بعد ظهور النتيجة.</p>
-            <p>أركز على الربط بين حالة الاقتصاد الكلي، الحالة المالية للشركات أو العملات، ثم سلوك السعر. بعد ذلك تأتي المخاطر: حجم الصفقة أو المركز، أثره على المحفظة، ونقطة بطلان الفكرة.</p>
+            <p>ما جذبني للأسواق في البداية لم يكن فكرة الربح السريع، بل صعوبة اللعبة نفسها: معلومات ناقصة، مشاعر قوية، وسعر يتحرك قبل أن يكتمل اليقين. هذا جعلني أتعامل مع السوق كمساحة تحتاج إلى صبر وانضباط أكثر من احتياجها إلى ضجيج أو وعود.</p>
+            <p>مع الوقت أصبحت شخصيتي المهنية أقرب إلى الباحث الهادئ: أقرأ كثيراً، أدوّن الملاحظات، أراجع أخطائي، وأحاول تحويل التجربة إلى فهم أفضل. ما أقدمه على الموقع امتداد لهذه الرحلة الشخصية، وليس واجهة تسويقية منفصلة عنها.</p>
           </div>
         </div>
 
         <div class="about-fact-grid" aria-label="ملخص مهني">
           <div class="about-fact">
             <strong>8+ سنوات</strong>
-            <span>متابعة وتداول وتحليل عبر بيئات سوق مختلفة.</span>
+            <span>خبرة عملية تكونت من المتابعة اليومية، التداول، والتحليل.</span>
           </div>
           <div class="about-fact">
-            <strong>أسواق متعددة</strong>
-            <span>مصر، الخليج، الولايات المتحدة، العملات المشفرة، والعقود الآجلة.</span>
+            <strong>فضول واسع</strong>
+            <span>أتابع أسواقاً مختلفة لأن المقارنة بين البيئات تكشف الكثير.</span>
           </div>
           <div class="about-fact">
-            <strong>بحث منظم</strong>
-            <span>فرضية، بيانات، اختبار، ثم مراجعة قابلة للتكرار.</span>
+            <strong>هدوء وانضباط</strong>
+            <span>أفضّل القرار الواضح على الانفعال اللحظي أو مطاردة الحركة.</span>
           </div>
           <div class="about-fact">
-            <strong>مخاطر أولاً</strong>
-            <span>لا تكتمل الفكرة قبل تحديد حدود الخسارة والتعرض.</span>
+            <strong>مراجعة مستمرة</strong>
+            <span>أتعلم من القرارات بعد انتهائها، سواء كانت النتيجة جيدة أو سيئة.</span>
           </div>
         </div>
       </section>
@@ -528,58 +464,29 @@
       <section class="about-section about-method-section">
         <div class="about-two-column">
           <div>
-            <span class="about-section-label">طريقة العمل</span>
-            <h2 class="about-section-title">كيف أحوّل الفكرة إلى قراءة قابلة للمراجعة.</h2>
+            <span class="about-section-label">ما يميزني</span>
+            <h2 class="about-section-title">شخصيتي المهنية أقرب إلى الباحث الهادئ.</h2>
           </div>
           <div class="about-principles-grid">
             <article class="about-principle">
               <span>01</span>
-              <h2>فرضية قابلة للقياس</h2>
-              <p>لا أبدأ من إحساس عام. أبدأ بسؤال محدد يمكن اختباره: ما الذي تغير؟ أين تظهر الإشارة؟ وما الشروط التي تجعلها غير صالحة؟</p>
+              <h2>فضول منظم</h2>
+              <p>أحب فهم سبب الحركة قبل الحكم عليها. الفضول عندي لا يعني العشوائية، بل البحث عن سياق يجعل القرار أكثر وضوحاً.</p>
             </article>
             <article class="about-principle">
               <span>02</span>
-              <h2>سياق قبل السعر</h2>
-              <p>أراجع الاقتصاد الكلي والحالة المالية أولاً، ثم أقرأ سلوك السعر. السعر مهم، لكنه يصبح أوضح عندما يوضع داخل سياقه.</p>
+              <h2>هدوء تحت الضغط</h2>
+              <p>الأسواق تختبر الانفعال باستمرار. لذلك أحاول الحفاظ على مسافة كافية بين الفكرة والقرار حتى لا يتحول التوتر إلى تصرف.</p>
             </article>
             <article class="about-principle">
               <span>03</span>
-              <h2>مخاطر الصفقة والمحفظة</h2>
-              <p>المخاطرة ليست وقف خسارة فقط. هي حجم مركز، تعرض إجمالي، سيناريو أسوأ، وتأثير القرار على المحفظة ككل.</p>
+              <h2>احترام المراجعة</h2>
+              <p>لا أتعامل مع الخطأ كإحراج، بل كمصدر بيانات. المراجعة المستمرة هي الجزء الذي يحافظ على التطور الحقيقي.</p>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="about-section">
-        <div class="about-two-column">
-          <div>
-            <span class="about-section-label">الحدود</span>
-            <h2 class="about-section-title">ما يمكن توقعه وما لا أقدمه.</h2>
-          </div>
-          <div>
-            <div class="about-copy">
-              <p>المحتوى المنشور هنا بحثي وتعليمي. أشارك قراءات، أدوات، فيديوهات، وملاحظات منهجية تساعد على تنظيم القرار، بينما أي إدارة محفظة تكون مساراً منفصلاً لا يبدأ إلا بعد مكالمة واتفاق مكتوب.</p>
-            </div>
-            <div class="about-boundary-list">
-              <div class="about-boundary-item">لا أعد بعائد، ولا أقدم إشارات دخول وخروج جاهزة.</div>
-              <div class="about-boundary-item">لا يبدأ أي نطاق لإدارة محفظة قبل تحديد رأس المال، نسبة الاتفاق، الاستراتيجية، وحدود المخاطر كتابة.</div>
-              <div class="about-boundary-item">أي قرار مالي يظل مسؤولية صاحبه حسب وضعه، رأس ماله، ومخاطره.</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="about-contact-panel" aria-label="تواصل معي">
-        <div>
-          <h2>هل تريد معرفة أنسب مسار لك؟</h2>
-          <p>استخدم صفحة التواصل للأسئلة الخاصة بالحساب، الوصول للوحة الأبحاث، مكالمة 1v1، أو مناقشة إدارة محفظة. الهدف من التواصل هو توضيح الاحتياج والنطاق قبل أي اتفاق.</p>
-        </div>
-        <div class="about-contact-actions">
-          <a href="contact.html" class="btn-primary">تواصل معي</a>
-          <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="btn-secondary">تيليجرام</a>
-        </div>
-      </section>
     </article>
 
     <article class="legal-content legal-en">
@@ -587,8 +494,8 @@
         <div>
           <span class="about-eyebrow">About Me</span>
           <h1 class="about-title">Abdulrhman Mohamed</h1>
-          <p class="about-role">Quant researcher and trader in financial markets</p>
-          <p class="about-lead">I treat markets as a research problem: macro context, financial condition, price behavior, then clear risk limits. The goal is not to sell ready-made forecasts, but to build reviewable work that supports calmer, more disciplined decisions.</p>
+          <p class="about-role">Analyst and trader with more than 8 years of experience</p>
+          <p class="about-lead">I am Abdulrhman Mohamed. My relationship with markets started from genuine curiosity about price movement and decision-making under pressure, then became a daily practice of reading, trading, reviewing, and building tools that help me see markets more clearly.</p>
           <div class="about-social-row" aria-label="Abdulrhman Mohamed links">
             <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Telegram">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.93c-.12.56-.46.69-.93.43l-2.58-1.9-1.24 1.2c-.14.14-.25.25-.51.25l.18-2.62 4.7-4.25c.2-.18-.05-.28-.32-.1L7.9 14.84l-2.54-.8c-.55-.17-.56-.55.12-.82l9.92-3.82c.46-.17.86.11.69.8l.55-.2z"/></svg>
@@ -609,8 +516,8 @@
           <img src="/abdo-profile-hero-clean.jpg" srcset="/abdo-profile-hero-clean.jpg 1x, /abdo-profile-hero-clean-2x.jpg 2x" onerror="this.onerror=null; this.src='/abdo-profile-hero.jpg';" alt="Abdulrhman Mohamed" width="420" height="525" loading="eager" decoding="async" class="about-photo">
           <figcaption class="about-profile-meta">
             <div>
-              <strong>More than 8 years in markets</strong>
-              <span>Trading, analysis, decision review, and market-reading tools built around measurable hypotheses and risk.</span>
+              <strong>Practical market experience</strong>
+              <span>More than 8 years across trading, analysis, decision review, and different market environments.</span>
             </div>
           </figcaption>
         </figure>
@@ -619,31 +526,31 @@
       <section class="about-section">
         <div class="about-two-column">
           <div>
-            <span class="about-section-label">Background</span>
-            <h2 class="about-section-title">Not a promise page. A way of thinking.</h2>
+            <span class="about-section-label">Personal Background</span>
+            <h2 class="about-section-title">My market journey started with curiosity and became a daily discipline.</h2>
           </div>
           <div class="about-copy">
-            <p>My relationship with markets started with curiosity, then became a daily practice of data, reading, execution, and reviewing mistakes. Over time, I became more interested in the quality of the decision process than in judging a trade only by its outcome.</p>
-            <p>I focus on connecting macro context, the financial condition of companies or currencies, then price behavior. Risk comes next: trade or position size, its effect on the portfolio, and the point where the idea is no longer valid.</p>
+            <p>What first attracted me to markets was not the idea of quick profit. It was the difficulty of the game itself: incomplete information, strong emotions, and price moving before certainty arrives. That pushed me toward patience and discipline instead of noise or promises.</p>
+            <p>Over time, my professional character became closer to a quiet researcher: I read, take notes, review mistakes, and try to turn experience into better understanding. This website is an extension of that personal journey, not a separate marketing front.</p>
           </div>
         </div>
 
         <div class="about-fact-grid" aria-label="Professional snapshot">
           <div class="about-fact">
             <strong>8+ years</strong>
-            <span>Market observation, trading, analysis, and decision review.</span>
+            <span>Practical experience built through daily market work, trading, and analysis.</span>
           </div>
           <div class="about-fact">
-            <strong>Multi-market</strong>
-            <span>Egypt, GCC markets, United States, crypto assets, and futures.</span>
+            <strong>Wide curiosity</strong>
+            <span>I follow different markets because comparison across environments reveals a lot.</span>
           </div>
           <div class="about-fact">
-            <strong>Structured research</strong>
-            <span>Hypothesis, data, testing, then repeatable review.</span>
+            <strong>Calm discipline</strong>
+            <span>I prefer a clear decision over emotional reaction or chasing movement.</span>
           </div>
           <div class="about-fact">
-            <strong>Risk first</strong>
-            <span>An idea is incomplete without loss limits and exposure context.</span>
+            <strong>Continuous review</strong>
+            <span>I learn from decisions after they end, whether the result was good or bad.</span>
           </div>
         </div>
       </section>
@@ -651,69 +558,38 @@
       <section class="about-section about-method-section">
         <div class="about-two-column">
           <div>
-            <span class="about-section-label">Working Method</span>
-            <h2 class="about-section-title">How an idea becomes reviewable research.</h2>
+            <span class="about-section-label">What Defines Me</span>
+            <h2 class="about-section-title">My professional character is closer to a quiet researcher.</h2>
           </div>
           <div class="about-principles-grid">
             <article class="about-principle">
               <span>01</span>
-              <h2>Measurable hypothesis</h2>
-              <p>I do not start from a loose market feeling. I start with a specific question: what changed, where is it visible, and what would invalidate it?</p>
+              <h2>Organized curiosity</h2>
+              <p>I like understanding why a move is happening before judging it. Curiosity, for me, means looking for context rather than reacting randomly.</p>
             </article>
             <article class="about-principle">
               <span>02</span>
-              <h2>Context before price</h2>
-              <p>I review macro and financial context first, then read price behavior. Price matters, but it becomes clearer when placed inside context.</p>
+              <h2>Calm under pressure</h2>
+              <p>Markets constantly test emotion. I try to keep enough distance between an idea and a decision so pressure does not become behavior.</p>
             </article>
             <article class="about-principle">
               <span>03</span>
-              <h2>Trade and portfolio risk</h2>
-              <p>Risk is not only a stop level. It is size, total exposure, plausible downside, and the effect of a decision on the portfolio.</p>
+              <h2>Respect for review</h2>
+              <p>I do not treat mistakes as embarrassment. I treat them as data. Consistent review is what keeps real improvement alive.</p>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="about-section">
-        <div class="about-two-column">
-          <div>
-            <span class="about-section-label">Boundaries</span>
-            <h2 class="about-section-title">What to expect and what I do not provide.</h2>
-          </div>
-          <div>
-            <div class="about-copy">
-              <p>The material published here is for research and education. I share readings, tools, videos, and methodology notes that help organize decisions, while any portfolio management is a separate path that begins only after a call and written agreement.</p>
-            </div>
-            <div class="about-boundary-list">
-              <div class="about-boundary-item">No return promises and no ready-made entry or exit signals.</div>
-              <div class="about-boundary-item">No portfolio-management scope begins before capital, fee percentage, strategy, and risk limits are defined in writing.</div>
-              <div class="about-boundary-item">Any financial decision remains your responsibility based on your situation, capital, and risk.</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="about-contact-panel" aria-label="Contact me">
-        <div>
-          <h2>Need to choose the right path?</h2>
-          <p>Use the contact page for questions about account access, dashboard research, a 1v1 call, or a portfolio-management discussion. The purpose is to clarify your need and scope before any agreement.</p>
-        </div>
-        <div class="about-contact-actions">
-          <a href="contact.html" class="btn-primary">Contact Me</a>
-          <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="btn-secondary">Telegram</a>
-        </div>
-      </section>
     </article>
 
     <footer class="about-page-footer legal-content legal-ar">
       <span>© 2026 عبدالرحمن محمد</span>
-      <span>المحتوى العام بحثي وتعليمي فقط. أي إدارة محفظة تحتاج إلى اتفاق خاص مكتوب.</span>
-      <span><a href="terms.html">شروط الخدمة</a> · <a href="privacy.html">سياسة الخصوصية</a></span>
+      <span><a href="terms.html">الشروط</a> · <a href="privacy.html">الخصوصية</a></span>
     </footer>
 
     <footer class="about-page-footer legal-content legal-en">
       <span>© 2026 Abdulrhman Mohamed</span>
-      <span>Public content is for research and education only. Any portfolio management requires a separate written agreement.</span>
       <span><a href="terms.html">Terms of Service</a> · <a href="privacy.html">Privacy Policy</a></span>
     </footer>
   </main>
