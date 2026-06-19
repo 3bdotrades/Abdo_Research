@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="https://www.youtube-nocookie.com">
   <meta name="theme-color" content="#D4AF37">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لوحة التحكم | أبحاث كمية</title>
+  <title>لوحة التحكم | عبدالرحمن محمد</title>
   <meta name="robots" content="noindex, nofollow">
 
   <!-- Reuse all existing CSS variables, fonts, and components -->
-  <link rel="stylesheet" href="index.css?v=dark-about-1">
-  <script src="i18n.js?v=dark-about-1" defer></script>
+  <link rel="stylesheet" href="index.css?v=dashboard-terminal-1">
+  <script src="i18n.js?v=dashboard-terminal-1" defer></script>
 
   <style>
     /* =============================================
@@ -1881,6 +1881,303 @@
       border-bottom: 0;
     }
 
+    .db-section-workstation {
+      display: grid;
+      gap: 14px;
+    }
+
+    .db-terminal-headerline {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: end;
+      padding: 4px 2px 0;
+    }
+
+    .db-terminal-kicker {
+      color: var(--primary);
+      display: inline-flex;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .db-terminal-headerline h2 {
+      color: #fff;
+      font-size: clamp(1.45rem, 2.2vw, 2.2rem);
+      line-height: 1.15;
+      margin: 6px 0 5px;
+    }
+
+    .db-terminal-headerline p {
+      color: rgba(255, 255, 255, 0.56);
+      font-size: 0.82rem;
+      line-height: 1.75;
+      max-width: 760px;
+      margin: 0;
+    }
+
+    .db-terminal-statusbox {
+      min-width: 164px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 7px;
+      background: rgba(5, 6, 8, 0.74);
+      padding: 10px 12px;
+      text-align: center;
+    }
+
+    .db-terminal-statusbox span {
+      color: rgba(255, 255, 255, 0.42);
+      display: block;
+      font-size: 0.62rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .db-terminal-statusbox strong {
+      color: var(--primary);
+      display: block;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
+    .db-portfolio-terminal-card {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.048), rgba(255, 255, 255, 0.018)),
+        #06080d;
+      box-shadow: 0 22px 64px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+    }
+
+    .db-terminal-titlebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 42px;
+      padding: 9px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.28);
+    }
+
+    .db-terminal-titlebar strong {
+      color: #fff;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+    }
+
+    .db-terminal-titlebar span {
+      color: rgba(255, 255, 255, 0.48);
+      font-size: 0.68rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .db-market-tape {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(120px, 1fr));
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(5, 6, 8, 0.78);
+      overflow-x: auto;
+    }
+
+    .db-tape-cell {
+      min-width: 120px;
+      padding: 10px 12px;
+      border-inline-start: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .db-tape-cell:first-child {
+      border-inline-start: 0;
+    }
+
+    .db-tape-cell span {
+      color: rgba(255, 255, 255, 0.42);
+      display: block;
+      font-size: 0.62rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .db-tape-cell strong {
+      color: #fff;
+      display: block;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.94rem;
+      margin-top: 3px;
+    }
+
+    .db-tape-cell.is-good strong,
+    .db-terminal-green {
+      color: #22c55e;
+    }
+
+    .db-tape-cell.is-warn strong,
+    .db-terminal-gold {
+      color: var(--primary);
+    }
+
+    .db-workstation-grid {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      gap: 1px;
+      background: rgba(255, 255, 255, 0.075);
+    }
+
+    .db-terminal-widget {
+      min-height: 260px;
+      background: rgba(6, 8, 12, 0.94);
+      padding: 16px;
+    }
+
+    .db-terminal-widget h3 {
+      color: #fff;
+      font-size: 0.98rem;
+      margin-bottom: 12px;
+    }
+
+    .db-terminal-widget p {
+      color: rgba(255, 255, 255, 0.58);
+      font-size: 0.82rem;
+      line-height: 1.8;
+      margin: 0;
+    }
+
+    .db-access-widget {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .db-access-lock {
+      align-items: center;
+      display: inline-flex;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+      border: 1px solid rgba(212, 175, 55, 0.32);
+      border-radius: 8px;
+      background: rgba(212, 175, 55, 0.09);
+      color: var(--primary);
+    }
+
+    .db-access-lock svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+    }
+
+    .db-terminal-cta {
+      align-items: center;
+      display: inline-flex;
+      justify-content: center;
+      min-height: 40px;
+      width: fit-content;
+      border-radius: 6px;
+      background: var(--primary);
+      color: #050608;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 900;
+      padding: 9px 16px;
+      text-decoration: none;
+      box-shadow: 0 14px 28px rgba(212, 175, 55, 0.18);
+    }
+
+    .db-terminal-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .db-terminal-table th,
+    .db-terminal-table td {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+      color: rgba(255, 255, 255, 0.74);
+      font-size: 0.74rem;
+      padding: 8px 6px;
+      text-align: inherit;
+      white-space: nowrap;
+    }
+
+    .db-terminal-table th {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.62rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .db-risk-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .db-risk-row {
+      display: grid;
+      gap: 6px;
+    }
+
+    .db-risk-row header {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .db-risk-row span,
+    .db-risk-row strong {
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 0.72rem;
+      font-weight: 900;
+    }
+
+    .db-risk-track {
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.075);
+      overflow: hidden;
+    }
+
+    .db-risk-bar {
+      display: block;
+      width: var(--risk-width);
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #0b8f78, var(--primary));
+    }
+
+    .db-blotter-panel {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 16px;
+      background: rgba(5, 6, 8, 0.82);
+      overflow-x: auto;
+    }
+
+    .db-blotter-panel .db-terminal-table td:first-child,
+    .db-blotter-panel .db-terminal-table th:first-child {
+      width: 90px;
+    }
+
+    .db-blotter-panel .db-terminal-table {
+      min-width: 640px;
+    }
+
+    .db-mono {
+      font-family: Consolas, 'Courier New', monospace;
+    }
+
     @media (max-width: 1180px) {
       .db-kpi-grid,
       .db-egx-live-metrics {
@@ -1888,7 +2185,8 @@
       }
 
       .db-egx-live-body,
-      .db-terminal-grid {
+      .db-terminal-grid,
+      .db-workstation-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -1921,6 +2219,14 @@
       .db-chart-period-badge {
         width: 100%;
         justify-content: center;
+      }
+
+      .db-terminal-headerline {
+        grid-template-columns: 1fr;
+      }
+
+      .db-terminal-statusbox {
+        width: 100%;
       }
 
       .db-chart-body {
@@ -1968,7 +2274,7 @@
           <path d="M18.7 8l-5.1 5.2-2.8-2.7-5.3 5.3" stroke="currentColor"/>
         </svg>
       </div>
-      <span class="db-logo-text">أبحاث <span class="db-logo-badge">كمية</span></span>
+      <span class="db-logo-text">عبدالرحمن محمد <span class="db-logo-badge">لوحة</span></span>
     </a>
 
     <!-- Navigation menu -->
@@ -2096,7 +2402,7 @@
     <!-- Sticky top header bar -->
     <header class="db-topbar">
       <div class="db-topbar-welcome">
-        <h2>مرحباً بك في أبحاث كمية</h2>
+        <h2>لوحة عبدالرحمن محمد</h2>
         <p id="db-date-display">جار التحميل...</p>
         <p class="db-breadcrumb" id="db-breadcrumb" aria-label="مسار التنقل">لوحة التحكم › نظرة عامة</p>
       </div>
@@ -2551,35 +2857,156 @@
     <!-- =====================================================
          SECTION: محفظتي (My Portfolio)
          ===================================================== -->
-    <div id="db-section-portfolio" class="db-section" style="display:none;">
+    <div id="db-section-portfolio" class="db-section db-section-workstation" style="display:none;">
 
-      <div class="db-section-header">
-        <h2>محفظتي</h2>
-        <span class="db-section-badge">قريباً</span>
+      <div class="db-terminal-headerline">
+        <div>
+          <span class="db-terminal-kicker">PORTFOLIO WORKSTATION</span>
+          <h2>لوحة عبدالرحمن محمد — متابعة المحافظ</h2>
+          <p>مساحة تشغيلية لمتابعة التعرض، الربح والخسارة، المخاطر، والمراجعة اليومية. تفعيل الربط يتم بعد تحديد نطاق المحفظة والاتفاق.</p>
+        </div>
+        <div class="db-terminal-statusbox">
+          <span>ACCESS</span>
+          <strong>غير مفعل</strong>
+        </div>
       </div>
 
-      <div class="db-coming-soon-card">
-        <div class="db-coming-soon-icon">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-          </svg>
+      <section class="db-portfolio-terminal-card" aria-label="محطة متابعة المحفظة">
+        <div class="db-terminal-titlebar">
+          <strong>PORTFOLIO MONITOR / PREVIEW</strong>
+          <span>REAL-TIME LAYOUT</span>
         </div>
 
-        <span class="db-section-badge" style="font-size:0.65rem;">ميزة قادمة</span>
-
-        <div class="db-coming-soon-body">
-          <h3>تتبع محفظتك وأداء صفقاتك تلقائياً</h3>
-          <p>قريباً ستتمكن من ربط دفتر صفقاتك أو محفظتك ومتابعة أداء كل صفقة مع النماذج الكمية — P&amp;L في الوقت الفعلي، نسب الفوز، والعائد الشهري كل ذلك في مكان واحد.</p>
+        <div class="db-market-tape" aria-label="Portfolio tape">
+          <div class="db-tape-cell is-warn"><span>NAV</span><strong class="db-mono">PENDING</strong></div>
+          <div class="db-tape-cell"><span>EXPOSURE</span><strong class="db-mono">--%</strong></div>
+          <div class="db-tape-cell"><span>DAILY P&amp;L</span><strong class="db-mono">--</strong></div>
+          <div class="db-tape-cell"><span>DRAWDOWN</span><strong class="db-mono">--</strong></div>
+          <div class="db-tape-cell"><span>OPEN RISK</span><strong class="db-mono">--</strong></div>
+          <div class="db-tape-cell is-good"><span>REVIEW</span><strong class="db-mono">READY</strong></div>
         </div>
 
-        <a href="https://calendly.com/abdoresearch/30min" target="_blank" rel="noopener noreferrer" class="db-lock-cta">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-          </svg>
-          تواصل لمعرفة المزيد
-        </a>
-      </div>
+        <div class="db-workstation-grid">
+          <article class="db-terminal-widget db-access-widget">
+            <div>
+              <span class="db-access-lock">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </span>
+              <h3>تفعيل متابعة المحفظة</h3>
+              <p>هذا الجزء يُفعّل بعد مناقشة رأس المال، نسبة الإدارة أو المشاركة، الاستراتيجية، حدود المخاطر، وطريقة التقارير. الهدف أن تكون المتابعة عملية وليست صفحة تسويق.</p>
+            </div>
+            <a href="https://calendly.com/abdoresearch/30min" target="_blank" rel="noopener noreferrer" class="db-terminal-cta">ناقش نطاق المحفظة</a>
+          </article>
+
+          <article class="db-terminal-widget">
+            <h3>مصفوفة التعرض</h3>
+            <table class="db-terminal-table">
+              <thead>
+                <tr>
+                  <th>السوق</th>
+                  <th>التعرض</th>
+                  <th>المخاطر</th>
+                  <th>الحالة</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>EGX</td>
+                  <td class="db-mono">--%</td>
+                  <td>متوسط</td>
+                  <td class="db-terminal-gold">مراجعة</td>
+                </tr>
+                <tr>
+                  <td>Saudi</td>
+                  <td class="db-mono">--%</td>
+                  <td>منخفض</td>
+                  <td>انتظار</td>
+                </tr>
+                <tr>
+                  <td>US</td>
+                  <td class="db-mono">--%</td>
+                  <td>مرتفع</td>
+                  <td>تحقق</td>
+                </tr>
+                <tr>
+                  <td>Crypto</td>
+                  <td class="db-mono">--%</td>
+                  <td>مرتفع</td>
+                  <td>مجمّد</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article class="db-terminal-widget">
+            <h3>ميزانية المخاطر</h3>
+            <div class="db-risk-stack">
+              <div class="db-risk-row">
+                <header>
+                  <span>المخاطرة اليومية</span>
+                  <strong class="db-mono">0 / 100</strong>
+                </header>
+                <div class="db-risk-track"><i class="db-risk-bar" style="--risk-width: 18%;"></i></div>
+              </div>
+              <div class="db-risk-row">
+                <header>
+                  <span>التعرض المفتوح</span>
+                  <strong class="db-mono">0 / 100</strong>
+                </header>
+                <div class="db-risk-track"><i class="db-risk-bar" style="--risk-width: 34%;"></i></div>
+              </div>
+              <div class="db-risk-row">
+                <header>
+                  <span>مخاطر السوق الواحد</span>
+                  <strong class="db-mono">0 / 100</strong>
+                </header>
+                <div class="db-risk-track"><i class="db-risk-bar" style="--risk-width: 46%;"></i></div>
+              </div>
+              <p>الأرقام هنا شكل واجهة قبل الربط. بعد التفعيل يتم تحديثها من بيانات المحفظة أو دفتر الصفقات.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="db-blotter-panel">
+          <div class="db-terminal-panel-header">
+            <span>Trade Blotter</span>
+            <strong>Pending Connection</strong>
+          </div>
+          <table class="db-terminal-table">
+            <thead>
+              <tr>
+                <th>الرمز</th>
+                <th>النوع</th>
+                <th>الوزن</th>
+                <th>الدخول</th>
+                <th>P&amp;L</th>
+                <th>المراجعة</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="db-mono">----</td>
+                <td>Position</td>
+                <td class="db-mono">--%</td>
+                <td class="db-mono">--</td>
+                <td class="db-mono">--</td>
+                <td>بعد التفعيل</td>
+              </tr>
+              <tr>
+                <td class="db-mono">----</td>
+                <td>Hedge</td>
+                <td class="db-mono">--%</td>
+                <td class="db-mono">--</td>
+                <td class="db-mono">--</td>
+                <td>بعد التفعيل</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
 
     </div><!-- /#db-section-portfolio -->
 
