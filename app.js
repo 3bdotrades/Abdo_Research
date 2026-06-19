@@ -1502,6 +1502,67 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeModalBtn = document.getElementById('close-modal-btn');
   const navLoginBtn = document.getElementById('nav-login-btn');
   const navSignupBtn = document.getElementById('nav-signup-btn');
+  const aboutModalOverlay = document.getElementById('about-modal-overlay');
+  const aboutModalClose = document.getElementById('about-modal-close');
+
+  if (aboutModalOverlay) {
+    const aboutModalCard = aboutModalOverlay.querySelector('.about-modal-card');
+    let lastAboutTrigger = null;
+
+    const aboutModalIsOpen = () => !aboutModalOverlay.hidden;
+
+    const updateAboutModalLabel = () => {
+      if (!aboutModalCard) return;
+      const lang = window.AbdoI18n && window.AbdoI18n.currentLang ? window.AbdoI18n.currentLang() : document.documentElement.lang;
+      aboutModalCard.setAttribute('aria-labelledby', lang === 'en' ? 'about-modal-title-en' : 'about-modal-title-ar');
+    };
+
+    const openAboutModal = (trigger) => {
+      lastAboutTrigger = trigger || document.activeElement;
+      updateAboutModalLabel();
+      aboutModalOverlay.hidden = false;
+      document.body.classList.add('about-modal-active');
+      if (aboutModalCard) aboutModalCard.scrollTop = 0;
+      window.setTimeout(() => {
+        if (aboutModalClose) aboutModalClose.focus();
+      }, 0);
+    };
+
+    const closeAboutModal = () => {
+      aboutModalOverlay.hidden = true;
+      document.body.classList.remove('about-modal-active');
+      if (lastAboutTrigger && typeof lastAboutTrigger.focus === 'function') {
+        lastAboutTrigger.focus();
+      }
+    };
+
+    document.querySelectorAll('[data-about-open]').forEach((trigger) => {
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (typeof window.closeDrawer === 'function') window.closeDrawer();
+        openAboutModal(trigger);
+      });
+    });
+
+    if (aboutModalClose) {
+      aboutModalClose.addEventListener('click', closeAboutModal);
+    }
+
+    aboutModalOverlay.addEventListener('click', (event) => {
+      if (event.target === aboutModalOverlay) closeAboutModal();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && aboutModalIsOpen()) closeAboutModal();
+    });
+
+    window.addEventListener('abdo:languagechange', updateAboutModalLabel);
+
+    if (window.location.hash === '#about') {
+      openAboutModal(null);
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  }
 
   // Check session and update header auth UI
   const updateHeaderAuthUI = async () => {

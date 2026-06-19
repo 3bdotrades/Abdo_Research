@@ -65,7 +65,7 @@
   <link rel="apple-touch-icon" href="/icon-192.png">
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="index.css?v=dark-about-1">
+  <link rel="stylesheet" href="index.css?v=about-modal-1">
   <script src="i18n.js?v=dark-about-1" defer></script>
 </head>
 <body>
@@ -84,6 +84,7 @@
       <!-- Primary navigation -->
       <div class="header-nav-pill">
         <a href="#hero" class="nav-pill-link active">الرئيسية</a>
+        <a href="#about" class="nav-pill-link" data-about-open>من أنا</a>
         <a href="#strategy" class="nav-pill-link">المنهجية</a>
         <a href="#who-is-this-for" class="nav-pill-link">لمن؟</a>
         <a href="#insights" class="nav-pill-link">الرؤى</a>
@@ -666,7 +667,7 @@
         <div class="footer-links-col">
           <h4>روابط سريعة</h4>
           <ul>
-            <li><a href="about.html">من أنا</a></li>
+            <li><a href="#about" data-about-open>من أنا</a></li>
             <li><a href="faq.html">الأسئلة الشائعة</a></li>
             <li><a href="contact.html">تواصل معي</a></li>
           </ul>
@@ -695,6 +696,41 @@
 
     </div>
   </footer>
+
+  <!-- About Modal -->
+  <div id="about-modal-overlay" class="about-modal-overlay" hidden>
+    <div class="about-modal-card" role="dialog" aria-modal="true" aria-labelledby="about-modal-title-ar">
+      <button id="about-modal-close" class="about-modal-close" type="button" aria-label="إغلاق نافذة من أنا">&times;</button>
+
+      <article class="about-modal-content legal-content legal-ar">
+        <img src="/abdo-profile-hero-clean.jpg" srcset="/abdo-profile-hero-clean.jpg 1x, /abdo-profile-hero-clean-2x.jpg 2x" onerror="this.onerror=null; this.src='/abdo-profile-hero.jpg';" alt="عبدالرحمن محمد" class="about-modal-photo" loading="lazy" decoding="async">
+        <div class="about-modal-body">
+          <span class="about-modal-eyebrow">من أنا</span>
+          <h2 id="about-modal-title-ar" class="about-modal-title">عبدالرحمن محمد</h2>
+          <p class="about-modal-role">محلل ومتداول بخبرة تزيد عن 8 سنوات</p>
+          <div class="about-modal-copy">
+            <p>بدأت علاقتي بالأسواق من فضول حقيقي تجاه حركة السعر والقرار تحت الضغط، ثم تحولت مع الوقت إلى ممارسة يومية من القراءة، التداول، المراجعة، وبناء أدوات تساعدني على رؤية السوق بشكل أوضح.</p>
+            <p>ما جذبني للأسواق لم يكن فكرة الربح السريع، بل صعوبة اللعبة نفسها: معلومات ناقصة، مشاعر قوية، وسعر يتحرك قبل أن يكتمل اليقين. لذلك أصبحت شخصيتي المهنية أقرب إلى الباحث الهادئ: أقرأ كثيراً، أدوّن الملاحظات، أراجع أخطائي، وأحاول تحويل التجربة إلى فهم أفضل.</p>
+            <p>أتابع أسواقاً مختلفة لأن المقارنة بين البيئات تكشف الكثير، وأفضّل القرار الواضح على الانفعال اللحظي أو مطاردة الحركة. ما أقدمه هنا امتداد لهذه الرحلة الشخصية، وليس واجهة تسويقية منفصلة عنها.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="about-modal-content legal-content legal-en">
+        <img src="/abdo-profile-hero-clean.jpg" srcset="/abdo-profile-hero-clean.jpg 1x, /abdo-profile-hero-clean-2x.jpg 2x" onerror="this.onerror=null; this.src='/abdo-profile-hero.jpg';" alt="Abdulrhman Mohamed" class="about-modal-photo" loading="lazy" decoding="async">
+        <div class="about-modal-body">
+          <span class="about-modal-eyebrow">About Me</span>
+          <h2 id="about-modal-title-en" class="about-modal-title">Abdulrhman Mohamed</h2>
+          <p class="about-modal-role">Analyst and trader with more than 8 years of experience</p>
+          <div class="about-modal-copy">
+            <p>My relationship with markets started from genuine curiosity about price movement and decision-making under pressure, then became a daily practice of reading, trading, reviewing, and building tools that help me see markets more clearly.</p>
+            <p>What first attracted me to markets was not the idea of quick profit. It was the difficulty of the game itself: incomplete information, strong emotions, and price moving before certainty arrives. Over time, my professional character became closer to a quiet researcher: I read, take notes, review mistakes, and try to turn experience into better understanding.</p>
+            <p>I follow different markets because comparison across environments reveals a lot, and I prefer a clear decision over emotional reaction or chasing movement. What I publish here is an extension of that personal journey, not a separate marketing front.</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
 
   <!-- Auth Modals -->
   <div id="auth-modal-overlay" class="auth-modal-overlay" style="display: none;">
@@ -755,6 +791,7 @@
     </div>
     <div class="mobile-drawer-nav">
       <a href="#hero" onclick="closeDrawer()">الرئيسية</a>
+      <a href="#about" data-about-open>من أنا</a>
       <a href="#strategy" onclick="closeDrawer()">المنهجية الكمية</a>
       <a href="#who-is-this-for" onclick="closeDrawer()">لمن هذا؟</a>
       <a href="#insights" onclick="closeDrawer()">رؤى بحثية</a>
@@ -792,7 +829,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth-config.js"></script>
   <script src="auth.js"></script>
-  <script src="app.js"></script>
+  <script src="app.js?v=about-modal-1"></script>
 
   <!-- UX Enhancement Scripts: drawer + back-to-top -->
   <script>
