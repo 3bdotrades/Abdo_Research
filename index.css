@@ -1026,19 +1026,22 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .pricing-preview-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
-  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 1040px;
   margin: 0 auto;
 }
 
 .pricing-preview-card {
+  align-items: center;
   color: inherit;
-  display: flex;
-  flex-direction: column;
-  min-height: 420px;
-  padding: 34px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1.05fr) minmax(250px, 0.75fr) auto;
+  gap: 24px;
+  min-height: 0;
+  padding: 24px 26px;
+  position: relative;
   text-decoration: none;
 }
 
@@ -1047,30 +1050,51 @@ input[type="range"]::-webkit-slider-thumb {
   background: linear-gradient(145deg, rgba(212,175,55,0.075), rgba(255,255,255,0.035) 42%, rgba(255,255,255,0.018));
 }
 
+.pricing-plan-step {
+  align-items: center;
+  background: rgba(212,175,55,0.1);
+  border: 1px solid rgba(212,175,55,0.24);
+  border-radius: 8px;
+  color: var(--primary);
+  display: inline-flex;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.86rem;
+  font-weight: 900;
+  height: 44px;
+  justify-content: center;
+  min-width: 50px;
+}
+
+.pricing-preview-main {
+  min-width: 0;
+}
+
 .pricing-plan-kicker {
   align-self: flex-start;
   border: 1px solid rgba(212,175,55,0.28);
   border-radius: 999px;
   color: var(--primary);
+  display: inline-flex;
   font-family: 'Cairo', sans-serif;
   font-size: 0.68rem;
   font-weight: 900;
   letter-spacing: 0.08em;
-  margin-bottom: 22px;
+  margin-bottom: 12px;
   padding: 6px 12px;
   text-transform: uppercase;
 }
 
 .pricing-preview-card h3 {
-  font-size: clamp(1.45rem, 2.3vw, 2.1rem);
+  font-size: clamp(1.28rem, 1.8vw, 1.8rem);
   line-height: 1.25;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 .pricing-preview-card p {
   color: var(--text-muted);
-  line-height: 1.9;
-  margin-bottom: 24px;
+  font-size: 0.92rem;
+  line-height: 1.75;
+  margin-bottom: 0;
 }
 
 .pricing-preview-price {
@@ -1079,17 +1103,17 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 1.02rem;
   font-weight: 900;
   line-height: 1.4;
-  margin: -6px 0 16px;
+  margin: -2px 0 10px;
 }
 
 .pricing-preview-card ul {
-  border-top: 1px solid var(--border-color);
+  border-inline-start: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   list-style: none;
-  margin: 0 0 28px;
-  padding-top: 22px;
+  margin: 0;
+  padding-inline-start: 22px;
 }
 
 .pricing-preview-card li {
@@ -1117,13 +1141,14 @@ input[type="range"]::-webkit-slider-thumb {
   color: #050607;
   display: inline-flex;
   font-family: 'Cairo', sans-serif;
-  font-size: 0.92rem;
+  font-size: 0.86rem;
   font-weight: 900;
   justify-content: center;
-  margin-top: auto;
   min-height: 46px;
-  padding: 0 22px;
-  width: fit-content;
+  min-width: 148px;
+  padding: 0 20px;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .pricing-preview-card:hover .pricing-preview-action {
@@ -4494,6 +4519,15 @@ html, body {
   .pricing-preview-grid {
     grid-template-columns: 1fr;
   }
+
+  .pricing-preview-card {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .pricing-preview-card ul,
+  .pricing-preview-action {
+    grid-column: 2;
+  }
 }
 
 /* --------------------------------------------------
@@ -4811,8 +4845,26 @@ html, body {
   }
 
   .pricing-preview-card {
+    grid-template-columns: 1fr;
     min-height: auto;
     padding: 26px;
+  }
+
+  .pricing-plan-step,
+  .pricing-preview-card ul,
+  .pricing-preview-action {
+    grid-column: auto;
+  }
+
+  .pricing-preview-card ul {
+    border-inline-start: 0;
+    border-top: 1px solid var(--border-color);
+    padding-inline-start: 0;
+    padding-top: 20px;
+  }
+
+  .pricing-preview-action {
+    width: 100%;
   }
 
   /* --- Footer already handled, but reinforce inline padding --- */
