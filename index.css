@@ -1026,21 +1026,21 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .pricing-preview-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  max-width: 1040px;
+  align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  max-width: 1280px;
   margin: 0 auto;
 }
 
 .pricing-preview-card {
-  align-items: center;
+  align-items: stretch;
   color: inherit;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1.05fr) minmax(250px, 0.75fr) auto;
-  gap: 24px;
-  min-height: 0;
-  padding: 24px 26px;
+  display: flex;
+  flex-direction: column;
+  min-height: 460px;
+  padding: 26px 22px;
   position: relative;
   text-decoration: none;
 }
@@ -1062,7 +1062,9 @@ input[type="range"]::-webkit-slider-thumb {
   font-weight: 900;
   height: 44px;
   justify-content: center;
+  margin-bottom: 18px;
   min-width: 50px;
+  width: fit-content;
 }
 
 .pricing-preview-main {
@@ -1085,7 +1087,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .pricing-preview-card h3 {
-  font-size: clamp(1.28rem, 1.8vw, 1.8rem);
+  font-size: clamp(1.25rem, 1.5vw, 1.62rem);
   line-height: 1.25;
   margin-bottom: 10px;
 }
@@ -1107,13 +1109,14 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .pricing-preview-card ul {
-  border-inline-start: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-color);
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   gap: 10px;
   list-style: none;
-  margin: 0;
-  padding-inline-start: 22px;
+  margin: 22px 0 24px;
+  padding-top: 20px;
 }
 
 .pricing-preview-card li {
@@ -1144,11 +1147,12 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 0.86rem;
   font-weight: 900;
   justify-content: center;
+  margin-top: auto;
   min-height: 46px;
-  min-width: 148px;
   padding: 0 20px;
   text-align: center;
   white-space: nowrap;
+  width: 100%;
 }
 
 .pricing-preview-card:hover .pricing-preview-action {
@@ -4517,16 +4521,7 @@ html, body {
   /* Pricing grid — 1 column on tablet */
   .pricing-grid,
   .pricing-preview-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .pricing-preview-card {
-    grid-template-columns: auto minmax(0, 1fr);
-  }
-
-  .pricing-preview-card ul,
-  .pricing-preview-action {
-    grid-column: 2;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -4845,26 +4840,12 @@ html, body {
   }
 
   .pricing-preview-card {
-    grid-template-columns: 1fr;
     min-height: auto;
     padding: 26px;
   }
 
-  .pricing-plan-step,
-  .pricing-preview-card ul,
-  .pricing-preview-action {
-    grid-column: auto;
-  }
-
   .pricing-preview-card ul {
-    border-inline-start: 0;
-    border-top: 1px solid var(--border-color);
-    padding-inline-start: 0;
     padding-top: 20px;
-  }
-
-  .pricing-preview-action {
-    width: 100%;
   }
 
   /* --- Footer already handled, but reinforce inline padding --- */
