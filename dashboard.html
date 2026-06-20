@@ -2305,14 +2305,14 @@
             محفظتي
           </a>
         </li>
-        <!-- الأبحاث -->
+        <!-- الأبحاث والإشارات -->
         <li class="db-nav-item">
           <a href="#" class="db-nav-link" data-section="research">
             <svg class="db-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
               <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
             </svg>
-            الأبحاث
+            الأبحاث والإشارات
           </a>
         </li>
 
@@ -2323,7 +2323,7 @@
               <path d="M12 20h9"/>
               <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>
             </svg>
-            إدارة الأبحاث
+            إدارة المحتوى
           </a>
         </li>
 
@@ -2578,7 +2578,7 @@
             </div>
           </div>
 
-          <p class="db-egx-live-note" id="egx-live-note">هذه اللقطة للمتابعة البحثية والتشغيلية فقط وليست توصية تداول أو استثمار.</p>
+          <p class="db-egx-live-note" id="egx-live-note">هذه اللقطة للمتابعة البحثية والإشارات التعليمية فقط وليست توصية تداول أو استثمار.</p>
         </div>
       </section>
 
@@ -3012,12 +3012,12 @@
 
 
     <!-- =====================================================
-         SECTION: الأبحاث (Research)
+         SECTION: الأبحاث والإشارات (Research & Signals)
          ===================================================== -->
     <div id="db-section-research" class="db-section" style="display:none;">
 
       <div class="db-section-header">
-        <h2>الأبحاث</h2>
+        <h2>الأبحاث والإشارات</h2>
       </div>
 
       <div class="db-research-grid">
@@ -3074,8 +3074,8 @@
     <div id="db-section-admin-posts" class="db-section" style="display:none;">
 
       <div class="db-section-header">
-        <h2>إدارة الأبحاث</h2>
-        <span id="db-admin-status" class="db-admin-status">نشر وتعديل وحذف الأبحاث</span>
+        <h2>إدارة المحتوى</h2>
+        <span id="db-admin-status" class="db-admin-status">نشر وتعديل وحذف الأبحاث والإشارات</span>
       </div>
 
       <div class="db-admin-grid">
@@ -3089,7 +3089,7 @@
 
           <div class="auth-input-group">
             <label for="post-tag">التصنيف</label>
-            <input id="post-tag" type="text" class="auth-input" value="بحثي" maxlength="40" autocomplete="off">
+            <input id="post-tag" type="text" class="auth-input" value="إشارة تعليمية" maxlength="40" autocomplete="off">
           </div>
 
           <div class="auth-input-group">
@@ -4639,7 +4639,7 @@
           setText('egx-daily-scan', (live.daily_scan_targets || []).join(', ') || 'لا يوجد');
           setText('egx-rebalance', (live.rebalance_targets || []).join(', ') || 'لا يوجد');
           setText('egx-max-positions', strategy.max_positions || '—');
-          setText('egx-live-note', data.note || 'هذه اللقطة للمتابعة البحثية والتشغيلية فقط وليست توصية تداول أو استثمار.');
+          setText('egx-live-note', data.note || 'هذه اللقطة للمتابعة البحثية والإشارات التعليمية فقط وليست توصية تداول أو استثمار.');
           renderChips('egx-current-holdings', live.current_holdings, 'لا توجد مراكز حالية');
         } catch (error) {
           setEgxStatus('UNAVAILABLE');
@@ -4658,8 +4658,8 @@
       var sectionLabels = {
         overview:  'نظرة عامة',
         portfolio: 'محفظتي',
-        research:  'الأبحاث',
-        'admin-posts':  'إدارة الأبحاث',
+        research:  'الأبحاث والإشارات',
+        'admin-posts':  'إدارة المحتوى',
         'admin-videos': 'مكتبة الفيديو',
         'admin-users':  'طلبات الحسابات',
         settings:  'الإعدادات'
