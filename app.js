@@ -1436,7 +1436,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const userMsgHtml = `
         <div class="chat-msg user-msg">
           <div class="chat-avatar user-avatar">أنت</div>
-          <div class="chat-bubble">حلل لي سهم: ${ticker}</div>
+          <div class="chat-bubble">حلل لي سهم: ${escapeHtml(ticker)}</div>
         </div>
       `;
       aiChatBox.insertAdjacentHTML('beforeend', userMsgHtml);
@@ -1471,7 +1471,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="chat-msg ai-msg">
             <div class="chat-avatar ai-avatar">✨</div>
             <div class="chat-bubble">
-              <h4>📊 تحليل سهم (${ticker}) - ${dateStr}</h4>
+              <h4>📊 تحليل سهم (${escapeHtml(ticker)}) - ${dateStr}</h4>
               <p>بناءً على مراجعة السياق الكلي، الحالة المالية، وسلوك السعر، إليك التقرير الفوري:</p>
               <ul>
                 <li><strong>الاتجاه العام:</strong> صاعد على المدى القصير، مع اختراق إيجابي لمستوى المقاومة الأخير.</li>

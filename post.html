@@ -216,7 +216,7 @@
       }
 
       var post = result.data;
-      if (post.telegram_url) {
+      if (post.telegram_url && /^https?:\/\//i.test(post.telegram_url)) {
         window.location.replace(post.telegram_url);
         return;
       }

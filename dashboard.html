@@ -3456,17 +3456,16 @@
       setupLogout();
 
       var profile = await loadCurrentProfile(client, user);
-      if (!isAdmin && profile && profile.access_status && profile.access_status !== 'approved') {
+      if (!isAdmin && (!profile || profile.access_status !== 'approved')) {
+        var pendingStatus = profile && profile.access_status ? profile.access_status : 'pending';
         if (nameEl && displayName) nameEl.textContent = displayName;
-        if (tierEl) tierEl.textContent = accessStatusLabel(profile.access_status);
-        renderAccessNotice(profile.access_status);
+        if (tierEl) tierEl.textContent = accessStatusLabel(pendingStatus);
+        renderAccessNotice(pendingStatus);
         document.body.classList.remove('auth-pending');
         return;
       }
 
       if (nameEl && displayName) nameEl.textContent = displayName;
-      if (tierEl) tierEl.textContent = 'عضو مؤكد';
-
       if (tierEl) tierEl.textContent = isAdmin ? 'أدمن' : 'عضو مؤكد';
       initDashboardResearch(client);
 

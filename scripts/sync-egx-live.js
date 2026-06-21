@@ -6,11 +6,12 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 
 const repoRoot = path.resolve(__dirname, '..');
-const mlRootCandidates = [
-  process.env.ML_ROOT,
-  'D:\\Orderflow\\Projects\\ml'
-].filter(Boolean);
-const mlRoot = path.resolve(mlRootCandidates.find((candidate) => fs.existsSync(candidate)) || mlRootCandidates[0]);
+const mlRootEnv = process.env.ML_ROOT;
+if (!mlRootEnv) {
+  console.error('ML_ROOT is not set. Point it at your local ML project root, e.g. ML_ROOT=/path/to/ml node scripts/sync-egx-live.js');
+  process.exit(1);
+}
+const mlRoot = path.resolve(mlRootEnv);
 const marketsRoot = path.join(mlRoot, 'markets');
 const outPath = path.join(repoRoot, 'egx-live.json');
 
