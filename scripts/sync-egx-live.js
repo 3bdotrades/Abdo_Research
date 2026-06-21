@@ -316,3 +316,36 @@ const snapshot = {
 
 fs.writeFileSync(outPath, `${JSON.stringify(snapshot, null, 2)}\n`, 'utf8');
 console.log(`ML market snapshot written: ${outPath}`);
+
+// Slim payload for the public site: same shape, but equity/benchmark curves are
+// downsampled (recent points kept dense, older history thinned) so visitors load
+// ~0.3MB instead of the full multi-megabyte file.
+function downsampleCurve(points, recent = 400, oldTarget = 350) {
+  if (!Array.isArray(points) || points.length <= recent + oldTarget) return points;
+  const recentPts = points.slice(points.length - recent);
+  const old = points.slice(0, points.length - recent);
+  const stride = Math.max(1, Math.floor(old.length / oldTarget));
+  const oldDs = old.filter((_, i) => i % stride === 0);
+  if (old.length && oldDs[0] !== old[0]) oldDs.unshift(old[0]);
+  return oldDs.concat(recentPts);
+}
+
+function slimChart(chart) {
+  if (!chart || typeof chart !== 'object') return chart;
+  return {
+    ...chart,
+    equity_points: downsampleCurve(chart.equity_points),
+    benchmark_points: downsampleCurve(chart.benchmark_points)
+  };
+}
+
+const liteSnapshot = {
+  ...snapshot,
+  chart: slimChart(snapshot.chart),
+  charts: Object.fromEntries(
+    Object.entries(snapshot.charts || {}).map(([slug, c]) => [slug, slimChart(c)])
+  )
+};
+const litePath = path.join(repoRoot, 'egx-live-lite.json');
+fs.writeFileSync(litePath, `${JSON.stringify(liteSnapshot)}\n`, 'utf8');
+console.log(`Slim public snapshot written: ${litePath}`);

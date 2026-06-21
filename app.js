@@ -786,7 +786,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function loadLiveEquityChart() {
     try {
-      const response = await fetch('egx-live.json?ts=' + Date.now(), { cache: 'no-store' });
+      const response = await fetch('egx-live-lite.json', { cache: 'default' });
       if (!response.ok) return;
       const data = await response.json();
       const charts = data && data.charts && typeof data.charts === 'object'

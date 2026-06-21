@@ -100,7 +100,7 @@
       async function loadEgxLiveSnapshot() {
         if (!egxRoot) return;
         try {
-          var response = await fetch('egx-live.json?ts=' + Date.now(), { cache: 'no-store' });
+          var response = await fetch('egx-live-lite.json', { cache: 'default' });
           if (!response.ok) throw new Error('HTTP ' + response.status);
           var data = await response.json();
           var feed = data.feed || {};
