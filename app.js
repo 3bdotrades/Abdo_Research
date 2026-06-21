@@ -1252,7 +1252,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const card = document.createElement('div');
       card.className = 'glass-panel video-card';
       const embedUrl = vid.embedUrl || youtubeEmbedUrl(vid.youtubeUrl);
-      const youtubeUrl = vid.youtubeUrl || '#';
+      const youtubeUrl = /^https?:\/\//i.test(vid.youtubeUrl || '') ? vid.youtubeUrl : '#';
       
       card.innerHTML = `
         <div class="video-container-premium">
@@ -1673,7 +1673,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       insightsGrid.innerHTML = result.data.map((post) => {
-        const telegramUrl = post.telegram_url || 'https://t.me/Abdo_Research';
+        const telegramUrl = /^https?:\/\//i.test(post.telegram_url || '') ? post.telegram_url : 'https://t.me/Abdo_Research';
         return `
           <article class="insight-card glass-panel stagger-visible">
             <div class="insight-meta">

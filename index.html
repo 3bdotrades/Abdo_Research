@@ -55,9 +55,8 @@
   }
   </script>
 
-  <!-- Google Fonts — preloaded async for performance -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap"></noscript>
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&display=swap">
 
   <!-- PWA Manifest -->
   <link rel="manifest" href="/manifest.json">
@@ -162,7 +161,7 @@
             <!-- Portrait Frame -->
             <div style="position: relative; display: flex; justify-content: center;">
               <div class="hero-portrait-frame">
-                <img src="/abdo-profile-hero-clean.jpg" srcset="/abdo-profile-hero-clean.jpg 1x, /abdo-profile-hero-clean-2x.jpg 2x" onerror="this.onerror=null; this.src='/abdo-profile-hero.jpg';" alt="عبدالرحمن محمد — باحث كمي" width="220" height="220" loading="eager" decoding="async" class="hero-portrait-img">
+                <img src="/abdo-profile-hero-clean.jpg" srcset="/abdo-profile-hero-clean.jpg 1x, /abdo-profile-hero-clean-2x.jpg 2x" data-fallback="/abdo-profile-hero.jpg" alt="عبدالرحمن محمد — باحث كمي" width="220" height="220" loading="eager" decoding="async" class="hero-portrait-img">
               </div>
             </div>
             <div style="text-align: center;">
@@ -715,7 +714,7 @@
       <button id="about-modal-close" class="about-modal-close" type="button" aria-label="إغلاق نافذة من أنا">&times;</button>
 
       <article class="about-modal-content legal-content legal-ar">
-        <img src="/abdo-profile-hero-clean.jpg" srcset="/abdo-profile-hero-clean.jpg 1x, /abdo-profile-hero-clean-2x.jpg 2x" onerror="this.onerror=null; this.src='/abdo-profile-hero.jpg';" alt="عبدالرحمن محمد" class="about-modal-photo" loading="lazy" decoding="async">
+        <img src="/abdo-profile-hero-clean.jpg" srcset="/abdo-profile-hero-clean.jpg 1x, /abdo-profile-hero-clean-2x.jpg 2x" data-fallback="/abdo-profile-hero.jpg" alt="عبدالرحمن محمد" class="about-modal-photo" loading="lazy" decoding="async">
         <div class="about-modal-body">
           <span class="about-modal-eyebrow">من أنا</span>
           <h2 id="about-modal-title-ar" class="about-modal-title">عبدالرحمن محمد</h2>
@@ -729,7 +728,7 @@
       </article>
 
       <article class="about-modal-content legal-content legal-en">
-        <img src="/abdo-profile-hero-clean.jpg" srcset="/abdo-profile-hero-clean.jpg 1x, /abdo-profile-hero-clean-2x.jpg 2x" onerror="this.onerror=null; this.src='/abdo-profile-hero.jpg';" alt="Abdulrhman Mohamed" class="about-modal-photo" loading="lazy" decoding="async">
+        <img src="/abdo-profile-hero-clean.jpg" srcset="/abdo-profile-hero-clean.jpg 1x, /abdo-profile-hero-clean-2x.jpg 2x" data-fallback="/abdo-profile-hero.jpg" alt="Abdulrhman Mohamed" class="about-modal-photo" loading="lazy" decoding="async">
         <div class="about-modal-body">
           <span class="about-modal-eyebrow">About Me</span>
           <h2 id="about-modal-title-en" class="about-modal-title">Abdulrhman Mohamed</h2>
@@ -802,17 +801,17 @@
       <button class="mobile-drawer-close" id="mobile-drawer-close" aria-label="إغلاق القائمة">✕</button>
     </div>
     <div class="mobile-drawer-nav">
-      <a href="#hero" onclick="closeDrawer()">الرئيسية</a>
+      <a href="#hero" data-close-drawer>الرئيسية</a>
       <a href="#about" data-about-open>من أنا</a>
-      <a href="#strategy" onclick="closeDrawer()">المنهجية الكمية</a>
-      <a href="#who-is-this-for" onclick="closeDrawer()">لمن هذا؟</a>
-      <a href="#insights" onclick="closeDrawer()">رؤى بحثية</a>
-      <a href="#why-us" onclick="closeDrawer()">مبادئ العمل</a>
-      <a href="#methodology" onclick="closeDrawer()">المنهجية البحثية</a>
-      <a href="#engine" onclick="closeDrawer()">آلية العمل</a>
-      <a href="#learning" onclick="closeDrawer()">مكتبة الفيديو</a>
-      <a href="#pricing" onclick="closeDrawer()">الخطط</a>
-      <a href="contact.html" onclick="closeDrawer()">تواصل معي</a>
+      <a href="#strategy" data-close-drawer>المنهجية الكمية</a>
+      <a href="#who-is-this-for" data-close-drawer>لمن هذا؟</a>
+      <a href="#insights" data-close-drawer>رؤى بحثية</a>
+      <a href="#why-us" data-close-drawer>مبادئ العمل</a>
+      <a href="#methodology" data-close-drawer>المنهجية البحثية</a>
+      <a href="#engine" data-close-drawer>آلية العمل</a>
+      <a href="#learning" data-close-drawer>مكتبة الفيديو</a>
+      <a href="#pricing" data-close-drawer>الخطط</a>
+      <a href="contact.html" data-close-drawer>تواصل معي</a>
     </div>
     <div class="mobile-drawer-footer">
       <div class="mobile-drawer-auth">
@@ -833,7 +832,7 @@
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.4v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.26 2.37 4.26 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
         </a>
       </div>
-      <a href="contact.html" class="mobile-drawer-cta" onclick="closeDrawer()">تواصل معي</a>
+      <a href="contact.html" class="mobile-drawer-cta" data-close-drawer>تواصل معي</a>
     </div>
   </nav>
 
@@ -844,65 +843,7 @@
   <script src="app.js?v=about-modal-1"></script>
 
   <!-- UX Enhancement Scripts: drawer + back-to-top -->
-  <script>
-    (function () {
-      'use strict';
-
-      /* ---- Mobile Drawer ---- */
-      var drawerOverlay = document.getElementById('mobile-drawer-overlay');
-      var drawer        = document.getElementById('mobile-drawer');
-      var drawerClose   = document.getElementById('mobile-drawer-close');
-      var menuBtn       = document.getElementById('mobile-menu-btn');
-
-      function openDrawer() {
-        drawer.classList.add('open');
-        drawerOverlay.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        drawer.setAttribute('aria-hidden', 'false');
-        drawerOverlay.setAttribute('aria-hidden', 'false');
-        menuBtn && menuBtn.setAttribute('aria-expanded', 'true');
-      }
-
-      window.closeDrawer = function () {
-        drawer.classList.remove('open');
-        drawerOverlay.classList.remove('open');
-        document.body.style.overflow = '';
-        drawer.setAttribute('aria-hidden', 'true');
-        drawerOverlay.setAttribute('aria-hidden', 'true');
-        menuBtn && menuBtn.setAttribute('aria-expanded', 'false');
-      };
-
-      if (menuBtn) {
-        menuBtn.addEventListener('click', function () {
-          drawer.classList.contains('open') ? closeDrawer() : openDrawer();
-        });
-      }
-      if (drawerClose)   drawerClose.addEventListener('click', closeDrawer);
-      if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
-
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
-      });
-
-      /* ---- Back to Top ---- */
-      var backBtn = document.getElementById('back-to-top-btn');
-      if (backBtn) {
-        window.addEventListener('scroll', function () {
-          if (window.scrollY > 400) {
-            backBtn.classList.add('visible');
-          } else {
-            backBtn.classList.remove('visible');
-          }
-        }, { passive: true });
-
-        backBtn.addEventListener('click', function (e) {
-          e.preventDefault();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-      }
-
-    })();
-  </script>
+  <script src="index-ui.js?v=csp-1"></script>
 
   <!-- Telegram Floating Button -->
   <a href="https://t.me/abdoresearch" target="_blank" rel="noopener noreferrer" class="float-telegram" aria-label="تواصل عبر تيليجرام">
