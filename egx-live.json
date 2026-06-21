@@ -94,21 +94,7 @@
     "available": false,
     "decided_at": "2026-05-25",
     "fire_at_next_close": null,
-    "current_holdings": [
-      "AMES",
-      "EASB",
-      "FNAR",
-      "ISMA",
-      "MFSC",
-      "NINH",
-      "NIPH",
-      "ORHD",
-      "RREI",
-      "TYCN"
-    ],
-    "rebalance_targets": [],
     "rebalance_signal_day": null,
-    "daily_scan_targets": [],
     "notes": "rebalance_targets = full top-N replacement at next close (if a rebalance day fired). daily_scan_targets = single-name fills for empty slots between rebalances. current_holdings = positions you should already be long going into the next session."
   },
   "portfolio": {

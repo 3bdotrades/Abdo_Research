@@ -271,14 +271,15 @@ const snapshot = {
     failed_symbols: compactList(feed.failed_symbols),
     stale_vs_latest_symbols: compactList(feed.stale_vs_latest_symbols)
   },
+  // NOTE: live position picks (current_holdings, rebalance_targets,
+  // daily_scan_targets) are intentionally NOT published here. egx-live.json is a
+  // public static file, so emitting them would expose members-only signals to
+  // anyone. Only non-sensitive status metadata is included.
   live: {
     available: Boolean(picks.available),
     decided_at: picks.decided_at || null,
     fire_at_next_close: picks.fire_at_next_close || null,
-    current_holdings: compactList(picks.current_holdings),
-    rebalance_targets: compactList(picks.rebalance_targets),
     rebalance_signal_day: picks.rebalance_signal_day || null,
-    daily_scan_targets: compactList(picks.daily_scan_targets),
     notes: picks.notes || ''
   },
   portfolio: {
