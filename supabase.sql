@@ -90,11 +90,14 @@ stable
 security definer
 set search_path = public
 as $$
+  -- Admin access is granted strictly by user_id. The email column on
+  -- admin_users is used only to locate the account during bootstrap (below);
+  -- it is never used to authorize, so the admin role cannot be claimed by
+  -- registering the same email address.
   select exists (
     select 1
     from public.admin_users admin_user
     where admin_user.user_id = auth.uid()
-       or lower(admin_user.email) = lower(coalesce(auth.jwt() ->> 'email', ''))
   );
 $$;
 
@@ -119,6 +122,16 @@ create policy "Admins can update all profiles"
 insert into public.admin_users (email)
 values ('iabdoi2004@gmail.com')
 on conflict (email) do nothing;
+
+-- Bind the admin account to its auth user id. After the admin has signed up
+-- once, this links admin_users.user_id to auth.users.id by email, so is_admin()
+-- (which authorizes by user_id only) recognizes them. On a fresh project, sign
+-- up the admin first, then re-run this file so the link is established.
+update public.admin_users a
+set user_id = u.id
+from auth.users u
+where lower(u.email) = lower(a.email)
+  and a.user_id is null;
 
 update public.profiles
 set access_status = 'approved',
