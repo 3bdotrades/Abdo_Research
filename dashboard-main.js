@@ -871,8 +871,12 @@
           var status = statusInput.value === 'draft' ? 'draft' : 'published';
           var sortOrder = Number(sortInput.value || 0);
 
-          if (!title || !section || !youtubeUrl || !description) {
-            setMessage(message, 'أكمل العنوان والقسم والرابط والوصف قبل الحفظ.', 'error');
+          if (!section) {
+            setMessage(message, 'اختر القسم أولاً. إن لم تجد أي قسم في القائمة، أضف قسماً من نموذج "الأقسام" بالأعلى ثم عُد لإضافة الفيديو.', 'error');
+            return;
+          }
+          if (!title || !youtubeUrl || !description) {
+            setMessage(message, 'أكمل العنوان والرابط والوصف قبل الحفظ.', 'error');
             return;
           }
           if (!embedUrl) {
