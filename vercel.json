@@ -161,24 +161,6 @@
           "value": "public, max-age=86400, immutable"
         }
       ]
-    },
-    {
-      "source": "/abdo-profile.jpg",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=86400, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/avatar-256.jpg",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=86400, immutable"
-        }
-      ]
     }
   ]
 }
