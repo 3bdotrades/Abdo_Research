@@ -2312,6 +2312,29 @@
     /* value semantics: green up / gold accent */
     .kv-green { color: #3fd693 !important; }
     .kv-gold  { color: var(--gold-1) !important; }
+
+    /* ===== Terminal status line + ticker ===== */
+    .db-terminal-statusline {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 10px;
+      font-family: ui-monospace,'SF Mono','JetBrains Mono','Consolas',monospace;
+      font-size: 0.66rem; letter-spacing: 0.04em; color: var(--gold-1);
+      background: linear-gradient(180deg, rgba(212,175,55,0.08), rgba(0,0,0,0));
+      border: 1px solid rgba(212,175,55,0.22); border-radius: 2px;
+      padding: 7px 12px; margin-bottom: 10px; direction: ltr;
+    }
+    .db-tsl-live { display:inline-flex; align-items:center; gap:6px; color:#3fd693; font-weight:700; }
+    .db-tsl-live i { width:7px; height:7px; border-radius:50%; background:#3fd693; box-shadow:0 0 8px #3fd693; animation: db-blink 1.6s ease-in-out infinite; }
+    @keyframes db-blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+    .db-tsl-sep { opacity:.35; }
+    .db-tsl-item b { color:#e9e2cf; }
+    .db-tsl-flex { flex:1 1 auto; }
+    .db-tsl-note { color:#8a8270; font-size:0.6rem; }
+    .db-ticker { overflow:hidden; border:1px solid rgba(212,175,55,0.18); border-radius:2px; background:#06080c; margin-bottom:14px; direction:ltr; }
+    .db-ticker-track { display:inline-flex; white-space:nowrap; animation: db-ticker-scroll 38s linear infinite; will-change: transform; }
+    .db-ticker:hover .db-ticker-track { animation-play-state: paused; }
+    @keyframes db-ticker-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .db-tk { font-family: ui-monospace,'SF Mono','JetBrains Mono','Consolas',monospace; font-size:0.68rem; letter-spacing:0.05em; color:#cbb876; padding:7px 18px; border-right:1px solid rgba(255,255,255,0.05); }
+    .db-tk-tag { color:#7f8794; }
   </style>
 </head>
 
@@ -2485,6 +2508,22 @@
 
     <!-- Page body -->
     <div class="db-content">
+
+    <!-- Bloomberg terminal: status line + ticker -->
+    <div class="db-terminal-statusline" role="status">
+      <span class="db-tsl-live"><i></i>LIVE</span>
+      <span class="db-tsl-sep">/</span>
+      <span class="db-tsl-brand">ABDO &middot; QUANT TERMINAL</span>
+      <span class="db-tsl-sep">/</span>
+      <span class="db-tsl-item">MODE <b>RESEARCH</b></span>
+      <span class="db-tsl-sep">/</span>
+      <span class="db-tsl-item">MARKETS <b>05</b></span>
+      <span class="db-tsl-flex"></span>
+      <span class="db-tsl-note">EDUCATIONAL &mdash; NOT INVESTMENT ADVICE</span>
+    </div>
+    <div class="db-ticker" aria-hidden="true">
+      <div class="db-ticker-track"><span class="db-tk">EGX</span><span class="db-tk">TADAWUL</span><span class="db-tk">DFM</span><span class="db-tk">ADX</span><span class="db-tk">QSE</span><span class="db-tk">KSE</span><span class="db-tk db-tk-tag">RULE-FUSION ENGINE</span><span class="db-tk db-tk-tag">RISK-MANAGED</span><span class="db-tk db-tk-tag">QUANT RESEARCH</span><span class="db-tk db-tk-tag">EDUCATIONAL SIGNALS</span><span class="db-tk">EGX</span><span class="db-tk">TADAWUL</span><span class="db-tk">DFM</span><span class="db-tk">ADX</span><span class="db-tk">QSE</span><span class="db-tk">KSE</span><span class="db-tk db-tk-tag">RULE-FUSION ENGINE</span><span class="db-tk db-tk-tag">RISK-MANAGED</span><span class="db-tk db-tk-tag">QUANT RESEARCH</span><span class="db-tk db-tk-tag">EDUCATIONAL SIGNALS</span></div>
+    </div>
 
     <!-- =====================================================
          SECTION: نظرة عامة (Overview) — shown by default
