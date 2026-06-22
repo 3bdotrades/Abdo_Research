@@ -6746,3 +6746,63 @@ html[dir="ltr"] .db-form-grid {
     margin-inline-start: auto;
   }
 }
+
+/* ============================================================
+   BOLD THEME OVERRIDES (bold-redesign branch)
+   Appended last so they win over base + "elevated" rules.
+   ============================================================ */
+.hero-inst-headline {
+  font-size: clamp(2.6rem, 5.4vw, 4.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  background: linear-gradient(115deg, #ffffff 0%, #f6eccf 30%, var(--gold-1) 58%, var(--gold-2) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 6px 30px rgba(212,175,55,0.18));
+}
+.pillar-inst-card.glass-panel {
+  background:
+    linear-gradient(180deg, rgba(212,175,55,0.10), rgba(255,255,255,0.012) 46%),
+    var(--bg-card);
+  border: 1px solid rgba(212,175,55,0.30);
+  border-top: 2px solid var(--gold-2);
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px rgba(212,175,55,0.10), 0 30px 70px rgba(0,0,0,0.62), 0 0 60px rgba(212,175,55,0.10);
+}
+.pillar-inst-card.glass-panel:hover {
+  transform: translateY(-6px);
+  border-color: rgba(212,175,55,0.55);
+  box-shadow: 0 0 0 1px rgba(212,175,55,0.18), 0 40px 90px rgba(0,0,0,0.7), 0 0 80px rgba(212,175,55,0.18);
+}
+.pillar-inst-card .pillar-inst-icon {
+  background: var(--gold-grad);
+  border-color: transparent;
+  box-shadow: 0 8px 24px rgba(212,175,55,0.35);
+}
+.pillar-inst-card .pillar-inst-icon svg { stroke: #0a0c10; }
+.pis-num {
+  font-size: 2rem;
+  background: var(--gold-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.section-badge {
+  color: #0a0c10;
+  background: var(--gold-grad);
+  border-color: transparent;
+  box-shadow: 0 6px 18px rgba(212,175,55,0.25);
+}
+.btn-primary,
+.header-call-btn {
+  background: var(--gold-grad);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.32), 0 10px 30px rgba(212,175,55,0.34);
+}
+.btn-primary:hover,
+.header-call-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 14px 40px rgba(212,175,55,0.46);
+}
