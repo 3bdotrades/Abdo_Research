@@ -104,6 +104,29 @@
       }
       document.title = post.title + ' | عبدالرحمن محمد';
 
+      // Per-post SEO / social meta (CSP-safe: handled here, not inline)
+      (function () {
+        var fullTitle = post.title + ' | عبدالرحمن محمد';
+        var desc = (post.excerpt || '').toString().slice(0, 160);
+        function setMeta(selector, value) {
+          var el = document.querySelector(selector);
+          if (el && value) el.setAttribute('content', value);
+        }
+        setMeta('meta[name="description"]', desc);
+        setMeta('meta[property="og:title"]', fullTitle);
+        setMeta('meta[property="og:description"]', desc);
+        setMeta('meta[name="twitter:title"]', fullTitle);
+        setMeta('meta[name="twitter:description"]', desc);
+        if (post.image_url) setMeta('meta[property="og:image"]', post.image_url);
+        try {
+          var id = new URL(window.location.href).searchParams.get('id');
+          var canonical = document.querySelector('link[rel="canonical"]');
+          if (canonical && id) {
+            canonical.setAttribute('href', window.location.origin + '/post.html?id=' + encodeURIComponent(id));
+          }
+        } catch (e) {}
+      })();
+
       article.innerHTML = [
         '<div class="post-meta">',
           '<span class="insight-tag">' + escapeHtml(post.tag || 'بحثي') + '</span>',
