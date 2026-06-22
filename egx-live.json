@@ -108,16 +108,6 @@
     "n_days": 6794,
     "fusion_trade_count": 6467
   },
-  "strategy": {
-    "mode": "rule_fusion_100pct",
-    "max_positions": 10,
-    "sector_cap": 2,
-    "rebalance_every": 21,
-    "trailing_stop_pct": 0.08,
-    "breakeven_trigger": 0.0077,
-    "range_pctile_blend": 0.2,
-    "daily_scan_enabled": true
-  },
   "health": {
     "status": "BLOCKED",
     "ok_ratio": 0.9961,

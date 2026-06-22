@@ -314,6 +314,11 @@ const snapshot = {
   note: 'ML market snapshots for research monitoring only. Curves are read from local ML outputs and are not investment advice.'
 };
 
+// Strip strategy parameters from the PUBLIC snapshots. These trading-config
+// values (position caps, rebalance cadence, stop levels, blend weights) are IP
+// and stay only in the private ML source, never in the publicly served files.
+delete snapshot.strategy;
+
 fs.writeFileSync(outPath, `${JSON.stringify(snapshot, null, 2)}\n`, 'utf8');
 console.log(`ML market snapshot written: ${outPath}`);
 
