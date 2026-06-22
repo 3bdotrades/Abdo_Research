@@ -1253,11 +1253,16 @@ document.addEventListener('DOMContentLoaded', () => {
       card.className = 'glass-panel video-card';
       const embedUrl = vid.embedUrl || youtubeEmbedUrl(vid.youtubeUrl);
       const youtubeUrl = /^https?:\/\//i.test(vid.youtubeUrl || '') ? vid.youtubeUrl : '#';
-      
+      const ytId = extractYoutubeId(vid.youtubeUrl || vid.embedUrl || '');
+      const previewMarkup = ytId
+        ? `<button type="button" class="video-facade" aria-label="${escapeHtml(vid.title)}">
+             <img src="https://i.ytimg.com/vi/${escapeHtml(ytId)}/hqdefault.jpg" alt="${escapeHtml(vid.title)}" loading="lazy">
+             <span class="video-play-btn" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+           </button>`
+        : `<iframe src="${escapeHtml(embedUrl)}" title="${escapeHtml(vid.title)}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+
       card.innerHTML = `
-        <div class="video-container-premium">
-          <iframe src="${escapeHtml(embedUrl)}" title="${escapeHtml(vid.title)}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
+        <div class="video-container-premium">${previewMarkup}</div>
         <h4>${escapeHtml(vid.title)}</h4>
         <p>${escapeHtml(vid.description)}</p>
         <div class="video-card-footer-meta">
@@ -1271,6 +1276,21 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
       
+      const facadeBtn = card.querySelector('.video-facade');
+      if (facadeBtn) {
+        facadeBtn.addEventListener('click', () => {
+          const wrap = facadeBtn.parentElement;
+          const frame = document.createElement('iframe');
+          frame.src = embedUrl + (embedUrl.indexOf('?') >= 0 ? '&' : '?') + 'autoplay=1';
+          frame.title = vid.title || '';
+          frame.setAttribute('allow', 'autoplay; encrypted-media; fullscreen');
+          frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+          frame.setAttribute('allowfullscreen', '');
+          wrap.innerHTML = '';
+          wrap.appendChild(frame);
+        });
+      }
+
       videosContainer.appendChild(card);
     });
   }

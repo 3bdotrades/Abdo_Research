@@ -6832,3 +6832,28 @@ html[dir="ltr"] .db-form-grid {
 .engine-editorial-card {
   border-top: 2px solid rgba(212,175,55,0.45);
 }
+
+/* ===== Lite YouTube facade (thumbnail + play, loads player on click) ===== */
+.video-container-premium:hover { border-color: var(--border-gold); }
+.video-facade {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  padding: 0; border: none; cursor: pointer; background: #000; display: block;
+}
+.video-facade img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  opacity: 0.94; transition: opacity .25s ease, transform .4s ease;
+}
+.video-facade:hover img { opacity: 1; transform: scale(1.03); }
+.video-play-btn {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 62px; height: 62px; border-radius: 50%;
+  background: var(--gold-grad); color: #0a0c10;
+  display: flex; align-items: center; justify-content: center;
+  padding-left: 3px;
+  box-shadow: 0 10px 34px rgba(0,0,0,0.55), 0 0 0 6px rgba(212,175,55,0.18);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.video-facade:hover .video-play-btn {
+  transform: translate(-50%, -50%) scale(1.09);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.6), 0 0 0 8px rgba(212,175,55,0.26);
+}
