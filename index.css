@@ -6857,3 +6857,13 @@ html[dir="ltr"] .db-form-grid {
   transform: translate(-50%, -50%) scale(1.09);
   box-shadow: 0 14px 40px rgba(0,0,0,0.6), 0 0 0 8px rgba(212,175,55,0.26);
 }
+
+/* ===== Accessibility: honor reduced-motion (ticker, blink, reveals, transitions) ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
