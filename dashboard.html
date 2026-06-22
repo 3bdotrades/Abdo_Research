@@ -2277,6 +2277,41 @@
       color: var(--gold-1);
       border-bottom-color: rgba(212,175,55,0.25);
     }
+
+    /* ================= BLOOMBERG TERMINAL THEME (dashboard) ================= */
+    .db-section { --term-mono: ui-monospace, 'SF Mono','SFMono-Regular','JetBrains Mono','Roboto Mono','Consolas','Courier New',monospace; }
+    /* numeric data -> monospace, tabular figures */
+    .db-kpi-value, .db-kpi-sub, .db-egx-live-metric, .db-egx-live-status,
+    .db-terminal-table td, .pis-num, .db-admin-status {
+      font-family: var(--term-mono);
+      font-variant-numeric: tabular-nums;
+    }
+    /* boxy / sharp / dense — Bloomberg is not rounded */
+    .db-kpi-card, .db-chart-card, .db-egx-live-card, .db-portfolio-terminal-card,
+    .db-terminal-panel, .db-settings-card, .db-research-card { border-radius: 2px; }
+    .db-kpi-card {
+      padding: 14px 16px;
+      background: linear-gradient(180deg, rgba(212,175,55,0.06), rgba(0,0,0,0) 65%), #06080c;
+      border: 1px solid rgba(212,175,55,0.20);
+      border-top: 2px solid var(--gold-2);
+    }
+    .db-kpi-label { color: var(--gold-1); opacity: 0.82; text-transform: uppercase; }
+    .db-kpi-value { font-weight: 700; }
+    /* dense data tables with grid hairlines */
+    .db-terminal-table { border-collapse: collapse; }
+    .db-terminal-table th {
+      font-family: var(--term-mono);
+      text-transform: uppercase;
+      color: var(--gold-1);
+      background: rgba(212,175,55,0.05);
+      border-bottom: 1px solid rgba(212,175,55,0.30);
+    }
+    .db-terminal-table td,
+    .db-terminal-table th { padding: 7px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .db-terminal-table tbody tr:hover td { background: rgba(212,175,55,0.06); }
+    /* value semantics: green up / gold accent */
+    .kv-green { color: #3fd693 !important; }
+    .kv-gold  { color: var(--gold-1) !important; }
   </style>
 </head>
 
