@@ -2246,6 +2246,26 @@
         overflow-x: auto;
       }
     }
+
+    /* ===== BOLD dashboard accents (production) ===== */
+    .db-kpi-card {
+      background: linear-gradient(180deg, rgba(212,175,55,0.08), rgba(255,255,255,0.012) 52%), var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.22);
+      border-top: 2px solid var(--gold-2);
+      border-radius: 14px;
+      box-shadow: 0 0 0 1px rgba(212,175,55,0.06), 0 18px 44px rgba(0,0,0,0.5);
+    }
+    .db-kpi-card:hover {
+      border-color: rgba(212,175,55,0.42);
+      box-shadow: 0 0 0 1px rgba(212,175,55,0.12), 0 24px 60px rgba(0,0,0,0.6), 0 0 44px rgba(212,175,55,0.08);
+    }
+    .db-chart-card,
+    .db-egx-live-card,
+    .db-portfolio-terminal-card,
+    .db-terminal-panel {
+      border-top: 2px solid rgba(212,175,55,0.5);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.5), 0 0 40px rgba(212,175,55,0.04);
+    }
   </style>
 </head>
 
